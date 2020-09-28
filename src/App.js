@@ -1,13 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import HomeScreen from "./components/homePage/HomeScreen";
+import React, { Component } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+// App.js is the parent component
+class App extends Component {
+  render() {
   return (
-    <div className="App">
-      <p> Hello World! We're the Broncos. </p>
-    </div>
-  );
+      <div >
+        <HomeScreen />
+      </div>
+    );
+  }
 }
 
 export default App;
