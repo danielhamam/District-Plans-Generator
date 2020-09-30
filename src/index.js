@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/project_styles.css';
+import './css/sidebar_styles.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
 import App from './App';
