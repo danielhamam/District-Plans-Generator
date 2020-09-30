@@ -1,7 +1,8 @@
 import HomeScreen from "./components/homePage/HomeScreen";
 import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-pro-sidebar/dist/css/styles.css';
+// import 'react-pro-sidebar/dist/css/styles.css';
+import './css/advanced_styles.scss';
 
 // App.js is the parent component
 class App extends Component {
