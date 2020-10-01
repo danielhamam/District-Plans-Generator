@@ -1,10 +1,18 @@
-import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton, ButtonGroup} from 'react-bootstrap';
 import React, {Component} from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import usaFlag from "./usaFlag.png"
 
 class Sidebar extends Component {
+    constructor () {
+        super();
+        this.state = { currentState: "Select a state" }
+    }
+
+    changeState(selection) {
+        this.setState({currentState: selection})
+    }
 
     render() {
         return (
@@ -20,10 +28,16 @@ class Sidebar extends Component {
                                     
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
-                                        <DropdownButton id="dropdown-basic-button" title="State" size="sm" variant="secondary">
-                                        <Dropdown.Item href="#/action-1">California</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Georgia</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">New York</Dropdown.Item>
+                                        <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
+                                            <Dropdown.Item className="stateSelect" href="#/action-1">
+                                                <div onClick={(e) => this.changeState(e.target.textContent)}> California </div> 
+                                            </Dropdown.Item>
+                                            <Dropdown.Item className="stateSelect" href="#/action-2">
+                                                <div onClick={(e) => this.changeState(e.target.textContent)}> Georgia </div> 
+                                            </Dropdown.Item>
+                                            <Dropdown.Item className="stateSelect" href="#/action-3">
+                                                <div onClick={(e) => this.changeState(e.target.textContent)}> New York </div> 
+                                            </Dropdown.Item>
                                         </DropdownButton>
                                     </div>
                             </div>
