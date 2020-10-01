@@ -80,3 +80,19 @@ html, body {
   height: 680px;
 }
 
+#usaFlag {
+  margin-left: 18px;
+}
+
+#currentState {
+  font-family:'Georgia';
+  font-weight:bold;
+  margin-bottom:6px;
+  margin-left: 12px;
+}
+
+#dropdown-basic-button {
+  height:30px;
+  width:150px;
+}
+
