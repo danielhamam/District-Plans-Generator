@@ -2,6 +2,7 @@ import {Navbar, Nav, NavItem, Button} from 'react-bootstrap';
 import React, {Component} from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 // import 'bootstrap/dist/css/bootstrap.min.css';
+import usaFlag from "./usaFlag.png"
 
 class Sidebar extends Component {
 
@@ -9,11 +10,22 @@ class Sidebar extends Component {
         return (
                 <div id="mainSidebar">
                     <ProSidebar sidebar-color="red">
-                    <SidebarHeader> Selected State: </SidebarHeader>
+                    <SidebarHeader> 
+                        <b> Current State: </b>
+                        <br />
+                        <img src={usaFlag} alt="logo" style={{ width: '45px'}}/> 
+                         </SidebarHeader>
                     <Menu iconShape="square">
                         <SubMenu title="View State Details"> 
-                            <MenuItem>Component 1</MenuItem>
-                            <MenuItem>Component 2</MenuItem>
+                            <MenuItem>Population: </MenuItem>
+                            <MenuItem>Number of Precincts: </MenuItem>
+                            <MenuItem>Number of Counties: </MenuItem>
+                            <MenuItem>Number of Districts: </MenuItem>
+                            <MenuItem>Efficiency Gap: </MenuItem>
+                            <MenuItem>Competitive Districts: </MenuItem>
+                            <MenuItem>Majority non-white districts: </MenuItem>
+                            <MenuItem>County Splits: </MenuItem>
+                            <MenuItem>Compactness Rank: </MenuItem>
                         </SubMenu>
                         <SubMenu title="Your Batches" >
                             <MenuItem>Component 1</MenuItem>
@@ -27,7 +39,7 @@ class Sidebar extends Component {
                             <MenuItem>Component 1</MenuItem>
                             <MenuItem>Component 2</MenuItem>
                         </SubMenu>
-                        <SubMenu title="Help" >
+                        <SubMenu title="Display Graph Panel" >
                             <MenuItem>Component 1</MenuItem>
                             <MenuItem>Component 2</MenuItem>
                         </SubMenu>
