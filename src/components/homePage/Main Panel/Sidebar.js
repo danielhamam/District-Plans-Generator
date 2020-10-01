@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import usaFlag from "./usaFlag.png"
+import blackBackground from "./blackBackground.jpg"
 
 class Sidebar extends Component {
     constructor () {
@@ -17,7 +18,7 @@ class Sidebar extends Component {
     render() {
         return (
                 <div id="mainSidebar">
-                    <ProSidebar>
+                    <ProSidebar image={blackBackground}>
                         <br />
                         <SidebarHeader> 
                             <div className="row col-md-12">  {/* Holds Flag, "Current State", and Selection of State */}
