@@ -11,18 +11,21 @@ class Sidebar extends Component {
                 <div id="mainSidebar">
                     <ProSidebar sidebar-color="red">
                     <SidebarHeader> 
-                        <b> Current State: </b>
+                    <div className="row col-md-12">
+                        
                         <br />
-                        <div className="row col-md-12">
+                        
                             <div className="col-md-4">
                             <img src={usaFlag} alt="logo" style={{ width: '45px'}}/> 
                             </div>
+                            
                             <div className="col-md-8">
-                            <DropdownButton id="dropdown-basic-button" title="State" size="sm" variant="secondary">
-                            <Dropdown.Item href="#/action-1">California</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Georgia</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">New York</Dropdown.Item>
-                            </DropdownButton>
+                                <b> Current State: </b>
+                                <DropdownButton id="dropdown-basic-button" title="State" size="sm" variant="secondary">
+                                <Dropdown.Item href="#/action-1">California</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Georgia</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">New York</Dropdown.Item>
+                                </DropdownButton>
                             </div>
                             {/* <div className="dropdown col-md-4">
                             <button className="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
