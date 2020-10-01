@@ -4,23 +4,52 @@ import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-si
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
+import { FontAwesomeIcon } from 'react-fontawesome'
 
 class Sidebar extends Component {
     constructor () {
         super();
-        this.state = { currentState: "Select a state" }
+        this.state = { 
+            currentState: "Select a state",
+            currentCollapsed: false,
+            hideSidebarHeader : false
+        }
+        // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
 
     changeState(selection) {
         this.setState({currentState: selection})
     }
 
+    toggleCollapse = () => {
+        if (this.state.currentCollapsed == false) {
+            {this.toggleHideHeader()};
+            this.setState({currentCollapsed: true})
+        }
+        else {
+            this.toggleHideHeader();
+            this.setState({currentCollapsed : false})
+        }
+    }
+
+    toggleHideHeader = () => {
+        if (this.state.hideSidebarHeader == false) {
+            document.getElementById("sidebarHeader").style.visibility = "hidden";
+            this.setState({hideSidebarHeader : true});
+        }
+        else {
+            document.getElementById("sidebarHeader").style.visibility = "visible";
+            this.setState({hideSidebarHeader : false})
+        };
+    }
+
     render() {
         return (
-                <div id="mainSidebar">
-                    <ProSidebar image={blackBackground}>
+                <div id="mainSidebar" >
+                    <ProSidebar image={blackBackground} collapsed={this.state.currentCollapsed} >
+                        <i id="collapseButton" className="fa fa-angle-double-right" onClick={this.toggleCollapse}> </i>
                         <br />
-                        <SidebarHeader> 
+                        <SidebarHeader id="sidebarHeader"> 
                             <div className="row col-md-12">  {/* Holds Flag, "Current State", and Selection of State */}
                                 <br />
                                     <div className="col-md-4"> 
@@ -44,8 +73,15 @@ class Sidebar extends Component {
                             </div>
                         < br />
                         </SidebarHeader>
+
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+                            {/* STATE DETAILS */}
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+
                         <Menu iconShape="square">
-                            <SubMenu title={<b> <i className="fa fa-home"></i> View State Details</b>}> 
+                            <SubMenu icon={<div> <i className="fa fa-home" > </i> </div>} title={<b> State Details</b>}> 
                                 <MenuItem>Population: </MenuItem>
                                 <MenuItem>Number of Precincts: </MenuItem>
                                 <MenuItem>Number of Counties: </MenuItem>
@@ -56,12 +92,19 @@ class Sidebar extends Component {
                                 <MenuItem>County Splits: </MenuItem>
                                 <MenuItem>Compactness Rank: </MenuItem>
                             </SubMenu>
-                            <SubMenu title={<b> <i class="fa fa-briefcase"></i> Your Batches</b>} >
+
+                       {/* -------------------------- */}
+                        {/* -------------------------- */}
+                            {/* YOUR BATCHES */}
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+
+                            <SubMenu icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
                                 {/* <MenuItem> */}
                                     <div class="card col-md-12 bg-light">
                                         <div class="card-header text-left bg-light text-dark row col-md-12">
                                             <i class="fa fa-times-circle text-left col-md-4"></i>
-                                            <h5 class="card-title text-right col-md-8">Batch 1: </h5>
+                                            <h5 class="card-title text-right col-md-5">Batch 1: </h5>
                                         </div>
                                         <div class="card-body bg-dark">
                                         {/* <img class="card-img-top" src="..." alt="Card image cap"></img> */}
@@ -82,15 +125,36 @@ class Sidebar extends Component {
                                 {/* </MenuItem> */}
                                 <MenuItem>Component 2</MenuItem>
                             </SubMenu>
-                            <SubMenu title={<b> <i class="fa fa-bars"></i> Generate Batch Plan</b>} >
+
+                       {/* -------------------------- */}
+                        {/* -------------------------- */}
+                            {/* GENERATE BATCH PLAN */}
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+
+                            <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> Generate Batch Plan</b>} >
                                 <MenuItem>Component 1</MenuItem>
                                 <MenuItem>Component 2</MenuItem>
                             </SubMenu>
-                            <SubMenu title={<b> <i class="fa fa-edit"></i> User Input</b>} >
+
+                       {/* -------------------------- */}
+                        {/* -------------------------- */}
+                            {/* USER INPUT */}
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+
+                            <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> User Input</b>} >
                                 <MenuItem>Component 1</MenuItem>
                                 <MenuItem>Component 2</MenuItem>
                             </SubMenu>
-                            <SubMenu title={<b> <i class="fa fa-connectdevelop"></i> Display Graph Panel</b>} >
+
+                       {/* -------------------------- */}
+                        {/* -------------------------- */}
+                            {/* DISPLAY GRAPH PANEL */}
+                        {/* -------------------------- */}
+                        {/* -------------------------- */}
+
+                            <SubMenu icon={<div> <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel</b>} >
                                 <MenuItem>Component 1</MenuItem>
                                 <MenuItem>Component 2</MenuItem>
                             </SubMenu>

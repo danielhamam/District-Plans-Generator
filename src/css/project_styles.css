@@ -60,7 +60,7 @@ html, body {
 
 #mapPanelWrapper {
   padding: 0;
-  margin-left: 270px;
+  margin-left: auto;
   height: 700px;
 }
 
@@ -78,6 +78,12 @@ html, body {
 #sideBarWrapper {
   float :left;
   height: 680px;
+}
+
+#sidebarHeader {
+  /* position: absolute; */
+  height: 80px;
+  visibility: visible;
 }
 
 #usaFlag {
@@ -100,5 +106,10 @@ html, body {
   font-family:'Georgia';
   font-weight: bold;
   font-size: 12;
+}
+
+#collapseButton {
+  position : absolute;
+  float : right;
 }
 

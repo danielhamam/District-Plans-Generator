@@ -16,7 +16,7 @@ class MainPanel extends Component {
                 </div>
 
                 {/* Map Panel */}
-                <div id="mapPanelWrapper" className="container-fluid p-0"> {/* bootstrap it so it's responsive */}
+                <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap />
                 </div>
 
