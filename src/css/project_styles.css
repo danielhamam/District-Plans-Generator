@@ -141,3 +141,49 @@ html, body {
 #yourBatchesWrapper {
 
 }
+
+/* ----------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------- */
+                              /* BATCH CARDS */
+/* ----------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------- */
+
+.batchCard {
+  /* background-color: red; */
+  width: 90%;
+  height: 30px;
+}
+
+#currentBatch {
+  color: #75a9f9;
+}
+
+.batchcardContents {
+  margin-top: 3px;
+}
+
+.batchcardDelete {
+  float : left;
+  margin-left: 5px;
+  height: 20px;
+  /* height: 15px; */
+  /* width: 15px; */
+}
+
+.batchcardView {
+  float : right;
+  height: 20px;
+}
+
+.viewText, .deleteText {
+  font-size: 14px;
+}
+.deleteText {
+  font-size: 12px;
+}
+
+.batchcardTitle {
+  font: "Georgia";
+  font-size: 16px;
+  float: center;
+}

@@ -5,7 +5,8 @@ import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent } fr
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
 import { FontAwesomeIcon } from 'react-fontawesome'
-import BatchCard from './BatchCard';
+// import BatchCard from './BatchCards/BatchCard';
+import YourBatches from './BatchCards/YourBatches'
 
 class Sidebar extends Component {
     constructor () {
@@ -108,18 +109,10 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                    <div class="col-sm-12">
-                                        <center><span class="badge badge-info">Enacted Plan</span></center>
-                                    </div>
-                                    <center>
-                                    {/* <MenuItem> */}
-                                        <BatchCard/>
-                                    {/* </MenuItem> */}
-                                    <BatchCard/>
-                                    </center>
+                                        <YourBatches />
                                 </SubMenu>
 
-                        {/* -------------------------- */}
+                            {/* -------------------------- */}
                             {/* -------------------------- */}
                                 {/* GENERATE BATCH PLAN */}
                             {/* -------------------------- */}
