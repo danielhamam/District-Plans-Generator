@@ -10,9 +10,11 @@ class Sidebar extends Component {
     constructor () {
         super();
         this.state = { 
-            currentState: "Select a state",
-            currentCollapsed: false,
-            hideSidebarHeader : false
+            currentState : "Select a state",
+            currentCollapsed : false,
+            hideSidebarHeader : false,
+            collapsedIconLeft : false,
+            collapsedIconRight : false
         }
         // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
@@ -25,10 +27,16 @@ class Sidebar extends Component {
         if (this.state.currentCollapsed == false) {
             {this.toggleHideHeader()};
             this.setState({currentCollapsed: true})
+            document.getElementById("collapseButtonRight").style.visibility = "visible";
+            document.getElementById("collapseButtonLeft").style.visibility = "hidden";
+            document.getElementById("collapseButtonLeft").style.display = "none";
         }
         else {
             this.toggleHideHeader();
             this.setState({currentCollapsed : false})
+            document.getElementById("collapseButtonRight").style.visibility = "hidden";
+            document.getElementById("collapseButtonLeft").style.visibility = "visible";
+            document.getElementById("collapseButtonLeft").style.display = "";
         }
     }
 
@@ -47,15 +55,14 @@ class Sidebar extends Component {
         return (
                 <div id="mainSidebar" >
                     <ProSidebar image={blackBackground} collapsed={this.state.currentCollapsed} >
-                        <i id="collapseButton" className="fa fa-angle-double-right" onClick={this.toggleCollapse}> </i>
-                        <br />
                         <SidebarHeader id="sidebarHeader"> 
+                            <i id="collapseButtonLeft" className="fa fa-angle-double-left" onClick={this.toggleCollapse}> </i>
+                            <i id="collapseButtonRight" className="fa fa-angle-double-right" onClick={this.toggleCollapse}> </i>
                             <div className="row col-md-12">  {/* Holds Flag, "Current State", and Selection of State */}
                                 <br />
                                     <div className="col-md-4"> 
                                         <img id="usaFlag" src={usaFlag} alt="logo" style={{ width: '45px'}}/> 
                                     </div>
-                                    
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
@@ -99,7 +106,7 @@ class Sidebar extends Component {
                         {/* -------------------------- */}
                         {/* -------------------------- */}
 
-                            <SubMenu icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
+                            <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
                                 {/* <MenuItem> */}
                                     <div class="card col-md-12 bg-light">
                                         <div class="card-header text-left bg-light text-dark row col-md-12">
@@ -107,7 +114,6 @@ class Sidebar extends Component {
                                             <h5 class="card-title text-right col-md-5">Batch 1: </h5>
                                         </div>
                                         <div class="card-body bg-dark">
-                                        {/* <img class="card-img-top" src="..." alt="Card image cap"></img> */}
                                             <p class="text-white bg-dark text-left">
                                             <ul>
                                                 <li><b>Compactness: </b></li>
@@ -116,7 +122,7 @@ class Sidebar extends Component {
                                                 <li><b>Batch Name: </b></li>
                                             </ul>
                                             </p>
-                                        </div>
+                                            </div>
                                         <div class="card-footer text-left bg-light text-dark">
                                             <p class="card-text text-left col-md-12">Analysis: lorem ipsum some other stuff i dont know</p>
                                             <p class="col-md-7"></p><button type="button" class="btn btn-secondary btn-sm col-md-5">Select</button>

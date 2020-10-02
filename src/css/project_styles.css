@@ -81,8 +81,8 @@ html, body {
 }
 
 #sidebarHeader {
-  /* position: absolute; */
-  height: 80px;
+  /* position: sticky; */
+  height: 100px;
   visibility: visible;
 }
 
@@ -108,8 +108,21 @@ html, body {
   font-size: 12;
 }
 
-#collapseButton {
-  position : absolute;
+#collapseButtonLeft {
+  /* position : absolute; */
+  margin-right: 5px;
   float : right;
+  visibility: visible;
 }
 
+#collapseButtonRight {
+  /* position : absolute; */
+  float : right;
+  visibility: hidden;
+  margin-right: 5px;
+  
+}
+
+#yourBatchesWrapper {
+
+}
