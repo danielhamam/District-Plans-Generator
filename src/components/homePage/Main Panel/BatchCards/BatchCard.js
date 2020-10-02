@@ -7,6 +7,7 @@ class BatchCard extends Component {
 
     handleChange() {
         // do something with batch
+        
     }
 
     render() {
