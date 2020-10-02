@@ -70,6 +70,11 @@ html, body {
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 
+.pro-sidebar-layout {
+  /* height : 100%; */
+  display : block !important;   /* original CSS had display : flex. I overwrote it because it caused problems. */
+}
+
 #mainSidebar {
   position: absolute;
   height: 680px;
@@ -82,8 +87,14 @@ html, body {
 
 #sidebarHeader {
   /* position: sticky; */
-  height: 100px;
+  height: 15%;
   visibility: visible;
+  /* position: absolute; */
+}
+
+#menuofCategories {
+  /* margin-top: 100px; */
+  display: block;
 }
 
 #usaFlag {

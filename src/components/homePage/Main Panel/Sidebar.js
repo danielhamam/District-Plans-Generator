@@ -80,8 +80,7 @@ class Sidebar extends Component {
                             </div>
                         </SidebarHeader>
 
-                        <SidebarContent>
-                        <Menu iconShape="square" >
+                        <Menu id="menuofCategories" iconShape="square" >
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
@@ -166,7 +165,6 @@ class Sidebar extends Component {
                                     <MenuItem>Component 2</MenuItem>
                                 </SubMenu>
                             </Menu>
-                        </SidebarContent>
                     </ProSidebar> 
                 </div>
 /* <!-- Sidebar --> */
