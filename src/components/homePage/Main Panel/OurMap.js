@@ -5,9 +5,9 @@ import React, { Component } from 'react'
 import { Map, Marker, Popup, TileLayer, FeatureGroup, Circle, ZoomControl} from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw';
 
-function ourMap() {
+function OurMap() {
 
-    const position = [39, -95]
+    const position = [39, -105]
     return(
         <Map id="ourMap" center={position} zoom={5} zoomControl={false}>
             <ZoomControl position = 'bottomleft'> </ZoomControl>
@@ -18,4 +18,4 @@ function ourMap() {
     );
 }
 
-export default ourMap;
+export default OurMap;
