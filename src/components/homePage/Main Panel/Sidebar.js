@@ -66,13 +66,13 @@ class Sidebar extends Component {
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
-                                            <Dropdown.Item className="stateSelect" href="#/action-1">
+                                            <Dropdown.Item className="stateSelect" href="#/California">
                                                 <div onClick={(e) => this.changeState(e.target.textContent)}> California </div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" href="#/action-2">
+                                            <Dropdown.Item className="stateSelect" href="#/Georgia">
                                                 <div onClick={(e) => this.changeState(e.target.textContent)}> Georgia </div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" href="#/action-3">
+                                            <Dropdown.Item className="stateSelect" href="#/NewYork">
                                                 <div onClick={(e) => this.changeState(e.target.textContent)}> New York </div> 
                                             </Dropdown.Item>
                                         </DropdownButton>
@@ -107,7 +107,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                    {/* <MenuItem> */}
+                                    <MenuItem>
                                         <div class="card col-md-12 bg-light">
                                             <div class="card-header text-left bg-light text-dark row col-md-12">
                                                 <i class="fa fa-times-circle text-left col-md-4"></i>
@@ -128,7 +128,7 @@ class Sidebar extends Component {
                                                 <p class="col-md-7"></p><button type="button" class="btn btn-secondary btn-sm col-md-5">Select</button>
                                             </div>
                                         </div>
-                                    {/* </MenuItem> */}
+                                    </MenuItem>
                                     <MenuItem>Component 2</MenuItem>
                                 </SubMenu>
 

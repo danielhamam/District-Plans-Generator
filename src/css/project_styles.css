@@ -126,6 +126,10 @@ html, body {
   visibility: visible;
 }
 
+#collapseButtonLeft:hover, #collapseButtonRight:hover {
+  color: darkgray;
+}
+
 #collapseButtonRight {
   /* position : absolute; */
   float : right;
