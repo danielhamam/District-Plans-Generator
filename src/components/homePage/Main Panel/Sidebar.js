@@ -139,7 +139,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
-                                <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> Generate Batch Plan</b>} >
+                                <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
                                     <MenuItem>Component 1</MenuItem>
                                     <MenuItem>Component 2</MenuItem>
                                 </SubMenu>
@@ -150,7 +150,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
-                                <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> User Input</b>} >
+                                <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate Batch Plan</b>} >
                                     <MenuItem>Component 1</MenuItem>
                                     <MenuItem>Component 2</MenuItem>
                                 </SubMenu>
