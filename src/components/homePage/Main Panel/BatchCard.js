@@ -10,16 +10,24 @@ class BatchCard extends Component {
 
     render() {
         return (
-            <div class="card bg-light">
-                <div class="card-header text-left bg-light text-dark row col-sm-12">
-                {/* <i class="fa fa-times-circle text-left"></i> */}
-                    <button type="button" class="btn btn-danger col-sm-2">X</button>
-                    <h5 class="card-title text-right col-sm-6">Batch 1 </h5>
-                    <button type="button" class="btn btn-secondary col-sm-4">View</button>
-                </div>
-                {/* <img class="card-img-top" src="..." alt="Card image cap"></img> */}
+            // <div class="card bg-light">
+            //     <div class="card-header text-left bg-light text-dark row col-sm-12">
+            //     {/* <i class="fa fa-times-circle text-left"></i> */}
+            //         <button type="button" class="btn btn-danger col-sm-2">X</button>
+            //         <h5 class="card-title text-right col-sm-6">Batch 1 </h5>
+            //         <button type="button" class="btn btn-secondary col-sm-4">View</button>
+            //     </div>
+            //     {/* <img class="card-img-top" src="..." alt="Card image cap"></img> */}
                 
-            </div>
+            // </div>
+            
+
+                <span class="badge badge-pill badge-light">
+                    <span class="badge badge-pill badge-danger col-sm-2">X</span>
+                    <span class="col-sm-7">Batch 1</span>
+                    <span class="badge badge-pill badge-dark col-sm-3">View</span>
+                </span>
+            
         );
     }
 }

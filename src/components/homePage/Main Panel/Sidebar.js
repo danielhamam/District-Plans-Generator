@@ -108,10 +108,15 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
+                                    <div class="col-sm-12">
+                                        <center><span class="badge badge-info">Enacted Plan</span></center>
+                                    </div>
+                                    <center>
                                     {/* <MenuItem> */}
                                         <BatchCard/>
                                     {/* </MenuItem> */}
-                                    <MenuItem>Component 2</MenuItem>
+                                    <BatchCard/>
+                                    </center>
                                 </SubMenu>
 
                         {/* -------------------------- */}
