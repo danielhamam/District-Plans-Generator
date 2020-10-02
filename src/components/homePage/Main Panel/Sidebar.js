@@ -5,6 +5,7 @@ import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent } fr
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
 import { FontAwesomeIcon } from 'react-fontawesome'
+import BatchCard from './BatchCard';
 
 class Sidebar extends Component {
     constructor () {
@@ -107,28 +108,9 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                    <MenuItem>
-                                        <div class="card col-md-12 bg-light">
-                                            <div class="card-header text-left bg-light text-dark row col-md-12">
-                                                <i class="fa fa-times-circle text-left col-md-4"></i>
-                                                <h5 class="card-title text-right col-md-5">Batch 1: </h5>
-                                            </div>
-                                            <div class="card-body bg-dark">
-                                                <p class="text-white bg-dark text-left">
-                                                <ul>
-                                                    <li><b>Compactness: </b></li>
-                                                    <li><b>Population Variation: </b></li>
-                                                    <li><b>Number of Iterations: </b></li>
-                                                    <li><b>Batch Name: </b></li>
-                                                </ul>
-                                                </p>
-                                                </div>
-                                            <div class="card-footer text-left bg-light text-dark">
-                                                <p class="card-text text-left col-md-12">Analysis: lorem ipsum some other stuff i dont know</p>
-                                                <p class="col-md-7"></p><button type="button" class="btn btn-secondary btn-sm col-md-5">Select</button>
-                                            </div>
-                                        </div>
-                                    </MenuItem>
+                                    {/* <MenuItem> */}
+                                        <BatchCard/>
+                                    {/* </MenuItem> */}
                                     <MenuItem>Component 2</MenuItem>
                                 </SubMenu>
 
