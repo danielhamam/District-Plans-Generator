@@ -12,10 +12,9 @@ class ModalBatch extends Component {
     render() {
 
         return (
-            
         // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.
     
-                <Modal show={this.props.showModal} onHide={this.props.toggleModal}>  
+                <Modal backdrop="static" show={this.props.showModal} onHide={this.props.toggleModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title>Batch test</Modal.Title>
                     </Modal.Header>

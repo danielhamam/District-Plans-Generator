@@ -152,6 +152,7 @@ html, body {
   /* background-color: red; */
   width: 90%;
   height: 30px;
+  cursor: pointer;
 }
 
 .selectedBatch {
