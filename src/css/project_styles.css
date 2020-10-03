@@ -144,11 +144,11 @@ html, body {
 
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
-                              /* BATCH CARDS */
+                          /* BATCH CARDS AND DISTRICTING PLANS */
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 
-.batchCard {
+.districtPlan, .batchCard {
   /* background-color: red; */
   width: 90%;
   height: 30px;
@@ -159,11 +159,11 @@ html, body {
   background-color: #75a9f9;
 }
 
-.batchcardContents {
+.planContents, .batchcardContents {
   margin-top: 3px;
 }
 
-.batchcardDelete {
+.planDelete, .batchcardDelete {
   float : left;
   margin-left: 5px;
   height: 20px;
@@ -171,10 +171,15 @@ html, body {
   /* width: 15px; */
 }
 
-.batchcardView {
+.planView, .batchcardView {
   float : right;
   height: 20px;
 }
+/* 
+.planView:hover, .batchcardView {
+  cursor: pointer;
+  background-color: red;
+} */
 
 .viewText, .deleteText {
   font-size: 14px;
@@ -183,7 +188,7 @@ html, body {
   font-size: 12px;
 }
 
-.batchcardTitle {
+.planTitle, .batchcardTitle {
   font: "Georgia";
   font-size: 16px;
   float: center;

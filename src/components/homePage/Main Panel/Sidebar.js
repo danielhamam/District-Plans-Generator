@@ -7,7 +7,7 @@ import blackBackground from "./blackBackground.jpg"
 import { FontAwesomeIcon } from 'react-fontawesome'
 // import BatchCard from './BatchCards/BatchCard';
 import YourBatches from './BatchCards/YourBatches'
-import BatchCard from './BatchCards/BatchCard';
+import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 
 class Sidebar extends Component {
     constructor () {
@@ -103,7 +103,7 @@ class Sidebar extends Component {
                                     <MenuItem>Compactness Rank: </MenuItem>
                                 </SubMenu>
 
-                        {/* -------------------------- */}
+                            {/* -------------------------- */}
                             {/* -------------------------- */}
                                 {/* YOUR BATCHES */}
                             {/* -------------------------- */}
@@ -115,18 +115,17 @@ class Sidebar extends Component {
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-                                {/* GENERATE BATCH PLAN */}
+                                {/* DISTRICT PLANS*/}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <MenuItem>Component 1</MenuItem>
-                                    <MenuItem>Component 2</MenuItem>
+                                    <YourDistrictingPlans />
                                 </SubMenu>
 
-                        {/* -------------------------- */}
                             {/* -------------------------- */}
-                                {/* USER INPUT */}
+                            {/* -------------------------- */}
+                                {/* GENERATE BATCH PLAN */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
