@@ -228,3 +228,8 @@ html, body {
 .customBatchNameContainer {
   width: 210px;
 }
+
+#graphDisplayWrapper {
+  height: 100px;
+  width: 10px;
+}

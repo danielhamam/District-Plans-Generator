@@ -34,6 +34,10 @@ class DistrictPlan extends Component {
 
     }
 
+    deletePlan = (e) => {
+        e.stopPropagation();
+    }
+
     render() {
         // Whenever we do setState, it rerenders
         if (this.state.selected == true) {
