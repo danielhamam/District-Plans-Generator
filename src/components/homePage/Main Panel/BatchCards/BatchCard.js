@@ -7,7 +7,7 @@ class BatchCard extends Component {
         this.state = {
             showModal : false,
             selected : false,
-            name : "My new batch",
+            name : "",
             id : "2",
             // put inputs as one of the varialbes
             summary : "" // this would be the analysis summary, display in modal
@@ -58,8 +58,15 @@ class BatchCard extends Component {
         else {
             this.classNameCustom = "batchCard badge badge-pill badge-light";
         }
-        // Check batch name, if it's empty the id is the name
-        if (this.state.name == "") this.setState({name : "Batch " + this.state.id});
+
+        // --------------------------------------------------------
+        // --------------------------------------------------------
+                    // LETS SET THE NAME RIGHT HERE
+            // Check batch name, if it's empty the id is the name
+        // --------------------------------------------------------
+        // --------------------------------------------------------
+        if (this.props.batchName == "") this.setState({name : "Batch " + this.state.id});
+        else if (this.props.batchName != this.state.name) this.setState({name : this.props.batchName});
 
         return (
             <div>

@@ -23,15 +23,15 @@ class YourBatches extends Component {
             // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
             <div>
                 <div >Selected Batch:</div> 
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 1"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                 <br></br>
                 <br></br>
                 <div>Your Batches:</div>
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 2"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 3"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 4"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 5"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard batchName={"Batch 6"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
             </div>
             
         );
