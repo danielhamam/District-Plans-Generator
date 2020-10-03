@@ -110,11 +110,6 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                    <div>Selected Batch:</div>
-                                        <BatchCard />
-                                    <br></br>
-                                    <br></br>
-                                    <div>Your Batches:</div>
                                         <YourBatches />
                                 </SubMenu>
 

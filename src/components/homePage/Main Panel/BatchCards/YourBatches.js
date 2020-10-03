@@ -5,13 +5,31 @@ import BatchCard from './BatchCard';
 // generally manage the batches. 
 
 class YourBatches extends Component {
+    constructor () {
+        super();
+        this.state = {
+            selectedCard : false
+        }
+
+        this.classNameCustom = "";
+    }
+
+    toggleSelectedCard = () => {
+        if (this.state.selectedCard == false) this.setState({selectedCard : true});
+        else this.setState({selectedCard : false});
+    }
 
     render() {
         return (
     
             <div>
-                <BatchCard />
-                <BatchCard />
+                <div>Selected Batch:</div>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <br></br>
+                <br></br>
+                <div>Your Batches:</div>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
             </div>
             
         );

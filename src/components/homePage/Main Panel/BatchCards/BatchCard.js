@@ -14,8 +14,20 @@ class BatchCard extends Component {
 
     toggleSelection = (e) => {
         // do something with batch
-        if (this.state.selected == false) this.setState({selected: true});
-        else this.setState({selected : false});
+        if (this.state.selected == false && this.props.selectedCard == false) {
+            this.setState({selected: true});
+            this.props.toggleSelectedCard();
+        }
+        else if (this.state.selected == false && this.props.selectedCard == true) {
+            this.setState({selected : false});
+        }
+        else if (this.state.selected == true && this.props.selectedCard == true) {
+            this.setState({selected: false});
+            this.props.toggleSelectedCard();
+        }
+        else {
+            // is currently selected, but not selected card. do nothing. (impossible scenario)
+        }
     }
 
     toggleModal = (e) => {
