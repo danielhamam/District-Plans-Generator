@@ -10,7 +10,6 @@ class YourBatches extends Component {
         this.state = {
             selectedCard : false
         }
-
         this.classNameCustom = "";
     }
 
@@ -21,13 +20,16 @@ class YourBatches extends Component {
 
     render() {
         return (
-    
+            // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
             <div>
-                <div>Selected Batch:</div>
+                <div >Selected Batch:</div> 
                 <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                 <br></br>
                 <br></br>
                 <div>Your Batches:</div>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                 <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                 <BatchCard selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
             </div>

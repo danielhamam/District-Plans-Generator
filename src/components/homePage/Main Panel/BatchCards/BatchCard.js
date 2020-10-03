@@ -6,7 +6,9 @@ class BatchCard extends Component {
         super();
         this.state = {
             showModal : false,
-            selected : false
+            selected : false,
+            name : "My new batch",
+            id : "2"
         }
 
         this.classNameCustom = "";
@@ -44,13 +46,16 @@ class BatchCard extends Component {
         else {
             this.classNameCustom = "batchCard badge badge-pill badge-light";
         }
+        // Check batch name, if it's empty the id is the name
+        if (this.state.name == "") this.setState({name : "Batch " + this.state.id});
+
         return (
             <div>
                 <ModalBatch toggleModal={this.toggleModal} showModal={this.state.showModal}/>
                 <div className={this.classNameCustom} onClick={this.toggleSelection} >
                     <div className="batchcardContents">
                         <button className="batchcardDelete badge badge-pill badge-danger "> <div className="deleteText"> X </div> </button>
-                        <span className="batchcardTitle"> Batch 1 </span> 
+                        <span className="batchcardTitle"> {this.state.name} </span> 
                         <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > View </div> </button>
                     </div> 
                     <br /> 
