@@ -7,6 +7,7 @@ import blackBackground from "./blackBackground.jpg"
 import { FontAwesomeIcon } from 'react-fontawesome'
 // import BatchCard from './BatchCards/BatchCard';
 import YourBatches from './BatchCards/YourBatches'
+import BatchCard from './BatchCards/BatchCard';
 
 class Sidebar extends Component {
     constructor () {
@@ -109,6 +110,11 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
+                                    <div>Selected Batch:</div>
+                                        <BatchCard/>
+                                    <br></br>
+                                    <br></br>
+                                    <div>Your Batches:</div>
                                         <YourBatches />
                                 </SubMenu>
 

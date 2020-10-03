@@ -154,8 +154,8 @@ html, body {
   height: 30px;
 }
 
-#currentBatch {
-  color: #75a9f9;
+.selectedBatch {
+  background-color: #75a9f9;
 }
 
 .batchcardContents {
