@@ -27,7 +27,7 @@ class BatchCard extends Component {
         if (this.state.selected == false && this.props.selectedCard == false) {
             this.setState({selected: true});
             this.props.toggleSelectedCard();
-            this.goTop="goTop";
+            this.goTop="goTopBatch";
         }
         else if (this.state.selected == false && this.props.selectedCard == true) {
             this.setState({selected : false});

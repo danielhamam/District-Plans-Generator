@@ -17,7 +17,7 @@ class DistrictPlan extends Component {
         if (this.state.selected == false && this.props.selectedPlan == false) {
             this.setState({selected: true});
             this.props.toggleSelectedPlan();
-            this.goTop="goTop";
+            this.goTop="goTopPlan";
         }
         else if (this.state.selected == false && this.props.selectedPlan == true) {
             this.setState({selected : false});
@@ -45,10 +45,12 @@ class DistrictPlan extends Component {
         return (
                 <div className={this.classNameCustom + this.goTop} onClick={this.toggleSelectPlan}>             
                     <div className="planContents">
-                        <button className="planDelete badge badge-pill badge-danger" onClick={this.deleteBatch} > <div className="deleteText"> X </div> </button>
+                        <button className="planDelete badge badge-pill badge-danger" onClick={this.deletePlan} > <div className="deleteText"> X </div> </button>
                         <span className="planTitle"> {this.state.name} </span> 
-                        <button className="planView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > Select </div> </button>
+                        <button className="planView badge badge-pill badge-dark"> <div className="viewText" > Select </div> </button>
                     </div> 
+                    <br /> 
+                    <br />
             </div>
         );
     }

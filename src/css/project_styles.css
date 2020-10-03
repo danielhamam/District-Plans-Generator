@@ -205,8 +205,14 @@ html, body {
   display: block !important; /* overwriting display of modal in bootstrap */
 } 
 
-.goTop {
+.goTopBatch {
   position: absolute;
   bottom: 80%;
+  left: 5%;
+}
+
+.goTopPlan {
+  position: absolute;
+  bottom: 68%;
   left: 5%;
 }

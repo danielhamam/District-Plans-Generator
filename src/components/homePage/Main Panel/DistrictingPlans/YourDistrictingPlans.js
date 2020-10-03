@@ -28,7 +28,9 @@ class YourDistrictingPlans extends Component {
                         <br></br>
                         <br></br>
                     <div>Your Plans:</div>
-                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} />
+                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
+                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
+                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
                     {/* <DistrictPlan /> */}
                     {/* <DistrictPlan /> */}
                     {/* <DistrictPlan /> */}
