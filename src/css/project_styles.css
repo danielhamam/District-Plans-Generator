@@ -187,3 +187,14 @@ html, body {
   font-size: 16px;
   float: center;
 }
+
+.modalView {
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  /* display: block; */
+}
+
+.modal {
+  display: block !important; /* overwriting display of modal in bootstrap */
+} 
