@@ -5,14 +5,19 @@ class BatchCard extends Component {
     constructor () {
         super();
         this.state = {
-            showModal : false
+            showModal : false,
+            selected : false
         }
+
+        this.classNameCustom = "";
     }
 
     handleChange() {
         // do something with batch
         // var modalView = this.refs.modalView;
-
+        if (this.state.selected == false) {
+            this.setState({selected: true});
+        }
     }
 
     toggleModal = () => {
@@ -21,9 +26,15 @@ class BatchCard extends Component {
     }
 
     render() {
+        if (this.state.selected == true) {
+            this.classNameCustom = "batchCard badge badge-pill badge-dark";
+        }
+        else {
+            this.classNameCustom = "batchCard badge badge-pill badge-light";
+        }
         return (
-    
-            <div className="batchCard badge badge-pill badge-light" onClick={this.handleChange}>
+            
+            <div className={this.classNameCustom} onClick={this.handleChange}>
                 <ModalBatch toggleModal={this.toggleModal} showModal={this.state.showModal}/>
                 <div className="batchcardContents">
                     <button className="batchcardDelete badge badge-pill badge-danger "> <div className="deleteText"> X </div> </button>
