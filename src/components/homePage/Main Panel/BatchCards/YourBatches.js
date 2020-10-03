@@ -19,10 +19,11 @@ class YourBatches extends Component {
         else this.setState({selectedCard : false});
     }
 
-    // maybe use this implementation?
-    changeSelectedCardName = (name) => {
-        this.setState({selectedCardName : name});
-    }
+    // // maybe use this implementation?
+    // changeSelectedCardName = (name) => {
+    //     this.setState({selectedCardName : name});
+    //     this.props.changeSelectedCardName(name);
+    // }
 
     render() {
         return (
@@ -33,12 +34,12 @@ class YourBatches extends Component {
                         <br></br>
                         <br></br>
                     <div>Your Batches:</div>
-                    <BatchCard batchName={"Batch 1"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard batchName={"Batch 2"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard batchName={"Batch 3"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard batchName={"Batch 4"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard batchName={"Batch 5"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard batchName={"Batch 6"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 1"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 2"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 3"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 4"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 5"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 6"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                 </ul>
             </div>
             

@@ -17,7 +17,8 @@ class Sidebar extends Component {
             currentCollapsed : false,
             hideSidebarHeader : false,
             collapsedIconLeft : false,
-            collapsedIconRight : false
+            collapsedIconRight : false,
+            sidebarBatch : "No Batch Selected: " // name of the currently selected batch
         }
         // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
@@ -52,6 +53,11 @@ class Sidebar extends Component {
             document.getElementById("sidebarHeader").style.visibility = "visible";
             this.setState({hideSidebarHeader : false})
         };
+    }
+
+    changeSidebarBatch = (name) => {
+        if (name == "") this.setState({sidebarBatch : "No Batch Selected: "});
+        else this.setState({sidebarBatch : name + ":"});
     }
 
     render() {
@@ -110,7 +116,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                        <YourBatches />
+                                        <YourBatches changeSidebarBatch={this.changeSidebarBatch} />
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -120,7 +126,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <YourDistrictingPlans />
+                                    <YourDistrictingPlans sidebarBatch={this.state.sidebarBatch}/>
                                 </SubMenu>
 
                             {/* -------------------------- */}

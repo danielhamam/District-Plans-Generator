@@ -27,7 +27,7 @@ class YourDistrictingPlans extends Component {
                     <div> Selected Plan:</div> 
                         <br></br>
                         <br></br>
-                    <div>Your Plans:</div>
+                    <div> {this.props.sidebarBatch} </div>
                     <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
                     <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
                     <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
