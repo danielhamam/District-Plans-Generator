@@ -79,15 +79,17 @@ class BatchCard extends Component {
         else if (this.props.batchName != this.state.name) this.setState({name : this.props.batchName});
 
         return (
-                <div className={this.classNameCustom + this.goTop} onClick={this.toggleSelection} >
-                    <div className="batchcardContents">
+            <div> 
+                <div className={this.classNameCustom + this.goTop} onClick={this.toggleSelection}>
+                    <div className="batchcardContents"  >
                         <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.deleteBatch} > <div className="deleteText"> X </div> </button>
                         <span className="batchcardTitle"> {this.state.name} </span> 
                         <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > View </div> </button>
                     </div> 
-                    <ModalBatch currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
                     <br /> 
                     <br />
+                </div>
+                <ModalBatch currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
             </div>
         );
     }

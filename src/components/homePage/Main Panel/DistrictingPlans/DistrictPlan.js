@@ -5,7 +5,7 @@ class DistrictPlan extends Component {
         super();
         this.state = {
             selected : false,
-            name: "District 1",
+            name: "District Plan",
         }
         this.classNameCustom = "";
         this.goTop = "";
@@ -44,7 +44,7 @@ class DistrictPlan extends Component {
         }
         return (
                 <div className={this.classNameCustom + this.goTop} onClick={this.toggleSelectPlan}>             
-                    <div className="planContents">
+                    <div className="planContents" >
                         <button className="planDelete badge badge-pill badge-danger" onClick={this.deletePlan} > <div className="deleteText"> X </div> </button>
                         <span className="planTitle"> {this.state.name} </span> 
                         <button className="planView badge badge-pill badge-dark"> <div className="viewText" > Select </div> </button>

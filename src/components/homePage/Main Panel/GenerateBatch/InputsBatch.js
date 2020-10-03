@@ -19,6 +19,10 @@ class InputsBatch extends Component {
         this.setState({plansAmount : e.target.value});
     }
 
+    changeCompactnessAmount = (e) => {
+        this.setState({compactnessAmount : e.target.value});
+    }
+
     render() {
         return (
             <Form> 
@@ -38,8 +42,8 @@ class InputsBatch extends Component {
                                 <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePlanAmount} step={1} min={0} max={10000} tooltip='auto' value={this.state.plansAmount} />
                             </div>
                         </div>
-                        <small className="form-text text-muted">Enter the amount of district plans you would like to generate. The current limit is 10000. </small>
                     </div>
+                    <small className="form-text text-muted">Enter the amount of district plans you would like to generate. The current limit is 10000. </small>
 
                 < br/>
                 {/* --------------------------------------- */}
@@ -53,7 +57,7 @@ class InputsBatch extends Component {
                         </div>
                         <div className="col-8">
                             <div className="rangeSliderContainer"> 
-                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeCompactnessAmount} step={1} min={0} max={1} tooltip='auto' value={this.state.compactnessAmount} />
+                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeCompactnessAmount} step={0.01} min={0} max={1} tooltip='auto' value={this.state.compactnessAmount} />
                             </div>
                         </div>
                     </div>
