@@ -199,3 +199,9 @@ html, body {
 .modal {
   display: block !important; /* overwriting display of modal in bootstrap */
 } 
+
+.goTop {
+  position: absolute;
+  bottom: 80%;
+  left: 5%;
+}

@@ -8,7 +8,8 @@ class YourBatches extends Component {
     constructor () {
         super();
         this.state = {
-            selectedCard : false
+            selectedCard : false,
+            selectedCardName : ""
         }
         this.classNameCustom = "";
     }
@@ -18,20 +19,27 @@ class YourBatches extends Component {
         else this.setState({selectedCard : false});
     }
 
+    // maybe use this implementation?
+    changeSelectedCardName = (name) => {
+        this.setState({selectedCardName : name});
+    }
+
     render() {
         return (
             // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
             <div>
-                <div >Selected Batch:</div> 
-                <BatchCard batchName={"Batch 1"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <br></br>
-                <br></br>
-                <div>Your Batches:</div>
-                <BatchCard batchName={"Batch 2"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard batchName={"Batch 3"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard batchName={"Batch 4"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard batchName={"Batch 5"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                <BatchCard batchName={"Batch 6"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                <ul> 
+                    <div> Selected Batch:</div> 
+                        <br></br>
+                        <br></br>
+                    <div>Your Batches:</div>
+                    <BatchCard batchName={"Batch 1"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 2"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 3"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 4"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 5"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard batchName={"Batch 6"} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                </ul>
             </div>
             
         );

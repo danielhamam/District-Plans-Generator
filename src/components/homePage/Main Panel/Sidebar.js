@@ -1,4 +1,4 @@
-import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton, ButtonGroup} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton, ButtonGroup, Tabs, Tab} from 'react-bootstrap';
 import React, {Component} from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent } from 'react-pro-sidebar';
 // import 'bootstrap/dist/css/bootstrap.min.css';
