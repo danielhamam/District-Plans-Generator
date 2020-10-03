@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from 'react-fontawesome'
 // import BatchCard from './BatchCards/BatchCard';
 import YourBatches from './BatchCards/YourBatches'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
+import InputsBatch from './GenerateBatch/InputsBatch';
 
 class Sidebar extends Component {
     constructor () {
@@ -136,8 +137,9 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate Batch Plan</b>} >
-                                    <MenuItem>Component 1</MenuItem>
-                                    <MenuItem>Component 2</MenuItem>
+                                    {/* <MenuItem>Component 1</MenuItem>
+                                    <MenuItem>Component 2</MenuItem> */}
+                                    <InputsBatch />
                                 </SubMenu>
 
                         {/* -------------------------- */}

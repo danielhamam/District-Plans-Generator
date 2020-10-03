@@ -216,3 +216,15 @@ html, body {
   bottom: 68%;
   left: 5%;
 }
+
+.rangeSliderContainer {
+  width: 140px;
+}
+
+.InputContainer {
+
+}
+
+.customBatchNameContainer {
+  width: 210px;
+}
