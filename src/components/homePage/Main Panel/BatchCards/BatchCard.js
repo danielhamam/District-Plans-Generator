@@ -8,14 +8,20 @@ class BatchCard extends Component {
             showModal : false,
             selected : false,
             name : "My new batch",
-            id : "2"
+            id : "2",
+            // put inputs as one of the varialbes
+            summary : "" // this would be the analysis summary, display in modal
         }
-
         this.classNameCustom = "";
     }
 
     toggleSelection = (e) => {
         // do something with batch
+
+        if (this.state.showModal == true && this.props.selected == false) {
+            this.setState({showModal : false});
+        }
+
         if (this.state.selected == false && this.props.selectedCard == false) {
             this.setState({selected: true});
             this.props.toggleSelectedCard();
@@ -30,12 +36,18 @@ class BatchCard extends Component {
         else {
             // is currently selected, but not selected card. do nothing. (impossible scenario)
         }
+
+        // and check if you did this through modal
     }
 
     toggleModal = (e) => {
         e.stopPropagation();
         if (this.state.showModal == true) this.setState({showModal : false});
         else this.setState({showModal : true});
+    }
+
+    deleteBatch = (e) => {
+        e.stopPropagation();
     }
 
     render() {
@@ -51,10 +63,10 @@ class BatchCard extends Component {
 
         return (
             <div>
-                <ModalBatch toggleModal={this.toggleModal} showModal={this.state.showModal}/>
+                <ModalBatch currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
                 <div className={this.classNameCustom} onClick={this.toggleSelection} >
                     <div className="batchcardContents">
-                        <button className="batchcardDelete badge badge-pill badge-danger "> <div className="deleteText"> X </div> </button>
+                        <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.deleteBatch} > <div className="deleteText"> X </div> </button>
                         <span className="batchcardTitle"> {this.state.name} </span> 
                         <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > View </div> </button>
                     </div> 
