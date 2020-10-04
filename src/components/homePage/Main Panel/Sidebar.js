@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from 'react-fontawesome'
 import YourBatches from './BatchCards/YourBatches'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 import InputsBatch from './GenerateBatch/InputsBatch';
-import GraphDisplay from './GraphDisplay'
+import GraphDisplay from './GraphDisplay/GraphDisplay'
 
 class Sidebar extends Component {
     constructor () {
@@ -150,9 +150,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel</b>} >
-                                    <div id="graphDisplayWrapper"> 
                                         <GraphDisplay />
-                                    </div>
                                 </SubMenu>
                             </Menu>
                     </ProSidebar> 

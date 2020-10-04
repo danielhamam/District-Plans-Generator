@@ -233,3 +233,13 @@ html, body {
   height: 100px;
   width: 10px;
 }
+
+.plotView1 {
+  width: 230px;
+  height: 230px;
+}
+
+.plotView2 {
+  width: 100% !important;
+  height: 100% !important;
+}
