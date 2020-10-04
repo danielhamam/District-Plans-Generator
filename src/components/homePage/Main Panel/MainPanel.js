@@ -35,9 +35,9 @@ class MainPanel extends Component {
               label: "Ethnicity",
               options: [
                 { label:"White", value: "Group 1, option 1"},
-                { label:"Black", value: "Group 1, option 2"},
+                { label:"African American", value: "Group 1, option 2"},
                 { label:"Latino", value: "Group 1, option 3"},
-                { label:"Asian", value: "Group 1, option 4"},
+                { label:"Asian American", value: "Group 1, option 4"},
                 { label:"American Indian", value: "Group 1, option 5"},
                 { label:"Hawaiian", value: "Group 1, option 6"},
                 { label:"Other", value: "Group 1, option 7"},
@@ -65,7 +65,7 @@ class MainPanel extends Component {
                     <OurMap />
                 {/* Map Filters  */}
                     <div id="mapFilters">
-                        <Select placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>
+                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>
                     </div>
                 </div>
 

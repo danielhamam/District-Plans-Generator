@@ -63,7 +63,7 @@ html, body {
   position:relative;
   padding: 0;
   margin-left: auto;
-  height: 700px;
+  /* height: 700px; */
 }
 
 #mapFilters {
