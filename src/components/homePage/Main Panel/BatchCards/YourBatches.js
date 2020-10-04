@@ -20,12 +20,6 @@ class YourBatches extends Component {
         else this.setState({selectedCard : false});
     }
 
-    // // maybe use this implementation?
-    // changeSelectedCardName = (name) => {
-    //     this.setState({selectedCardName : name});
-    //     this.props.changeSelectedCardName(name);
-    // }
-
     render() {
         return (
             // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
