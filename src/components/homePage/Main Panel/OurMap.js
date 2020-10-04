@@ -11,14 +11,19 @@ function OurMap() {
 
     const position = [39, -105]
     return(
-        <Map id="ourMap" center={position} zoom={5} zoomControl={false}>
-            <ZoomControl position = 'bottomleft'> </ZoomControl>
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {/* <GeoJSON key='Georgia' data={ga_2016} />
-            <GeoJSON key="California" data={ca_2016} /> */}
-        </Map> 
+            <Map id="ourMap" center={position} zoom={5} zoomControl={false}>
+                <ZoomControl position = 'bottomleft'> </ZoomControl>
+            <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                {/* <GeoJSON key='Georgia' data={ga_2016} />
+                <GeoJSON key="California" data={ca_2016} /> */}
+
+            </Map> 
+
+            /* /* <div id="currentBatchMap"> Current Batch: </div>
+            <br />
+            <div id="currentPlanMap"> Current Plan: </div> */ 
     );
 }
 

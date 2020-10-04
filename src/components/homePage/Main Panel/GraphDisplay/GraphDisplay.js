@@ -9,14 +9,14 @@ class GraphDisplay extends Component {
         var graphTitle = "Districting Plans";
         this.state = { 
             dataPlot : { 
-                x: [1, 2, 3],
-                y: [2, 6, 3],
-                type: 'scatter',
-                mode: 'lines+markers',
-                marker: {color: 'red'},
+                y: [0, 1, 1, 2, 3, 5, 8, 13, 21],
+                boxpoints: 'all',
+                jitter: 0.3,
+                pointpos: -1.8,
+                type: 'box'
             },
             layoutPlot : {autosize:true, title:graphTitle},
-            typePlot : {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
+            typePlot : {type: 'box', x: [1, 2, 3], y: [2, 5, 3]},
             modalOpen : false
         }
     }
