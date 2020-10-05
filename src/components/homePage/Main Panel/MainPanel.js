@@ -14,42 +14,37 @@ class MainPanel extends Component {
         const componentsAnimation = makeAnimated();
 
         const clusterOptions = [
-            { value: 'precincts', label: 'Precincts' },
-            { value: 'districts', label: 'Districts' },
+            { value: 'precincts', label: 'Precincts'},
+            { value: 'districts', label: 'Districts'},
             { value: 'counties', label: 'Counties'}
           ]
-          const ethncityOptions = [
-            { value: 'precincts', label: 'Precincts' },
-            { value: 'districts', label: 'Districts' },
-            { value: 'counties', label: 'Counties'}
-          ]
-          const politicalPartyOptions = [
-            { value: 'democratic', label: 'Democratic' },
-            { value: 'republic', label: 'Republic' },
-            { value: 'libertarian', label: 'Libertarian'},
-            { value: 'greenparty', label: 'Green Party'}
-          ]
-
           const options = [
             {
               label: "Ethnicity",
               options: [
-                { label:"White", value: "Group 1, option 1"},
-                { label:"African American", value: "Group 1, option 2"},
-                { label:"Latino", value: "Group 1, option 3"},
-                { label:"Asian American", value: "Group 1, option 4"},
-                { label:"American Indian", value: "Group 1, option 5"},
-                { label:"Hawaiian", value: "Group 1, option 6"},
-                { label:"Other", value: "Group 1, option 7"},
+                { label:"White", value: "white"},
+                { label:"African American", value: "africanamerican"},
+                { label:"Latino", value: "latino"},
+                { label:"Asian", value: "asian"},
+                { label:"American Indian", value: "americanindian"},
+                { label:"Hawaiian", value: "hawaiian"},
+                { label:"Other", value: "other"},
               ]},
               {
               label: "Political Party",
               options: [
-                { label:"Democratic", value: "Group 2, option 1"},
-                { label:"Republic", value: "Group 2, option 2"},
-                { label:"Libertarian", value: "Group 2, option 3"},
-                { label:"Green Party", value: "Group 2, option 4"},
-                { label:"Other", value: "Group 2, option 5"},
+                { label:"Democratic", value: "democratic"},
+                { label:"Republican", value: "republican"},
+                { label:"Libertarian", value: "libertarian"},
+                { label:"Green Party", value: "greenparty"},
+                { label:"Other", value: "other"},
+              ]},
+              {
+              label: "Cluster",
+              options: [
+                { label:"Precincts", value: "precincts"},
+                { label:"Districts", value: "districts"},
+                { label:"Counties", value: "counties"},
               ]},
           ];
 
@@ -63,10 +58,14 @@ class MainPanel extends Component {
                 {/* Map Panel */}
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap />
-                {/* Map Filters  */}
+                    {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>
                     </div>
+                    {/* <div id="currentItems"> 
+                        <div id="currentBatchMap"> Current Batch: </div>
+                        <div id="currentPlanMap"> Current Plan: </div> 
+                    </div> */}
                 </div>
 
             </div> 
