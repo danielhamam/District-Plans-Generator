@@ -10,21 +10,17 @@ import { EditControl } from 'react-leaflet-draw';
 // ---------------------------------------------
 
 import CaliforniaStateBoundary from '../../../json/CALIFORNIA/CaliforniaStateBoundary.json'
-import CaliforniaPlaces from '../../../json/CALIFORNIA/CA_Places_TIGER2016.json'
 
 // ---------------------------------------------
 //                GEORGIA IMPORTS
 // ---------------------------------------------
 
 import GeorgiaStateBoundary from '../../../json/GEORGIA/GeorgiaStateBoundary.json'
-import GeorgiaPrecincts from '../../../json/GEORGIA/GeorgiaPrecincts.json' 
-import GeorgiaDistricts from '../../../json/GEORGIA/GeorgiaDistricts.json' 
 
 // ---------------------------------------------
 //                NEW YORK IMPORTS
 // ---------------------------------------------
-import NewYorkStateBoundary from '../../../json/NEW_YORK/NewYorkStateBoundary.json'
-import NYSAssemblyDistricts from '../../../json/NEW_YORK/NYSAssemblyDistricts.json'
+import State from '../../../json/NEW_YORK/State.json';
 
 class OurMap extends Component {
     constructor () {
@@ -40,7 +36,11 @@ class OurMap extends Component {
         this.centerMap = [39, -105];
         this.mapZoom = 5;
 
+        // Map Filters
+        this.precinctView = false;
+        this.districtView = false;
     }
+
     render() {
 
         // Change center/zoom based on which state is selected
@@ -68,14 +68,14 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                    <GeoJSON key="California" data={CaliforniaStateBoundary} /> 
+                    <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/> 
                     {/* <GeoJSON key="California" data={CaliforniaPlaces} />  */}
                     
-                    <GeoJSON key='Georgia' data={GeorgiaStateBoundary} />
+                    <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")} />
                     {/* <GeoJSON key='Georgia' data={GeorgiaPrecincts} /> */}
                     {/* <GeoJSON key='Georgia' data={GeorgiaDistricts} /> */}
 
-                    <GeoJSON key='NewYork' data={NewYorkStateBoundary} />
+                    <GeoJSON weight="1" color="red" key='NewYork' data={State} onClick={ () => this.props.changeCurrentStatefromMap("New York")}/>
                     {/* <GeoJSON key='NewYorkDistricts' data={NYSAssemblyDistricts} /> */}
 
                 </Map> 

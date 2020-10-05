@@ -16,7 +16,11 @@ class MainPanel extends Component {
     // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
 
-    changeCurrentState = (newName) => {
+    changeCurrentStatefromSidebar = (newName) => {
+      this.setState({currentState : newName});
+    }
+
+    changeCurrentStatefromMap = (newName) => {
       this.setState({currentState : newName});
     }
 
@@ -64,11 +68,11 @@ class MainPanel extends Component {
                 {/* Sidebar */}
                 <div id="sideBarWrapper"> 
                     {/* < ModalBatch />  */}
-                    <Sidebar changeCurrentState={this.changeCurrentState}/>
+                    <Sidebar currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar}/>
                 </div>
                 {/* Map Panel */}
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
-                    <OurMap currentState={this.state.currentState}/>
+                    <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>

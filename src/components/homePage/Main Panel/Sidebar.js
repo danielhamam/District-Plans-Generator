@@ -25,9 +25,9 @@ class Sidebar extends Component {
         // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
 
-    changeCurrentState(selection) {
+    changeCurrentStatefromSidebar(selection) {
         this.setState({currentState: selection})
-        this.props.changeCurrentState(selection);
+        this.props.changeCurrentStatefromSidebar(selection);
     }
 
     toggleCollapse = () => {
@@ -68,6 +68,10 @@ class Sidebar extends Component {
     }
 
     render() {
+
+        // If changed from map
+        if (this.state.currentState != this.props.currentState) this.setState({currentState : this.props.currentState});
+
         return (
                 <div id="mainSidebar" >
                     <ProSidebar image={blackBackground} collapsed={this.state.currentCollapsed} >
@@ -83,13 +87,13 @@ class Sidebar extends Component {
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
                                             <Dropdown.Item className="stateSelect" key="California">
-                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>California</div> 
+                                                <div onClick={(e) => this.changeCurrentStatefromSidebar(e.target.textContent)}>California</div> 
                                             </Dropdown.Item>
                                             <Dropdown.Item className="stateSelect" key="Georgia">
-                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>Georgia</div> 
+                                                <div onClick={(e) => this.changeCurrentStatefromSidebar(e.target.textContent)}>Georgia</div> 
                                             </Dropdown.Item>
                                             <Dropdown.Item className="stateSelect" key="NewYork">
-                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>New York</div> 
+                                                <div onClick={(e) => this.changeCurrentStatefromSidebar(e.target.textContent)}>New York</div> 
                                             </Dropdown.Item>
                                         </DropdownButton>
                                     </div>
