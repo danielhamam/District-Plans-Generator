@@ -25,8 +25,9 @@ class Sidebar extends Component {
         // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
 
-    changeState(selection) {
+    changeCurrentState(selection) {
         this.setState({currentState: selection})
+        this.props.changeCurrentState(selection);
     }
 
     toggleCollapse = () => {
@@ -62,6 +63,10 @@ class Sidebar extends Component {
         else this.setState({sidebarBatch : name + ":"});
     }
 
+    getCurrentState = () => {
+        return this.state.currentState;
+    }
+
     render() {
         return (
                 <div id="mainSidebar" >
@@ -77,14 +82,14 @@ class Sidebar extends Component {
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
-                                            <Dropdown.Item className="stateSelect" href="#/California">
-                                                <div onClick={(e) => this.changeState(e.target.textContent)}> California </div> 
+                                            <Dropdown.Item className="stateSelect" key="California">
+                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>California</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" href="#/Georgia">
-                                                <div onClick={(e) => this.changeState(e.target.textContent)}> Georgia </div> 
+                                            <Dropdown.Item className="stateSelect" key="Georgia">
+                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>Georgia</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" href="#/NewYork">
-                                                <div onClick={(e) => this.changeState(e.target.textContent)}> New York </div> 
+                                            <Dropdown.Item className="stateSelect" key="NewYork">
+                                                <div onClick={(e) => this.changeCurrentState(e.target.textContent)}>New York</div> 
                                             </Dropdown.Item>
                                         </DropdownButton>
                                     </div>
@@ -102,11 +107,11 @@ class Sidebar extends Component {
                                 <SubMenu icon={<div> <i className="fa fa-home" > </i> </div>} title={<b> State Details</b>}> 
                                     <MenuItem>Population: </MenuItem>
                                     <MenuItem>Number of Precincts: </MenuItem>
-                                    <MenuItem>Number of Counties: </MenuItem>
+                                    {/* <MenuItem>Number of Counties: </MenuItem> */}
                                     <MenuItem>Number of Districts: </MenuItem>
                                     {/* <MenuItem>Efficiency Gap: </MenuItem> */}
                                     {/* <MenuItem>Competitive Districts: </MenuItem> */}
-                                    <MenuItem>Majority non-white districts: </MenuItem>
+                                    <MenuItem>Majority-minority districts: </MenuItem>
                                     {/* <MenuItem>County Splits: </MenuItem> */}
                                     {/* <MenuItem>Compactness Rank: </MenuItem> */}
                                 </SubMenu>

@@ -8,6 +8,17 @@ import makeAnimated from 'react-select/animated';
 import ModalBatch from './BatchCards/ModalBatch';
 
 class MainPanel extends Component {
+  constructor () {
+    super();
+    this.state = { 
+        currentState : "Select a state",
+    }
+    // this.currentCollapsed = this.currentCollapsed.bind(this);
+}
+
+    changeCurrentState = (newName) => {
+      this.setState({currentState : newName});
+    }
 
     render() {
 
@@ -53,11 +64,11 @@ class MainPanel extends Component {
                 {/* Sidebar */}
                 <div id="sideBarWrapper"> 
                     {/* < ModalBatch />  */}
-                    <Sidebar />
+                    <Sidebar changeCurrentState={this.changeCurrentState}/>
                 </div>
                 {/* Map Panel */}
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
-                    <OurMap />
+                    <OurMap currentState={this.state.currentState}/>
                     {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>
