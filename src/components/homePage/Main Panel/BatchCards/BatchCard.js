@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import ModalBatch from './ModalBatch'
+import DeleteModal from './DeleteModal'
 
 class BatchCard extends Component {
     constructor () {
         super();
         this.state = {
             showModal : false,
+            showDeleteModal : false,
             selected : false,
             name : "", // originally empty, gets filled when we render
             id : "2",
@@ -65,8 +67,14 @@ class BatchCard extends Component {
         else this.setState({showModal : true});
     }
 
-    deleteBatch = (e) => {
+    toggleDeleteModal = (e) => {
         e.stopPropagation();
+        if (this.state.showDeleteModal == false) this.setState({showDeleteModal : true});
+        else this.setState({showDeleteModal : false});
+    }
+
+    deleteBatch = (e) => {
+        // Here you would delete the batch card
     }
 
     render() {
@@ -99,13 +107,14 @@ class BatchCard extends Component {
             <div> 
                 <div className={this.classNameCustom + this.goTop + this.statusColor} onClick={this.toggleSelection}>
                     <div className="batchcardContents">
-                        <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.deleteBatch} > <div className="deleteText"> X </div> </button>
+                        <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
                         <span className="batchcardTitle"> {this.state.name} </span> 
                         <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > View </div> </button>
                     </div> 
                     <br /> 
                     <br />
                 </div>
+                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteBatch={this.deleteBatch} toggleDeleteModal={this.toggleDeleteModal} batchName={this.state.name} />
                 <ModalBatch compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
             </div>
         );

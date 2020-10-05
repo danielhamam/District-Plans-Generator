@@ -66,7 +66,7 @@ class InputsBatch extends Component {
 
                 <div className="form-group">
                     <label >Batch Name:</label>
-                    <div className="customBatchNameContainer"> <input className="input-normal form-control" placeholder="Custom Batch Name"/> </div> 
+                    <div className="customBatchNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Batch Name"/> </div> 
                 </div>
                 <button type="submit" className="btn btn-primary">Generate</button>
             </Form>

@@ -104,11 +104,11 @@ class Sidebar extends Component {
                                     <MenuItem>Number of Precincts: </MenuItem>
                                     <MenuItem>Number of Counties: </MenuItem>
                                     <MenuItem>Number of Districts: </MenuItem>
-                                    <MenuItem>Efficiency Gap: </MenuItem>
-                                    <MenuItem>Competitive Districts: </MenuItem>
+                                    {/* <MenuItem>Efficiency Gap: </MenuItem> */}
+                                    {/* <MenuItem>Competitive Districts: </MenuItem> */}
                                     <MenuItem>Majority non-white districts: </MenuItem>
-                                    <MenuItem>County Splits: </MenuItem>
-                                    <MenuItem>Compactness Rank: </MenuItem>
+                                    {/* <MenuItem>County Splits: </MenuItem> */}
+                                    {/* <MenuItem>Compactness Rank: </MenuItem> */}
                                 </SubMenu>
 
                             {/* -------------------------- */}
