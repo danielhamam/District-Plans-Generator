@@ -11,7 +11,6 @@ class BatchCard extends Component {
             id : "2",
             // put inputs as one of the varialbes
             summary : "", // this would be the analysis summary, display in modal
-            status : false, // we're going to say false for pending, true for ready
         }
         this.classNameCustom = "";
         this.goTop = "";
@@ -19,12 +18,13 @@ class BatchCard extends Component {
         // To make them same as props (for now)
         this.compactness = "";
         this.numberPlans = "";
+        this.status = false; // we're going to say false for pending, true for ready
     }
 
     toggleSelection = (e) => {
         // do something with batch
 
-        if (this.state.status == false) {
+        if (this.status == false) {
             return;
         }
 
@@ -78,9 +78,11 @@ class BatchCard extends Component {
         else {
             this.classNameCustom = "batchCard badge badge-pill badge-light ";
         }
-                // here I would say, let's check if status is ready
-        if (this.state.status == true) this.statusColor = "";
-        else if (this.state.status == false) this.statusColor = " batchPending ";
+
+        // here I would say, let's check if status is ready
+        this.status = this.props.status;
+        if (this.status == true ) this.statusColor = " batchSuccess ";
+        else if (this.status == false) this.statusColor = " batchPending ";
 
         // --------------------------------------------------------
               // LETS SET THE NAME / COMPACTNESS / NUMBER PLANS
@@ -104,7 +106,7 @@ class BatchCard extends Component {
                     <br /> 
                     <br />
                 </div>
-                <ModalBatch compactness={this.compactness} numberPlans={this.numberPlans} status={this.state.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
+                <ModalBatch compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
             </div>
         );
     }

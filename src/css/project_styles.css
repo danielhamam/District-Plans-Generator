@@ -214,9 +214,10 @@ html, body {
 }
 
 .batchPending {
-  background-color : pink !important;
-  /* color : lightpink; */
+  background-color : grey !important;
 }
+
+.batchSuccess {}
 
 .batchdisplayPending {
   color : red!important;
