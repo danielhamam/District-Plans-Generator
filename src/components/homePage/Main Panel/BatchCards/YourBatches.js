@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BatchCard from './BatchCard';
+// import BatchCard from './BatchCard';
 
 // This class represents the list of Batches. This will handle "currently selected Batch" and 
 // generally manage the batches. 
@@ -33,12 +33,12 @@ class YourBatches extends Component {
                             return <BatchCard batchName={"Batch 1"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     })} */}
 
-                    <BatchCard status={true} batchName={"Batch 1"} compactness={"56%"} numberPlans={"5011"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    {/* <BatchCard status={true} batchName={"Batch 1"} compactness={"56%"} numberPlans={"5011"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     <BatchCard status={true} batchName={"Batch 2"} compactness={"81%"} numberPlans={"101"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     <BatchCard status={true} batchName={"3rd Batch"} compactness={"12%"} numberPlans={"411"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     <BatchCard status={false} batchName={"Batch 4"} compactness={"94%"} numberPlans={"19"} hangeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     <BatchCard status={false} batchName={"Low Comp. "} compactness={"15%"} numberPlans={"941"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={false} batchName={"Mid Comp. "} compactness={"48%"} numberPlans={"192"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard status={false} batchName={"Mid Comp. "} compactness={"48%"} numberPlans={"192"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/> */}
                 </ul>
             </div>
             

@@ -1,4 +1,4 @@
-import Plot from 'react-plotly.js';
+// import Plot from 'react-plotly.js';
 import React, {Component} from 'react';
 import ModalGraph from './ModalGraph'
 import { Modal } from 'react-bootstrap';
@@ -31,7 +31,8 @@ class GraphDisplay extends Component {
         return (
             <div> 
                 <div onClick={this.toggleModalGraph} >
-                    <Plot className="plotView1" type={this.state.typePlot} data={this.state.dataPlot} layout={this.state.layoutPlot} />
+
+                    {/* <Plot className="plotView1" type={this.state.typePlot} data={this.state.dataPlot} layout={this.state.layoutPlot} /> */}
                 </div>
                 <div>
                     <ModalGraph graphTitle={this.graphTitle} data={this.state.dataPlot} layoutPlot={this.state.layoutPlot} typePlot={this.state.typePlot} toggleModal ={this.toggleModalGraph} showModal={this.state.modalOpen} > </ModalGraph>
