@@ -24,7 +24,11 @@ class ModalGraph extends Component {
 			theme: "light2",
 			title:{
 				text: "District Comparison" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
-			},
+            },
+            legend:{
+                horizontalAlign: "right",
+                verticalAlign: "top",
+            },
 			axisY: {
 				title: "Percent Population by Demographic Filter: "
             },
@@ -48,10 +52,12 @@ class ModalGraph extends Component {
 			// 	]
             // }]
             data: [{
-				type: "boxAndWhisker",
+                type: "boxAndWhisker",
+                legendText: "Calculated",
+                showInLegend: true,
 				color: "black",
-				upperBoxColor: "#A3A3A3",
-				lowerBoxColor: "#494949",
+				upperBoxColor: "#A72A17",
+				lowerBoxColor: "#A3A3A3",
 				yValueFormatString: "###.0# ",
 				dataPoints: [
 					{ label: "1", y: [67.5, 70.55, 76.705, 79.406, 73.15] },
@@ -64,22 +70,23 @@ class ModalGraph extends Component {
 				]
             },
             {
-                type: "boxAndWhisker",
-                color: "black",
-                upperBoxColor: "#a72a17",
-                lowerBoxColor: "#494949",
-                yValueFormatString: "###.0# ",
-                dataPoints: [
-                    { label: "1", y: [92.5, 60.55, 50.705, 88.406, 69.15] },
-                    { label: "2", y: [76.41, 81.03, 65.05, 80.657, 92.36] },
-                    { label: "3", y: [87.94, 77.565, 76.17,  80.94, 75.345] },
-                    { label: "4", y: [72.18, 81.06, 85.819, 84.425, 62.4] },
-                    { label: "5", y: [69.62, 92.045, 89.7, 75.70, 75.8] },
-                    { label: "6", y: [78.86, 70.255, 75.0625, 62, 68.24] },
-                    { label: "7", y: [67.31, 68.625, 68.035, 85.56, 70.915]}
-                ]
-            }
-            ]
+                type: "scatter",
+                legendText: "Enacted",
+                showInLegend: true,
+                markerSize: 8,
+                color: "#007BFF",
+                toolTipContent: "District Percentage: {y}",
+				dataPoints: [
+                    { x: 0, y: 70},
+					{ x: 1, y: 74},
+					{ x: 2, y: 65},
+					{ x: 3, y: 82},
+					{ x: 4, y: 87},
+					{ x: 5, y: 92},
+					{ x: 6, y: 72},
+				]
+			}]
+            
         }
         
 
