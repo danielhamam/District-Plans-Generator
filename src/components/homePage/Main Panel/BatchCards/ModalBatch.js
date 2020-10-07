@@ -72,6 +72,14 @@ class ModalBatch extends Component {
                         <span className={"inline "}> {this.props.compactness} </span>
                     </p>
                     <p> 
+                        <span> Population Difference Limit: </span> 
+                        <span className={"inline "}> {this.props.populationLimit} </span>
+                    </p>
+                    <p> 
+                        <span> Focused Minority Group(s): </span> 
+                        <span className={"inline "}> {this.props.minorityAnalyzed} </span>
+                    </p>
+                    <p> 
                         <span> Analysis Summary: </span> 
                         <span className={"inline "} > Testing Analysis Summary </span>
                     </p>

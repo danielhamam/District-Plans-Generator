@@ -20,6 +20,8 @@ class BatchCard extends Component {
         // To make them same as props (for now)
         this.compactness = "";
         this.numberPlans = "";
+        this.minorityAnalyzed = "";
+        this.populationLimit = "";
         this.status = false; // we're going to say false for pending, true for ready
     }
 
@@ -102,6 +104,8 @@ class BatchCard extends Component {
 
         this.compactness = this.props.compactness;
         this.numberPlans = this.props.numberPlans;
+        this.populationLimit = this.props.populationLimit;
+        this.minorityAnalyzed = this.props.minorityAnalyzed;
 
         return (
             <div> 
@@ -115,7 +119,7 @@ class BatchCard extends Component {
                     <br />
                 </div>
                 <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteBatch={this.deleteBatch} toggleDeleteModal={this.toggleDeleteModal} batchName={this.state.name} />
-                <ModalBatch compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
+                <ModalBatch populationLimit={this.populationLimit} minorityAnalyzed={this.minorityAnalyzed} compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
             </div>
         );
     }
