@@ -17,7 +17,7 @@ class GraphDisplay extends Component {
 			animationEnabled: true,
 			theme: "light2",
 			title:{
-				text: "VAP Filter vs. District" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
+				text: "VAP Filter vs. Indexed Districts" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
             },
             legend:{
                 horizontalAlign: "right",
@@ -27,7 +27,7 @@ class GraphDisplay extends Component {
 				title: "Voting Age Population (VAP) by Demographic Filter",
             },
             axisX: {
-                title: "District"
+                title: "Indexed Districts"
             },
 			
             data: [{
