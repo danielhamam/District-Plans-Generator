@@ -90,9 +90,11 @@ class GraphDisplay extends Component {
 
 
         return (
-            <div> 
+            <div className="graphDisplayWrapper"> 
                 <div onClick={this.toggleModalGraph} >
-                    <CanvasJSChart options = {this.state.options}/>
+                    <div id="plotView1"> 
+                        <CanvasJSChart options = {this.state.options}/>
+                    </div>
 
                     {/* <Plot className="plotView1" type={this.state.typePlot} data={this.state.dataPlot} layout={this.state.layoutPlot} /> */}
                 </div>
@@ -100,10 +102,10 @@ class GraphDisplay extends Component {
                     <ModalGraph options={this.state.options} toggleModal ={this.toggleModalGraph} showModal={this.state.modalOpen} > </ModalGraph>
                 </div>
                     < br />
-                    <button className="btn-primary buttonGraphEdit" onClick={this.toggleModalGraph}> Graph Edit Panel</button>
+                    {/* <button className="btn-primary buttonGraphEdit" onClick={this.toggleModalGraph}> Graph Edit Panel</button> */}
                     < br />
                     < br />
-                    <small className="form-text text-muted"> This graph represents the currently selected districting plan compared to the enacted plan. If you would like to edit the contents of the graph, please click on the graph or select the below button to open the editing panel. </small>
+                    {/* <small className="form-text text-muted"> This graph represents the currently selected districting plan compared to the enacted plan. If you would like to edit the contents of the graph, please click on the graph or select the below button to open the editing panel. </small> */}
             </div>
         );
     }
