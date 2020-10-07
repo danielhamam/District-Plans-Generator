@@ -12,6 +12,7 @@ class MainPanel extends Component {
     super();
     this.state = { 
         currentState : "Select a state",
+        selectedFilters : "",
     }
     // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
@@ -22,6 +23,11 @@ class MainPanel extends Component {
 
     changeCurrentStatefromMap = (newName) => {
       this.setState({currentState : newName});
+    }
+
+    changeSelectedFilters = (newFilter) => {
+      this.setState({selectedFilters : newFilter});
+      console.log(newFilter);
     }
 
     render() {
@@ -75,7 +81,7 @@ class MainPanel extends Component {
                     <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
-                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true}/>
+                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onInputChange={this.changeSelectedFilters}/>
                     </div>
                     {/* <div id="currentItems"> 
                         <div id="currentBatchMap"> Current Batch: </div>
