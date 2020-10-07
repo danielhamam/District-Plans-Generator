@@ -13,6 +13,11 @@ class MainPanel extends Component {
     this.state = { 
         currentState : "Select a state",
         selectedFilters : null,
+
+        // Map Filters
+        precinctView : false,
+        districtView : false,
+        stateView : true
     }
     // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
