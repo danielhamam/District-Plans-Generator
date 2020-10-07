@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import RangeSlider from 'react-bootstrap-range-slider';
-import {Form, Col, Row} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 class InputsBatch extends Component {
     constructor () {
@@ -29,6 +31,22 @@ class InputsBatch extends Component {
     }
 
     render() {
+
+        const componentsAnimation = makeAnimated();
+        const options = [
+            {
+              label: "Ethnicity",
+              options: [
+                { label:"White", value: "white"},
+                { label:"African American", value: "africanamerican"},
+                { label:"Latino", value: "latino"},
+                { label:"Asian", value: "asian"},
+                { label:"American Indian", value: "americanindian"},
+                { label:"Hawaiian", value: "hawaiian"},
+                { label:"Other", value: "other"},
+              ]},
+          ];
+
         return (
             <Form> 
                 <div className="form-group">
@@ -86,6 +104,22 @@ class InputsBatch extends Component {
                     </div>
                     <small className="form-text text-muted"> Enter the limit as measured by the difference between the most populous district and the least populous district. </small>
                     <br /> 
+
+                {/* --------------------------------------- */}
+                {/*        MINORITIES TO BE ANALYZED        */}
+                {/* --------------------------------------- */}
+
+                <label > Minority Focus Group(s): </label>
+
+                    <div className="minorityFocusStyle">
+                        <Select isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} />
+                    </div>
+                    <small className="form-text text-muted"> Select the minority group(s) from the dropdown to particularly analyze. </small>
+
+                <br />
+
+
+
 
                 {/* --------------------------------------- */}
                 {/*              BATCH NAME                 */}

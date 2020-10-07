@@ -4,7 +4,6 @@ import ModalGraph from './ModalGraph'
 import { Modal } from 'react-bootstrap';
 
 import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
-//var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -18,7 +17,7 @@ class GraphDisplay extends Component {
 			animationEnabled: true,
 			theme: "light2",
 			title:{
-				text: "District Comparison" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
+				text: "VAP Filter vs. District" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
             },
             legend:{
                 horizontalAlign: "right",
@@ -33,7 +32,7 @@ class GraphDisplay extends Component {
 			
             data: [{
                 type: "boxAndWhisker",
-                legendText: "Calculated",
+                legendText: "Generated",
                 showInLegend: true,
 				color: "red",
 				upperBoxColor: "#A72A17",
@@ -85,7 +84,6 @@ class GraphDisplay extends Component {
         // if(this.state.selectedFilters != this.props.selectedFilters) {
         //     this.setState({selectedFilters : this.props.selectedFilters});
         // }
-
         // const { options } = this.state;
 
 
