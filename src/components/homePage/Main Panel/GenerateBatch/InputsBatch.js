@@ -7,7 +7,8 @@ class InputsBatch extends Component {
         super();
         this.state = {
             plansAmount : 0,
-            compactnessAmount : 0
+            compactnessAmount : 0,
+            populationDifference : 0
             // plansChangeAmount : ""
             // slideStop={this.changeValue}
 
@@ -23,6 +24,10 @@ class InputsBatch extends Component {
         this.setState({compactnessAmount : e.target.value});
     }
 
+    changePopulationDifference = (e) => {
+        this.setState({populationDifference: e.target.value});
+    }
+
     render() {
         return (
             <Form> 
@@ -32,7 +37,7 @@ class InputsBatch extends Component {
                 {/*     NUMBER OF DISTRICT PLANS SLIDER  */}
                 {/* --------------------------------------- */}
 
-                    <label for="exampleInputEmail1"> Number of District Plans: </label>
+                    <label for="exampleInputEmail1"> Districting Plans (#): </label>
                     <div className="row"> 
                         <div className="col-4">
                             <Form.Control size="sm" value={this.state.plansAmount} onChange={this.changePlanAmount}/>
@@ -50,7 +55,7 @@ class InputsBatch extends Component {
                 {/*     COMPACTNESS MEASURE SLIDER          */}
                 {/* --------------------------------------- */}
 
-                <label for="exampleInputEmail1"> Compactness: </label>
+                <label for="exampleInputEmail1"> Compactness (%): </label>
                     <div className="row"> 
                         <div className="col-4">
                             <Form.Control size="sm" value={this.state.compactnessAmount} onChange={this.changeCompactnessAmount}/>
@@ -64,11 +69,39 @@ class InputsBatch extends Component {
                     <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
                 </div>
 
-                <div className="form-group">
+                {/* --------------------------------------- */}
+                {/*     POPULATION DIFFERENCE SLIDER        */}
+                {/* --------------------------------------- */}
+
+                <label for="exampleInputEmail1"> Population Difference Limit (%): </label>
+                    <div className="row"> 
+                        <div className="col-4">
+                            <Form.Control size="sm" value={this.state.populationDifference} onChange={this.changePopulationDifference}/>
+                        </div>
+                        <div className="col-8">
+                            <div className="rangeSliderContainer"> 
+                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePopulationDifference} step={0.1} min={0} max={1.7} tooltip='auto' value={this.state.populationDifference} />
+                            </div>
+                        </div>
+                    </div>
+                    <small className="form-text text-muted"> Enter the limit as measured by the difference between the most populous district and the least populous district. </small>
+                    <br /> 
+
+                {/* --------------------------------------- */}
+                {/*              BATCH NAME                 */}
+                {/* --------------------------------------- */}
+
+                    <div className="form-group">
                     <label >Batch Name:</label>
                     <div className="customBatchNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Batch Name"/> </div> 
                 </div>
-                <button type="submit" className="btn btn-primary">Generate</button>
+                <br /> 
+
+                {/* --------------------------------------- */}
+                {/*            GENERATE BUTTON              */}
+                {/* --------------------------------------- */}
+
+                    <button type="submit" className="btn btn-primary">Generate</button>
             </Form>
         );
     }
