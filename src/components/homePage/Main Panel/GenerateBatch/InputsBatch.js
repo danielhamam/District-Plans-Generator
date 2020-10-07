@@ -44,11 +44,11 @@ class InputsBatch extends Component {
                         </div>
                         <div className="col-8">
                             <div className="rangeSliderContainer"> 
-                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePlanAmount} step={1} min={0} max={10000} tooltip='auto' value={this.state.plansAmount} />
+                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePlanAmount} step={1} min={0} max={5000} tooltip='auto' value={this.state.plansAmount} />
                             </div>
                         </div>
                     </div>
-                    <small className="form-text text-muted">Enter the amount of district plans you would like to generate. The current limit is 10000. </small>
+                    <small className="form-text text-muted">Enter the amount of district plans you would like to generate. The current limit is 5000. </small>
 
                 < br/>
                 {/* --------------------------------------- */}
