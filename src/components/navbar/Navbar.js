@@ -22,7 +22,7 @@ function Navbar() {
                     <li className="nav-item">
                         <a className="nav-link text-white text-uppercase ml-5" href="#">Research <i className="fa fa-book"></i></a>
                     </li>
-                    <li className="nav-item dropdown">
+                    {/* <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle text-white text-uppercase ml-5" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown
                         </a>
@@ -32,7 +32,7 @@ function Navbar() {
                             <div className="dropdown-divider"></div>
                             <a className="dropdown-item" href="#">Something else here</a>
                         </div>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </nav>
