@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Modal, Button } from 'react-bootstrap';
-// import Plot from 'react-plotly.js';
+import Select from 'react-select';
 
 // import { Canvas } from 'react-canvas-js'
 
@@ -19,91 +19,50 @@ class ModalGraph extends Component {
     }
     render() {
 
-        const options = {
-			animationEnabled: true,
-			theme: "light2",
-			title:{
-				text: "District Comparison" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
-            },
-            legend:{
-                horizontalAlign: "right",
-                verticalAlign: "top",
-            },
-			axisY: {
-				title: "Percent Population by Demographic Filter: "
-            },
-            axisX: {
-                title: "District"
-            },
-			// data: [{
-			// 	type: "boxAndWhisker",
-			// 	color: "black",
-			// 	upperBoxColor: "#A3A3A3",
-			// 	lowerBoxColor: "#494949",
-			// 	yValueFormatString: "###.0# ",
-			// 	dataPoints: [
-			// 		{ label: "1", y: [67.5, 70.55, 76.705, 79.406, 73.15] },
-			// 		{ label: "2", y: [67.41, 71.03, 78.05, 80.657, 74.36] },
-			// 		{ label: "3", y: [64.94, 70.565, 78.17,  80.94, 75.345] },
-			// 		{ label: "4", y: [69.18, 71.06, 76.819, 79.425, 73.4] },
-			// 		{ label: "5", y: [69.62, 72.045, 78.7, 81.70, 75.8] },
-			// 		{ label: "6", y: [65.86, 70.255, 78.0625, 85, 75.24] },
-			// 		{ label: "7", y: [61.31, 68.625, 72.035, 75.56, 70.915]}
-			// 	]
-            // }]
-            data: [{
-                type: "boxAndWhisker",
-                legendText: "Calculated",
-                showInLegend: true,
-				color: "black",
-				upperBoxColor: "#A72A17",
-				lowerBoxColor: "#A3A3A3",
-				yValueFormatString: "###.0# ",
-				dataPoints: [
-					{ label: "1", y: [61.31, 68.625, 72.035, 75.56, 70.915] },
-                    { label: "2", y: [67.5, 70.55, 76.705, 79.406, 73.15] },
-                    { label: "3", y: [69.18, 71.06, 76.819, 79.425, 73.4] },
-					{ label: "4", y: [67.41, 71.03, 78.05, 80.657, 74.36] },
-                    { label: "5", y: [64.94, 70.565, 78.17,  80.94, 75.345] },
-                    { label: "6", y: [65.86, 70.255, 78.0625, 85, 75.24] },
-					{ label: "7", y: [69.62, 72.045, 78.7, 81.70, 75.8] },
-				]
-            },
+        const filterOptions = [
             {
-                type: "scatter",
-                legendText: "Enacted",
-                showInLegend: true,
-                markerSize: 8,
-                color: "#007BFF",
-                toolTipContent: "District Percentage: {y}",
-				dataPoints: [
-                    { x: 0, y: 70},
-					{ x: 1, y: 74},
-					{ x: 2, y: 65},
-					{ x: 3, y: 82},
-					{ x: 4, y: 87},
-					{ x: 5, y: 92},
-					{ x: 6, y: 72},
-				]
-			}]
-            
-        }
-        
+              label: "Ethnicity",
+              options: [
+                { label:"White", value: "white"},
+                { label:"African American", value: "africanamerican"},
+                { label:"Latino", value: "latino"},
+                { label:"Asian", value: "asian"},
+                { label:"American Indian", value: "americanindian"},
+                { label:"Hawaiian", value: "hawaiian"},
+                { label:"Other", value: "other"},
+              ]},
+              {
+              label: "Political Party",
+              options: [
+                { label:"Democratic", value: "democratic"},
+                { label:"Republican", value: "republican"},
+                { label:"Libertarian", value: "libertarian"},
+                { label:"Green Party", value: "greenparty"},
+                { label:"Other", value: "other"},
+              ]},
+              {
+              label: "Cluster",
+              options: [
+                { label:"Precincts", value: "precincts"},
+                { label:"Districts", value: "districts"},
+                { label:"Counties", value: "counties"},
+              ]},
+          ];
 
         return (
         // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.
     
                 <Modal backdrop="static" show={this.props.showModal} onHide={this.props.toggleModal}>  
                     <Modal.Header closeButton >
-                        <Modal.Title> Testing Graph Display </Modal.Title>
+                        <Modal.Title> Graph Display </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <CanvasJSChart options = {options}/>
+                        <CanvasJSChart options = {this.props.options}/>
                         {/* <Plot className="plotView2" layout={this.props.layoutPlot} type={this.props.typePlot} data={this.props.dataPlot} /> */}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.toggleModal}>Close</Button>
-                        <Button variant="primary" >Testing Button</Button>
+                        {/* <Button variant="primary" >Testing Button</Button> */}
                     </Modal.Footer>
                 </Modal>
             // {/* </div> */}
