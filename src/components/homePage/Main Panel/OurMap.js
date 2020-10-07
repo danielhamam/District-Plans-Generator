@@ -51,11 +51,11 @@ class OurMap extends Component {
         }
         else if (this.props.currentState == "California") {
             this.centerMap = [36.778259, -119.417931];
-            this.mapZoom = 7;
+            this.mapZoom = 6;
         }
         else if (this.props.currentState == "New York") {
-            this.centerMap = [40.712776, -74.005974];
-            this.mapZoom = 7;
+            this.centerMap = [42.712776, -77.005974];
+            this.mapZoom = 6.5;
         }
         else {
             this.centerMap = [39, -105];
@@ -70,16 +70,16 @@ class OurMap extends Component {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
                     {/* <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>  */}
-                    <GeoJSON key="California" data={CaliforniaDistricts} /> 
+                    <GeoJSON key="California" data={CaliforniaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>  /> 
                     
                     {/* <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")} /> */}
                     {/* <GeoJSON key='Georgia' data={GeorgiaPrecincts} /> */}
-                    <GeoJSON key='Georgia' data={GeorgiaDistricts} />
+                    <GeoJSON key='Georgia' data={GeorgiaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")}/>  />
 
                     {/* <GeoJSON weight="1" color="red" key='NewYork' data={State} onClick={ () => this.props.changeCurrentStatefromMap("New York")}/> */}
                     {/* <GeoJSON key='NewYorkDistricts' data={NYSAssemblyDistricts} /> */}
                     {/* <GeoJSON key='NewYorkDistricts' data={NewYorkDistricts} />  */}
-                    <GeoJSON key='NewYork' data={NYDistricts} />
+                    <GeoJSON key='NewYork' data={NYDistricts} onClick={ () => this.props.changeCurrentStatefromMap("New York")}/>
 
                 </Map> 
 
