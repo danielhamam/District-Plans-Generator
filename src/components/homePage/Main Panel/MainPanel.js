@@ -12,7 +12,7 @@ class MainPanel extends Component {
     super();
     this.state = { 
         currentState : "Select a state",
-        selectedFilters : "",
+        selectedFilters : null,
     }
     // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
@@ -25,12 +25,13 @@ class MainPanel extends Component {
       this.setState({currentState : newName});
     }
 
-    changeSelectedFilters = (newFilter) => {
-      this.setState({selectedFilters : newFilter});
-      console.log(newFilter);
+    changeSelectedFilters = (selected) => {
+      this.setState({selectedFilters : selected});
     }
 
     render() {
+
+      console.log(this.state.selectedFilters);
 
         const componentsAnimation = makeAnimated();
 
@@ -74,14 +75,14 @@ class MainPanel extends Component {
                 {/* Sidebar */}
                 <div id="sideBarWrapper"> 
                     {/* < ModalBatch />  */}
-                    <Sidebar currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar}/>
+                    <Sidebar currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
                 </div>
                 {/* Map Panel */}
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
-                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onInputChange={this.changeSelectedFilters}/>
+                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.changeSelectedFilters}/>
                     </div>
                     {/* <div id="currentItems"> 
                         <div id="currentBatchMap"> Current Batch: </div>

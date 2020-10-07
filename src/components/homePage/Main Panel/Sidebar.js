@@ -20,7 +20,8 @@ class Sidebar extends Component {
             hideSidebarHeader : false,
             collapsedIconLeft : false,
             collapsedIconRight : false,
-            sidebarBatch : "No Batch Selected: " // name of the currently selected batch
+            sidebarBatch : "No Batch Selected: ", // name of the currently selected batch
+            selectedFilters : null,
         }
         // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
@@ -68,6 +69,8 @@ class Sidebar extends Component {
     }
 
     render() {
+
+        if (this.state.selectedFilters != this.props.selectedFilters) this.setState({selectedFilters : this.props.selectedFilters});
 
         // If changed from map
         if (this.state.currentState != this.props.currentState) this.setState({currentState : this.props.currentState});
@@ -159,7 +162,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel</b>} >
-                                        <GraphDisplay />
+                                        <GraphDisplay selectedFilters={this.state.selectedFilters}/>
                                 </SubMenu>
                             </Menu>
                     </ProSidebar> 

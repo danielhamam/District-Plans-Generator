@@ -11,9 +11,9 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class GraphDisplay extends Component {
     constructor () {
         super();
-        var graphTitle = "Districting Plans";
+        // var graphTitle = "Districting Plans";
         this.state = { 
-            
+            selectedFilters : null,
             options : {
 			animationEnabled: true,
 			theme: "light2",
@@ -25,7 +25,7 @@ class GraphDisplay extends Component {
                 verticalAlign: "top",
             },
 			axisY: {
-				title: "Voting Age Population (VAP) by Demographic Filter: "
+				title: "Voting Age Population (VAP) by Demographic Filter",
             },
             axisX: {
                 title: "District"
@@ -58,13 +58,13 @@ class GraphDisplay extends Component {
                 color: "#007BFF",
                 toolTipContent: "District Percentage: {y}",
 				dataPoints: [
-                    { x: 0, y: 70},
-					{ x: 1, y: 74},
-					{ x: 2, y: 65},
-					{ x: 3, y: 82},
-					{ x: 4, y: 87},
-					{ x: 5, y: 92},
-					{ x: 6, y: 72},
+                    { x: 0, y: 68},
+					{ x: 1, y: 71},
+					{ x: 2, y: 73},
+					{ x: 3, y: 74},
+					{ x: 4, y: 77},
+					{ x: 5, y: 80},
+					{ x: 6, y: 83},
 				]
 			}]
             
@@ -75,11 +75,19 @@ class GraphDisplay extends Component {
     }
 
     toggleModalGraph = () => {
+        console.log(this.state.selectedFilters);
         if (this.state.modalOpen == false) this.setState({modalOpen : true});
         else this.setState({modalOpen : false});
     }
 
     render() {         
+
+        // if(this.state.selectedFilters != this.props.selectedFilters) {
+        //     this.setState({selectedFilters : this.props.selectedFilters});
+        // }
+
+        // const { options } = this.state;
+
 
         return (
             <div> 
