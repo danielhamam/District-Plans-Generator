@@ -13,6 +13,7 @@ class GraphDisplay extends Component {
         // var graphTitle = "Districting Plans";
         this.state = { 
             selectedFilters : null,
+            currentState: null,
             options : {
 			animationEnabled: true,
 			theme: "light2",
@@ -35,7 +36,7 @@ class GraphDisplay extends Component {
                 legendText: "Generated",
                 showInLegend: true,
 				color: "red",
-				upperBoxColor: "#A72A17",
+				upperBoxColor: "#6D757D", // #A72A17 #747474 #2B2B2B #6c757d
 				lowerBoxColor: "#A3A3A3",
 				yValueFormatString: "###.0# ",
 				dataPoints: [
@@ -74,7 +75,6 @@ class GraphDisplay extends Component {
     }
 
     toggleModalGraph = () => {
-        console.log(this.state.selectedFilters);
         if (this.state.modalOpen == false) this.setState({modalOpen : true});
         else this.setState({modalOpen : false});
     }
@@ -86,6 +86,9 @@ class GraphDisplay extends Component {
         // }
         // const { options } = this.state;
 
+        // if(this.state.currentState == null) {
+        //     // this.setState({options : null});
+        // }
 
         return (
             <div className="graphDisplayWrapper"> 

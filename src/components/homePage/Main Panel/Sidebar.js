@@ -162,7 +162,9 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel</b>} >
-                                        <GraphDisplay selectedFilters={this.state.selectedFilters}/>
+                                    <div className="plotView1">
+                                        <GraphDisplay selectedFilters={this.state.selectedFilters} currentState={this.state.currentState}/>
+                                    </div>
                                 </SubMenu>
                             </Menu>
                     </ProSidebar> 
