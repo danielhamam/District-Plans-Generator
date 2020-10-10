@@ -8,6 +8,7 @@ class InputsBatch extends Component {
     constructor () {
         super();
         this.state = {
+            districtsAmount : 0, 
             plansAmount : 0,
             compactnessAmount : 0,
             populationDifference : 0
@@ -15,6 +16,10 @@ class InputsBatch extends Component {
             // slideStop={this.changeValue}
 
         }
+    }
+
+    changeDistrictsAmount = (e) => {
+        this.setState({districtsAmount : e.target.value});
     }
 
     // To change the amount in the slider
@@ -50,7 +55,24 @@ class InputsBatch extends Component {
         return (
             <Form> 
                 <div className="form-group">
+                {/* --------------------------------------- */}
+                {/*             NUMBER OF DISTRICTS         */}
+                {/* --------------------------------------- */}
 
+                <label for="exampleInputEmail1"> Districts (#): </label>
+                    <div className="row"> 
+                        <div className="col-4">
+                            <Form.Control size="sm" value={this.state.districtsAmount} onChange={this.changeDistrictsAmount}/>
+                        </div>
+                        <div className="col-8">
+                            <div className="rangeSliderContainer"> 
+                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeDistrictsAmount} step={1} min={0} max={300} tooltip='auto' value={this.state.districtsAmount} />
+                            </div>
+                        </div>
+                    </div>
+                    <small className="form-text text-muted">Enter the amount of districts you'd like to construct for your selected state </small>
+
+                    < br/>
                 {/* --------------------------------------- */}
                 {/*     NUMBER OF DISTRICT PLANS SLIDER  */}
                 {/* --------------------------------------- */}
