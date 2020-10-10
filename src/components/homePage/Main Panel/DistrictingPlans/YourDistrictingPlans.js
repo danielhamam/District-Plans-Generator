@@ -18,7 +18,7 @@ class YourDistrictingPlans extends Component {
                     <div> Selected Plan:</div> 
                         <br></br>
                         <br></br>
-                    <div> {this.props.currentBatch} </div>
+                    <div> {this.props.currentBatchName} </div>
                     <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
                     <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
                     <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />

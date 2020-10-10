@@ -16,7 +16,6 @@ class Sidebar extends Component {
         super();
         this.state = { 
             currentState : "Select a state",
-            currentBatch : "No Batch Selected: ", // name of the currently selected batch
             statusCollapsed : false,
             hideSidebarHeader : false,
             collapsedIconLeft : false,
@@ -71,11 +70,6 @@ class Sidebar extends Component {
             document.getElementById("collapseButtonLeft").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.display = "";
         }
-    }
-
-    changeCurrentBatch = (name) => {
-        if (name == "") this.setState({currentBatch : "No Batch Selected: "});
-        else this.setState({currentBatch : name + ":"});
     }
 
     render() {
@@ -140,7 +134,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                        <YourBatches selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} changeCurrentBatch={this.changeCurrentBatch} />
+                                        <YourBatches selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} updateCurrentBatchName={this.props.updateCurrentBatchName} />
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -150,7 +144,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentBatch={this.state.currentBatch}/>
+                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentBatchName={this.props.currentBatchName}/>
                                 </SubMenu>
 
                             {/* -------------------------- */}

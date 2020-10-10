@@ -40,7 +40,7 @@ class BatchCard extends Component {
             // Select
             this.setState({selected: true});
             this.props.toggleSelectedBatchCheck();
-            this.props.changeCurrentBatch(this.state.name);
+            this.props.updateCurrentBatchName(this.state.name);
             this.goTop="goTopBatch ";
         }
         else if (this.state.selected == false && this.props.selectedBatchCheck == true) {
@@ -52,7 +52,7 @@ class BatchCard extends Component {
             // Deselect
             this.setState({selected: false});
             this.props.toggleSelectedBatchCheck();
-            this.props.changeCurrentBatch("");
+            this.props.updateCurrentBatchName("");
             this.goTop="";
         }
         else {

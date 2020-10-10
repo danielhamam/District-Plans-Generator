@@ -11,7 +11,7 @@ export class HomeScreen extends Component {
 
           <Navbar /> 
           {/* This is the container showing the content the panel tells us to display */}
-          <MainPanel selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} />
+          <MainPanel currentBatchName={this.props.currentBatchName} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} />
           
           {/* <Footer /> */}
       </div>
