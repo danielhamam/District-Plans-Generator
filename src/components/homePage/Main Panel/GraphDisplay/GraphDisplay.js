@@ -1,8 +1,6 @@
 // import Plot from 'react-plotly.js';
 import React, {Component} from 'react';
 import ModalGraph from './ModalGraph'
-import { Modal } from 'react-bootstrap';
-
 import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;

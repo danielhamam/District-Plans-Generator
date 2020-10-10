@@ -1,11 +1,8 @@
-import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton, ButtonGroup, Tabs, Tab} from 'react-bootstrap';
+import {Dropdown, DropdownButton, ButtonGroup, Tabs, Tab} from 'react-bootstrap';
 import React, {Component} from 'react';
-import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent } from 'react-pro-sidebar';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
-import { FontAwesomeIcon } from 'react-fontawesome'
-// import BatchCard from './BatchCards/BatchCard';
 import YourBatches from './BatchCards/YourBatches'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 import InputsBatch from './GenerateBatch/InputsBatch';

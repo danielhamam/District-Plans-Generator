@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import Select from 'react-select';
-
-// import { Canvas } from 'react-canvas-js'
-
 import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
-//var CanvasJSReact = require('./canvasjs.react');
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
-// import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import Sidebar from "./Sidebar.js";
 import OurMap from "./OurMap.js";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import ModalBatch from './BatchCards/ModalBatch';
 
 class MainPanel extends Component {
   constructor () {
