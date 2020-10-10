@@ -9,48 +9,48 @@ class ModalBatch extends Component {
         this.state = {
         }
         // To edit class name of modal display
-        this.nameSelect = "Select"
+        this.selectStatus = "Select"
         this.selectButtonColor = "primary"
-        this.activeSelection = ""
+        this.disabledStatus = ""
+        this.readyStatus = ""
+        this.readyColorStatus = ""
         // To show if pending or ready
-        this.statusDisplay = ""
-        this.colorStatus = ""
     }
     render() {
 
         // To check to disable or enable select button
 
-        if ( (this.props.selectedCard == true && this.props.currentSelected == false) | this.props.status == false ) {
+        if ( (this.props.selectedBatchCheck == true && this.props.currentSelected == false) | this.props.status == false ) {
             // turn the select button gray
-            this.nameSelect = "Select"
+            this.selectStatus = "Select"
             this.selectButtonColor = "secondary";
-            this.activeSelection = "disabled";
+            this.disabledStatus = "disabled";
         }
-        else if (this.props.selectedCard == true && this.props.currentSelected == true) {
-            this.nameSelect = "Deselect"
+        else if (this.props.selectedBatchCheck == true && this.props.currentSelected == true) {
+            this.selectStatus = "Deselect"
             this.selectButtonColor = "primary";
-            this.activeSelection = "active";
+            this.disabledStatus = "active";
         }
         else {
-            this.nameSelect = "Select"
+            this.selectStatus = "Select"
             this.selectButtonColor = "primary";
-            this.activeSelection = "active";
+            this.disabledStatus = "active";
         }
 
         // To display whether it is ready or pending
         if (this.props.status == false) {
-            this.statusDisplay = "Pending";
-            this.colorStatus = " batchdisplayPending"
+            this.readyStatus = "Pending";
+            this.readyColorStatus = " batchdisplayPending"
         }
         else if (this.props.status == true) {
-            this.statusDisplay = "Ready";
-            this.colorStatus = " batchdisplaySuccess"
+            this.readyStatus = "Ready";
+            this.readyColorStatus = " batchdisplaySuccess"
         }
 
         return (
         // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.
     
-                <Modal backdrop="static" show={this.props.showModal} onHide={this.props.toggleModal}>  
+                <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
                             <h4 className="batchTitle"> {this.props.batchName} </h4>
@@ -60,7 +60,7 @@ class ModalBatch extends Component {
                     {/* First let's display the status of the batch */}
                     <p> 
                         <span> Status: </span> 
-                        <span className={"inline " + this.colorStatus}> {this.statusDisplay} </span>
+                        <span className={"inline " + this.readyColorStatus}> {this.readyStatus} </span>
                     </p>
                     {/* Second let's display the inputs chosen by the user */}
                     <p> 
@@ -84,15 +84,13 @@ class ModalBatch extends Component {
                         <span className={"inline "} > Testing Analysis Summary </span>
                     </p>
 
-
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="danger" onClick={this.props.toggleModal}>Close</Button>
-                        <Button className = {this.activeSelection} variant={this.selectButtonColor} onClick={this.props.toggleSelection}>{this.nameSelect}</Button>
+                        <Button variant="danger" onClick={this.props.toggleViewModal}>Close</Button>
+                        <Button className = {this.disabledStatus} variant={this.selectButtonColor} onClick={this.props.toggleSelection}>{this.selectStatus}</Button>
                     </Modal.Footer>
                 </Modal>
             // {/* </div> */}
-            
         );
     }
 }

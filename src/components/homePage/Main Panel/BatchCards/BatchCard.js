@@ -6,15 +6,16 @@ class BatchCard extends Component {
     constructor () {
         super();
         this.state = {
-            showModal : false,
-            showDeleteModal : false,
             selected : false,
             name : "", // originally empty, gets filled when we render
             id : "2",
-            // put inputs as one of the varialbes
             summary : "", // this would be the analysis summary, display in modal
+
+            // Toggle Modals
+            showViewModal : false,
+            showDeleteModal : false,
         }
-        this.classNameCustom = "";
+        this.batchCardClassStyle = "";
         this.goTop = "";
         this.statusColor = "";
         // To make them same as props (for now)
@@ -28,32 +29,30 @@ class BatchCard extends Component {
     toggleSelection = (e) => {
         // do something with batch
 
-        if (this.status == false) {
-            return;
-        }
+        if (this.status == false) return;
 
-        if (this.state.showModal == true && this.props.selected == false) {
-            this.setState({showModal : false});
+        if (this.state.showViewModal == true && this.props.selectedBatchCheck== false) {
+            this.setState({showViewModal : false});
             this.goTop="";
         }
 
-        if (this.state.selected == false && this.props.selectedCard == false) {
+        if (this.state.selected == false && this.props.selectedBatchCheck== false) {
             // Select
             this.setState({selected: true});
-            this.props.toggleSelectedCard();
-            this.props.changeSidebarBatch(this.state.name);
+            this.props.toggleSelectedBatchCheck();
+            this.props.changeCurrentBatch(this.state.name);
             this.goTop="goTopBatch ";
         }
-        else if (this.state.selected == false && this.props.selectedCard == true) {
+        else if (this.state.selected == false && this.props.selectedBatchCheck == true) {
             // Cant Select
             this.setState({selected : false});
             this.goTop="";
         }
-        else if (this.state.selected == true && this.props.selectedCard == true) {
+        else if (this.state.selected == true && this.props.selectedBatchCheck == true) {
             // Deselect
             this.setState({selected: false});
-            this.props.toggleSelectedCard();
-            this.props.changeSidebarBatch("");
+            this.props.toggleSelectedBatchCheck();
+            this.props.changeCurrentBatch("");
             this.goTop="";
         }
         else {
@@ -63,10 +62,10 @@ class BatchCard extends Component {
         // and check if you did this through modal
     }
 
-    toggleModal = (e) => {
+    toggleViewModal = (e) => {
         e.stopPropagation();
-        if (this.state.showModal == true) this.setState({showModal : false});
-        else this.setState({showModal : true});
+        if (this.state.showViewModal == true) this.setState({showViewModal : false});
+        else this.setState({showViewModal : true});
     }
 
     toggleDeleteModal = (e) => {
@@ -83,10 +82,10 @@ class BatchCard extends Component {
 
         // Whenever we do setState, it rerenders
         if (this.state.selected == true) {
-            this.classNameCustom = "batchCard badge badge-pill badge-dark ";
+            this.batchCardClassStyle = "batchCard badge badge-pill badge-dark ";
         }
         else {
-            this.classNameCustom = "batchCard badge badge-pill badge-light ";
+            this.batchCardClassStyle = "batchCard badge badge-pill badge-light ";
         }
 
         // here I would say, let's check if status is ready
@@ -109,17 +108,17 @@ class BatchCard extends Component {
 
         return (
             <div> 
-                <div className={this.classNameCustom + this.goTop + this.statusColor} onClick={this.toggleSelection}>
+                <div className={this.batchCardClassStyle + this.goTop + this.statusColor} onClick={this.toggleSelection}>
                     <div className="batchcardContents">
                         <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
                         <span className="batchcardTitle"> {this.state.name} </span> 
-                        <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleModal}> <div className="viewText" > View </div> </button>
+                        <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleViewModal}> <div className="viewText" > View </div> </button>
                     </div> 
                     <br /> 
                     <br />
                 </div>
                 <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteBatch={this.deleteBatch} toggleDeleteModal={this.toggleDeleteModal} batchName={this.state.name} />
-                <ModalBatch populationLimit={this.populationLimit} minorityAnalyzed={this.minorityAnalyzed} compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedCard={this.props.selectedCard} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleModal={this.toggleModal} showModal={this.state.showModal}/>
+                <ModalBatch populationLimit={this.populationLimit} minorityAnalyzed={this.minorityAnalyzed} compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}/>
             </div>
         );
     }

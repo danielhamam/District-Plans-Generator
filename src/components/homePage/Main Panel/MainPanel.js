@@ -19,9 +19,7 @@ class MainPanel extends Component {
         districtView : false,
         stateView : true
     }
-    // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
-
     changeCurrentStatefromSidebar = (newName) => {
       this.setState({currentState : newName});
     }
@@ -77,26 +75,26 @@ class MainPanel extends Component {
 
         return (
             <div id="mainPanelWrapper">
+              {/* -------------- */}
                 {/* Sidebar */}
+
                 <div id="sideBarWrapper"> 
-                    {/* < ModalBatch />  */}
-                    <Sidebar currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
+                    <Sidebar selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
                 </div>
+
+               {/* -------------- */}
                 {/* Map Panel */}
+
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.changeSelectedFilters}/>
                     </div>
-                    {/* <div id="currentItems"> 
-                        <div id="currentBatchMap"> Current Batch: </div>
-                        <div id="currentPlanMap"> Current Plan: </div> 
-                    </div> */}
-                </div>
 
+                {/* -------------- */}
+                </div>
             </div> 
-                // {/* <OurMap/>  */}
         );
 
     }
