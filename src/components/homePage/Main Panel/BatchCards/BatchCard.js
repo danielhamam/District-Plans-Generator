@@ -74,10 +74,6 @@ class BatchCard extends Component {
         else this.setState({showDeleteModal : false});
     }
 
-    deleteBatch = (e) => {
-        // Here you would delete the batch card
-    }
-
     render() {
 
         // Whenever we do setState, it rerenders
@@ -117,7 +113,7 @@ class BatchCard extends Component {
                     <br /> 
                     <br />
                 </div>
-                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteBatch={this.deleteBatch} toggleDeleteModal={this.toggleDeleteModal} batchName={this.state.name} />
+                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteBatch={this.props.deleteBatch} toggleDeleteModal={this.toggleDeleteModal} batchName={this.state.name} />
                 <ModalBatch populationLimit={this.populationLimit} minorityAnalyzed={this.minorityAnalyzed} compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelection={this.toggleSelection} batchName={this.state.name} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}/>
             </div>
         );

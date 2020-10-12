@@ -42,25 +42,25 @@ class MainPanel extends Component {
           ]
           const options = [
             {
-              label: "Ethnicity",
+              label: "Demographic Heat Map",
               options: [
                 { label:"White", value: "white"},
-                { label:"African American", value: "africanamerican"},
-                { label:"Latino", value: "latino"},
+                { label:"Black or African American", value: "africanamerican"},
+                { label:"Hispanic", value: "latino"},
                 { label:"Asian", value: "asian"},
-                { label:"American Indian", value: "americanindian"},
-                { label:"Hawaiian", value: "hawaiian"},
+                { label:"American Indian or Alaska Native", value: "americanindian"},
+                { label:"Native Hawaiian or Other Pacific Islander", value: "hawaiian"},
                 { label:"Other", value: "other"},
               ]},
-              {
-              label: "Political Party",
-              options: [
-                { label:"Democratic", value: "democratic"},
-                { label:"Republican", value: "republican"},
-                { label:"Libertarian", value: "libertarian"},
-                { label:"Green Party", value: "greenparty"},
-                { label:"Other", value: "other"},
-              ]},
+              // {
+              // label: "Political Party",
+              // options: [
+              //   { label:"Democratic", value: "democratic"},
+              //   { label:"Republican", value: "republican"},
+              //   { label:"Libertarian", value: "libertarian"},
+              //   { label:"Green Party", value: "greenparty"},
+              //   { label:"Other", value: "other"},
+              // ]},
               {
               label: "Cluster",
               options: [

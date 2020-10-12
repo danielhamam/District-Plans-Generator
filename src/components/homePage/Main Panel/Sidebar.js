@@ -115,7 +115,7 @@ class Sidebar extends Component {
                                 <SubMenu icon={<div> <i className="fa fa-home" > </i> </div>} title={<b> State Details</b>}> 
                                     <MenuItem>Population: </MenuItem>
                                     <MenuItem>Number of Precincts: </MenuItem>
-                                    {/* <MenuItem>Number of Counties: </MenuItem> */}
+                                    <MenuItem>Number of Counties: </MenuItem>
                                     <MenuItem>Number of Districts: </MenuItem>
                                     {/* <MenuItem>Efficiency Gap: </MenuItem> */}
                                     {/* <MenuItem>Competitive Districts: </MenuItem> */}
