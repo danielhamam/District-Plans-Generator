@@ -8,44 +8,8 @@ class DeleteModal extends Component {
         super();
         this.state = {
         }
-        // To edit class name of modal display
-        this.nameSelect = "Select"
-        this.selectButtonColor = "primary"
-        this.activeSelection = ""
-        // To show if pending or ready
-        this.statusDisplay = ""
-        this.colorStatus = ""
     }
     render() {
-
-        // To check to disable or enable select button
-
-        if ( (this.props.selectedCard == true && this.props.currentSelected == false) | this.props.status == false ) {
-            // turn the select button gray
-            this.nameSelect = "Select"
-            this.selectButtonColor = "secondary";
-            this.activeSelection = "disabled";
-        }
-        else if (this.props.selectedCard == true && this.props.currentSelected == true) {
-            this.nameSelect = "Deselect"
-            this.selectButtonColor = "primary";
-            this.activeSelection = "active";
-        }
-        else {
-            this.nameSelect = "Select"
-            this.selectButtonColor = "primary";
-            this.activeSelection = "active";
-        }
-
-        // To display whether it is ready or pending
-        if (this.props.status == false) {
-            this.statusDisplay = "Pending";
-            this.colorStatus = " batchdisplayPending"
-        }
-        else if (this.props.status == true) {
-            this.statusDisplay = "Ready";
-            this.colorStatus = " batchdisplaySuccess"
-        }
 
         return (
         // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.

@@ -9,31 +9,33 @@ class DistrictPlan extends Component {
             name: "District Plan",
             showDeleteModal : false
         }
-        this.classNameCustom = "";
+        this.districtPlanClassStyle = "";
         this.goTop = "";
     }
 
+
+    // selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
+    
     toggleSelectPlan= (e) => {
         // do something with batch
 
-        if (this.state.selected == false && this.props.selectedPlan == false) {
+        if (this.state.selected == false && this.props.selectedPlanCheck == false) {
             this.setState({selected: true});
-            this.props.toggleSelectedPlan();
+            this.props.toggleSelectedPlanCheck();
             this.goTop="goTopPlan";
         }
-        else if (this.state.selected == false && this.props.selectedPlan == true) {
+        else if (this.state.selected == false && this.props.selectedPlanCheck == true) {
             this.setState({selected : false});
             this.goTop="";
         }
-        else if (this.state.selected == true && this.props.selectedPlan == true) {
+        else if (this.state.selected == true && this.props.selectedPlanCheck == true) {
             this.setState({selected: false});
-            this.props.toggleSelectedPlan();
+            this.props.toggleSelectedPlanCheck();
             this.goTop="";
         }
         else {
             // is currently selected, but not selected card. do nothing. (impossible scenario)
         }
-
     }
 
     deletePlan = (e) => {
@@ -49,13 +51,13 @@ class DistrictPlan extends Component {
     render() {
         // Whenever we do setState, it rerenders
         if (this.state.selected == true) {
-            this.classNameCustom = "districtPlan badge badge-pill badge-dark ";
+            this.districtPlanClassStyle = "districtPlan badge badge-pill badge-dark ";
         }
         else {
-            this.classNameCustom = "districtPlan badge badge-pill badge-light ";
+            this.districtPlanClassStyle = "districtPlan badge badge-pill badge-light ";
         }
         return (
-                <div className={this.classNameCustom + this.goTop} >             
+                <div className={this.districtPlanClassStyle + this.goTop} >             
                     <div className="planContents" onClick={this.toggleSelectPlan}>
                         <button className="planDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
                         <span className="planTitle"> {this.state.name} </span> 

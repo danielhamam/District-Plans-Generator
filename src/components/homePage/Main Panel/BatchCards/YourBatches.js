@@ -7,17 +7,7 @@ import BatchCard from './BatchCard';
 class YourBatches extends Component {
     constructor () {
         super();
-        this.state = {
-            selectedCard : false,
-            selectedCardName : "",
-            batchCards: []
-        }
-        this.classNameCustom = "";
-    }
-
-    toggleSelectedCard = () => {
-        if (this.state.selectedCard == false) this.setState({selectedCard : true});
-        else this.setState({selectedCard : false});
+        this.state = {}
     }
 
     render() {
@@ -30,15 +20,15 @@ class YourBatches extends Component {
                         <br></br>
                     <div>Your Batches:</div>
                     {/* {this.state.batchCards.map( (batchCard) => {
-                            return <BatchCard batchName={"Batch 1"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                            return <BatchCard batchName={"Batch 1"} changeCurrentBatch={this.props.changeCurrentBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
                     })} */}
 
-                    <BatchCard status={true} batchName={"Batch 1"} minorityAnalyzed={"African American"} populationLimit={"1.2%"} compactness={"56%"} numberPlans={"5011"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={true} batchName={"Batch 2"} minorityAnalyzed={"Hawaiian"} populationLimit={"0.5%"} compactness={"81%"} numberPlans={"101"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={true} batchName={"3rd Batch"} minorityAnalyzed={"American Indian"} populationLimit={"1.6%"} minorityAnalyzed={"African American"} compactness={"12%"} numberPlans={"411"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={false} batchName={"Batch 4"} minorityAnalyzed={"Latino"} populationLimit={"0.3%"} compactness={"94%"} numberPlans={"19"} hangeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={false} batchName={"Low Comp. "} minorityAnalyzed={"Asian"} populationLimit={"0.8%"} compactness={"15%"} numberPlans={"941"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
-                    <BatchCard status={false} batchName={"Mid Comp. "} minorityAnalyzed={"African American"} populationLimit={"1.3%"} compactness={"48%"} numberPlans={"192"} changeSidebarBatch={this.props.changeSidebarBatch} selectedCard={this.state.selectedCard} toggleSelectedCard={this.toggleSelectedCard}/>
+                    <BatchCard status={true} batchName={"Batch 1"} minorityAnalyzed={"African American"} populationLimit={"1.2%"} compactness={"56%"} numberPlans={"5011"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} />
+                    <BatchCard status={true} batchName={"Batch 2"} minorityAnalyzed={"Hawaiian"} populationLimit={"0.5%"} compactness={"81%"} numberPlans={"101"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck}/>
+                    <BatchCard status={true} batchName={"3rd Batch"} minorityAnalyzed={"American Indian"} populationLimit={"1.6%"} compactness={"12%"} numberPlans={"411"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} />
+                    <BatchCard status={false} batchName={"Batch 4"} minorityAnalyzed={"Latino"} populationLimit={"0.3%"} compactness={"94%"} numberPlans={"19"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck}/>
+                    <BatchCard status={false} batchName={"Low Comp. "} minorityAnalyzed={"Asian"} populationLimit={"0.8%"} compactness={"15%"} numberPlans={"941"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck}/>
+                    <BatchCard status={false} batchName={"Mid Comp. "} minorityAnalyzed={"African American"} populationLimit={"1.3%"} compactness={"48%"} numberPlans={"192"} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck}/>
                 </ul>
             </div>
             

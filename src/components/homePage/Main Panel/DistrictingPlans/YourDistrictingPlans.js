@@ -7,16 +7,7 @@ import DistrictPlan from './DistrictPlan';
 class YourDistrictingPlans extends Component {
     constructor () {
         super();
-        this.state = {
-            selectedPlan : false,
-            selectedCardName : ""
-        }
-        this.classNameCustom = "";
-    }
-
-    toggleSelectedPlan = () => {
-        if (this.state.selectedPlan == false) this.setState({selectedPlan: true});
-        else this.setState({selectedPlan : false});
+        this.state = {}
     }
 
     render() {
@@ -27,13 +18,10 @@ class YourDistrictingPlans extends Component {
                     <div> Selected Plan:</div> 
                         <br></br>
                         <br></br>
-                    <div> {this.props.sidebarBatch} </div>
-                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
-                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
-                    <DistrictPlan toggleSelectedPlan={this.toggleSelectedPlan} selectedPlan={this.state.selectedPlan} />
-                    {/* <DistrictPlan /> */}
-                    {/* <DistrictPlan /> */}
-                    {/* <DistrictPlan /> */}
+                    <div> {this.props.currentBatchName} </div>
+                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
+                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
+                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
 
                 </ul>
             </div>

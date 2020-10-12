@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
-// import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import Sidebar from "./Sidebar.js";
 import OurMap from "./OurMap.js";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import ModalBatch from './BatchCards/ModalBatch';
 
 class MainPanel extends Component {
   constructor () {
@@ -19,9 +16,7 @@ class MainPanel extends Component {
         districtView : false,
         stateView : true
     }
-    // this.currentCollapsed = this.currentCollapsed.bind(this);
 }
-
     changeCurrentStatefromSidebar = (newName) => {
       this.setState({currentState : newName});
     }
@@ -47,25 +42,25 @@ class MainPanel extends Component {
           ]
           const options = [
             {
-              label: "Ethnicity",
+              label: "Demographic Heat Map",
               options: [
                 { label:"White", value: "white"},
-                { label:"African American", value: "africanamerican"},
-                { label:"Latino", value: "latino"},
+                { label:"Black or African American", value: "africanamerican"},
+                { label:"Hispanic", value: "latino"},
                 { label:"Asian", value: "asian"},
-                { label:"American Indian", value: "americanindian"},
-                { label:"Hawaiian", value: "hawaiian"},
+                { label:"American Indian or Alaska Native", value: "americanindian"},
+                { label:"Native Hawaiian or Other Pacific Islander", value: "hawaiian"},
                 { label:"Other", value: "other"},
               ]},
-              {
-              label: "Political Party",
-              options: [
-                { label:"Democratic", value: "democratic"},
-                { label:"Republican", value: "republican"},
-                { label:"Libertarian", value: "libertarian"},
-                { label:"Green Party", value: "greenparty"},
-                { label:"Other", value: "other"},
-              ]},
+              // {
+              // label: "Political Party",
+              // options: [
+              //   { label:"Democratic", value: "democratic"},
+              //   { label:"Republican", value: "republican"},
+              //   { label:"Libertarian", value: "libertarian"},
+              //   { label:"Green Party", value: "greenparty"},
+              //   { label:"Other", value: "other"},
+              // ]},
               {
               label: "Cluster",
               options: [
@@ -77,26 +72,26 @@ class MainPanel extends Component {
 
         return (
             <div id="mainPanelWrapper">
+              {/* -------------- */}
                 {/* Sidebar */}
+
                 <div id="sideBarWrapper"> 
-                    {/* < ModalBatch />  */}
-                    <Sidebar currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
+                    <Sidebar currentBatchName={this.props.currentBatchName} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
                 </div>
+
+               {/* -------------- */}
                 {/* Map Panel */}
+
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.changeSelectedFilters}/>
                     </div>
-                    {/* <div id="currentItems"> 
-                        <div id="currentBatchMap"> Current Batch: </div>
-                        <div id="currentPlanMap"> Current Plan: </div> 
-                    </div> */}
-                </div>
 
+                {/* -------------- */}
+                </div>
             </div> 
-                // {/* <OurMap/>  */}
         );
 
     }

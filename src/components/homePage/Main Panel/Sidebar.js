@@ -1,11 +1,8 @@
-import {Navbar, Nav, NavItem, Button, Dropdown, DropdownButton, ButtonGroup, Tabs, Tab} from 'react-bootstrap';
+import {Dropdown, DropdownButton, ButtonGroup, Tabs, Tab} from 'react-bootstrap';
 import React, {Component} from 'react';
-import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent } from 'react-pro-sidebar';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
-import { FontAwesomeIcon } from 'react-fontawesome'
-// import BatchCard from './BatchCards/BatchCard';
 import YourBatches from './BatchCards/YourBatches'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 import InputsBatch from './GenerateBatch/InputsBatch';
@@ -16,14 +13,12 @@ class Sidebar extends Component {
         super();
         this.state = { 
             currentState : "Select a state",
-            currentCollapsed : false,
+            statusCollapsed : false,
             hideSidebarHeader : false,
             collapsedIconLeft : false,
             collapsedIconRight : false,
-            sidebarBatch : "No Batch Selected: ", // name of the currently selected batch
             selectedFilters : null,
         }
-        // this.currentCollapsed = this.currentCollapsed.bind(this);
     }
 
     changeCurrentStatefromSidebar(selection) {
@@ -32,40 +27,46 @@ class Sidebar extends Component {
     }
 
     toggleCollapse = () => {
-        if (this.state.currentCollapsed == false) {
-            {this.toggleHideHeader()};
-            this.setState({currentCollapsed: true})
+        if (this.state.statusCollapsed == false) {
+
+            // First, Let's toggle hiding the header
+
+            if (this.state.hideSidebarHeader == false) {
+                document.getElementById("sidebarHeader").style.visibility = "hidden";
+                this.setState({hideSidebarHeader : true});
+            }
+            else {
+                document.getElementById("sidebarHeader").style.visibility = "visible";
+                this.setState({hideSidebarHeader : false})
+            };
+
+            //  Let's toggle the visibility of the rest
+
+            this.setState({statusCollapsed: true})
             document.getElementById("collapseButtonRight").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.visibility = "hidden";
             document.getElementById("collapseButtonLeft").style.display = "none";
         }
         else {
-            this.toggleHideHeader();
-            this.setState({currentCollapsed : false})
+
+            // First, Let's toggle hiding the header
+
+            if (this.state.hideSidebarHeader == false) {
+                document.getElementById("sidebarHeader").style.visibility = "hidden";
+                this.setState({hideSidebarHeader : true});
+            }
+            else {
+                document.getElementById("sidebarHeader").style.visibility = "visible";
+                this.setState({hideSidebarHeader : false})
+            };
+
+            //  Let's toggle the visibility of the rest
+
+            this.setState({statusCollapsed : false})
             document.getElementById("collapseButtonRight").style.visibility = "hidden";
             document.getElementById("collapseButtonLeft").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.display = "";
         }
-    }
-
-    toggleHideHeader = () => {
-        if (this.state.hideSidebarHeader == false) {
-            document.getElementById("sidebarHeader").style.visibility = "hidden";
-            this.setState({hideSidebarHeader : true});
-        }
-        else {
-            document.getElementById("sidebarHeader").style.visibility = "visible";
-            this.setState({hideSidebarHeader : false})
-        };
-    }
-
-    changeSidebarBatch = (name) => {
-        if (name == "") this.setState({sidebarBatch : "No Batch Selected: "});
-        else this.setState({sidebarBatch : name + ":"});
-    }
-
-    getCurrentState = () => {
-        return this.state.currentState;
     }
 
     render() {
@@ -77,7 +78,7 @@ class Sidebar extends Component {
 
         return (
                 <div id="mainSidebar" >
-                    <ProSidebar image={blackBackground} collapsed={this.state.currentCollapsed} >
+                    <ProSidebar image={blackBackground} collapsed={this.state.statusCollapsed} >
                         <SidebarHeader id="sidebarHeader"> 
                             <i id="collapseButtonLeft" className="fa fa-angle-double-left" onClick={this.toggleCollapse}> </i>
                             <i id="collapseButtonRight" className="fa fa-angle-double-right" onClick={this.toggleCollapse}> </i>
@@ -114,7 +115,7 @@ class Sidebar extends Component {
                                 <SubMenu icon={<div> <i className="fa fa-home" > </i> </div>} title={<b> State Details</b>}> 
                                     <MenuItem>Population: </MenuItem>
                                     <MenuItem>Number of Precincts: </MenuItem>
-                                    {/* <MenuItem>Number of Counties: </MenuItem> */}
+                                    <MenuItem>Number of Counties: </MenuItem>
                                     <MenuItem>Number of Districts: </MenuItem>
                                     {/* <MenuItem>Efficiency Gap: </MenuItem> */}
                                     {/* <MenuItem>Competitive Districts: </MenuItem> */}
@@ -130,7 +131,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                        <YourBatches changeSidebarBatch={this.changeSidebarBatch} />
+                                        <YourBatches selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} updateCurrentBatchName={this.props.updateCurrentBatchName} />
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -140,7 +141,7 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <YourDistrictingPlans sidebarBatch={this.state.sidebarBatch}/>
+                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentBatchName={this.props.currentBatchName}/>
                                 </SubMenu>
 
                             {/* -------------------------- */}
