@@ -1,0 +1,383 @@
+{
+  "State_details": {
+    "state_fp": "36", 
+    "state": " New York", 
+    "general_demographic": {}, 
+    "numDistricts": "29", 
+    "majority_minority_districts": {
+      "District 5": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 21.14%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.23%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 4.65%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.70%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 13.72%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 10.40%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 47.15%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.01%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "5", 
+        "district_name": "District 5", 
+        "stateFP": "36"
+      }, 
+      "District 6": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 18.57%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.16%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.67%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.32%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 40.15%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 34.31%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.81%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.01%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "6", 
+        "district_name": "District 6", 
+        "stateFP": "36"
+      }, 
+      "District 7": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 40.54%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.14%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.69%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.74%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 18.47%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 30.96%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 7.44%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.03%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "7", 
+        "district_name": "District 7", 
+        "stateFP": "36"
+      }, 
+      "District 8": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 17.92%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.18%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.51%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.48%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.01%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 23.81%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 50.08%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.02%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "8", 
+        "district_name": "District 8", 
+        "stateFP": "36"
+      }, 
+      "District 9": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 12.37%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.05%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.47%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.92%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.77%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 31.18%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 47.24%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.00%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "9", 
+        "district_name": "District 9", 
+        "stateFP": "36"
+      }, 
+      "District 16": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 24.85%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.12%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 1.04%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.31%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 5.00%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 37.29%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 30.38%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.02%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "16", 
+        "district_name": "District 16", 
+        "stateFP": "36"
+      }, 
+      "District 14": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 47.52%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.15%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.48%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.46%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 17.62%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 23.04%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 9.70%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.03%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "14", 
+        "district_name": "District 14", 
+        "stateFP": "36"
+      }, 
+      "District 15": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 66.05%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.28%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.37%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 0.84%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 1.72%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 3.13%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 27.62%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.00%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "15", 
+        "district_name": "District 15", 
+        "stateFP": "36"
+      }, 
+      "District 13": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 54.43%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.03%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.25%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.22%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 4.20%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 14.81%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 24.00%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.05%"
+          }
+        }, 
+        "state": " New York", 
+        "state_abbr": "NY", 
+        "congressional_District": "13", 
+        "district_name": "District 13", 
+        "stateFP": "36"
+      }
+    }, 
+    "numPrecincts": "13503", 
+    "state_abbrev": "NY", 
+    "voting_age_demographic": {}, 
+    "numCounties": "29"
+  }
+}

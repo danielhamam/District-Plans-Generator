@@ -1,0 +1,1654 @@
+{
+  "State_details": {
+    "state_fp": "06", 
+    "state": " California", 
+    "general_demographic": {}, 
+    "numDistricts": "53", 
+    "majority_minority_districts": {
+      "District 38": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 62.48%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.31%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.27%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.36%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 15.27%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 16.40%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.67%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.23%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "38", 
+        "district_name": "District 38", 
+        "stateFP": "06"
+      }, 
+      "District 5": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 27.86%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.32%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.47%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 4.01%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 11.53%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 49.63%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 5.73%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.44%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "5", 
+        "district_name": "District 5", 
+        "stateFP": "06"
+      }, 
+      "District 6": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 29.50%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.38%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.49%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 4.86%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 15.12%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 36.55%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 11.88%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 1.22%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "6", 
+        "district_name": "District 6", 
+        "stateFP": "06"
+      }, 
+      "District 3": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 30.03%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.61%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.14%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 4.60%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 10.77%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 47.41%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 6.09%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.35%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "3", 
+        "district_name": "District 3", 
+        "stateFP": "06"
+      }, 
+      "District 8": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 39.23%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.89%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.16%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.81%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 2.86%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 46.10%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 7.63%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.31%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "8", 
+        "district_name": "District 8", 
+        "stateFP": "06"
+      }, 
+      "District 9": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 37.59%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.18%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.18%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.66%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 14.03%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 35.17%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 8.68%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.52%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "9", 
+        "district_name": "District 9", 
+        "stateFP": "06"
+      }, 
+      "District 39": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 34.92%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.25%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.08%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.16%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 30.84%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 29.97%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 1.69%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.09%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "39", 
+        "district_name": "District 39", 
+        "stateFP": "06"
+      }, 
+      "District 29": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 68.83%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.08%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.19%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.05%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 7.58%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 18.44%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.76%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.06%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "29", 
+        "district_name": "District 29", 
+        "stateFP": "06"
+      }, 
+      "District 27": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 27.95%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.36%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.42%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 37.90%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 26.43%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.56%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.21%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "27", 
+        "district_name": "District 27", 
+        "stateFP": "06"
+      }, 
+      "District 26": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 44.99%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.25%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.18%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.11%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.95%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 43.62%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 1.71%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.20%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "26", 
+        "district_name": "District 26", 
+        "stateFP": "06"
+      }, 
+      "District 25": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 37.23%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.21%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.18%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.60%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 8.97%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 42.78%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 7.99%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.04%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "25", 
+        "district_name": "District 25", 
+        "stateFP": "06"
+      }, 
+      "District 23": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 37.66%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.39%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.08%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.72%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 5.18%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 47.09%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 6.72%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.16%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "23", 
+        "district_name": "District 23", 
+        "stateFP": "06"
+      }, 
+      "District 22": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 46.72%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.35%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.12%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.11%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 7.22%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 40.09%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.30%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.08%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "22", 
+        "district_name": "District 22", 
+        "stateFP": "06"
+      }, 
+      "District 21": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 74.73%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.50%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.02%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.03%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 2.96%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 16.96%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.66%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.14%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "21", 
+        "district_name": "District 21", 
+        "stateFP": "06"
+      }, 
+      "District 20": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 52.95%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.27%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.14%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.88%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 5.05%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 36.82%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 1.61%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.28%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "20", 
+        "district_name": "District 20", 
+        "stateFP": "06"
+      }, 
+      "District 44": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 69.43%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.34%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.15%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.06%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.58%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 6.77%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 14.78%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.89%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "44", 
+        "district_name": "District 44", 
+        "stateFP": "06"
+      }, 
+      "District 47": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 36.28%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.62%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.15%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.68%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 21.93%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 30.59%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 6.84%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.90%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "47", 
+        "district_name": "District 47", 
+        "stateFP": "06"
+      }, 
+      "District 46": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 67.28%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.13%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.16%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 0.91%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 11.88%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 17.54%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 1.79%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.30%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "46", 
+        "district_name": "District 46", 
+        "stateFP": "06"
+      }, 
+      "District 41": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 57.98%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.27%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.07%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.12%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 5.08%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 25.05%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 9.07%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.36%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "41", 
+        "district_name": "District 41", 
+        "stateFP": "06"
+      }, 
+      "District 40": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 87.62%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.11%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.08%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 0.26%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 2.47%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 4.90%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.48%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.07%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "40", 
+        "district_name": "District 40", 
+        "stateFP": "06"
+      }, 
+      "District 43": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 48.31%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.11%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.39%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.42%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 12.54%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 13.47%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 22.29%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.48%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "43", 
+        "district_name": "District 43", 
+        "stateFP": "06"
+      }, 
+      "District 42": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 38.11%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.35%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.08%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.56%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 10.01%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 42.75%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.90%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.25%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "42", 
+        "district_name": "District 42", 
+        "stateFP": "06"
+      }, 
+      "District 53": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 34.19%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.39%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.90%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 12.49%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 39.27%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 9.02%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.55%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "53", 
+        "district_name": "District 53", 
+        "stateFP": "06"
+      }, 
+      "District 51": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 70.56%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.39%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.02%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.47%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 8.70%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 13.06%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 5.61%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.20%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "51", 
+        "district_name": "District 51", 
+        "stateFP": "06"
+      }, 
+      "District 16": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 60.44%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.56%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.10%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.99%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 9.55%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 22.31%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.82%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.23%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "16", 
+        "district_name": "District 16", 
+        "stateFP": "06"
+      }, 
+      "District 17": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 16.19%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.16%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.77%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 52.78%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 24.69%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 2.39%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.83%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "17", 
+        "district_name": "District 17", 
+        "stateFP": "06"
+      }, 
+      "District 14": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 24.33%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.13%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.33%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.71%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 33.31%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 34.09%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 2.80%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 1.32%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "14", 
+        "district_name": "District 14", 
+        "stateFP": "06"
+      }, 
+      "District 15": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 22.16%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.27%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.09%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 4.42%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 33.50%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 32.56%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 5.88%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 1.12%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "15", 
+        "district_name": "District 15", 
+        "stateFP": "06"
+      }, 
+      "District 12": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 14.93%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.15%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.28%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.58%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 32.23%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 43.29%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 5.14%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.39%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "12", 
+        "district_name": "District 12", 
+        "stateFP": "06"
+      }, 
+      "District 13": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 22.39%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.34%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.39%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 4.53%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 20.12%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 34.97%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 16.83%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.44%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "13", 
+        "district_name": "District 13", 
+        "stateFP": "06"
+      }, 
+      "District 10": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 42.75%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.39%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.09%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.29%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.84%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 42.93%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 3.05%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.66%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "10", 
+        "district_name": "District 10", 
+        "stateFP": "06"
+      }, 
+      "District 11": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 27.23%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.24%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.36%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.63%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 13.74%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 46.10%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 8.27%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.43%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "11", 
+        "district_name": "District 11", 
+        "stateFP": "06"
+      }, 
+      "District 34": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 64.16%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.21%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.18%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.30%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 19.23%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 10.27%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.55%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.09%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "34", 
+        "district_name": "District 34", 
+        "stateFP": "06"
+      }, 
+      "District 35": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 71.51%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.21%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.18%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.05%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 6.97%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 13.03%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 5.94%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.12%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "35", 
+        "district_name": "District 35", 
+        "stateFP": "06"
+      }, 
+      "District 36": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 49.85%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.60%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.10%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.59%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 3.09%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 40.16%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.44%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.17%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "36", 
+        "district_name": "District 36", 
+        "stateFP": "06"
+      }, 
+      "District 37": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 38.07%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.12%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.42%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.91%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 9.71%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 25.24%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 23.35%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.18%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "37", 
+        "district_name": "District 37", 
+        "stateFP": "06"
+      }, 
+      "District 30": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 28.93%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.64%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.92%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 13.12%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 49.87%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 4.21%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.12%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "30", 
+        "district_name": "District 30", 
+        "stateFP": "06"
+      }, 
+      "District 31": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 51.77%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.26%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.21%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.05%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 7.83%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 27.14%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 10.22%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.51%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "31", 
+        "district_name": "District 31", 
+        "stateFP": "06"
+      }, 
+      "District 32": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 63.35%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.17%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.31%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 16.79%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 16.28%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 1.73%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.16%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "32", 
+        "district_name": "District 32", 
+        "stateFP": "06"
+      }, 
+      "District 19": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 41.34%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.32%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 3.06%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 26.79%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 25.18%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 2.80%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.32%"
+          }
+        }, 
+        "state": " California", 
+        "state_abbr": "CA", 
+        "congressional_District": "19", 
+        "district_name": "District 19", 
+        "stateFP": "06"
+      }
+    }, 
+    "numPrecincts": "17582", 
+    "state_abbrev": "CA", 
+    "voting_age_demographic": {}, 
+    "numCounties": "53"
+  }
+}

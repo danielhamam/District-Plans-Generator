@@ -1,0 +1,219 @@
+{
+  "State_details": {
+    "state_fp": "13", 
+    "state": " Georgia", 
+    "general_demographic": {}, 
+    "numDistricts": "13", 
+    "majority_minority_districts": {
+      "District 4": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 9.67%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.08%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.47%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.69%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 4.84%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 24.60%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 58.66%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.00%"
+          }
+        }, 
+        "state": " Georgia", 
+        "state_abbr": "GA", 
+        "congressional_District": "4", 
+        "district_name": "District 4", 
+        "stateFP": "13"
+      }, 
+      "District 5": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 6.30%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.18%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.44%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.63%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 4.57%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 29.34%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 57.51%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.03%"
+          }
+        }, 
+        "state": " Georgia", 
+        "state_abbr": "GA", 
+        "congressional_District": "5", 
+        "district_name": "District 5", 
+        "stateFP": "13"
+      }, 
+      "District 7": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 18.30%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.11%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.39%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 2.51%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 12.96%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 45.62%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 20.02%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.08%"
+          }
+        }, 
+        "state": " Georgia", 
+        "state_abbr": "GA", 
+        "congressional_District": "7", 
+        "district_name": "District 7", 
+        "stateFP": "13"
+      }, 
+      "District 13": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 11.96%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.02%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.16%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.41%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 2.38%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 26.54%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 57.53%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.00%"
+          }
+        }, 
+        "state": " Georgia", 
+        "state_abbr": "GA", 
+        "congressional_District": "13", 
+        "district_name": "District 13", 
+        "stateFP": "13"
+      }, 
+      "District 2": {
+        "demographics": {
+          "hispanic_or_latino": {
+            "name": "Hispanic or Latino of any race", 
+            "population": " 5.18%"
+          }, 
+          "american_indian_alaska": {
+            "name": "American Indian and Alaska Native", 
+            "population": " 0.19%"
+          }, 
+          "other": {
+            "name": "Other", 
+            "population": " 0.08%"
+          }, 
+          "multiple": {
+            "name": "Multiple races", 
+            "population": " 1.46%"
+          }, 
+          "asian": {
+            "name": "Asian", 
+            "population": " 1.00%"
+          }, 
+          "white": {
+            "name": "White", 
+            "population": " 39.87%"
+          }, 
+          "african_american": {
+            "name": "Black or African American", 
+            "population": " 52.13%"
+          }, 
+          "native_hawaiian_pacific": {
+            "name": "Native Hawaiian and other Pacific Islander", 
+            "population": " 0.10%"
+          }
+        }, 
+        "state": " Georgia", 
+        "state_abbr": "GA", 
+        "congressional_District": "2", 
+        "district_name": "District 2", 
+        "stateFP": "13"
+      }
+    }, 
+    "numPrecincts": "2697", 
+    "state_abbrev": "GA", 
+    "voting_age_demographic": {}, 
+    "numCounties": "13"
+  }
+}
