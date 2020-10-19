@@ -2,7 +2,71 @@
   "State_details": {
     "state_fp": "36", 
     "state": " New York", 
-    "general_demographic": {}, 
+    "general_demographic": {
+      "total_population": "19745289", 
+      "Age": {
+        "62 years and over": {
+          "name": "62 years and over", 
+          "population": "3734931"
+        }, 
+        "18 years and over": {
+          "name": "18 years and over", 
+          "population": "15565903"
+        }, 
+        "21 years and over": {
+          "name": "21 years and over", 
+          "population": "14759559"
+        }, 
+        "65 years and over": {
+          "name": "65 years and over", 
+          "population": "3030781"
+        }
+      }, 
+      "Race_&_Ethnicity": {
+        "Black or African American": {
+          "name": "Black or African American", 
+          "population": "3080534"
+        }, 
+        "Multiple races": {
+          "name": "Multiple races", 
+          "population": "616861"
+        }, 
+        "Asian": {
+          "name": "Asian", 
+          "population": "1668036"
+        }, 
+        "Hispanic or Latino": {
+          "name": "Hispanic or Latino", 
+          "population": "3747614"
+        }, 
+        "White": {
+          "name": "White", 
+          "population": "12530463"
+        }, 
+        "Other": {
+          "name": "Other", 
+          "population": "1767107"
+        }, 
+        "American Indian and Alaska Native": {
+          "name": "American Indian and Alaska Native", 
+          "population": "73052"
+        }, 
+        "Native Hawaiian and other Pacific Islander": {
+          "name": "Native Hawaiian and other Pacific Islander", 
+          "population": "9236"
+        }
+      }, 
+      "Sex": {
+        "Male": {
+          "name": "Male", 
+          "population": "9582050"
+        }, 
+        "Female": {
+          "name": "Female", 
+          "population": "10163239"
+        }
+      }
+    }, 
     "numDistricts": "29", 
     "majority_minority_districts": {
       "District 5": {
@@ -377,7 +441,22 @@
     }, 
     "numPrecincts": "13503", 
     "state_abbrev": "NY", 
-    "voting_age_demographic": {}, 
+    "voting_age_demographic": {
+      "total_population": {
+        "name": "Citizen 18 and over", 
+        "population": "13702460"
+      }, 
+      "sex": {
+        "Male": {
+          "name": "Male", 
+          "population": "6513994"
+        }, 
+        "Female": {
+          "name": "Female", 
+          "population": "7188466"
+        }
+      }
+    }, 
     "numCounties": "29"
   }
 }

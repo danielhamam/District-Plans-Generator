@@ -2,7 +2,71 @@
   "State_details": {
     "state_fp": "06", 
     "state": " California", 
-    "general_demographic": {}, 
+    "general_demographic": {
+      "total_population": "39250017", 
+      "Age": {
+        "62 years and over": {
+          "name": "62 years and over", 
+          "population": "6597908"
+        }, 
+        "18 years and over": {
+          "name": "18 years and over", 
+          "population": "30156768"
+        }, 
+        "21 years and over": {
+          "name": "21 years and over", 
+          "population": "28534107"
+        }, 
+        "65 years and over": {
+          "name": "65 years and over", 
+          "population": "5348439"
+        }
+      }, 
+      "Race_&_Ethnicity": {
+        "Black or African American": {
+          "name": "Black or African American", 
+          "population": "2265280"
+        }, 
+        "Multiple races": {
+          "name": "Multiple races", 
+          "population": "1879650"
+        }, 
+        "Asian": {
+          "name": "Asian", 
+          "population": "5602074"
+        }, 
+        "Hispanic or Latino": {
+          "name": "Hispanic or Latino", 
+          "population": "15280776"
+        }, 
+        "White": {
+          "name": "White", 
+          "population": "23420234"
+        }, 
+        "Other": {
+          "name": "Other", 
+          "population": "5642125"
+        }, 
+        "American Indian and Alaska Native": {
+          "name": "American Indian and Alaska Native", 
+          "population": "290133"
+        }, 
+        "Native Hawaiian and other Pacific Islander": {
+          "name": "Native Hawaiian and other Pacific Islander", 
+          "population": "150521"
+        }
+      }, 
+      "Sex": {
+        "Male": {
+          "name": "Male", 
+          "population": "19491231"
+        }, 
+        "Female": {
+          "name": "Female", 
+          "population": "19758786"
+        }
+      }
+    }, 
     "numDistricts": "53", 
     "majority_minority_districts": {
       "District 38": {
@@ -1648,7 +1712,22 @@
     }, 
     "numPrecincts": "17582", 
     "state_abbrev": "CA", 
-    "voting_age_demographic": {}, 
+    "voting_age_demographic": {
+      "total_population": {
+        "name": "Citizen 18 and over", 
+        "population": "25197798"
+      }, 
+      "sex": {
+        "Male": {
+          "name": "Male", 
+          "population": "12339669"
+        }, 
+        "Female": {
+          "name": "Female", 
+          "population": "12858129"
+        }
+      }
+    }, 
     "numCounties": "53"
   }
 }
