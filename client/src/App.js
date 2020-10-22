@@ -56,7 +56,7 @@ class App extends Component {
     
         <BrowserRouter>
           <Switch>
-            {/* <Redirect exact from="/" to={{ pathname: "/home" }} /> */}
+            <Redirect exact from="/" to={{ pathname: "/home" }} />
             <Route path="/home">
             <HomeScreen currentBatchName ={this.state.currentBatchName} updateCurrentBatchName={this.updateCurrentBatchName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedBatchCheck={this.state.selectedBatchCheck} toggleSelectedBatchCheck={this.toggleSelectedBatchCheck}/>
             </Route>
