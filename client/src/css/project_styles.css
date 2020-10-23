@@ -184,6 +184,19 @@ html, body {
 
 }
 
+#displayGraph {
+  position: relative;
+  width: 100%;
+}
+
+#displayGraph_icon {
+  position : absolute;
+  float : right;
+  margin-top: 4px;
+  padding-left: 29px !important;
+  padding-bottom: 5px !important;
+}
+
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
                               /* BATCH CARDS */

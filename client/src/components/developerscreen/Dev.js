@@ -4,8 +4,6 @@ import {
     getState
  } from '../../endpoint/Client';
 
-
-
 const Dev = () =>{
 
     const generateBatchHandler = () =>{

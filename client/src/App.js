@@ -3,6 +3,7 @@ import DeveloperScreen from "./components/developerscreen/Dev"
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Switch from "react-bootstrap/esm/Switch";
+import './css/project_styles.css';
 
 // App.js is the parent component
 class App extends Component {
@@ -51,23 +52,19 @@ class App extends Component {
 
   render() {
   return (
-    <div>
+    <div >
 
-    
-        <BrowserRouter>
+        {/* <BrowserRouter>
           <Switch>
-            {/* <Redirect exact from="/" to={{ pathname: "/home" }} /> */}
-            <Route path="/home">
+            <Redirect exact from="/" to={{ pathname: "/home" }} />
+            <Route path="/home"> */}
             <HomeScreen currentBatchName ={this.state.currentBatchName} updateCurrentBatchName={this.updateCurrentBatchName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedBatchCheck={this.state.selectedBatchCheck} toggleSelectedBatchCheck={this.toggleSelectedBatchCheck}/>
-            </Route>
-
-            <Route path="/dev">
-              <DeveloperScreen/>            
-            </Route>
-              
-      
-          </Switch>
-        </BrowserRouter>
+            {/* </Route> */}
+            {/* <Route path="/dev"> */}
+            <DeveloperScreen/>            
+            {/* </Route> */}
+          {/* </Switch> */}
+        {/* // </BrowserRouter> */}
       </div>
     );
   }

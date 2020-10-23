@@ -6,7 +6,7 @@ import blackBackground from "./blackBackground.jpg"
 import YourBatches from './BatchCards/YourBatches'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 import InputsBatch from './GenerateBatch/InputsBatch';
-import GraphDisplay from './GraphDisplay/GraphDisplay'
+import ModalGraph from './GraphDisplay/ModalGraph'
 
 class Sidebar extends Component {
     constructor () {
@@ -18,6 +18,64 @@ class Sidebar extends Component {
             collapsedIconLeft : false,
             collapsedIconRight : false,
             selectedFilters : null,
+
+            // Graph Variables
+            modalOpen : false,
+            graphOptions : {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "VAP Filter vs. Indexed Districts" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
+                },
+                legend:{
+                    horizontalAlign: "right",
+                    verticalAlign: "top",
+                },
+                axisY: {
+                    title: "Voting Age Population (VAP) by Demographic Filter",
+                },
+                axisX: {
+                    title: "Indexed Districts"
+                },
+                
+                data: [{
+                    type: "boxAndWhisker",
+                    legendText: "Generated",
+                    showInLegend: true,
+                    color: "red",
+                    upperBoxColor: "#A72A17",
+                    lowerBoxColor: "#A3A3A3",
+                    yValueFormatString: "###.0# ",
+                    dataPoints: [
+                        { label: "1", y: [61, 65, 63.5, 70, 68] },
+                        { label: "2", y: [63, 68, 66.5, 76, 72] },
+                        { label: "3", y: [65, 71, 69.5, 78, 75] },
+                        { label: "4", y: [67, 73, 72, 80, 78] },
+                        { label: "5", y: [69, 76, 75, 83, 80] },
+                        { label: "6", y: [71, 78, 78,  85, 83] },
+                        { label: "7", y: [74, 81, 81, 87, 86] },
+                        
+                    ]
+                },
+                {
+                    type: "scatter",
+                    legendText: "Enacted",
+                    showInLegend: true,
+                    markerSize: 8,
+                    color: "#007BFF",
+                    toolTipContent: "District Percentage: {y}",
+                    dataPoints: [
+                        { x: 0, y: 68},
+                        { x: 1, y: 71},
+                        { x: 2, y: 73},
+                        { x: 3, y: 74},
+                        { x: 4, y: 77},
+                        { x: 5, y: 80},
+                        { x: 6, y: 83},
+                    ]
+                }]
+            },
+
         }
     }
 
@@ -67,6 +125,12 @@ class Sidebar extends Component {
             document.getElementById("collapseButtonLeft").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.display = "";
         }
+    }
+
+    toggleModalGraph = () => {
+        // console.log(this.state.selectedFilters);
+        if (this.state.modalOpen == false) this.setState({modalOpen : true});
+        else this.setState({modalOpen : false});
     }
 
     render() {
@@ -156,17 +220,18 @@ class Sidebar extends Component {
                                     <InputsBatch />
                                 </SubMenu>
 
-                        {/* -------------------------- */}
+                            {/* -------------------------- */}
                             {/* -------------------------- */}
                                 {/* DISPLAY GRAPH PANEL */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-
-                                <SubMenu icon={<div> <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel</b>} >
-                                    <div className="plotView1">
-                                        <GraphDisplay selectedFilters={this.state.selectedFilters} currentState={this.state.currentState}/>
-                                    </div>
-                                </SubMenu>
+                            <div id="displayGraph" onClick={this.toggleModalGraph}> 
+                                <MenuItem icon={<div > <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel &nbsp;   <i className="fa fa-expand"> </i> </b>} >
+                                    <b> Display Graph Panel </b>
+                                    <i id="displayGraph_icon" className="fa fa-external-link"> </i> 
+                                    <ModalGraph graphOptions={this.state.graphOptions} toggleModal ={this.toggleModalGraph} showModal={this.state.modalOpen} > </ModalGraph>
+                                </MenuItem>
+                            </div>
                             </Menu>
                     </ProSidebar> 
                 </div>

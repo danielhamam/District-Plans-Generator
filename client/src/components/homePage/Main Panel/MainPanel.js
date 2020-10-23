@@ -52,15 +52,6 @@ class MainPanel extends Component {
                 { label:"Native Hawaiian or Other Pacific Islander", value: "hawaiian"},
                 { label:"Other", value: "other"},
               ]},
-              // {
-              // label: "Political Party",
-              // options: [
-              //   { label:"Democratic", value: "democratic"},
-              //   { label:"Republican", value: "republican"},
-              //   { label:"Libertarian", value: "libertarian"},
-              //   { label:"Green Party", value: "greenparty"},
-              //   { label:"Other", value: "other"},
-              // ]},
               {
               label: "Cluster",
               options: [

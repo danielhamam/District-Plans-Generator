@@ -5,6 +5,13 @@ import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+// THIS CLASS IS NO LONGER NEEDED BUT KEPT HERE AS AN ARCHIVE
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+
 class GraphDisplay extends Component {
     constructor () {
         super();
