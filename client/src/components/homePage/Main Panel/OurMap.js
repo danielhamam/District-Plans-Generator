@@ -6,6 +6,8 @@ import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
 // ---------------------------------------------
 
 import CaliforniaStateBoundary from '../../../json/CALIFORNIA/CaliforniaStateBoundaries.json'
+// import CaliforniaDistricts from '../../../json/CALIFORNIA/CaliforniaDistricts.json'
+// import CaliforniaPrecincts from '../../../json/CALIFORNIA/CaliforniaPrecinct.json'
 
 // ---------------------------------------------
 //                GEORGIA IMPORTS
@@ -61,8 +63,9 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
+                    {/* <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>  */}
+                    {/* <GeoJSON key="California" data={CaliforniaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>   */}
                     <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/> 
-                    {/* <GeoJSON key="California" data={CaliforniaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>  />  */}
                     
                     <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")} />
                     {/* <GeoJSON key='Georgia' data={GeorgiaPrecincts} /> */}
