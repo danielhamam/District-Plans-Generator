@@ -63,18 +63,18 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                    {/* <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>  */}
-                    {/* <GeoJSON key="California" data={CaliforniaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("California")}/>   */}
-                    <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("California")}/> 
+                    {/* <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentState("California")}/>  */}
+                    {/* <GeoJSON key="California" data={CaliforniaDistricts} onClick={ () => this.props.changeCurrentState("California")}/>   */}
+                    <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentState("California")}/> 
                     
-                    <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")} />
+                    <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("Georgia")} />
                     {/* <GeoJSON key='Georgia' data={GeorgiaPrecincts} /> */}
-                    {/* <GeoJSON key='Georgia' data={GeorgiaDistricts} onClick={ () => this.props.changeCurrentStatefromMap("Georgia")}/>  /> */}
+                    {/* <GeoJSON key='Georgia' data={GeorgiaDistricts} onClick={ () => this.props.changeCurrentState("Georgia")}/>  /> */}
 
-                    <GeoJSON weight="1" color="red" key='NewYork' data={NewYorkStateBoundary} onClick={ () => this.props.changeCurrentStatefromMap("New York")}/>
+                    <GeoJSON weight="1" color="red" key='NewYork' data={NewYorkStateBoundary} onClick={ () => this.props.changeCurrentState("New York")}/>
                     {/* <GeoJSON key='NewYorkDistricts' data={NYSAssemblyDistricts} /> */}
                     {/* <GeoJSON key='NewYorkDistricts' data={NewYorkDistricts} />  */}
-                    {/* <GeoJSON key='NewYork' data={NYDistricts} onClick={ () => this.props.changeCurrentStatefromMap("New York")}/> */}
+                    {/* <GeoJSON key='NewYork' data={NYDistricts} onClick={ () => this.props.changeCurrentState("New York")}/> */}
 
                 </Map> 
             );

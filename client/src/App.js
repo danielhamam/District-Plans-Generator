@@ -11,10 +11,18 @@ class App extends Component {
       batchCards : [],
       selectedBatchCheck: false,
       selectedPlanCheck: false,
+      currentState : "Select a state",
       currentBatchName : "No Batch Selected: ", // name of the currently selected batch
       // selectedBatchName : "", // take name of selected district
       // selectedPlanName : "", // take name of selected district
       // todoLists: testTodoListData.todoLists, // Portion of my code taken from CSE 316
+              
+      // Map View Filters 
+      selectedFilters : null,
+      precinctView : false,
+      districtView : false,
+      stateView : true
+      
     }
 
   createBatch = () => {
@@ -50,6 +58,15 @@ class App extends Component {
     else this.setState({currentBatchName : name + ":"});
   }
 
+  // Map Manipulation Functions
+  changeCurrentState = (newName) => {
+    this.setState({currentState : newName});
+  }
+
+  changeSelectedFilters = (selected) => {
+    this.setState({selectedFilters : selected});
+  }
+
   render() {
   return (
     <div >
@@ -58,7 +75,7 @@ class App extends Component {
           <Switch>
             <Redirect exact from="/" to={{ pathname: "/home" }} />
             <Route path="/home"> */}
-            <HomeScreen currentBatchName ={this.state.currentBatchName} updateCurrentBatchName={this.updateCurrentBatchName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedBatchCheck={this.state.selectedBatchCheck} toggleSelectedBatchCheck={this.toggleSelectedBatchCheck}/>
+            <HomeScreen currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} currentBatchName ={this.state.currentBatchName} updateCurrentBatchName={this.updateCurrentBatchName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedBatchCheck={this.state.selectedBatchCheck} toggleSelectedBatchCheck={this.toggleSelectedBatchCheck}/>
             {/* </Route> */}
             {/* <Route path="/dev"> */}
             <DeveloperScreen/>            

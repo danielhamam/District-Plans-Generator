@@ -8,26 +8,9 @@ class MainPanel extends Component {
   constructor () {
     super();
     this.state = { 
-        currentState : "Select a state",
-        selectedFilters : null,
 
-        // Map Filters
-        precinctView : false,
-        districtView : false,
-        stateView : true
     }
 }
-    changeCurrentStatefromSidebar = (newName) => {
-      this.setState({currentState : newName});
-    }
-
-    changeCurrentStatefromMap = (newName) => {
-      this.setState({currentState : newName});
-    }
-
-    changeSelectedFilters = (selected) => {
-      this.setState({selectedFilters : selected});
-    }
 
     render() {
 
@@ -35,11 +18,6 @@ class MainPanel extends Component {
 
         const componentsAnimation = makeAnimated();
 
-        const clusterOptions = [
-            { value: 'precincts', label: 'Precincts'},
-            { value: 'districts', label: 'Districts'},
-            { value: 'counties', label: 'Counties'}
-          ]
           const options = [
             {
               label: "Demographic Heat Map",
@@ -67,17 +45,17 @@ class MainPanel extends Component {
                 {/* Sidebar */}
 
                 <div id="sideBarWrapper"> 
-                    <Sidebar currentBatchName={this.props.currentBatchName} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} currentState={this.state.currentState} changeCurrentStatefromSidebar={this.changeCurrentStatefromSidebar} selectedFilters={this.state.selectedFilters}/>
+                    <Sidebar changeCurrentState={this.props.changeCurrentState} currentBatchName={this.props.currentBatchName} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}/>
                 </div>
 
                {/* -------------- */}
                 {/* Map Panel */}
 
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
-                    <OurMap changeCurrentStatefromMap={this.changeCurrentStatefromMap} currentState={this.state.currentState} />
+                    <OurMap changeCurrentState={this.props.changeCurrentState} currentState={this.props.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
-                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.changeSelectedFilters}/>
+                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}/>
                     </div>
 
                 {/* -------------- */}
