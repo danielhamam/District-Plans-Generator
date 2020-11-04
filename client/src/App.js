@@ -16,12 +16,12 @@ class App extends Component {
 
       // State:
       currentState : "Select a state",
+      enactedPlan : testJobCards.enactedPlan,
 
       // Jobs:
-      jobCards : testJobCards.jobCards, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
+      jobCards : testJobCards.jobs, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
       currentJob : "",
       currentJobName : "No Job Selected: ", // name of the currently selected job
-      selectedJobCheck: false, // see if there is a job currently selected
 
       // Map View Filters:
       selectedFilters : null, // current demographic filters
@@ -29,8 +29,9 @@ class App extends Component {
       districtView : false, // show districts
       stateView : true, // show stateView
 
-      // District Plans
+      // Checks for Selection
       selectedPlanCheck: false,
+      selectedJobCheck: false
 
       // selectedJobName : "", // take name of selected district
       // selectedPlanName : "", // take name of selected district
@@ -44,7 +45,7 @@ class App extends Component {
    * @param {String} stateName The state to now be shown to the user
    * 
    * In addition to changing the state name, the function takes updates "Your Jobs", which hold the jobs
-   * belonging to the selected state.
+   * belonging to the selected state (updates the array), and updates STATE DETAILS
    * 
    */
   changeCurrentState = (stateName) => {
@@ -162,6 +163,7 @@ updateCurrentJob = (job, selected) => {
             jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
+            enactedPlan = {this.state.enactedPlan}
             />
 
             <DeveloperScreen/>            

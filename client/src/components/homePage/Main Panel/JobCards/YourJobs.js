@@ -19,7 +19,7 @@ class YourJobs extends Component {
                         <br></br>
                         <br></br>
                     <div>Your Jobs:</div>
-
+        
                     {this.props.jobCards.map( (jobCard) => {
                             return <JobCard jobCard={jobCard} jobName={jobCard.jobName} 
                             minorityAnalyzed={jobCard.minorityAnalyzed} populationLimit={jobCard.populationLimit} 

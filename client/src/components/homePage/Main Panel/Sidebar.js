@@ -204,7 +204,7 @@ class Sidebar extends Component {
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
                                     <YourDistrictingPlans currentJob ={this.props.currentJob} selectedPlanCheck={this.props.selectedPlanCheck} 
-                                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
+                                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} enactedPlan = {this.props.enactedPlan}
                                     />
                                 </SubMenu>
 

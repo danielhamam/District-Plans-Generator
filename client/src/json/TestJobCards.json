@@ -1,38 +1,18 @@
 {
-    "jobCards": [
-        {
-            "jobName": "Enacted Plan",
-            "jobID" : "1",
-            "state" : "NY",
-            "status" : "Completed",
-            "minorityAnalyzed": "African American",
-            "populationLimit": "1.2%",
-            "compactness": "56%",
-            "numberPlans": "5011",
-            "districts": [
-                {
-                    "type": "Average Plan",
-                    "id" : "1",
-                    "FIPS Code" : "1234",
-                    "boundary" : "",
-                    "precincts": [{}]
-                },
-                {
-                    "type": "Extreme Plan",
-                    "id" : "1",
-                    "FIPS Code" : "1234",
-                    "boundary" : "",
-                    "precincts": [{}]
-                },
-                {
-                    "type": "Random Plan",
-                    "id" : "1",
-                    "FIPS Code" : "1234",
-                    "boundary" : "",
-                    "precincts": [{}]
-                }
-            ]
-        },
+    
+    "state" :{
+        "...":0
+    },
+
+    "enactedPlan": {
+        "type": "Enacted Plan",
+        "id" : "1",
+        "boundary" : "",
+        "districts": [{}],
+        "precincts": [{}]
+    },
+
+    "jobs": [
         {
             "jobName": "Job 2",
             "jobID" : "2",
@@ -42,12 +22,13 @@
             "populationLimit": "0.5%",
             "compactness": "81%",
             "numberPlans": "101",
-            "districts": [
+            "districtPlans": [
                 {
                     "type": "Average Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -55,6 +36,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -62,6 +44,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 }
             ]
@@ -75,12 +58,13 @@
             "populationLimit": "1.6%",
             "compactness": "12%",
             "numberPlans": "411",
-            "districts": [
+            "districtPlans": [
                 {
                     "type": "Average Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -88,6 +72,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -95,6 +80,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 }
             ]
@@ -108,12 +94,13 @@
             "populationLimit": "0.3%",
             "compactness": "94%",
             "numberPlans": "19",
-            "districts": [
+            "districtPlans": [
                 {
                     "type": "Average Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -121,6 +108,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -128,6 +116,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 }
             ]
@@ -141,12 +130,13 @@
             "populationLimit": "0.8%",
             "compactness": "15%",
             "numberPlans": "941",
-            "districts": [
+            "districtPlans": [
                 {
                     "type": "Average Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -154,6 +144,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -161,6 +152,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 }
             ]
@@ -174,12 +166,13 @@
             "populationLimit": "1.3%",
             "compactness": "48%",
             "numberPlans": "192",
-            "districts": [
+            "districtPlans": [
                 {
                     "type": "Average Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -187,6 +180,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 },
                 {
@@ -194,6 +188,7 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
+                    "districts": [{}],
                     "precincts": [{}]
                 }
             ]
