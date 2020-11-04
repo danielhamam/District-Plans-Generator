@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class Batch{
+public class Job{
     private UUID id;
     private int numberOfDistricting;
     private String name;
@@ -14,7 +14,7 @@ public class Batch{
     private double compactness;
     @JsonIgnoreProperties
 
-    public Batch(@JsonProperty("numberOfDistricting") int numberOfDistricting,
+    public Job(@JsonProperty("numberOfDistricting") int numberOfDistricting,
                  @JsonProperty("name") String name,
                  @JsonProperty("isAvailable") boolean isAvailable,
                  @JsonProperty("populationDifference") double populationDifference,
@@ -26,7 +26,7 @@ public class Batch{
         this.compactness = compactness;
     }
 
-    public Batch(UUID id, int numberOfDistricting, String name, boolean isAvailable,
+    public Job(UUID id, int numberOfDistricting, String name, boolean isAvailable,
                  double populationDifference, double compactness){
         this.id = id;
         this.numberOfDistricting = numberOfDistricting;
@@ -82,7 +82,7 @@ public class Batch{
 
     @Override
     public String toString() {
-        return "Batch{" +
+        return "Job{" +
                 "id=" + id +
                 ", numberOfDistricting=" + numberOfDistricting +
                 ", name='" + name + '\'' +

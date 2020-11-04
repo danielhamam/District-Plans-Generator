@@ -1,4 +1,4 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.regions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
