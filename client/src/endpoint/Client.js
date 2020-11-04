@@ -29,7 +29,7 @@ export const generateJob = (data) =>{
 }
   
 
-export const getState = () => {
+export const getState = (str) => {
     // Default options are marked with *
     console.log("asdf");
     // return await fetch('http://localhost:8080/home',{ 

@@ -45,7 +45,9 @@ class MainPanel extends Component {
                 {/* Sidebar */}
 
                 <div id="sideBarWrapper"> 
-                    <Sidebar changeCurrentState={this.props.changeCurrentState} currentJobName={this.props.currentJobName} updateCurrentJobName={this.props.updateCurrentJobName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}/>
+                    <Sidebar changeCurrentState={this.props.changeCurrentState} currentJobName={this.props.currentJobName} updateCurrentJobName={this.props.updateCurrentJobName} 
+                    selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} 
+                    toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}/>
                 </div>
 
                {/* -------------- */}
@@ -55,7 +57,8 @@ class MainPanel extends Component {
                     <OurMap changeCurrentState={this.props.changeCurrentState} currentState={this.props.currentState} />
                     {/* Map Filters  */}
                     <div id="mapFilters">
-                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}/>
+                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} 
+                        className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}/>
                     </div>
 
                 {/* -------------- */}
