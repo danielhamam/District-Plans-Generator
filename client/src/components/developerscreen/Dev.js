@@ -1,12 +1,12 @@
 import React, {useEffect} from "react"
 import {
-    generateBatch,
+    generateJob,
     getState
  } from '../../endpoint/Client';
 
 const Dev = () =>{
 
-    const generateBatchHandler = () =>{
+    const generateJobHandler = () =>{
         let newBatch =  {
             "numberOfDistricting" : 10,
             "name": "batch1",
@@ -15,7 +15,7 @@ const Dev = () =>{
             "compactness": 10.0,
             "state": "NY"
         }
-        let res = generateBatch(newBatch)
+        let res = generateJob(newBatch)
       }
 
     //   const getStateHandler = () =>{
@@ -34,7 +34,7 @@ const Dev = () =>{
             <h1> Hello Devloper </h1>
 
             {/* <button onClick={getStateHandler}> Get State </button> */}
-            <button onClick={generateBatchHandler}> Generate Batch</button>
+            <button onClick={generateJobHandler}> Generate Job</button>
 
         </div>
     );

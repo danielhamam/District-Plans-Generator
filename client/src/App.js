@@ -3,6 +3,10 @@ import DeveloperScreen from "./components/developerscreen/Dev"
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Switch from "react-bootstrap/esm/Switch";
+import {
+  generateJob,
+  getState
+} from './endpoint/Client';
 import './css/project_styles.css';
 
 // App.js is the parent component
@@ -25,15 +29,31 @@ class App extends Component {
       
     }
 
+  receiveJobs = () => {
+
+  }
+
+  cancelJob = (jobID) => { // string
+
+  }
+
   createJob = () => {
-    
+    let newBatch =  {
+      "numberOfDistricting" : 10,
+      "name": "batch1",
+      "isAvailable": false,
+      "populationDifference": 10.0,
+      "compactness": 10.0,
+      "state": "NY"
+  }
+    let res = generateJob();
   }
 
   deleteJob = (id) => { // string
 
   }
 
-  deletePlan = (id) => { // num
+  deletePlan = (id) => { // string
 
   }
 

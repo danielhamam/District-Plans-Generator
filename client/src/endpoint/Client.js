@@ -18,7 +18,7 @@ function createFetchOptions(method, data){
     return requestOptions
 }
 
-export const generateBatch = (data) =>{
+export const generateJob = (data) =>{
     console.log("generateBatch")
     const requestOptions = createFetchOptions('POST', data);
     const NEW_URL = URL + HOME_PATH
