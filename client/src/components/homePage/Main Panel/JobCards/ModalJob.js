@@ -12,15 +12,13 @@ class ModalJob extends Component {
         this.selectStatus = "Select"
         this.selectButtonColor = "primary"
         this.disabledStatus = ""
-        this.readyStatus = ""
         this.readyColorStatus = ""
-        // To show if pending or ready
     }
     render() {
 
         // To check to disable or enable select button
 
-        if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == false ) {
+        if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == "Pending" ) {
             // turn the select button gray
             this.selectStatus = "Select"
             this.selectButtonColor = "secondary";
@@ -38,12 +36,10 @@ class ModalJob extends Component {
         }
 
         // To display whether it is ready or pending
-        if (this.props.status == false) {
-            this.readyStatus = "Pending";
+        if (this.props.status == "Pending") {
             this.readyColorStatus = " jobdisplayPending"
         }
-        else if (this.props.status == true) {
-            this.readyStatus = "Ready";
+        else if (this.props.status == "Completed") {
             this.readyColorStatus = " jobdisplaySuccess"
         }
 
@@ -53,14 +49,14 @@ class ModalJob extends Component {
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
-                            <h4 className="jobTitle"> {this.props.JobName} </h4>
+                            <h4 className="jobTitle"> {this.props.jobName} </h4>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                     {/* First let's display the status of the Job */}
                     <p> 
                         <span> Status: </span> 
-                        <span className={"inline " + this.readyColorStatus}> {this.readyStatus} </span>
+                        <span className={"inline " + this.readyColorStatus}> {this.props.status} </span>
                     </p>
                     {/* Second let's display the inputs chosen by the user */}
                     <p> 

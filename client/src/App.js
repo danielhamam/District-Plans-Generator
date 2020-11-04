@@ -7,6 +7,7 @@ import {
   generateJob,
   getState
 } from './endpoint/Client';
+import testJobCards from './json/TestJobCards.json'
 import './css/project_styles.css';
 
 // App.js is the parent component
@@ -17,7 +18,8 @@ class App extends Component {
       currentState : "Select a state",
 
       // Jobs:
-      jobCards : [], // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
+      jobCards : testJobCards.jobCards, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
+      currentJob : "",
       currentJobName : "No Job Selected: ", // name of the currently selected job
       selectedJobCheck: false, // see if there is a job currently selected
 
@@ -35,6 +37,22 @@ class App extends Component {
       // todoLists: testTodoListData.todoLists, // Portion of my code taken from CSE 316
       
     }
+
+   /**
+   * This function updates which state is selected, and fetches data pertaining to the state from the server.
+   * 
+   * @param {String} stateName The state to now be shown to the user
+   * 
+   * In addition to changing the state name, the function takes updates "Your Jobs", which hold the jobs
+   * belonging to the selected state.
+   * 
+   */
+  changeCurrentState = (stateName) => {
+    let res = getState(stateName);
+
+    this.setState({currentState : stateName});
+    // this.setState({ jobCards : ____}); // update the jobCards in state
+  }
 
    /**
    * This function creates a new job and calls generateJob in the Client.js endpoint
@@ -56,7 +74,7 @@ class App extends Component {
         "compactness": 10.0,
         "state": "NY"
     }
-      let res = generateJob(newBatch);
+      let res = generateJob(newBatch); // use of .then here? or keep that in client.js for fetch?
   }
 
    /**
@@ -66,7 +84,7 @@ class App extends Component {
    * 
    */
   cancelJob = (jobID) => { // string
-
+    
   }
    /**
    * This function DELETES a job by sending the job ID to backend, receives "successfully deleted" status back.
@@ -109,6 +127,16 @@ class App extends Component {
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
 
+updateCurrentJob = (job, selected) => {
+  if (selected == true) { // job just got selected
+    this.setState({currentJob : job});
+    this.setState({currentJobName : job.jobName});
+  }
+  else { // job just got de-selected
+    this.setState({currentJob : ""});
+    this.setState({currentJobName : ""});
+  }
+}
 
   getSelectedJob = () => {
     // returns selected job
@@ -116,7 +144,7 @@ class App extends Component {
     // call in your districting plans and do .districtPlans from job's database for plans
   }
   
-  toggleSelectedJobCheck = () => {
+  toggleSelectedCard = () => {
     if (this.state.selectedJobCheck == false) this.setState({selectedJobCheck : true});
     else this.setState({selectedJobCheck : false});
 }
@@ -126,32 +154,18 @@ class App extends Component {
     else this.setState({selectedPlanCheck : false});
 }
 
-  updateCurrentJobName = (name) => {
-    if (name == "") this.setState({currentJobName : "No Job Selected: "});
-    else this.setState({currentJobName : name + ":"});
-  }
-
-  // Map Manipulation Functions
-  changeCurrentState = (newName) => {
-    this.setState({currentState : newName});
-    // this.setState({ jobCards : ____}); // update the jobCards in state
-  }
-
   render() {
   return (
     <div >
 
-        {/* <BrowserRouter>
-          <Switch>
-            <Redirect exact from="/" to={{ pathname: "/home" }} />
-            <Route path="/home"> */}
-            <HomeScreen currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} currentJobName ={this.state.currentJobName} updateCurrentJobName={this.updateCurrentJobName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedJobCheck={this.toggleSelectedJobCheck}/>
-            {/* </Route> */}
-            {/* <Route path="/dev"> */}
+            <HomeScreen 
+            jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
+            currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
+            toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
+            />
+
             <DeveloperScreen/>            
-            {/* </Route> */}
-          {/* </Switch> */}
-        {/* // </BrowserRouter> */}
+
       </div>
     );
   }

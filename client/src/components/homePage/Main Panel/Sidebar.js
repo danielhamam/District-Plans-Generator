@@ -185,12 +185,15 @@ class Sidebar extends Component {
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-                                {/* YOUR JobES */}
+                                {/* YOUR Jobs */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
                                 <SubMenu id="yourJobsWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
-                                        <YourJobs selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} updateCurrentJobName={this.props.updateCurrentJobName} />
+                                        <YourJobs 
+                                        selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
+                                        updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards}
+                                        />
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -200,7 +203,9 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJobName={this.props.currentJobName}/>
+                                    <YourDistrictingPlans currentJob ={this.props.currentJob} selectedPlanCheck={this.props.selectedPlanCheck} 
+                                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
+                                    />
                                 </SubMenu>
 
                             {/* -------------------------- */}

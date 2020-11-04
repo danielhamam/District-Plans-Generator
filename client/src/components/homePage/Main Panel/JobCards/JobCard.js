@@ -6,6 +6,8 @@ class JobCard extends Component {
     constructor () {
         super();
         this.state = {
+
+            // Attributes of job card
             selected : false,
             name : "", // originally empty, gets filled when we render
             id : "2",
@@ -15,21 +17,17 @@ class JobCard extends Component {
             showViewModal : false,
             showDeleteModal : false,
         }
+
+        // Class Name (Designs, vary based on selection)
         this.JobCardClassStyle = "";
         this.goTop = "";
         this.statusColor = "";
-        // To make them same as props (for now)
-        this.compactness = "";
-        this.numberPlans = "";
-        this.minorityAnalyzed = "";
-        this.populationLimit = "";
-        this.status = false; // we're going to say false for pending, true for ready
     }
 
     toggleSelection = (e) => {
         // do something with Job
 
-        if (this.status == false) return;
+        if (this.props.status == "Pending") return;
 
         if (this.state.showViewModal == true && this.props.selectedJobCheck== false) {
             this.setState({showViewModal : false});
@@ -39,8 +37,8 @@ class JobCard extends Component {
         if (this.state.selected == false && this.props.selectedJobCheck== false) {
             // Select
             this.setState({selected: true});
-            this.props.toggleSelectedJobCheck();
-            this.props.updateCurrentJobName(this.state.name);
+            this.props.toggleSelectedCard();
+            this.props.updateCurrentJob(this.props.jobCard, true);
             this.goTop="goTopJob ";
         }
         else if (this.state.selected == false && this.props.selectedJobCheck == true) {
@@ -51,8 +49,8 @@ class JobCard extends Component {
         else if (this.state.selected == true && this.props.selectedJobCheck == true) {
             // Deselect
             this.setState({selected: false});
-            this.props.toggleSelectedJobCheck();
-            this.props.updateCurrentJobName("");
+            this.props.toggleSelectedCard();
+            this.props.updateCurrentJob(null, false);
             this.goTop="";
         }
         else {
@@ -85,36 +83,33 @@ class JobCard extends Component {
         }
 
         // here I would say, let's check if status is ready
-        this.status = this.props.status;
-        if (this.status == true ) this.statusColor = " jobSuccess ";
-        else if (this.status == false) this.statusColor = " jobPending ";
+        if (this.props.status == "Completed" ) this.statusColor = " jobSuccess ";
+        else if (this.props.status == "Pending") this.statusColor = " jobPending ";
 
         // --------------------------------------------------------
               // LETS SET THE NAME / COMPACTNESS / NUMBER PLANS
             // Check Job name, if it's empty the id is the name
         // --------------------------------------------------------
 
-        if (this.props.JobName == "") this.setState({name : "Job " + this.state.id}); // default name 
-        else if (this.props.JobName != this.state.name) this.setState({name : this.props.JobName}); // custom name
-
-        this.compactness = this.props.compactness;
-        this.numberPlans = this.props.numberPlans;
-        this.populationLimit = this.props.populationLimit;
-        this.minorityAnalyzed = this.props.minorityAnalyzed;
+        // if (this.props.jobName == "") this.setState({name : "Job " + this.jobCard.id}); // default name (id)
+        // else if (this.props.jobName != this.state.name) this.setState({name : this.props.jobName}); // user-custom name
 
         return (
             <div> 
                 <div className={this.JobCardClassStyle + this.goTop + this.statusColor} onClick={this.toggleSelection}>
                     <div className="jobcardContents">
                         <button className="jobcardDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
-                        <span className="jobcardTitle"> {this.state.name} </span> 
+                        <span className="jobcardTitle"> {this.props.jobName} </span> 
                         <button className="jobcardView badge badge-pill badge-dark" onClick={this.toggleViewModal}> <div className="viewText" > View </div> </button>
                     </div> 
                     <br /> 
                     <br />
                 </div>
-                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteJob={this.props.deleteJob} toggleDeleteModal={this.toggleDeleteModal} JobName={this.state.name} />
-                <ModalJob populationLimit={this.populationLimit} minorityAnalyzed={this.minorityAnalyzed} compactness={this.compactness} numberPlans={this.numberPlans} status={this.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} toggleSelection={this.toggleSelection} JobName={this.state.name} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}/>
+                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteJob={this.props.deleteJob} toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} />
+                <ModalJob populationLimit={this.props.populationLimit} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
+                numberPlans={this.props.numberPlans} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
+                toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}
+                />
             </div>
         );
     }

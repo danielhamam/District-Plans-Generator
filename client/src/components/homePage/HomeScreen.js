@@ -11,7 +11,11 @@ export class HomeScreen extends Component {
 
           <Navbar /> 
           {/* This is the container showing the content the panel tells us to display */}
-          <MainPanel currentState={this.props.currentState} changeSelectedFilters={this.props.changeSelectedFilters} changeCurrentState={this.props.changeCurrentState} currentJobName={this.props.currentJobName} updateCurrentJobName={this.props.updateCurrentJobName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} />
+          <MainPanel 
+          jobCards={this.props.jobCards} currentState={this.props.currentState} changeSelectedFilters={this.props.changeSelectedFilters} changeCurrentState={this.props.changeCurrentState} 
+          updateCurrentJob={this.props.updateCurrentJob} selectedPlanCheck={this.props.selectedPlanCheck} currentJob ={this.props.currentJob}
+          toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
+          />
           
           {/* <Footer /> */}
       </div>

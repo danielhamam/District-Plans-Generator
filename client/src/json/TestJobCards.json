@@ -1,0 +1,88 @@
+{
+    "jobCards": [
+        {
+            "jobName": "Job 1",
+            "jobID" : "1",
+            "status" : "Completed",
+            "minorityAnalyzed": "African American",
+            "populationLimit": "1.2%",
+            "compactness": "56%",
+            "numberPlans": "5011",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        },
+        {
+            "jobName": "Job 2",
+            "jobID" : "2",
+            "status" : "Completed",
+            "minorityAnalyzed": "Hawaiian",
+            "populationLimit": "0.5%",
+            "compactness": "81%",
+            "numberPlans": "101",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        },
+        {
+            "jobName": "3rd Job",
+            "jobID" : "3",
+            "status" : "Completed",
+            "minorityAnalyzed": "American Indian",
+            "populationLimit": "1.6%",
+            "compactness": "12%",
+            "numberPlans": "411",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        },
+        {
+            "jobName": "Job 4",
+            "jobID" : "4",
+            "status" : "Pending",
+            "minorityAnalyzed": "Latino",
+            "populationLimit": "0.3%",
+            "compactness": "94%",
+            "numberPlans": "19",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        },
+        {
+            "jobName": "Low Comp.",
+            "jobID" : "5",
+            "status" : "Pending",
+            "minorityAnalyzed": "Asian",
+            "populationLimit": "0.8%",
+            "compactness": "15%",
+            "numberPlans": "941",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        },
+        {
+            "jobName": "Mid Comp.",
+            "jobID" : "6",
+            "status" : "Pending",
+            "minorityAnalyzed": "African American",
+            "populationLimit": "1.3%",
+            "compactness": "48%",
+            "numberPlans": "192",
+            "districts": [
+                {},
+                {},
+                {}
+            ]
+        }
+    ]
+}
