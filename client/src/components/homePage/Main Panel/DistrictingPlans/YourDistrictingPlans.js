@@ -8,13 +8,28 @@ class YourDistrictingPlans extends Component {
     constructor () {
         super();
         this.state = {
-            title: "No Job Selected"
+            title: "No Job Selected",
+        }
+    }
+
+    receiveDistricts = () => {
+
+        if (this.props.currentJob != "") {
+            return this.props.currentJob.districts.map( (district) => 
+                <DistrictPlan type={district.type} selectedPlanCheck={this.props.selectedPlanCheck} 
+                toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJob={this.props.currntJob}
+                /> )
         }
     }
 
     render() {
-        if (this.props.currentJob == "" && this.state.title != "No Job Selected") this.setState({title : "No Job Selected"}); // if there is no job, then title is "No Job Selected: "
-        else if (this.props.currentJob != "" && this.state.title != this.props.currentJob.jobName) this.setState({title : this.props.currentJob.jobName});
+
+        if (this.props.currentJob == "" && this.state.title != "No Job Selected") {
+            this.setState({title : "No Job Selected"}); // if there is no job, then title is "No Job Selected: "
+        } 
+        else if (this.props.currentJob != "" && this.state.title != this.props.currentJob.jobName) {
+            this.setState({title : this.props.currentJob.jobName});
+        }
 
         return (
             // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
@@ -25,17 +40,11 @@ class YourDistrictingPlans extends Component {
                         <br></br>
                     <div> {this.state.title}: </div>
 
-                    {/* {this.props.jobCards.map( (jobCard) => {
-                            return <JobCard jobName={jobCard.jobName} minorityAnalyzed={jobCard.minorityAnalyzed} 
-                            populationLimit={jobCard.populationLimit} compactness={jobCard.compactness}
-                            numberPlans={jobCard.numberPlans} districts={jobCard.districts} status={jobCard.status}
-                            updateCurrentJob={this.props.updateCurrentJob} selectedJobCheck={this.props.selectedJobCheck} 
-                            toggleSelectedCard={this.props.toggleSelectedCard}/>
-                    })} */}
+                    {this.receiveDistricts()}
 
+                    {/* <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
                     <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
-                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
-                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
+                    <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} /> */}
 
                 </ul>
             </div>

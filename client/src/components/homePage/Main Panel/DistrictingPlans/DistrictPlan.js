@@ -6,14 +6,12 @@ class DistrictPlan extends Component {
         super();
         this.state = {
             selected : false,
-            name: "District Plan",
+            // name: "District Plan",
             showDeleteModal : false
         }
         this.districtPlanClassStyle = "";
         this.goTop = "";
     }
-
-
     // selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
     
     toggleSelectPlan= (e) => {
@@ -60,7 +58,7 @@ class DistrictPlan extends Component {
                 <div className={this.districtPlanClassStyle + this.goTop} >             
                     <div className="planContents" onClick={this.toggleSelectPlan}>
                         <button className="planDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
-                        <span className="planTitle"> {this.state.name} </span> 
+                        <span className="planTitle"> {this.props.type} </span> 
                         <button className="planView badge badge-pill badge-dark"> <div className="viewText" > Select </div> </button>
                     </div> 
                     <DeletePlanModal toggleDeleteModal={this.toggleDeleteModal} deletePlan={this.deletePlan} showDeleteModal={this.state.showDeleteModal} />

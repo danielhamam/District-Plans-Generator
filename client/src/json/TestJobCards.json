@@ -1,7 +1,7 @@
 {
     "jobCards": [
         {
-            "jobName": "Job 1",
+            "jobName": "Enacted Plan",
             "jobID" : "1",
             "status" : "Completed",
             "minorityAnalyzed": "African American",
@@ -9,9 +9,24 @@
             "compactness": "56%",
             "numberPlans": "5011",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         },
         {
@@ -23,9 +38,24 @@
             "compactness": "81%",
             "numberPlans": "101",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         },
         {
@@ -37,9 +67,24 @@
             "compactness": "12%",
             "numberPlans": "411",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         },
         {
@@ -51,9 +96,24 @@
             "compactness": "94%",
             "numberPlans": "19",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         },
         {
@@ -65,9 +125,24 @@
             "compactness": "15%",
             "numberPlans": "941",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         },
         {
@@ -79,9 +154,24 @@
             "compactness": "48%",
             "numberPlans": "192",
             "districts": [
-                {},
-                {},
-                {}
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "precincts": [{}]
+                }
             ]
         }
     ]
