@@ -4,7 +4,7 @@ import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-// Triggered when clicking "View" on a batch
+// Triggered when clicking "View" on a job
 
 class ModalGraph extends Component {
     constructor () {
@@ -14,7 +14,7 @@ class ModalGraph extends Component {
     }
     render() {
         return (
-        // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.
+        // "Props" means properties. We communicated with JobCard.js to connect the card's buttons with the modal.
     
                 <Modal backdrop="static" show={this.props.showModal} onHide={this.props.toggleModal}>  
                     <Modal.Header closeButton >

@@ -8,12 +8,12 @@ import './css/project_styles.css';
 // App.js is the parent component
 class App extends Component {
     state = {
-      batchCards : [],
-      selectedBatchCheck: false,
+      jobCards : [],
+      selectedJobCheck: false,
       selectedPlanCheck: false,
       currentState : "Select a state",
-      currentBatchName : "No Batch Selected: ", // name of the currently selected batch
-      // selectedBatchName : "", // take name of selected district
+      currentJobName : "No Job Selected: ", // name of the currently selected job
+      // selectedJobName : "", // take name of selected district
       // selectedPlanName : "", // take name of selected district
       // todoLists: testTodoListData.todoLists, // Portion of my code taken from CSE 316
               
@@ -25,11 +25,11 @@ class App extends Component {
       
     }
 
-  createBatch = () => {
+  createJob = () => {
     
   }
 
-  deleteBatch = (id) => { // string
+  deleteJob = (id) => { // string
 
   }
 
@@ -37,15 +37,15 @@ class App extends Component {
 
   }
 
-  getSelectedBatch = () => {
-    // returns selected batch
+  getSelectedJob = () => {
+    // returns selected job
     // .map and .filter use
-    // call in your districting plans and do .districtPlans from batch's database for plans
+    // call in your districting plans and do .districtPlans from job's database for plans
   }
   
-  toggleSelectedBatchCheck = () => {
-    if (this.state.selectedBatchCheck == false) this.setState({selectedBatchCheck : true});
-    else this.setState({selectedBatchCheck : false});
+  toggleSelectedJobCheck = () => {
+    if (this.state.selectedJobCheck == false) this.setState({selectedJobCheck : true});
+    else this.setState({selectedJobCheck : false});
 }
 
   toggleSelectedPlanCheck = () => {
@@ -53,9 +53,9 @@ class App extends Component {
     else this.setState({selectedPlanCheck : false});
 }
 
-  updateCurrentBatchName = (name) => {
-    if (name == "") this.setState({currentBatchName : "No Batch Selected: "});
-    else this.setState({currentBatchName : name + ":"});
+  updateCurrentJobName = (name) => {
+    if (name == "") this.setState({currentJobName : "No Job Selected: "});
+    else this.setState({currentJobName : name + ":"});
   }
 
   // Map Manipulation Functions
@@ -75,7 +75,7 @@ class App extends Component {
           <Switch>
             <Redirect exact from="/" to={{ pathname: "/home" }} />
             <Route path="/home"> */}
-            <HomeScreen currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} currentBatchName ={this.state.currentBatchName} updateCurrentBatchName={this.updateCurrentBatchName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedBatchCheck={this.state.selectedBatchCheck} toggleSelectedBatchCheck={this.toggleSelectedBatchCheck}/>
+            <HomeScreen currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} currentJobName ={this.state.currentJobName} updateCurrentJobName={this.updateCurrentJobName} selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedJobCheck={this.toggleSelectedJobCheck}/>
             {/* </Route> */}
             {/* <Route path="/dev"> */}
             <DeveloperScreen/>            

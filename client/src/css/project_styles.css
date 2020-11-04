@@ -96,7 +96,7 @@ html, body {
   /* background-color: black; */
 }
 
-#currentBatchMap {
+#currentJobMap {
   color: black;
 }
 
@@ -180,7 +180,7 @@ html, body {
   
 }
 
-#yourBatchesWrapper {
+#yourJobsWrapper {
 
 }
 
@@ -199,26 +199,26 @@ html, body {
 
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
-                              /* BATCH CARDS */
+                              /* JOB CARDS */
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 
-.districtPlan, .batchCard {
+.districtPlan, .jobCard {
   /* background-color: red; */
   width: 90%;
   height: 30px;
   cursor: pointer;
 }
 
-.selectedBatch {
+.selectedJob {
   background-color: #75a9f9;
 }
 
-.planContents, .batchcardContents {
+.planContents, .jobcardContents {
   margin-top: 3px;
 }
 
-.planDelete, .batchcardDelete {
+.planDelete, .jobcardDelete {
   float : left;
   margin-left: 5px;
   height: 20px;
@@ -226,33 +226,33 @@ html, body {
   /* width: 15px; */
 }
 
-.batchPending {
+.jobPending {
   background-color : grey !important;
 }
 
-.batchSuccess {}
+.jobSuccess {}
 
-.batchdisplayPending {
+.jobdisplayPending {
   color : red!important;
   /* color : lightpink; */
 }
 
-.batchdisplaySuccess {
+.jobdisplaySuccess {
   color : green !important;
   /* color : lightpink; */
 }
 
-.batchStatusModal {
+.jobStatusModal {
   /* position: absolute; */
   /* margin-right: 5%; */
   float: right;
 }
 
-.batchTitle {
+.jobTitle {
   float:left;
 }
 
-.planView, .batchcardView {
+.planView, .jobcardView {
   float : right;
   height: 20px;
 }
@@ -264,7 +264,7 @@ html, body {
   font-size: 12px;
 }
 
-.planTitle, .batchcardTitle {
+.planTitle, .jobcardTitle {
   font: "Georgia";
   font-size: 16px;
   float: center;
@@ -281,7 +281,7 @@ html, body {
   display: block !important; /* overwriting display of modal in bootstrap */
 } 
 
-.goTopBatch {
+.goTopJob {
   position: absolute;
   bottom: 80%;
   left: 5%;
@@ -293,7 +293,7 @@ html, body {
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 
-/* MANY OF THE CSS CLASSES ARE SHARED IN THE BATCH SECTION. PLEASE REFER TO THAT SECTION. */
+/* MANY OF THE CSS CLASSES ARE SHARED IN THE JOB SECTION. PLEASE REFER TO THAT SECTION. */
 
 .goTopPlan {
   position: absolute;
@@ -303,7 +303,7 @@ html, body {
 
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
-                           /* GENERATE BATCHES  */
+                           /* GENERATE JOBS  */
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
 
@@ -315,7 +315,7 @@ html, body {
 
 }
 
-.customBatchNameContainer {
+.customJobNameContainer {
   width: 210px;
 }
 

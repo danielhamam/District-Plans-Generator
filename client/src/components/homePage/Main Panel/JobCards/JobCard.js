@@ -41,7 +41,7 @@ class JobCard extends Component {
             this.setState({selected: true});
             this.props.toggleSelectedJobCheck();
             this.props.updateCurrentJobName(this.state.name);
-            this.goTop="goTopBatch ";
+            this.goTop="goTopJob ";
         }
         else if (this.state.selected == false && this.props.selectedJobCheck == true) {
             // Cant Select
@@ -78,16 +78,16 @@ class JobCard extends Component {
 
         // Whenever we do setState, it rerenders
         if (this.state.selected == true) {
-            this.JobCardClassStyle = "batchCard badge badge-pill badge-dark ";
+            this.JobCardClassStyle = "jobCard badge badge-pill badge-dark ";
         }
         else {
-            this.JobCardClassStyle = "batchCard badge badge-pill badge-light ";
+            this.JobCardClassStyle = "jobCard badge badge-pill badge-light ";
         }
 
         // here I would say, let's check if status is ready
         this.status = this.props.status;
-        if (this.status == true ) this.statusColor = " batchSuccess ";
-        else if (this.status == false) this.statusColor = " batchPending ";
+        if (this.status == true ) this.statusColor = " jobSuccess ";
+        else if (this.status == false) this.statusColor = " jobPending ";
 
         // --------------------------------------------------------
               // LETS SET THE NAME / COMPACTNESS / NUMBER PLANS
@@ -105,10 +105,10 @@ class JobCard extends Component {
         return (
             <div> 
                 <div className={this.JobCardClassStyle + this.goTop + this.statusColor} onClick={this.toggleSelection}>
-                    <div className="batchcardContents">
-                        <button className="batchcardDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
-                        <span className="batchcardTitle"> {this.state.name} </span> 
-                        <button className="batchcardView badge badge-pill badge-dark" onClick={this.toggleViewModal}> <div className="viewText" > View </div> </button>
+                    <div className="jobcardContents">
+                        <button className="jobcardDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
+                        <span className="jobcardTitle"> {this.state.name} </span> 
+                        <button className="jobcardView badge badge-pill badge-dark" onClick={this.toggleViewModal}> <div className="viewText" > View </div> </button>
                     </div> 
                     <br /> 
                     <br />

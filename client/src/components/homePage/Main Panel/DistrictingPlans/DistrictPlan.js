@@ -17,7 +17,7 @@ class DistrictPlan extends Component {
     // selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
     
     toggleSelectPlan= (e) => {
-        // do something with batch
+        // do something with job
 
         if (this.state.selected == false && this.props.selectedPlanCheck == false) {
             this.setState({selected: true});

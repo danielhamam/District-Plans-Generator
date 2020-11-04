@@ -146,7 +146,7 @@ class InputsJob extends Component {
 
                     <div className="form-group">
                     <label >Job Name:</label>
-                    <div className="customBatchNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Batch Name"/> </div> 
+                    <div className="customJobNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Job Name"/> </div> 
                 </div>
                 <br /> 
 

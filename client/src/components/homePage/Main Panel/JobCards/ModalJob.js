@@ -40,11 +40,11 @@ class ModalJob extends Component {
         // To display whether it is ready or pending
         if (this.props.status == false) {
             this.readyStatus = "Pending";
-            this.readyColorStatus = " batchdisplayPending"
+            this.readyColorStatus = " jobdisplayPending"
         }
         else if (this.props.status == true) {
             this.readyStatus = "Ready";
-            this.readyColorStatus = " batchdisplaySuccess"
+            this.readyColorStatus = " jobdisplaySuccess"
         }
 
         return (
@@ -53,7 +53,7 @@ class ModalJob extends Component {
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
-                            <h4 className="batchTitle"> {this.props.JobName} </h4>
+                            <h4 className="jobTitle"> {this.props.JobName} </h4>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

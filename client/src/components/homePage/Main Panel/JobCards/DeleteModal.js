@@ -18,7 +18,7 @@ class DeleteModal extends Component {
                     <Modal.Header closeButton >
                     <h5> Are you sure you want to delete this job? </h5>
                     </Modal.Header>
-                    <Modal.Body> <p className="batchTitle"> NOTE: You can not undo this action.</p> </Modal.Body>
+                    <Modal.Body> <p className="jobTitle"> NOTE: You can not undo this action.</p> </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.toggleDeleteModal} >No</Button>
                         <Button variant="primary" onClick={this.props.deleteJob}>Yes</Button>
