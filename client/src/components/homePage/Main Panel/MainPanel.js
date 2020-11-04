@@ -45,7 +45,7 @@ class MainPanel extends Component {
                 {/* Sidebar */}
 
                 <div id="sideBarWrapper"> 
-                    <Sidebar changeCurrentState={this.props.changeCurrentState} currentBatchName={this.props.currentBatchName} updateCurrentBatchName={this.props.updateCurrentBatchName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}/>
+                    <Sidebar changeCurrentState={this.props.changeCurrentState} currentJobName={this.props.currentJobName} updateCurrentJobName={this.props.updateCurrentJobName} selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}/>
                 </div>
 
                {/* -------------- */}

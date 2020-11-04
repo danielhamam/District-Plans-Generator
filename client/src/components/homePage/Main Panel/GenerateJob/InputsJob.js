@@ -4,7 +4,7 @@ import {Form} from 'react-bootstrap';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-class InputsBatch extends Component {
+class InputsJob extends Component {
     constructor () {
         super();
         this.state = {
@@ -141,11 +141,11 @@ class InputsBatch extends Component {
                 <br />
 
                 {/* --------------------------------------- */}
-                {/*              BATCH NAME                 */}
+                {/*                JOB NAME                 */}
                 {/* --------------------------------------- */}
 
                     <div className="form-group">
-                    <label >Batch Name:</label>
+                    <label >Job Name:</label>
                     <div className="customBatchNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Batch Name"/> </div> 
                 </div>
                 <br /> 
@@ -160,4 +160,4 @@ class InputsBatch extends Component {
     }
 }
 
-export default InputsBatch;
+export default InputsJob;

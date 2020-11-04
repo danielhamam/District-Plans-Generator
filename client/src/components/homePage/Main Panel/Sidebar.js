@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 import usaFlag from "./usaFlag.png"
 import blackBackground from "./blackBackground.jpg"
-import YourBatches from './BatchCards/YourBatches'
+import YourJobs from './JobCards/YourJobs'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
-import InputsBatch from './GenerateBatch/InputsBatch';
+import InputsJob from './GenerateJob/InputsJob';
 import ModalGraph from './GraphDisplay/ModalGraph'
 
 class Sidebar extends Component {
@@ -185,12 +185,12 @@ class Sidebar extends Component {
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-                                {/* YOUR BATCHES */}
+                                {/* YOUR JobES */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
-                                <SubMenu id="yourBatchesWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Batches</b>} >
-                                        <YourBatches selectedBatchCheck={this.props.selectedBatchCheck} toggleSelectedBatchCheck={this.props.toggleSelectedBatchCheck} updateCurrentBatchName={this.props.updateCurrentBatchName} />
+                                <SubMenu id="yourJobsWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
+                                        <YourJobs selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} updateCurrentJobName={this.props.updateCurrentJobName} />
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -200,19 +200,19 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
-                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentBatchName={this.props.currentBatchName}/>
+                                    <YourDistrictingPlans selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJobName={this.props.currentJobName}/>
                                 </SubMenu>
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-                                {/* GENERATE BATCH PLAN */}
+                                {/* GENERATE Job PLAN */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
-                                <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate Batch Plan</b>} >
+                                <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate New Job </b>} >
                                     {/* <MenuItem>Component 1</MenuItem>
                                     <MenuItem>Component 2</MenuItem> */}
-                                    <InputsBatch />
+                                    <InputsJob />
                                 </SubMenu>
 
                             {/* -------------------------- */}

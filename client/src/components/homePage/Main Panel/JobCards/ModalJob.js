@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-// Triggered when clicking "View" on a batch
+// Triggered when clicking "View" on a Job
 
-class ModalBatch extends Component {
+class ModalJob extends Component {
     constructor () {
         super();
         this.state = {
@@ -20,13 +20,13 @@ class ModalBatch extends Component {
 
         // To check to disable or enable select button
 
-        if ( (this.props.selectedBatchCheck == true && this.props.currentSelected == false) | this.props.status == false ) {
+        if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == false ) {
             // turn the select button gray
             this.selectStatus = "Select"
             this.selectButtonColor = "secondary";
             this.disabledStatus = "disabled";
         }
-        else if (this.props.selectedBatchCheck == true && this.props.currentSelected == true) {
+        else if (this.props.selectedJobCheck == true && this.props.currentSelected == true) {
             this.selectStatus = "Deselect"
             this.selectButtonColor = "primary";
             this.disabledStatus = "active";
@@ -48,16 +48,16 @@ class ModalBatch extends Component {
         }
 
         return (
-        // "Props" means properties. We communicated with BatchCard.js to connect the card's buttons with the modal.
+        // "Props" means properties. We communicated with JobCard.js to connect the card's buttons with the modal.
     
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
-                            <h4 className="batchTitle"> {this.props.batchName} </h4>
+                            <h4 className="batchTitle"> {this.props.JobName} </h4>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    {/* First let's display the status of the batch */}
+                    {/* First let's display the status of the Job */}
                     <p> 
                         <span> Status: </span> 
                         <span className={"inline " + this.readyColorStatus}> {this.readyStatus} </span>
@@ -95,4 +95,4 @@ class ModalBatch extends Component {
     }
 }
 
-export default ModalBatch;
+export default ModalJob;
