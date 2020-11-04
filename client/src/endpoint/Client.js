@@ -61,7 +61,7 @@ export async function getBoundaries(path){
 export async function getJob(data){
     console.log("Getting Job");
     const requestOptions = createFetchOptions('GET');
-    const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.id + "/" + "0";
+    const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.id;
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response; 
 }
