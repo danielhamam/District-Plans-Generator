@@ -44,11 +44,18 @@ class App extends Component {
    * belonging to the selected state (updates the array), and updates STATE DETAILS
    * 
    */
-  changeCurrentState = (stateName) => {
-    let res = endpoint.getState(stateName);
-
-    this.setState({currentState : stateName});
-    // this.setState({ jobCards : ____}); // update the jobCards in state
+  changeCurrentState = async (stateName) => {
+    let getState =  {
+      state: stateName
+    }
+    try {
+      let res = await endpoint.getState(getState);
+      console.log(res)
+      this.setState({currentState : stateName});
+      // this.setState({ jobCards : ____}); // update the jobCards in state
+    } catch (exception) {
+      console.error(exception);
+    }
   }
 
    /**
@@ -61,17 +68,9 @@ class App extends Component {
    *
    * the event occurs.
    */
-  createJob = (userInputs) => {
-      // New batch is a test 
-      let newBatch =  {
-        "numberOfDistricting" : 10,
-        "name": "batch1",
-        "isAvailable": false,
-        "populationDifference": 10.0,
-        "compactness": 10.0,
-        "state": "NY"
-    }
-      let res = endpoint.generateJob(newBatch); // use of .then here? or keep that in client.js for fetch?
+  createJob = async (userInputs) => { // userInputs is an OBJECT of the constraints user selected. Let's gather them here. 
+      
+      let res = await endpoint.generateJob(userInputs); // use of .then here? or keep that in client.js for fetch?
   }
 
    /**
@@ -189,7 +188,7 @@ updateCurrentJob = (job, selected) => {
             jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
-            enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan}
+            enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob}
             />
 
             <DeveloperScreen/>            

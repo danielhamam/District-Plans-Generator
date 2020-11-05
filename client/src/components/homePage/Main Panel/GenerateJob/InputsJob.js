@@ -8,27 +8,61 @@ class InputsJob extends Component {
     constructor () {
         super();
         this.state = {
-            districtsAmount : 0, 
-            plansAmount : 0,
-            compactnessAmount : 0,
-            populationDifference : 0
-            // plansChangeAmount : ""
-            // slideStop={this.changeValue}
-
+            jobName : "", // name of the job
+            districtsAmount : 0, // # district 
+            plansAmount : 0, // # district plans
+            compactness : "", // compactness (string can be low, intermediate or high)
+            populationDifference : 0, // population difference varies from 0-1.7%
+            minorityFocus : ""
         }
     }
 
+    // user changes job name
+    changeJobName = (e) => {
+        this.setState({jobName : e.target.value});
+    }
+
+    // user changes # of districts
     changeDistrictsAmount = (e) => {
         this.setState({districtsAmount : e.target.value});
     }
 
-    // To change the amount in the slider
+    // user changes # of district plans
     changePlanAmount = (e) => {
         this.setState({plansAmount : e.target.value});
     }
 
+    // user changes preference of compactness (multi-select is turned off)
+    changeCompactness = (e) => {
+        this.setState({compactness : e.label});
+    }
+
+    // user changes % of population difference
     changePopulationDifference = (e) => {
         this.setState({populationDifference: e.target.value});
+    }
+
+    changeMinorityFocus = (e) => {
+        this.setState({minorityFocus : e}); // e is an array of labels/values (label is the name). e also has length in it
+    }
+
+    handleGenerateJob = () => {
+        
+        // Convert districtsAmount, plansAmount and populationDifference to strings
+        var string_districtsAmount = this.state.districtsAmount.toString();
+        var string_plansAmount = this.state.plansAmount.toString();
+        var string_populationDifference = this.state.populationDifference.toString();
+
+        let userInputs = {
+            jobName : this.state.jobName, // name of the job
+            districtsAmount : string_districtsAmount, // # district 
+            plansAmount :string_plansAmount, // # district plans
+            compactness : this.state.compactness, // compactness (string can be low, intermediate or high)
+            populationDifference : string_populationDifference, // population difference varies from 0-1.7%
+            minorityFocus : this.state.minorityFocus
+        }
+
+        this.props.createJob(userInputs)
     }
 
     render() {
@@ -121,7 +155,7 @@ class InputsJob extends Component {
 
                 <label for="exampleInputEmail1"> Compactness Preference: </label>
                     <div className="compactnessStyle">  
-                        <Select isSearchable={true} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} />
+                        <Select isSearchable={true} onChange={this.changeCompactness} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} />
                     </div>
                     <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
                 </div>
@@ -133,7 +167,7 @@ class InputsJob extends Component {
                 <label > Minority Focus Group(s): </label>
 
                     <div className="minorityFocusStyle">
-                        <Select isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
+                        <Select onChange={this.changeMinorityFocus} isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
                     </div>
                     <small className="form-text text-muted"> Select the minority group(s) in the dropdown to particularly analyze. </small>
 
@@ -145,7 +179,7 @@ class InputsJob extends Component {
 
                     <div className="form-group">
                     <label >Job Name:</label>
-                    <div className="customJobNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Job Name"/> </div> 
+                    <div className="customJobNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Job Name" onChange={this.changeJobName} /> </div> 
                 </div>
                 <br /> 
 
@@ -153,7 +187,7 @@ class InputsJob extends Component {
                 {/*            GENERATE BUTTON              */}
                 {/* --------------------------------------- */}
 
-                    <button type="submit" className="btn btn-primary">Generate</button>
+                    <button type="submit" className="btn btn-primary" onClick={this.handleGenerateJob} >Generate</button>
             </Form>
         );
     }

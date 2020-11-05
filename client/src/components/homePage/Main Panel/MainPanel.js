@@ -50,6 +50,7 @@ class MainPanel extends Component {
                     selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} 
                     toggleSelectedCard={this.props.toggleSelectedCard} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}
                     currentJob ={this.props.currentJob} enactedPlan = {this.props.enactedPlan} deleteJob={this.props.deleteJob} deletePlan={this.props.deletePlan}
+                    createJob={this.props.createJob}
                     />
                 </div>
 
@@ -61,7 +62,8 @@ class MainPanel extends Component {
                     {/* Map Filters  */}
                     <div id="mapFilters">
                         <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} 
-                        className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}/>
+                        className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}
+                        />
                     </div>
 
                 {/* -------------- */}

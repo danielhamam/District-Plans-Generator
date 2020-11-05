@@ -221,7 +221,7 @@ class Sidebar extends Component {
                                 <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate New Job </b>} >
                                     {/* <MenuItem>Component 1</MenuItem>
                                     <MenuItem>Component 2</MenuItem> */}
-                                    <InputsJob />
+                                    <InputsJob createJob={this.props.createJob}/>
                                 </SubMenu>
 
                             {/* -------------------------- */}
