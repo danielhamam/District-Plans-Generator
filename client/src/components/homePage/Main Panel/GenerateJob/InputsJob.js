@@ -27,10 +27,6 @@ class InputsJob extends Component {
         this.setState({plansAmount : e.target.value});
     }
 
-    changeCompactnessAmount = (e) => {
-        this.setState({compactnessAmount : e.target.value});
-    }
-
     changePopulationDifference = (e) => {
         this.setState({populationDifference: e.target.value});
     }
@@ -55,9 +51,9 @@ class InputsJob extends Component {
             {
               label: "Measurement",
               options: [
-                { label:"Not Compact", value: "0"},
-                { label:"Somewhat Compact", value: "50"},
-                { label:"Very Compact", value: "100"},
+                { label:"Low", value: "0"},
+                { label:"Intermediate", value: "50"},
+                { label:"High", value: "100"},
               ]},
           ];
 
@@ -125,15 +121,7 @@ class InputsJob extends Component {
 
                 <label for="exampleInputEmail1"> Compactness Preference: </label>
                     <div className="compactnessStyle">  
-                        {/* <div className="col-4"> */}
-                            {/* <Form.Control size="sm" value={this.state.compactnessAmount} onChange={this.changeCompactnessAmount}/> */}
-                        {/* </div> */} 
-                        {/* <div className="col-8"> */}
-                            {/* <div className="rangeSliderContainer">  */}
-                        <Select isSearchable={true} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} isMulti={true} />
-                                {/* <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeCompactnessAmount} step={0.01} min={0} max={1} tooltip='auto' value={this.state.compactnessAmount} /> */}
-                            {/* </div> */}
-                        {/* </div> */}
+                        <Select isSearchable={true} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} />
                     </div>
                     <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
                 </div>

@@ -21,7 +21,6 @@ class App extends Component {
       // Jobs:
       jobCards : testJobCards.jobs, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
       currentJob : "",
-      currentJobName : "No Job Selected: ", // name of the currently selected job
 
       // Map View Filters:
       selectedFilters : null, // current demographic filters

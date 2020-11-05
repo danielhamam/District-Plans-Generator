@@ -283,8 +283,16 @@ html, body {
 
 .goTopJob {
   position: absolute;
-  bottom: 80%;
+  bottom : 75%;
   left: 5%;
+}
+
+#yourJobs {
+  display : flex;
+  flex-direction : column;
+  height: 100%;
+  width: 100%;
+  /* position : relative; */
 }
 
 /* ----------------------------------------------------------------------------- */

@@ -33,10 +33,10 @@ class JobCard extends Component {
 
         if (this.props.status == "Pending") return;
 
-        if (this.state.showViewModal == true && this.props.selectedJobCheck== false) {
-            this.setState({showViewModal : false});
-            this.goTop="";
-        }
+        // if (this.state.showViewModal == true && this.props.selectedJobCheck== false) {
+        //     // this.setState({showViewModal : false});
+        //     this.goTop="";
+        // }
 
         if (this.state.selected == false && this.props.selectedJobCheck== false) {
             // Select
