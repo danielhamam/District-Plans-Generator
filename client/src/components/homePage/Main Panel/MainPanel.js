@@ -49,7 +49,7 @@ class MainPanel extends Component {
                     jobCards={this.props.jobCards} changeCurrentState={this.props.changeCurrentState} updateCurrentJob={this.props.updateCurrentJob} updateCurrentJobName={this.props.updateCurrentJobName} 
                     selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} 
                     toggleSelectedCard={this.props.toggleSelectedCard} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}
-                    currentJob ={this.props.currentJob} enactedPlan = {this.props.enactedPlan}
+                    currentJob ={this.props.currentJob} enactedPlan = {this.props.enactedPlan} deleteJob={this.props.deleteJob} deletePlan={this.props.deletePlan}
                     />
                 </div>
 

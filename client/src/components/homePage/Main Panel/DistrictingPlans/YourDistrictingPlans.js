@@ -16,8 +16,9 @@ class YourDistrictingPlans extends Component {
 
         if (this.props.currentJob != "") {
             return this.props.currentJob.districtPlans.map( (districtPlan) => 
-                <DistrictPlan type={districtPlan.type} selectedPlanCheck={this.props.selectedPlanCheck} 
+                <DistrictPlan plan={districtPlan} type={districtPlan.type} selectedPlanCheck={this.props.selectedPlanCheck} 
                 toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJob={this.props.currentJob}
+                deletePlan={this.props.deletePlan}
                 /> )
         }
     }
@@ -40,7 +41,8 @@ class YourDistrictingPlans extends Component {
                         <br></br>
                     <div> {this.state.title}: </div>
 
-                    <DistrictPlan type={this.props.enactedPlan.type} selectedPlanCheck={this.props.selectedPlanCheck} 
+                    {/* This is the enacted plan */}
+                    <DistrictPlan plan={this.props.enactedPlan} type={this.props.enactedPlan.type} selectedPlanCheck={this.props.selectedPlanCheck} 
                     toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJob={this.props.currentJob} />
 
                     {this.receiveDistricts()}

@@ -38,7 +38,7 @@ class InputsJob extends Component {
     render() {
 
         const componentsAnimation = makeAnimated();
-        const options = [
+        const minorityOptions = [
             {
               label: "Ethnicity",
               options: [
@@ -49,6 +49,15 @@ class InputsJob extends Component {
                 { label:"American Indian", value: "americanindian"},
                 { label:"Hawaiian", value: "hawaiian"},
                 { label:"Other", value: "other"},
+              ]},
+          ];
+          const compactnessOptions = [
+            {
+              label: "Measurement",
+              options: [
+                { label:"Not Compact", value: "0"},
+                { label:"Somewhat Compact", value: "50"},
+                { label:"Very Compact", value: "100"},
               ]},
           ];
 
@@ -91,23 +100,6 @@ class InputsJob extends Component {
                     <small className="form-text text-muted">Enter the amount of district plans you would like to generate. The current limit is 5000. </small>
 
                 < br/>
-                {/* --------------------------------------- */}
-                {/*     COMPACTNESS MEASURE SLIDER          */}
-                {/* --------------------------------------- */}
-
-                <label for="exampleInputEmail1"> Compactness (%): </label>
-                    <div className="row"> 
-                        <div className="col-4">
-                            <Form.Control size="sm" value={this.state.compactnessAmount} onChange={this.changeCompactnessAmount}/>
-                        </div>
-                        <div className="col-8">
-                            <div className="rangeSliderContainer"> 
-                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeCompactnessAmount} step={0.01} min={0} max={1} tooltip='auto' value={this.state.compactnessAmount} />
-                            </div>
-                        </div>
-                    </div>
-                    <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
-                </div>
 
                 {/* --------------------------------------- */}
                 {/*     POPULATION DIFFERENCE SLIDER        */}
@@ -128,15 +120,34 @@ class InputsJob extends Component {
                     <br /> 
 
                 {/* --------------------------------------- */}
+                {/*     COMPACTNESS MEASURE SLIDER          */}
+                {/* --------------------------------------- */}
+
+                <label for="exampleInputEmail1"> Compactness Preference: </label>
+                    <div className="compactnessStyle">  
+                        {/* <div className="col-4"> */}
+                            {/* <Form.Control size="sm" value={this.state.compactnessAmount} onChange={this.changeCompactnessAmount}/> */}
+                        {/* </div> */} 
+                        {/* <div className="col-8"> */}
+                            {/* <div className="rangeSliderContainer">  */}
+                        <Select isSearchable={true} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} isMulti={true} />
+                                {/* <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeCompactnessAmount} step={0.01} min={0} max={1} tooltip='auto' value={this.state.compactnessAmount} /> */}
+                            {/* </div> */}
+                        {/* </div> */}
+                    </div>
+                    <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
+                </div>
+
+                {/* --------------------------------------- */}
                 {/*        MINORITIES TO BE ANALYZED        */}
                 {/* --------------------------------------- */}
 
                 <label > Minority Focus Group(s): </label>
 
                     <div className="minorityFocusStyle">
-                        <Select isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={options} isMulti={true} />
+                        <Select isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
                     </div>
-                    <small className="form-text text-muted"> Select the minority group(s) from the dropdown to particularly analyze. </small>
+                    <small className="form-text text-muted"> Select the minority group(s) in the dropdown to particularly analyze. </small>
 
                 <br />
 

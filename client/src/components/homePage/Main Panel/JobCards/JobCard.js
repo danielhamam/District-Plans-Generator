@@ -76,6 +76,11 @@ class JobCard extends Component {
         else this.setState({showDeleteModal : false});
     }
 
+    handleDeleteJob = (e, job) => {
+        this.toggleDeleteModal(e);
+        this.props.deleteJob(job);
+    }
+
     render() {
 
         if (this.state.enactedFirst == false && this.props.selectedJobCheck == false) {
@@ -116,7 +121,8 @@ class JobCard extends Component {
                     <br /> 
                     <br />
                 </div>
-                <DeleteModal showDeleteModal={this.state.showDeleteModal} deleteJob={this.props.deleteJob} toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} />
+                <DeleteModal showDeleteModal={this.state.showDeleteModal} handleDeleteJob={this.handleDeleteJob} 
+                toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} jobCard={this.props.jobCard} />
                 <ModalJob populationLimit={this.props.populationLimit} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
                 numberPlans={this.props.numberPlans} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
                 toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}

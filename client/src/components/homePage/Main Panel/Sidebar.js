@@ -192,7 +192,7 @@ class Sidebar extends Component {
                                 <SubMenu id="yourJobsWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
                                         <YourJobs 
                                         selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
-                                        updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards}
+                                        updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards} deleteJob={this.props.deleteJob}
                                         />
                                 </SubMenu>
 
@@ -204,7 +204,7 @@ class Sidebar extends Component {
 
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
                                     <YourDistrictingPlans currentJob ={this.props.currentJob} selectedPlanCheck={this.props.selectedPlanCheck} 
-                                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} enactedPlan = {this.props.enactedPlan}
+                                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} enactedPlan = {this.props.enactedPlan} deletePlan={this.props.deletePlan}
                                     />
                                 </SubMenu>
 

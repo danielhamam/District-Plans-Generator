@@ -36,14 +36,15 @@ class DistrictPlan extends Component {
         }
     }
 
-    deletePlan = (e) => {
-        e.stopPropagation();
-    }
-
     toggleDeleteModal = (e) => {
         e.stopPropagation();
         if (this.state.showDeleteModal == false) this.setState({showDeleteModal : true});
         else this.setState({showDeleteModal : false});
+    }
+
+    handleDeletePlan = (e, plan) => {
+        this.toggleDeleteModal(e);
+        this.props.deletePlan(plan);
     }
 
     render() {
@@ -61,7 +62,8 @@ class DistrictPlan extends Component {
                         <span className="planTitle"> {this.props.type} </span> 
                         <button className="planView badge badge-pill badge-dark"> <div className="viewText" > Select </div> </button>
                     </div> 
-                    <DeletePlanModal toggleDeleteModal={this.toggleDeleteModal} deletePlan={this.deletePlan} showDeleteModal={this.state.showDeleteModal} />
+                    <DeletePlanModal toggleDeleteModal={this.toggleDeleteModal} handleDeletePlan={this.handleDeletePlan} 
+                    showDeleteModal={this.state.showDeleteModal} plan={this.props.plan} />
                     <br /> 
                     <br />
             </div>

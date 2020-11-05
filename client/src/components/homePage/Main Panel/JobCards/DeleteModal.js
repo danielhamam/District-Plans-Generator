@@ -9,6 +9,7 @@ class DeleteModal extends Component {
         this.state = {
         }
     }
+
     render() {
 
         return (
@@ -21,7 +22,7 @@ class DeleteModal extends Component {
                     <Modal.Body> <p className="jobTitle"> NOTE: You can not undo this action.</p> </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.toggleDeleteModal} >No</Button>
-                        <Button variant="primary" onClick={this.props.deleteJob}>Yes</Button>
+                        <Button variant="primary" onClick={(e) => this.props.handleDeleteJob(e, this.props.jobCard)}>Yes</Button>
                     </Modal.Footer>
                 </Modal>
             // {/* </div> */}

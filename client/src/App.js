@@ -90,10 +90,40 @@ class App extends Component {
    /**
    * This function DELETES a job by sending the job ID to backend, receives "successfully deleted" status back.
    * 
-   * @param {String} jobID Represents the ID of the COMPLETED job to be deleted.
+   * @param {String} job Represents the COMPLETED job object to be deleted.
    * 
    */
-  deleteJob = (jobID) => { // string
+  deleteJob = (job) => { // string
+    // REMOVE IT IF IT EXISTS
+    let indexOfJob = this.state.jobCards.indexOf(job);
+    if (indexOfJob >= 0)
+        this.state.jobCards.splice(indexOfJob, 1);
+    this.setState({ jobCards : this.state.jobCards})
+  }
+
+   /**
+   * This function DELETES a plan from the currently selected job
+   * 
+   * @param {String} plan Represents the plan object to be deleted.
+   * 
+   * Job can either be none (enacted plan) or currentJob (average, random, extreme)
+   * 
+   */
+  deletePlan = (plan) => { // string
+
+    // What plan is it?
+    if (this.state.currentJob != "" && plan.type != "Enacted Plan") {
+      let job = this.state.currentJob;
+      let indexOfJob = this.state.jobCards.indexOf(job);
+      let indexOfPlan = this.state.jobCards[indexOfJob].districtPlans.indexOf(plan);
+      if (indexOfPlan >= 0)
+        this.state.jobCards[indexOfJob].districtPlans.splice(indexOfPlan, 1);
+      this.setState({ jobCards : this.state.jobCards})
+    }
+    // else, we are deleting the enacted plan
+    // this.state.jobCards.enactedPlan.splice(indexOfPlan, 1);
+    
+    this.setState({ jobCards : this.state.jobCards})
 
   }
 
@@ -163,7 +193,7 @@ updateCurrentJob = (job, selected) => {
             jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
-            enactedPlan = {this.state.enactedPlan}
+            enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan}
             />
 
             <DeveloperScreen/>            
