@@ -1,11 +1,9 @@
 package com.cse416.backend.service;
 
-
 import com.cse416.backend.dao.FakeDataAccessObject;
-import com.cse416.backend.model.Job;
-import com.cse416.backend.model.Plan;
+import com.cse416.backend.model.*;
+import com.cse416.backend.model.enums.*;
 import com.cse416.backend.model.regions.*;
-import com.cse416.backend.model.enums.CensusCatagories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,8 +15,8 @@ import java.util.List;
 public class ServerService {
 
     private final FakeDataAccessObject fake;
-    //private final Algorithm algorithm
-    //private final SeawulfAdapater seawulfAdapater
+    private Session session;
+    //private GlobalHistory history;
 
     @Autowired
     public ServerService(@Qualifier("fakeDao") FakeDataAccessObject fake) {
@@ -26,7 +24,20 @@ public class ServerService {
         this.fake = fake;
     }
 
+    public String connectingClient(){
+        return "connectingClient";
+    }
+    
     public String getState(String stateAbbrev){
+        State state = fake.queryGetStateInformation(stateAbbrev);
+        List <Job> jobs = getStateJobsInformation(stateAbbrev);
+        // List <District> districts = getDistrictInfomation(stateAbbrev, planID, desiredDistricts);
+        // getDistrictDemographic(stateAbbrev, planID, desiredDistricts);
+        // getDistrictBoundary(stateAbbrev, planID, desiredDistricts);
+        // state.setDemographic(demographic);
+        this.session = new Session(state);
+        this.session.addJobs(jobs);
+        System.out.println(state.toString());
         return "getState";
     }
 
@@ -38,10 +49,10 @@ public class ServerService {
         return "getBoundries";
     }
 
-    // public String getDemographicFilter(String jobID, String planID, List <CensusCategory> censusCategory, String CensusCategoryboundaryType, List<Integer> desiredRegion ){
+     public String getDemographicFilter(String jobID, String planID, List <CensusCatagories> censusCategory, String CensusCategoryboundaryType, List<Integer> desiredRegion ){
 
-    //     return "getBoundries";
-    // }
+         return "getBoundries";
+     }
 
     public String getPlan(String jobID, String planID){
         return "getPlan";
@@ -80,23 +91,22 @@ public class ServerService {
     }
 
 
-    public State getStateInformation(String stateAbbrev){
-        return null;
-    }
-
     public Boundary getStateBoundary(String stateAbbrev){
+        //fake.queryGetStateBoundary(stateAbbrev);
         return null;
     }
 
-    public Demographic getStateDemographic(String stateAbbrev){
+
+    public List <Job> getStateJobsInformation(String stateAbbrev){
+        List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);
+        return jobs;
+    }
+
+    public Job getJobInformation(String stateAbbrev, String jobID){
         return null;
     }
 
-    public Job getJobInformation(String stateAbbrev){
-        return null;
-    }
-
-    public Plan getPlanInformation(String stateAbbrev){
+    public Plan getPlanInformation(String stateAbbrev, String planID){
         return null;
     }
 
@@ -112,7 +122,12 @@ public class ServerService {
         return null;
     }
 
-    public Precinct getPrecinctInformation(String stateAbbrev){
+    public List<Precinct> getDesiredPrecinctInformation(String stateAbbrev, String planID, List <Integer> desiredPrecinct){
+        return null;
+    }
+
+    public List<Precinct> getAllPrecinctInformation(String stateAbbrev, String planID){
+        //fake.queryGetAllPrecinctInformation(stateAbbrev, planID);
         return null;
     }
 

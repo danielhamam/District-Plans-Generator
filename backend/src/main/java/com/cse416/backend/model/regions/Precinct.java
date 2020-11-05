@@ -7,83 +7,69 @@ import java.util.List;
 import javax.naming.spi.StateFactory;
 
 public class Precinct {
-    private String precinctName;
-    private String countyName;
-    private String districtName;
-    private String stateName;
-    private int precinctFIPSCode;
-    private int countyFIPSCode;
-    private int districtFIPSCode;
-    private int stateFIPSCode;
-    private Boundary boundary;
-    @JsonIgnore private List<Precinct> neighbors;
+    String precinctName;
+    int precinctFIPSCode;
+    Boundary boundary;
+    Demographic demographic;
+    Precinct [] neighbors;
 
-    public Precinct(String name, int FIPSCode, Boundary boundary){
-        precinctName = name;
-        precinctFIPSCode = FIPSCode;
+    
+    public Precinct(String precinctName, int precinctFIPSCode, Boundary boundary, Demographic demographic, Precinct [] neighbors) {
+        this.precinctName = precinctName;
+        this.precinctFIPSCode = precinctFIPSCode;
         this.boundary = boundary;
-    }
-
-    public void setState(String name, int FIPSCode) {
-        stateName = name;
-        stateFIPSCode = FIPSCode;
-    }
-
-    public void setCounty(String name, int FIPSCode) {
-        countyName = name;
-        countyFIPSCode = FIPSCode;
-    }
-
-    public void setDistrict(String name, int FIPSCode) {
-        districtName = name;
-        districtFIPSCode = FIPSCode;
-    }
-
-    public void setNeighbors(List<Precinct> neighbors) {
+        this.demographic = demographic;
         this.neighbors = neighbors;
     }
 
-    public String getName() {
+    public String getPrecinctName() {
         return precinctName;
     }
 
-    public int getFIPSCode() {
+    public void setPrecinctName(String precinctName) {
+        this.precinctName = precinctName;
+    }
+
+    public int getPrecinctFIPSCode() {
         return precinctFIPSCode;
     }
 
-    public List<Precinct> getNeighbors() {
-        return neighbors;
+    public void setPrecinctFIPSCode(int precinctFIPSCode) {
+        this.precinctFIPSCode = precinctFIPSCode;
     }
 
-    public String getStateName() {
-        return stateName;
-    }
-
-    public int getStateFIPSCode() {
-        return stateFIPSCode;
-    }
-
-    public String getCountyName() {
-        return countyName;
-    }
-
-    public int getCountyFIPSCode() {
-        return countyFIPSCode;
-    }
-
-    public String getDistrictName() {
-        return districtName;
-    }
-
-    public int getDistrictFIPSCode() {
-        return districtFIPSCode;
-    }
-    
     public Boundary getBoundary() {
         return boundary;
     }
 
-    public int getNumofNeighbors() {
-        return neighbors.size();
+    public void setBoundary(Boundary boundary) {
+        this.boundary = boundary;
+    }
+
+    public Demographic getDemographic() {
+        return this.demographic;
+    }
+
+    public void setDemographic(Demographic demographic) {
+        this.demographic = demographic;
+    }
+
+    public Precinct [] getNeighbors() {
+        return this.neighbors;
+    }
+
+    public void setNeighbors(Precinct [] neighbors) {
+        this.neighbors = neighbors;
+    }
+
+    @Override
+    public String toString() {
+        return "Precinct{" +
+                "precinctName='" + precinctName + '\'' +
+                ", precinctFIPSCode=" + precinctFIPSCode +
+                ", boundary=" + boundary +
+                ", demographic=" + demographic +
+                ", neighbors=" + neighbors +
+                '}';
     }
 }

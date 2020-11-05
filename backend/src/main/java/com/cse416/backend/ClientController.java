@@ -36,7 +36,7 @@ public class ClientController {
     @GetMapping(path = "/state/{stateAbbrev}", produces = "application/json")
     public String getState(@PathVariable String stateAbbrev){
         System.out.println("Getting State: " + stateAbbrev);
-        //State state  = service.getState(stateAbberivation);
+        service.getState(stateAbbrev);
         return "getState";
 
     }
