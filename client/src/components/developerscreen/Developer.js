@@ -1,8 +1,5 @@
 import React, {useEffect} from "react"
-import {
-    generateJob,
-    getState
- } from '../../endpoint/Client';
+import * as endpoint from '../../endpoint/Client';
 
 const Dev = () =>{
 
@@ -15,25 +12,24 @@ const Dev = () =>{
             "compactness": 10.0,
             "state": "NY"
         }
-        let res = generateJob(newBatch)
+        let res = endpoint.generateJob(newBatch)
       }
 
-    //   const getStateHandler = () =>{
-    //     let newBatch =  {
-    //        "state": "NY"
-    //     }
+    async function getStateHandler(){
+    let getState =  {
+        state: "NY"
+    }
+    let res = await endpoint.getState(getState);
+    console.log(res)
+    }
 
-    //     getState(newBatch);
-        
-    //   }
-    
 
 
     return(
         <div>
             <h1> Hello Devloper </h1>
 
-            {/* <button onClick={getStateHandler}> Get State </button> */}
+            <button onClick={getStateHandler}> Get State </button>
             <button onClick={generateJobHandler}> Generate Job</button>
 
         </div>

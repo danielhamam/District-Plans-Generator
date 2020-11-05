@@ -23,13 +23,23 @@ myHeaders.append("Access-Control-Allow-Origin", "*");
 * @returns  An object containing any custom settings that you want to apply to the fetch() request.
 *
 **/
-function createFetchOptions(method, data=""){
-    let body = JSON.stringify(data)
-    let requestOptions = {
-        method: method,
-        mode: 'cors',
-        headers: myHeaders,
-        body: body
+function createFetchOptions(method, data){
+    let requestOptions;
+    if (method == "GET"){
+        requestOptions = {
+            method: method,
+            mode: 'cors',
+            headers: myHeaders,
+        }
+    }
+    else{
+        let body = JSON.stringify(data)
+        requestOptions = {
+            method: method,
+            mode: 'cors',
+            headers: myHeaders,
+            body: body,
+        }
     }
     console.log(requestOptions)
     return requestOptions
@@ -50,8 +60,9 @@ export async function getState(data){
     console.log("Gettting State");
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.STATE + "/" + data.state;
-    const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
-    return response; 
+    const response = await fetch(NEW_URL, requestOptions).catch(error => error);
+    console.log(response);
+    return await response.json()
 }
 
 export async function getBoundaries(path){

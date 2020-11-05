@@ -1,12 +1,9 @@
 import HomeScreen from "./components/homePage/HomeScreen";
-import DeveloperScreen from "./components/developerscreen/Dev"
+import DeveloperScreen from "./components/developerscreen/Developer"
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Switch from "react-bootstrap/esm/Switch";
-import {
-  generateJob,
-  getState
-} from './endpoint/Client';
+import * as endpoint from './endpoint/Client';
 import testJobCards from './json/TestJobCards.json'
 import './css/project_styles.css';
 
@@ -48,7 +45,7 @@ class App extends Component {
    * 
    */
   changeCurrentState = (stateName) => {
-    let res = getState(stateName);
+    let res = endpoint.getState(stateName);
 
     this.setState({currentState : stateName});
     // this.setState({ jobCards : ____}); // update the jobCards in state
@@ -74,7 +71,7 @@ class App extends Component {
         "compactness": 10.0,
         "state": "NY"
     }
-      let res = generateJob(newBatch); // use of .then here? or keep that in client.js for fetch?
+      let res = endpoint.generateJob(newBatch); // use of .then here? or keep that in client.js for fetch?
   }
 
    /**

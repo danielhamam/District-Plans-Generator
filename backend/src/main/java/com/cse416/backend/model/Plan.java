@@ -6,21 +6,21 @@ import com.cse416.backend.model.regions.Precinct;
 
 
 public class Plan{
-    String name;
-    String stateAbbrev;
-    String planID;
-    int numOfDistricts;
-    int numOfCounties;
-    int numofPrecincts;
-    List<District> districts;
-    List<Precinct> precinct;
-    int averageDistrictPopulation;
-    int averageDistrictCompactness;
-    boolean isEnactedPlan;
-    int year;
+    private String planName;
+    private String stateAbbrev;
+    private String planID;
+    private int numOfDistricts;
+    private int numOfCounties;
+    private int numofPrecincts;
+    private List<District> districts;
+    private List<Precinct> precinct;
+    private int averageDistrictPopulation;
+    private int averageDistrictCompactness;
+    private boolean isEnactedPlan;
+    private int year;
 
-    public Plan(String name, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts,boolean isEnactedPlan, int year) {
-        this.name = name;
+    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts,boolean isEnactedPlan, int year) {
+        this.planName = planName;
         this.stateAbbrev = stateAbbrev;
         this.planID = planID;
         this.numOfDistricts = numOfDistricts;
@@ -30,8 +30,8 @@ public class Plan{
         this.year = year;
     }
     
-    public Plan(String name, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, List<District> districts, List<Precinct> precinct, int averageDistrictPopulation, int averageDistrictCompactness, boolean isEnactedPlan, int year) {
-        this.name = name;
+    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, List<District> districts, List<Precinct> precinct, int averageDistrictPopulation, int averageDistrictCompactness, boolean isEnactedPlan, int year) {
+        this.planName = planName;
         this.stateAbbrev = stateAbbrev;
         this.planID = planID;
         this.numOfDistricts = numOfDistricts;
@@ -45,12 +45,12 @@ public class Plan{
         this.year = year;
     }
 
-    public String getName() {
-        return name;
+    public String getPlanName() {
+        return planName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlanName(String planName) {
+        this.planName = planName;
     }
 
     public String getStateAbbrev() {
@@ -144,7 +144,7 @@ public class Plan{
     @Override
     public String toString() {
         return "Plan{" +
-                "name='" + name + '\'' +
+                "planName='" + planName + '\'' +
                 ", stateAbbrev='" + stateAbbrev + '\'' +
                 ", planID='" + planID + '\'' +
                 ", numOfDistricts=" + numOfDistricts +
