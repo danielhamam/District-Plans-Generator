@@ -16,6 +16,7 @@ import java.util.Map;
 
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClientController {
 
     private final ServerService service;
@@ -34,10 +35,10 @@ public class ClientController {
 
 
     @GetMapping(path = "/state/{stateAbbrev}", produces = "application/json")
-    public String getState(@PathVariable String stateAbbrev){
+    public State getState(@PathVariable String stateAbbrev){
         System.out.println("Getting State: " + stateAbbrev);
-        service.getState(stateAbbrev);
-        return "getState";
+        //service.getState(stateAbbrev);
+        return service.getState(stateAbbrev);
 
     }
 

@@ -28,7 +28,7 @@ public class ServerService {
         return "connectingClient";
     }
     
-    public String getState(String stateAbbrev){
+    public State getState(String stateAbbrev){
         State state = fake.queryGetStateInformation(stateAbbrev);
         List <Job> jobs = getStateJobsInformation(stateAbbrev);
         // List <District> districts = getDistrictInfomation(stateAbbrev, planID, desiredDistricts);
@@ -37,8 +37,7 @@ public class ServerService {
         // state.setDemographic(demographic);
         this.session = new Session(state);
         this.session.addJobs(jobs);
-        System.out.println(state.toString());
-        return "getState";
+        return state;
     }
 
     public String getJob(String state){

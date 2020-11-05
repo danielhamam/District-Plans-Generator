@@ -3,18 +3,19 @@ package com.cse416.backend.model.regions;
 import com.cse416.backend.model.Plan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class State {
-    String stateName;
-    String stateAbbreviation;
-    int stateFIPSCode;
-    Plan enactedPlan;
-    Precinct [] statePrecincts;
-    Demographic demographic;
-    Boundary boundary;
-    
+    private String stateName;
+    private String stateAbbreviation;
+    private int stateFIPSCode;
+    private Plan enactedPlan;
+    private Precinct [] statePrecincts;
+    private Demographic demographic;
+    private Boundary boundary;
+
     public State(String stateName, String stateAbbreviation, int stateFIPSCode, Demographic demographic, Boundary boundary, Plan enactedPlan, Precinct [] statePrecincts){
         this.stateName = stateName;
         this.stateAbbreviation = stateAbbreviation;
@@ -49,12 +50,20 @@ public class State {
         this.stateFIPSCode = stateFIPSCode;
     }
 
-    public Boundary getBoundary() {
-        return boundary;
+    public Plan getEnactedPlan() {
+        return enactedPlan;
     }
 
-    public void setBoundary(Boundary boundary) {
-        this.boundary = boundary;
+    public void setEnactedPlan(Plan enactedPlan) {
+        this.enactedPlan = enactedPlan;
+    }
+
+    public Precinct[] getStatePrecincts() {
+        return statePrecincts;
+    }
+
+    public void setStatePrecincts(Precinct[] statePrecincts) {
+        this.statePrecincts = statePrecincts;
     }
 
     public Demographic getDemographic() {
@@ -65,11 +74,24 @@ public class State {
         this.demographic = demographic;
     }
 
-    public void setPlan(Plan enactedPlan){
-        this.enactedPlan = enactedPlan;
+    public Boundary getBoundary() {
+        return boundary;
     }
 
-    public Plan getPlan(){
-        return this.enactedPlan;
+    public void setBoundary(Boundary boundary) {
+        this.boundary = boundary;
+    }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "stateName='" + stateName + '\'' +
+                ", stateAbbreviation='" + stateAbbreviation + '\'' +
+                ", stateFIPSCode=" + stateFIPSCode +
+                ", enactedPlan=" + enactedPlan +
+                ", statePrecincts=" + Arrays.toString(statePrecincts) +
+                ", demographic=" + demographic +
+                ", boundary=" + boundary +
+                '}';
     }
 }

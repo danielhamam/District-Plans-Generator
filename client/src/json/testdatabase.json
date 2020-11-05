@@ -1,0 +1,206 @@
+{
+    
+    "state" :{
+        "...":0
+    },
+    "enactedplan": {
+        "jobName": "Enacted Plan",
+        "jobID" : "1",
+        "state" : "NY",
+        "status" : "Completed",
+        "minorityAnalyzed": "African American",
+        "populationLimit": "1.2%",
+        "compactness": "56%",
+        "numberPlans": "5011",
+        "districts": [
+            {
+                "type": "Average Plan",
+                "id" : "1",
+                "FIPS Code" : "1234",
+                "boundary" : "",
+                "precincts": [{}]
+            },
+            {
+                "type": "Extreme Plan",
+                "id" : "1",
+                "FIPS Code" : "1234",
+                "boundary" : "",
+                "precincts": [{}]
+            },
+            {
+                "type": "Random Plan",
+                "id" : "1",
+                "FIPS Code" : "1234",
+                "boundary" : "",
+                "precincts": [{}]
+            }
+        ]
+    },
+    "jobs": [
+        {
+            "jobName": "Job 2",
+            "jobID" : "2",
+            "state" : "NY",
+            "status" : "Completed",
+            "minorityAnalyzed": "Hawaiian",
+            "populationLimit": "0.5%",
+            "compactness": "81%",
+            "numberPlans": "101",
+            "districts": [
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                }
+            ]
+        },
+        {
+            "jobName": "3rd Job",
+            "jobID" : "3",
+            "state" : "NY",
+            "status" : "Completed",
+            "minorityAnalyzed": "American Indian",
+            "populationLimit": "1.6%",
+            "compactness": "12%",
+            "numberPlans": "411",
+            "districts": [
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                }
+            ]
+        },
+        {
+            "jobName": "Job 4",
+            "jobID" : "4",
+            "state" : "NY",
+            "status" : "Pending",
+            "minorityAnalyzed": "Latino",
+            "populationLimit": "0.3%",
+            "compactness": "94%",
+            "numberPlans": "19",
+            "districts": [
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                }
+            ]
+        },
+        {
+            "jobName": "Low Comp.",
+            "jobID" : "5",
+            "state" : "NY",
+            "status" : "Pending",
+            "minorityAnalyzed": "Asian",
+            "populationLimit": "0.8%",
+            "compactness": "15%",
+            "numberPlans": "941",
+            "districts": [
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                }
+            ]
+        },
+        {
+            "jobName": "Mid Comp.",
+            "jobID" : "6",
+            "state" : "NY",
+            "status" : "Pending",
+            "minorityAnalyzed": "African American",
+            "populationLimit": "1.3%",
+            "compactness": "48%",
+            "numberPlans": "192",
+            "districts": [
+                {
+                    "type": "Average Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Extreme Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                },
+                {
+                    "type": "Random Plan",
+                    "id" : "1",
+                    "FIPS Code" : "1234",
+                    "boundary" : "",
+                    "precincts": [{}]
+                }
+            ]
+        }
+    ]
+}
