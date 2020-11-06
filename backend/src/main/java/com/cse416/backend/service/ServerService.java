@@ -23,8 +23,8 @@ import java.util.Map;
 public class ServerService {
 
     private final FakeDataAccessObject fake;
-    private Session session;
     private final ObjectMapper mapper;
+    private Session session;
     //private GlobalHistory history;
 
     @Autowired
