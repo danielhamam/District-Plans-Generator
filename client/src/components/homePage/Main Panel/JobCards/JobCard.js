@@ -76,9 +76,10 @@ class JobCard extends Component {
         else this.setState({showDeleteModal : false});
     }
 
-    handleDeleteJob = (e, job) => {
+    handleModalAction = (e, job, type) => { // type 0 for cancel, type 1 for delete
         this.toggleDeleteModal(e);
-        this.props.deleteJob(job);
+        if (type == "delete") this.props.deleteJob(job);
+        else this.props.cancelJob(job) // type == "cancel"
     }
 
     render() {
@@ -121,8 +122,10 @@ class JobCard extends Component {
                     <br /> 
                     <br />
                 </div>
-                <DeleteModal showDeleteModal={this.state.showDeleteModal} handleDeleteJob={this.handleDeleteJob} 
-                toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} jobCard={this.props.jobCard} />
+                <DeleteModal showDeleteModal={this.state.showDeleteModal} handleModalAction={this.handleModalAction} 
+                toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} jobCard={this.props.jobCard} 
+                status={this.props.status}
+                />
                 <ModalJob populationLimit={this.props.populationLimit} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
                 numberPlans={this.props.numberPlans} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
                 toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}

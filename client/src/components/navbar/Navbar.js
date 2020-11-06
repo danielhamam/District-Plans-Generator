@@ -20,7 +20,7 @@ function Navbar() {
                             <a className="nav-link text-white text-uppercase ml-5" href="#">Home <i className="fa fa-home"></i> </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white text-uppercase ml-5" href="#">Research <i className="fa fa-book"></i></a>
+                        {/* <a className="nav-link text-white text-uppercase ml-5" href="#">Research <i className="fa fa-book"></i></a> */}
                     </li>
                     {/* <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle text-white text-uppercase ml-5" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -40,6 +40,7 @@ class YourDistrictingPlans extends Component {
                         <br></br>
                         <br></br>
                     <div> {this.state.title}: </div>
+                    < br />
 
                     {/* This is the enacted plan */}
                     <DistrictPlan plan={this.props.enactedPlan} type={this.props.enactedPlan.type} selectedPlanCheck={this.props.selectedPlanCheck} 

@@ -16,6 +16,7 @@ export class HomeScreen extends Component {
           updateCurrentJob={this.props.updateCurrentJob} selectedPlanCheck={this.props.selectedPlanCheck} currentJob ={this.props.currentJob}
           toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
           enactedPlan = {this.props.enactedPlan} deleteJob={this.props.deleteJob} deletePlan={this.props.deletePlan} createJob = {this.props.createJob}
+          cancelJob = {this.props.cancelJob} generateBoxWhiskerValues= {this.props.generateBoxWhiskerValues}
           />
           
           {/* <Footer /> */}

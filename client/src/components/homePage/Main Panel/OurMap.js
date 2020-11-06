@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
+import HeatmapLayer from 'react-leaflet-heatmap-layer';
+import { heatPoints } from './realWorldTest.js';
+// import HeatmapLayer from '../src/HeatmapLayer';
 
 // ---------------------------------------------
 //                CALIFORNIA IMPORTS
@@ -28,7 +31,7 @@ class OurMap extends Component {
         this.state = {}
 
         this.mapCenter = [39, -105];
-        this.mapZoom = 5;
+        // this.mapZoom = 5;
 
         // Map Filters
         this.precinctView = false;
@@ -36,6 +39,8 @@ class OurMap extends Component {
         this.stateView = true;
     }
 
+    // 6 for district view
+    // 8 or 9 for precinct view
     render() {
 
         // Change center/zoom based on which state is selected
@@ -55,10 +60,19 @@ class OurMap extends Component {
             this.mapCenter = [39, -105];
             this.mapZoom = 5;
         }
-
+        // scrollWheelZoom={false} 
+        // zoomControl={true}
         return(
-                <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} zoomControl={false}>
-                    <ZoomControl position = 'bottomleft'> </ZoomControl>
+                <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} onzoomend={(e) => this.props.handleZoomChange(e)} >
+                    <HeatmapLayer
+                                // fitBoundsOnLoad
+                                // fitBoundsOnUpdate
+                                points={heatPoints}
+                                longitudeExtractor={m => m[1]}
+                                latitudeExtractor={m => m[0]}
+                                intensityExtractor={m => parseFloat(m[2])} 
+                    />
+                    {/* <ZoomControl position = 'bottomleft' > </ZoomControl> */}
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
