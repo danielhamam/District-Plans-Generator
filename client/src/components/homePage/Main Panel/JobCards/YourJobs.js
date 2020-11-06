@@ -12,8 +12,13 @@ class YourJobs extends Component {
 
     render() {
         return (
-            // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once)
-            <div id="yourJobs">
+            // Passing in parent variables to keep track of selection (so no more than 1 can be selected at once
+                <div >
+                    <div> Selected Job:</div> 
+                    <br></br>
+                    <br></br>
+                    <div>Your Jobs:</div>
+                    < br />
                     {this.props.jobCards.map( (jobCard) => {
                             return <JobCard jobCard={jobCard} jobName={jobCard.jobName} deleteJob={this.props.deleteJob}
                             minorityAnalyzed={jobCard.minorityAnalyzed} populationLimit={jobCard.populationLimit} 
@@ -28,8 +33,7 @@ class YourJobs extends Component {
                     <JobCard status={false} JobName={"Job 4"} minorityAnalyzed={"Latino"} populationLimit={"0.3%"} compactness={"94%"} numberPlans={"19"} updateCurrentJobName={this.props.updateCurrentJobName} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck}/>
                     <JobCard status={false} JobName={"Low Comp. "} minorityAnalyzed={"Asian"} populationLimit={"0.8%"} compactness={"15%"} numberPlans={"941"} updateCurrentJobName={this.props.updateCurrentJobName} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck}/>
                     <JobCard status={false} JobName={"Mid Comp. "} minorityAnalyzed={"African American"} populationLimit={"1.3%"} compactness={"48%"} numberPlans={"192"} updateCurrentJobName={this.props.updateCurrentJobName} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck}/> */}
-            </div>
-            
+                </div>
         );
     }
 }

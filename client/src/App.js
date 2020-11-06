@@ -45,17 +45,17 @@ class App extends Component {
    * 
    */
   changeCurrentState = async (stateName) => {
-    let getState =  {
-      state: stateName
-    }
-    try {
-      let res = await endpoint.getState(getState);
-      console.log(res)
+    // let getState =  {
+    //   state: stateName
+    // }
+    // try {
+    //   let res = await endpoint.getState(getState);
+    //   console.log(res)
       this.setState({currentState : stateName});
       // this.setState({ jobCards : ____}); // update the jobCards in state
-    } catch (exception) {
-      console.error(exception);
-    }
+    // } catch (exception) {
+    //   console.error(exception);
+    // }
   }
 
    /**
@@ -89,11 +89,12 @@ class App extends Component {
    * 
    */
   deleteJob = (job) => { // string
-    // REMOVE IT IF IT EXISTS
+    // Remove job from jobCards
     let indexOfJob = this.state.jobCards.indexOf(job);
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
     this.setState({ jobCards : this.state.jobCards})
+    // 
   }
 
    /**
@@ -129,8 +130,12 @@ class App extends Component {
    * currently selected job, in order to generate their voting age populations per district in the selected district plan
    * 
    */
-  generateBoxWhiskerValues = (minorityGroups) => {
+  generateBoxWhiskerValues = ( currentJob, minorityGroups) => {
       // open questions: do I send plan ID? district plan? 
+
+      // 
+
+
   }
 
    /**

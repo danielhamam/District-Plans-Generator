@@ -283,18 +283,13 @@ html, body {
 
 .goTopJob {
   position: absolute;
-  bottom : 75%;
+  top: 40px;
   left: 5%;
 }
 
-#yourJobs {
-  display : flex;
-  flex-direction : column;
-  height: 100%;
-  width: 100%;
-  /* position : relative; */
-}
+#selectedJob {
 
+}
 /* ----------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------- */
                             /* DISTRICT PLANS */
@@ -305,7 +300,7 @@ html, body {
 
 .goTopPlan {
   position: absolute;
-  bottom: 68%;
+  top: 40px;
   left: 5%;
 }
 

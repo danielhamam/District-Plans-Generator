@@ -89,7 +89,7 @@
             "jobName": "Job 4",
             "jobID" : "4",
             "state" : "NY",
-            "status" : "Pending",
+            "status" : "Completed",
             "minorityAnalyzed": "Latino",
             "populationLimit": "0.3%",
             "compactness": "Low",

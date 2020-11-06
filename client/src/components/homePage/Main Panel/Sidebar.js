@@ -189,15 +189,14 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
                             {/* -------------------------- */}
 
-                                <SubMenu id="yourJobsWrapper" icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
-                                    <div> Selected Job:</div> 
-                                    <br></br>
-                                    <br></br>
-                                    <div>Your Jobs:</div>
+                                <SubMenu icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
+                                    
+                                    <div id="yourJobsWrapper">
                                         <YourJobs 
                                         selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
                                         updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards} deleteJob={this.props.deleteJob}
                                         />
+                                    </div> 
                                 </SubMenu>
 
                             {/* -------------------------- */}

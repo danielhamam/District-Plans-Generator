@@ -44,7 +44,7 @@ class GraphDisplay extends Component {
                     upperBoxColor: "#A72A17",
                     lowerBoxColor: "#A3A3A3",
                     yValueFormatString: "###.0# ",
-                    dataPoints: [
+                    dataPoints: [ // indexed districts
                         { label: "1", y: [61, 65, 63.5, 70, 68] },
                         { label: "2", y: [63, 68, 66.5, 76, 72] },
                         { label: "3", y: [65, 71, 69.5, 78, 75] },
@@ -52,7 +52,9 @@ class GraphDisplay extends Component {
                         { label: "5", y: [69, 76, 75, 83, 80] },
                         { label: "6", y: [71, 78, 78,  85, 83] },
                         { label: "7", y: [74, 81, 81, 87, 86] },
-                        
+                        // For the length of how many districts in state:
+                            // Take the job and find min/q1/q2/q3/max of that district (min, for example, is the plan that holds the lowest vap of that district)
+                        // When you've calculated for every district, sort and format based on above
                     ]
                 },
                 {
