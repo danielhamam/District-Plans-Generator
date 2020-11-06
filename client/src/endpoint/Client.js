@@ -61,7 +61,6 @@ export async function getState(data){
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.STATE + "/" + data.state;
     const response = await fetch(NEW_URL, requestOptions).catch(error => error);
-    console.log(response);
     return await response.json()
 }
 
