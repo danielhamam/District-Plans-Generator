@@ -13,7 +13,7 @@ class App extends Component {
 
       // State:
       currentState : "Select a state",
-      enactedPlan : testJobCards.enactedPlan,
+      enactedPlan : testJobCards.enactedPlan, // holds district view
 
       // Jobs:
       jobCards : testJobCards.jobs, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
@@ -49,16 +49,26 @@ class App extends Component {
    */
   changeCurrentState = async (stateName) => {
     // let getState =  {
-    //   state: stateName
+    //   state: "GA"
     // }
-    // try {
-    //   let res = await endpoint.getState(getState);
-    //   console.log(res)
-      this.setState({currentState : stateName});
-      // this.setState({ jobCards : ____}); // update the jobCards in state
-    // } catch (exception) {
-    //   console.error(exception);
-    // }
+    // let res = await endpoint.getState(getState);
+    // console.log(res)
+    this.setState({currentJob : ""}) // any current job is no longer selected now
+    this.setState({currentState : stateName});
+    if (stateName == "Georgia") stateName = "GE"
+    else if (stateName == "New York") stateName = "NY"
+    else stateName = "CA"
+    let stateObject =  {
+      state: stateName
+    }
+    try {
+      let res = await endpoint.getState(stateObject);
+      console.log(res)
+      this.setState({ jobCards : res.jobs}); // update the current jobCards
+      this.setState({ enactedPlan : res.state.enactedPlan}); // update the current enacted plan
+    } catch (exception) {
+      console.error(exception);
+    }
   }
 
    /**

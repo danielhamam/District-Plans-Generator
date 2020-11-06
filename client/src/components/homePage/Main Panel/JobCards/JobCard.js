@@ -18,7 +18,6 @@ class JobCard extends Component {
             showDeleteModal : false,
 
             // Helper Variables
-            enactedFirst : false, // true = showed upon startup, false = never showed. We want enacted to be in affect in start
 
         }
 
@@ -83,13 +82,6 @@ class JobCard extends Component {
     }
 
     render() {
-
-        if (this.state.enactedFirst == false && this.props.selectedJobCheck == false) {
-            if (this.props.jobCard.jobID == 1) {
-                this.toggleSelection();
-                this.setState({enactedFirst : true});
-            }
-        }
 
         // Whenever we do setState, it rerenders
         if (this.state.selected == true) {

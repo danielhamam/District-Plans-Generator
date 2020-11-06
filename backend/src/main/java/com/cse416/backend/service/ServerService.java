@@ -44,7 +44,7 @@ public class ServerService {
         List<Object> clientJob = new ArrayList<>();
         jobs.forEach(job -> clientJob.add(job.getClientInitialData()));
         clientData.put("state", state.getClientInitialData());
-        clientData.put("batches", clientJob);
+        clientData.put("jobs", clientJob);
         String clientDataString = mapper.writeValueAsString(clientData);
         
         // List <District> districts = getDistrictInfomation(stateAbbrev, planID, desiredDistricts);
