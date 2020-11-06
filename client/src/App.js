@@ -29,6 +29,9 @@ class App extends Component {
       selectedPlanCheck: false,
       selectedJobCheck: false
 
+      // Modals
+
+
       // selectedJobName : "", // take name of selected district
       // selectedPlanName : "", // take name of selected district
       // todoLists: testTodoListData.todoLists, // Portion of my code taken from CSE 316
@@ -74,18 +77,22 @@ class App extends Component {
   }
 
    /**
-   * This function CANCELS a job by sending the job ID to backend, receives "successfully cancelled" status back.
+   * This function CANCELS a job by sending the job object to the server, receives "successfully cancelled" status back.
    * 
-   * @param {String} jobID Represents the ID of the COMPLETED job to be cancelled.
+   * @param {String} job Represents the object of the PENDING job to be cancelled.
    * 
    */
-  cancelJob = (jobID) => { // string
-    
+  cancelJob = (job) => { // string
+    // Remove job from jobCards
+    let indexOfJob = this.state.jobCards.indexOf(job);
+    if (indexOfJob >= 0)
+        this.state.jobCards.splice(indexOfJob, 1);
+    this.setState({ jobCards : this.state.jobCards})
   }
    /**
-   * This function DELETES a job by sending the job ID to backend, receives "successfully deleted" status back.
+   * This function DELETES a job by sending the job object to the server, receives "successfully deleted" status back.
    * 
-   * @param {String} job Represents the COMPLETED job object to be deleted.
+   * @param {String} job Represents the object of the DELETED job to be cancelled.
    * 
    */
   deleteJob = (job) => { // string
@@ -94,7 +101,6 @@ class App extends Component {
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
     this.setState({ jobCards : this.state.jobCards})
-    // 
   }
 
    /**
@@ -103,6 +109,9 @@ class App extends Component {
    * @param {String} plan Represents the plan object to be deleted.
    * 
    * Job can either be none (enacted plan) or currentJob (average, random, extreme)
+   * 
+   * NOTE: This isn't a required use case. This won't actually delete a plan, but would get rid 
+   * of current view of it. It will re-appear if the webpage is refreshed. 
    * 
    */
   deletePlan = (plan) => { // string
@@ -126,16 +135,23 @@ class App extends Component {
    /**
    * This function 
    * 
-   * @param {String} minorityGroups Represents the minority or minorities, which were selected when generating the
-   * currently selected job, in order to generate their voting age populations per district in the selected district plan
+   * Sending: {currentJob} which stands for the currently selected job by the user. This is the job the user wants to view
+   * the box and whisker plot for, and would like to compare to enacted plan.
+   * 
+   * Note: Through the job object, we are telling the server the focus minority or minorities analyzed, which were 
+   * selected when generating the currently selected job. This is to generate their voting age population(s) per indexed 
+   * district in the selected district plan
    * 
    */
-  generateBoxWhiskerValues = ( currentJob, minorityGroups) => {
-      // open questions: do I send plan ID? district plan? 
-
-      // 
-
-
+  generateBoxWhiskerValues = () => {
+    console.log("sending this:");
+    console.log(this.state.currentJob)
+    try {
+      // let res = await endpoint.getState(currentJob);
+      // console.log(res)
+    } catch (exception) {
+      console.error(exception);
+    }
   }
 
    /**
@@ -154,26 +170,27 @@ class App extends Component {
     }
   }
 
-// --------------------------------------------------------------------------
-// --------------------------------------------------------------------------
-// --------------------------------------------------------------------------
+   /**
+   * This function updates the currentJob state variable to the user-selected job 
+   * 
+   * @param {JobCard} Job Represents the object of the SELECTED job by the user.
+   * 
+   */
+  updateCurrentJob = (job, selected) => {
+    if (selected == true) { // job just got selected
+      this.setState({currentJob : job});
+      this.setState({currentJobName : job.jobName});
+    }
+    else { // job just got de-selected
+      this.setState({currentJob : ""});
+      this.setState({currentJobName : ""});
+    }
+  }
 
-updateCurrentJob = (job, selected) => {
-  if (selected == true) { // job just got selected
-    this.setState({currentJob : job});
-    this.setState({currentJobName : job.jobName});
-  }
-  else { // job just got de-selected
-    this.setState({currentJob : ""});
-    this.setState({currentJobName : ""});
-  }
-}
 
-  getSelectedJob = () => {
-    // returns selected job
-    // .map and .filter use
-    // call in your districting plans and do .districtPlans from job's database for plans
-  }
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
   
   toggleSelectedCard = () => {
     if (this.state.selectedJobCheck == false) this.setState({selectedJobCheck : true});
@@ -193,7 +210,8 @@ updateCurrentJob = (job, selected) => {
             jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
-            enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob}
+            enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob} cancelJob={this.cancelJob}
+            generateBoxWhiskerValues={this.generateBoxWhiskerValues}
             />
 
             <DeveloperScreen/>            

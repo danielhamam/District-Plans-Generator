@@ -24,7 +24,9 @@ class YourJobs extends Component {
                             minorityAnalyzed={jobCard.minorityAnalyzed} populationLimit={jobCard.populationLimit} 
                             compactness={jobCard.compactness} numberPlans={jobCard.numberPlans} districts={jobCard.districts} 
                             status={jobCard.status} updateCurrentJob={this.props.updateCurrentJob} 
-                            selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} />
+                            selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
+                            cancelJob = {this.props.cancelJob}
+                            />
                     })}
 
                     {/* <JobCard status={true} JobName={"Job 1"} minorityAnalyzed={"African American"} populationLimit={"1.2%"} compactness={"56%"} numberPlans={"5011"} updateCurrentJobName={this.props.updateCurrentJobName} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedJobCheck={this.props.toggleSelectedJobCheck} />

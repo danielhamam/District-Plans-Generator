@@ -122,9 +122,11 @@ class Sidebar extends Component {
         }
     }
 
-    toggleModalGraph = () => {
-        // console.log(this.state.selectedFilters);
-        if (this.state.modalOpen == false) this.setState({modalOpen : true});
+    handleModalGraph = () => {
+        if (this.state.modalOpen == false) {
+            this.props.generateBoxWhiskerValues();
+            this.setState({modalOpen : true});
+        }
         else this.setState({modalOpen : false});
     }
 
@@ -175,12 +177,6 @@ class Sidebar extends Component {
                                     <MenuItem>Population: </MenuItem>
                                     <MenuItem>Number of Precincts: </MenuItem>
                                     <MenuItem>Number of Counties: </MenuItem>
-                                    <MenuItem>Number of Districts: </MenuItem>
-                                    {/* <MenuItem>Efficiency Gap: </MenuItem> */}
-                                    {/* <MenuItem>Competitive Districts: </MenuItem> */}
-                                    <MenuItem>Majority-minority districts: </MenuItem>
-                                    {/* <MenuItem>County Splits: </MenuItem> */}
-                                    {/* <MenuItem>Compactness Rank: </MenuItem> */}
                                 </SubMenu>
 
                             {/* -------------------------- */}
@@ -195,6 +191,7 @@ class Sidebar extends Component {
                                         <YourJobs 
                                         selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
                                         updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards} deleteJob={this.props.deleteJob}
+                                        cancelJob = {this.props.cancelJob}
                                         />
                                     </div> 
                                 </SubMenu>
@@ -228,11 +225,17 @@ class Sidebar extends Component {
                                 {/* DISPLAY GRAPH PANEL */}
                             {/* -------------------------- */}
                             {/* -------------------------- */}
-                            <div id="displayGraph" onClick={this.toggleModalGraph}> 
-                                <MenuItem icon={<div > <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel &nbsp;   <i className="fa fa-expand"> </i> </b>} >
-                                    <b> Display Graph Panel </b>
-                                    <i id="displayGraph_icon" className="fa fa-external-link"> </i> 
-                                    <ModalGraph graphOptions={this.state.graphOptions} toggleModal ={this.toggleModalGraph} showModal={this.state.modalOpen} > </ModalGraph>
+                            <div id="displayGraph" > 
+                                <MenuItem  icon={<div > <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel &nbsp;   <i className="fa fa-expand"> </i> </b>} >
+                                    <div onClick={this.handleModalGraph}>
+                                        <b> Display Graph Panel </b>
+                                        <i id="displayGraph_icon" className="fa fa-external-link"> </i> 
+                                    </div>
+                                    <ModalGraph 
+                                    graphOptions={this.state.graphOptions} 
+                                    handleModalGraph={this.handleModalGraph} 
+                                    showModal={this.state.modalOpen} > 
+                                    </ModalGraph>
                                 </MenuItem>
                             </div>
                             </Menu>
