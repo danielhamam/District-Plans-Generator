@@ -6,7 +6,8 @@ import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class Job{
     private String stateAbbrev;
@@ -205,6 +206,20 @@ public class Job{
 
     public void setAveragePlanCompactness(int averagePlanCompactness) {
         this.averagePlanCompactness = averagePlanCompactness;
+    }
+
+    public Map<String, Object>  getClientInitialData(){
+        Map<String, Object> clientJob = new HashMap<>();
+        clientJob.put("stateAbbrev", this.stateAbbrev);
+        clientJob.put("jobID", this.jobID);
+        clientJob.put("jobName", this.jobName);
+        clientJob.put("numOfDistricts", this.numOfDistricts);
+        clientJob.put("numDistrictingPlan", this.numDistrictingPlan);
+        clientJob.put("clientCompactness", this.clientCompactness);
+        clientJob.put("populationDifference", this.populationDifference);
+        clientJob.put("focusedMinority", this.focusedMinority);
+        clientJob.put("status", this.status);
+        return clientJob;
     }
 
     @Override

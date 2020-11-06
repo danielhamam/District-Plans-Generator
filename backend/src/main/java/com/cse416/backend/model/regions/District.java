@@ -3,59 +3,176 @@ package com.cse416.backend.model.regions;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
 
 public class District {
     private String districtName;
-    private String stateName;
     private int districtNumber;
     private int districtFIPSCode;
-    private int stateFIPSCode;
-    private int numOfCounties;
-    @JsonIgnore private List<County> counties;
-    private Boundary boundary;
+    private String stateAbbrev;
+    private String numofCounties;
+    private String numofPrecincts;
     private Demographic demographic;
+    private Boundary boundary;
+    private List<Precinct> precincts;
+    private List <District> neighbors;
+    private double perimeter;
+    private double area;
+   
 
-    public District(String name, int FIPSCode, Boundary boundaries, Demographic demographic) {
-        this.districtName = name;
-        this.districtFIPSCode = FIPSCode;
+    public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
+        this.districtName = districtName;
+        this.districtNumber = districtNumber;
+        this.districtFIPSCode = districtFIPSCode;
         this.boundary = boundaries;
         this.demographic = demographic;
     }
 
-    public String getName() {
+    public District(String districtName, int districtNumber, int districtFIPSCode, String stateAbbrev, String numofCounties, String numofPrecincts, List<Precinct> precincts, List<District> neighbors, double perimeter, double area, Boundary boundary, Demographic demographic) {
+        this.districtName = districtName;
+        this.districtNumber = districtNumber;
+        this.districtFIPSCode = districtFIPSCode;
+        this.stateAbbrev = stateAbbrev;
+        this.numofCounties = numofCounties;
+        this.numofPrecincts = numofPrecincts;
+        this.precincts = precincts;
+        this.neighbors = neighbors;
+        this.perimeter = perimeter;
+        this.area = area;
+        this.boundary = boundary;
+        this.demographic = demographic;
+    }
+
+    public String getDistrictName() {
         return districtName;
     }
 
-    public int getNumber() {
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public int getDistrictNumber() {
         return districtNumber;
     }
 
-    public int getFIPSCode() {
+    public void setDistrictNumber(int districtNumber) {
+        this.districtNumber = districtNumber;
+    }
+
+    public int getDistrictFIPSCode() {
         return districtFIPSCode;
     }
 
-    public List<County> getCounties() {
-        return counties;
+    public void setDistrictFIPSCode(int districtFIPSCode) {
+        this.districtFIPSCode = districtFIPSCode;
     }
 
-    public String getStateName() {
-        return stateName;
+    public String getStateAbbrev() {
+        return stateAbbrev;
     }
 
-    public int getStateFIPSCode() {
-        return stateFIPSCode;
+    public void setStateAbbrev(String stateAbbrev) {
+        this.stateAbbrev = stateAbbrev;
+    }
+
+    public String getNumofCounties() {
+        return numofCounties;
+    }
+
+    public void setNumofCounties(String numofCounties) {
+        this.numofCounties = numofCounties;
+    }
+
+    public String getNumofPrecincts() {
+        return numofPrecincts;
+    }
+
+    public void setNumofPrecincts(String numofPrecincts) {
+        this.numofPrecincts = numofPrecincts;
+    }
+
+    public List<Precinct> getPrecincts() {
+        return precincts;
+    }
+
+    public void setPrecincts(List<Precinct> precincts) {
+        this.precincts = precincts;
+    }
+
+    public List<District> getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(List<District> neighbors) {
+        this.neighbors = neighbors;
+    }
+
+    public double getPerimeter() {
+        return perimeter;
+    }
+
+    public void setPerimeter(double perimeter) {
+        this.perimeter = perimeter;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
     }
 
     public Boundary getBoundary() {
         return boundary;
     }
 
+    public void setBoundary(Boundary boundary) {
+        this.boundary = boundary;
+    }
+
     public Demographic getDemographic() {
         return demographic;
     }
 
-    public int getNumOfCounties() {
-        return numOfCounties;
+    public void setDemographic(Demographic demographic) {
+        this.demographic = demographic;
     }
+
+    public Map<String, Object> getClientInitialData(){
+        Map<String, Object> clientDistrict = new HashMap<>();
+        clientDistrict.put("districtName", this.districtName);
+        clientDistrict.put("districtNumber", this.districtNumber);
+        clientDistrict.put("districtFIPSCode", this.districtFIPSCode);
+        clientDistrict.put("numofCounties", this.numofCounties);
+        clientDistrict.put("numofCounties", this.numofPrecincts);
+        clientDistrict.put("demographic", this.demographic);
+        clientDistrict.put("boundary", this.boundary);
+        return clientDistrict;
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "District{" +
+                "districtName='" + districtName + '\'' +
+                ", districtNumber=" + districtNumber +
+                ", districtFIPSCode=" + districtFIPSCode +
+                ", stateAbbrev='" + stateAbbrev + '\'' +
+                ", numofCounties='" + numofCounties + '\'' +
+                ", numofPrecincts='" + numofPrecincts + '\'' +
+                ", precincts=" + precincts +
+                ", neighbors=" + neighbors +
+                ", perimeter=" + perimeter +
+                ", area=" + area +
+                ", boundary=" + boundary +
+                ", demographic=" + demographic +
+                '}';
+    }
+
+
 
 }

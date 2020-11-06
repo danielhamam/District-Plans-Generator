@@ -8,13 +8,16 @@ import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.regions.Boundary;
 import com.cse416.backend.model.regions.Demographic;
+import com.cse416.backend.model.regions.District;
 import com.cse416.backend.model.regions.Precinct;
 import com.cse416.backend.model.regions.State;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,25 +28,51 @@ public class FakeDataAccessObject{
 
     public FakeDataAccessObject(){
         stateDB.add(buildNY());
-        jobDB.add(new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.Black,JobStatus.COMPLETED));
+        jobDB.add(new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.BLACK_AMERICAN,JobStatus.COMPLETED));
         // stateDB.add(State("California", "CA", 1, null, null, null, null));
         // stateDB.add(State("Geogira", "GA", 1, null, null, null, null));
         
     }
 
+
+//     Rakuna (Submit your resume): https://app.rakuna.co/prospect/checkin?token=a12f0f35e4fc5c8e3954801519f7b9d3b4404f71
+
+
+// Email: Courtney.Sullivan@fcb.com 
+
+
+// LinkedIn: https://www.linkedin.com/in/courtsull/
+
     public State buildNY(){
         Precinct [] NYPrecints = new Precinct[10]; 
-        NYPrecints[0] = (new Precinct("precinct" + 0, 0, null, new Demographic(10l),null));
-        NYPrecints[1] =(new Precinct("precinct" + 1, 1, null, new Demographic(10l),null));
-        NYPrecints[2] =(new Precinct("precinct" + 2, 2, null, new Demographic(10l),null));
-        NYPrecints[3] =(new Precinct("precinct" + 3, 3, null, new Demographic(10l),null));
-        NYPrecints[4] =(new Precinct("precinct" + 4, 4, null, new Demographic(10l),null));
-        NYPrecints[5] =(new Precinct("precinct" + 5, 5, null, new Demographic(10l),null));
-        NYPrecints[6] =(new Precinct("precinct" + 6, 6, null, new Demographic(10l),null));
-        NYPrecints[7] =(new Precinct("precinct" + 7, 7, null, new Demographic(10l),null));
-        NYPrecints[8] =(new Precinct("precinct" + 8, 8, null, new Demographic(10l),null));
-        NYPrecints[9] =(new Precinct("precinct" + 9, 9, null, new Demographic(10l),null));
-        Plan NYEnactedPlan = new Plan("ENACTEDPLAN", "NY", "1", 2, 5, 10, true, 2020);
+        Map<CensusCatagories,Integer>d= new HashMap<>();
+        d.put(CensusCatagories.WHITE_AMERICAN, 2);
+        d.put(CensusCatagories.BLACK_AMERICAN, 2);
+        d.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICA, 2);
+        d.put(CensusCatagories.NATIVE_ALASKA_AMERICAN, 2);
+        d.put(CensusCatagories.HISPANIC_AMERICA, 2);
+        Demographic a = new Demographic(10l, d, null);
+        NYPrecints[0] = (new Precinct("precinct" + 0, 0, null, a,null));
+        NYPrecints[1] =(new Precinct("precinct" + 1, 1, null, a,null));
+        NYPrecints[2] =(new Precinct("precinct" + 2, 2, null, a,null));
+        NYPrecints[3] =(new Precinct("precinct" + 3, 3, null, a,null));
+        NYPrecints[4] =(new Precinct("precinct" + 4, 4, null, a,null));
+        NYPrecints[5] =(new Precinct("precinct" + 5, 5, null, a,null));
+        NYPrecints[6] =(new Precinct("precinct" + 6, 6, null, a,null));
+        NYPrecints[7] =(new Precinct("precinct" + 7, 7, null, a,null));
+        NYPrecints[8] =(new Precinct("precinct" + 8, 8, null, a,null));
+        NYPrecints[9] =(new Precinct("precinct" + 9, 9, null, a,null));
+        List<District> NYDistricts = new ArrayList<>();
+        Map<CensusCatagories,Integer>dd= new HashMap<>();
+        dd.put(CensusCatagories.WHITE_AMERICAN, 2);
+        dd.put(CensusCatagories.BLACK_AMERICAN, 2);
+        dd.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICA, 2);
+        dd.put(CensusCatagories.NATIVE_ALASKA_AMERICAN, 2);
+        dd.put(CensusCatagories.HISPANIC_AMERICA, 2);
+        Demographic aa = new Demographic(10l, dd, null);
+        NYDistricts.add(new District("district" + 0, 0, 0, aa, null));
+        NYDistricts.add(new District("district" + 1, 1, 1, aa, null));
+        Plan NYEnactedPlan = new Plan("ENACTEDPLAN", "NY", "1", 2, 5, 10, true, 2020, NYDistricts);
         Demographic demographic = new Demographic(100);
         State NY = new State("New York", "NY", 1, demographic, null, NYEnactedPlan, NYPrecints);
         return NY;

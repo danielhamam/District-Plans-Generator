@@ -7,37 +7,53 @@ import com.cse416.backend.model.regions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-import javax.swing.plaf.basic.BasicOptionPaneUI;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class ServerService {
 
     private final FakeDataAccessObject fake;
     private Session session;
+    private final ObjectMapper mapper;
     //private GlobalHistory history;
 
     @Autowired
     public ServerService(@Qualifier("fakeDao") FakeDataAccessObject fake) {
-
         this.fake = fake;
+        this.mapper = new ObjectMapper();
     }
 
     public String connectingClient(){
         return "connectingClient";
     }
     
-    public State getState(String stateAbbrev){
+    public String getState(String stateAbbrev)throws JsonProcessingException{
         State state = fake.queryGetStateInformation(stateAbbrev);
         List <Job> jobs = getStateJobsInformation(stateAbbrev);
+        Map <String,Object> clientData = new HashMap<>();
+        List<Object> clientJob = new ArrayList<>();
+        jobs.forEach(job -> clientJob.add(job.getClientInitialData()));
+        clientData.put("state", state.getClientInitialData());
+        clientData.put("batches", clientJob);
+        String clientDataString = mapper.writeValueAsString(clientData);
+        
         // List <District> districts = getDistrictInfomation(stateAbbrev, planID, desiredDistricts);
         // getDistrictDemographic(stateAbbrev, planID, desiredDistricts);
         // getDistrictBoundary(stateAbbrev, planID, desiredDistricts);
         // state.setDemographic(demographic);
         this.session = new Session(state);
         this.session.addJobs(jobs);
-        return state;
+        return clientDataString;
     }
 
     public String getJob(String state){

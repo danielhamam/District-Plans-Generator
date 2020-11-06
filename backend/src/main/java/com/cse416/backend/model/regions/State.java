@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class State {
@@ -80,6 +81,16 @@ public class State {
 
     public void setBoundary(Boundary boundary) {
         this.boundary = boundary;
+    }
+
+    public Map<String, Object>  getClientInitialData(){
+        Map<String, Object> clientState = new HashMap<>();
+        clientState.put("stateName", this.stateName);
+        clientState.put("stateAbbreviation", this.stateAbbreviation);
+        clientState.put("stateFIPSCode", this.stateFIPSCode);
+        clientState.put("enactedPlan", this.enactedPlan.getClientInitialData());
+        clientState.put("demographic", this.demographic);
+        return clientState;
     }
 
     @Override

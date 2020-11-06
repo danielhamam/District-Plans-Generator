@@ -3,6 +3,11 @@ import java.util.List;
 
 import com.cse416.backend.model.regions.District;
 import com.cse416.backend.model.regions.Precinct;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class Plan{
@@ -13,7 +18,6 @@ public class Plan{
     private int numOfCounties;
     private int numofPrecincts;
     private List<District> districts;
-    private List<Precinct> precinct;
     private int averageDistrictPopulation;
     private int averageDistrictCompactness;
     private boolean isEnactedPlan;
@@ -29,8 +33,20 @@ public class Plan{
         this.isEnactedPlan = isEnactedPlan;
         this.year = year;
     }
+    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, boolean isEnactedPlan, int year, List<District> districts){
+        this.planName = planName;
+        this.stateAbbrev = stateAbbrev;
+        this.planID = planID;
+        this.numOfDistricts = numOfDistricts;
+        this.numOfCounties = numOfCounties;
+        this.numofPrecincts = numofPrecincts;
+        this.isEnactedPlan = isEnactedPlan;
+        this.districts = districts;
+        this.year = year;
+    }
     
-    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, List<District> districts, List<Precinct> precinct, int averageDistrictPopulation, int averageDistrictCompactness, boolean isEnactedPlan, int year) {
+
+    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, List<District> districts, int averageDistrictPopulation, int averageDistrictCompactness, boolean isEnactedPlan, int year) {
         this.planName = planName;
         this.stateAbbrev = stateAbbrev;
         this.planID = planID;
@@ -38,7 +54,6 @@ public class Plan{
         this.numOfCounties = numOfCounties;
         this.numofPrecincts = numofPrecincts;
         this.districts = districts;
-        this.precinct = precinct;
         this.averageDistrictPopulation = averageDistrictPopulation;
         this.averageDistrictCompactness = averageDistrictCompactness;
         this.isEnactedPlan = isEnactedPlan;
@@ -101,14 +116,6 @@ public class Plan{
         this.districts = districts;
     }
 
-    public List<Precinct> getPrecinct() {
-        return precinct;
-    }
-
-    public void setPrecinct(List<Precinct> precinct) {
-        this.precinct = precinct;
-    }
-
     public int getAverageDistrictPopulation() {
         return averageDistrictPopulation;
     }
@@ -141,6 +148,22 @@ public class Plan{
         this.year = year;
     }
 
+
+    public Map<String, Object> getClientInitialData(){
+        Map<String, Object> clientPlan = new HashMap<>();
+        clientPlan.put("planName", this.planName);
+        clientPlan.put("planID", this.planID);
+        clientPlan.put("numOfDistricts", this.numOfDistricts);
+        clientPlan.put("numOfCounties", this.numOfCounties);
+        List <Object> clientDistrict = new ArrayList<>();
+        districts.forEach(district -> clientDistrict.add(district.getClientInitialData()));
+        clientPlan.put("districts", clientDistrict);
+        return clientPlan;
+
+    }
+
+
+
     @Override
     public String toString() {
         return "Plan{" +
@@ -151,7 +174,6 @@ public class Plan{
                 ", numOfCounties=" + numOfCounties +
                 ", numofPrecincts=" + numofPrecincts +
                 ", districts=" + districts +
-                ", precinct=" + precinct +
                 ", averageDistrictPopulation=" + averageDistrictPopulation +
                 ", averageDistrictCompactness=" + averageDistrictCompactness +
                 ", isEnactedPlan=" + isEnactedPlan +
