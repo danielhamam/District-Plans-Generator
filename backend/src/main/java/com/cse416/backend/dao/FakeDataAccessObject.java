@@ -102,8 +102,9 @@ public class FakeDataAccessObject{
                 .findFirst().orElse(null);
     }
 
-    public Precinct queryGetAllPrecinctInformation(String stateAbberivation, String planID) {
-        return null;
+    public void mutationGenerateJob(Job job){
+        UUID v = UUID.randomUUID();
+        job.setJobID(""+v);
     }
 
    

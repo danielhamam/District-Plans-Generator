@@ -19,6 +19,10 @@ public class Session{
         this.enactedPlan = null;
     }
 
+    public State getState(){
+        return this.state;
+    }
+
     public void addJobs(List<Job> jobs){
         this.jobs.addAll(jobs);
     }

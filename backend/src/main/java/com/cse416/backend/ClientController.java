@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 //./mvnw spring-boot:run
 
 
@@ -25,7 +27,6 @@ public class ClientController {
     @Autowired
     public ClientController(ServerService service){
         this.service = service;
-
     }
 
     @GetMapping(path = "/connect", produces = "application/json")
@@ -33,20 +34,11 @@ public class ClientController {
         return "connectingClient";
     }
 
-
     @GetMapping(path = "/state/{stateAbbrev}", produces = "application/json")
     public String getState(@PathVariable String stateAbbrev){
-        System.out.println("Getting State: " + stateAbbrev);
-        try{
-            return service.getState(stateAbbrev);
-
-        }catch(Exception e){
-            e.printStackTrace();
-            return "Error";
-            
-        }
-        //service.getState(stateAbbrev);
-
+        System.out.println("Sending " + stateAbbrev + "-State to Client");
+        String clientData = service.getState(stateAbbrev);
+        return clientData;
     }
 
     // @GetMapping(path = "/boundaries/{jobID}/{planID}", produces = "application/json")
@@ -95,10 +87,9 @@ public class ClientController {
    }
 
    @PostMapping(path = "/generate", consumes = "application/json", produces = "application/json")
-   public String postGenerateStateJob(@RequestBody Job Job){
-       System.out.println("Generating Job: " + Job);
-       //service.generateStateJob(Job);
-       return "generateStateJob";
+   public String postGenerateStateJob(@RequestBody Job job){
+        String clientData = service.generateJob(job);
+        return clientData;
    }
 
 
@@ -118,22 +109,6 @@ public class ClientController {
     //             state.getPopulation(),
     //             state.getVotingAgePopulation());
     // }
-
-
-
-
-
-    /*
-    {
-        "numberOfDistricting" : 10,
-        "name": "Job1",
-        "isAvailable": false,
-        "populationDifference": 10.0,
-        "compactness": 10.0,
-    }
-     */
-
-
 
 
 

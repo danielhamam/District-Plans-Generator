@@ -4,32 +4,67 @@ import java.util.List;
 import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Job{
-    private String stateAbbrev;
-    private String jobID;
-    private int seawulfJobID;
-    private String jobName;
-    private int numOfDistricts;
-    private int numDistrictingPlan;
-    private ClientCompactness clientCompactness;
-    private double populationDifference;
-    private CensusCatagories focusedMinority;
-    private JobStatus status;
-    private String jobSummary;
-    private List <Plan> allDistrictingPlan;
-    private List <Plan> otherDistrictingPlan;
-    private Plan averageDistrictPlan;
-    private Plan extremeDistrictPlan;
-    private Plan randomDistrictPlan;
-    private int averagePlanPopulation;
-    private int averagePlanCompactness;
 
-    public Job(String jobName, String stateAbbrev, String jobID, int seawulfJobID, int numOfDistricts, int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness, CensusCatagories focusedMinority, JobStatus status) {
+public class Job{
+
+    @JsonProperty("jobName")
+    private String jobName;
+    @JsonProperty("minorityFocus")
+    private CensusCatagories minorityAnalyzed;
+    @JsonProperty("compactness")
+    private ClientCompactness clientCompactness;
+    @JsonProperty("populationDifference")
+    private double populationDifference;
+    @JsonProperty("plansAmount")
+    private int numDistrictingPlan;
+    @JsonProperty("districtsAmount")
+    private int numOfDistricts;
+    @JsonProperty
+    private JobStatus status;
+    @JsonProperty
+    private String jobID;
+    @JsonIgnore
+    private String stateAbbrev;
+    @JsonIgnore
+    private int averagePlanPopulation;
+    @JsonIgnore
+    private int averagePlanCompactness;
+    @JsonIgnore
+    private int seawulfJobID;
+    @JsonIgnore
+    private String jobSummary;
+    @JsonIgnore
+    private List <Plan> allDistrictingPlan;
+    @JsonIgnore
+    private List <Plan> otherDistrictingPlan;
+    @JsonIgnore
+    private Plan averageDistrictPlan;
+    @JsonIgnore
+    private Plan extremeDistrictPlan;
+    @JsonIgnore
+    private Plan randomDistrictPlan;
+  
+    public Job (@JsonProperty("jobName")String jobName, 
+                @JsonProperty("districtsAmount")int numOfDistricts, 
+                @JsonProperty("plansAmount")int numDistrictingPlan, 
+                @JsonProperty("populationDifference")double populationDifference, 
+                @JsonProperty("compactness")ClientCompactness clientCompactness, 
+                @JsonProperty("minorityFocus")CensusCatagories minorityAnalyzed){
+        this.jobName = jobName;
+        this.numOfDistricts = numOfDistricts;
+        this.numDistrictingPlan = numDistrictingPlan;
+        this.clientCompactness = clientCompactness;
+        this.populationDifference = populationDifference;
+        this.minorityAnalyzed = minorityAnalyzed;
+        this.status = JobStatus.PENDING;
+    }
+    
+    public Job(String jobName, String stateAbbrev, String jobID, int seawulfJobID, int numOfDistricts, int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness, CensusCatagories minorityAnalyzed, JobStatus status) {
         this.stateAbbrev = stateAbbrev;
         this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
@@ -38,11 +73,11 @@ public class Job{
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        this.focusedMinority = focusedMinority;
+        this.minorityAnalyzed = minorityAnalyzed;
         this.status = status;
     }
 
-    public Job(String stateAbbrev, String jobID, int seawulfJobID, String jobName, int numOfDistricts, int numDistrictingPlan, ClientCompactness clientCompactness, long populationDifference, CensusCatagories focusedMinority, JobStatus status, String jobSummary, List<Plan> allDistrictingPlan, List<Plan> otherDistrictingPlan, Plan averageDistrictPlan, Plan extremeDistrictPlan, Plan randomDistrictPlan, int averagePlanPopulation, int averagePlanCompactness) {
+    public Job(String stateAbbrev, String jobID, int seawulfJobID, String jobName, int numOfDistricts, int numDistrictingPlan, ClientCompactness clientCompactness, long populationDifference, CensusCatagories minorityAnalyzed, JobStatus status, String jobSummary, List<Plan> allDistrictingPlan, List<Plan> otherDistrictingPlan, Plan averageDistrictPlan, Plan extremeDistrictPlan, Plan randomDistrictPlan, int averagePlanPopulation, int averagePlanCompactness) {
         this.stateAbbrev = stateAbbrev;
         this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
@@ -51,7 +86,7 @@ public class Job{
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        this.focusedMinority = focusedMinority;
+        this.minorityAnalyzed = minorityAnalyzed;
         this.status = status;
         this.jobSummary = jobSummary;
         this.allDistrictingPlan = allDistrictingPlan;
@@ -128,12 +163,12 @@ public class Job{
         this.populationDifference = populationDifference;
     }
 
-    public CensusCatagories getFocusedMinority() {
-        return focusedMinority;
+    public CensusCatagories getminorityAnalyzed() {
+        return minorityAnalyzed;
     }
 
-    public void setFocusedMinority(CensusCatagories focusedMinority) {
-        this.focusedMinority = focusedMinority;
+    public void setminorityAnalyzed(CensusCatagories minorityAnalyzed) {
+        this.minorityAnalyzed = minorityAnalyzed;
     }
 
     public JobStatus getStatus() {
@@ -208,7 +243,8 @@ public class Job{
         this.averagePlanCompactness = averagePlanCompactness;
     }
 
-    public Map<String, Object>  getClientInitialData(){
+    @JsonIgnore
+    public Map<String, Object> getClientInitialData(){
         Map<String, Object> clientJob = new HashMap<>();
         clientJob.put("stateAbbrev", this.stateAbbrev);
         clientJob.put("jobID", this.jobID);
@@ -217,7 +253,7 @@ public class Job{
         clientJob.put("numDistrictingPlan", this.numDistrictingPlan);
         clientJob.put("clientCompactness", this.clientCompactness);
         clientJob.put("populationDifference", this.populationDifference);
-        clientJob.put("focusedMinority", this.focusedMinority);
+        clientJob.put("minorityAnalyzed", this.minorityAnalyzed);
         clientJob.put("status", this.status);
         return clientJob;
     }
@@ -233,7 +269,7 @@ public class Job{
                 ", numDistrictingPlan=" + numDistrictingPlan +
                 ", clientCompactness=" + clientCompactness +
                 ", populationDifference=" + populationDifference +
-                ", focusedMinority=" + focusedMinority +
+                ", minorityAnalyzed=" + minorityAnalyzed +
                 ", status=" + status +
                 ", jobSummary='" + jobSummary + '\'' +
                 ", allDistrictingPlan=" + allDistrictingPlan +
