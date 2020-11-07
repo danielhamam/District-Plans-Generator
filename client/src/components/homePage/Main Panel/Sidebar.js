@@ -151,13 +151,13 @@ class Sidebar extends Component {
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
-                                            <Dropdown.Item className="stateSelect" key="California">
+                                            <Dropdown.Item className="stateSelect" key="CA">
                                                 <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>California</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" key="Georgia">
+                                            <Dropdown.Item className="stateSelect" key="GE">
                                                 <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>Georgia</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" key="NewYork">
+                                            <Dropdown.Item className="stateSelect" key="NY">
                                                 <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>New York</div> 
                                             </Dropdown.Item>
                                         </DropdownButton>
