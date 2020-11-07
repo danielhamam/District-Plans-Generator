@@ -1,6 +1,7 @@
 package com.cse416.backend.model;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import com.cse416.backend.model.Job;
 import com.cse416.backend.model.regions.State;
@@ -21,6 +22,13 @@ public class Session{
 
     public State getState(){
         return this.state;
+    }
+
+    public Job getJobByID(String jobID)throws NoSuchElementException{
+        return this.jobs.stream()
+                .filter(job -> jobID.equals(job.getJobID()))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     public void addJobs(List<Job> jobs){

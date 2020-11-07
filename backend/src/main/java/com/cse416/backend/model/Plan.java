@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Plan{
@@ -17,11 +18,14 @@ public class Plan{
     private int numOfDistricts;
     private int numOfCounties;
     private int numofPrecincts;
-    private List<District> districts;
-    private int averageDistrictPopulation;
-    private int averageDistrictCompactness;
     private boolean isEnactedPlan;
     private int year;
+    @JsonIgnore
+    private List<District> districts;
+    @JsonIgnore
+    private int averageDistrictPopulation;
+    @JsonIgnore
+    private int averageDistrictCompactness;
 
     public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts,boolean isEnactedPlan, int year) {
         this.planName = planName;
@@ -148,7 +152,7 @@ public class Plan{
         this.year = year;
     }
 
-
+    @JsonIgnore
     public Map<String, Object> getClientInitialData(){
         Map<String, Object> clientPlan = new HashMap<>();
         clientPlan.put("planName", this.planName);
@@ -162,7 +166,19 @@ public class Plan{
 
     }
 
-
+    // @JsonIgnore
+    // public List<District> getClientDistricts(){
+    //     Map<String, Object> clientPlan = new HashMap<>();
+    //     clientPlan.put("planName", this.planName);
+    //     clientPlan.put("planID", this.planID);
+    //     clientPlan.put("numOfDistricts", this.numOfDistricts);
+    //     clientPlan.put("numOfCounties", this.numOfCounties);
+    //     List <Object> clientDistrict = new ArrayList<>();
+    //     districts.forEach(district -> clientDistrict.add(district.getClientInitialData()));
+    //     clientPlan.put("districts", clientDistrict);
+    //     return clientPlan;
+       
+    // }
 
     @Override
     public String toString() {

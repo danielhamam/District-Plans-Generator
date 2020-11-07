@@ -16,9 +16,13 @@ public class District {
     private String numofPrecincts;
     private Demographic demographic;
     private Boundary boundary;
+    @JsonIgnore
     private List<Precinct> precincts;
+    @JsonIgnore
     private List <District> neighbors;
+    @JsonIgnore
     private double perimeter;
+    @JsonIgnore
     private double area;
    
 
@@ -151,7 +155,6 @@ public class District {
         clientDistrict.put("demographic", this.demographic);
         clientDistrict.put("boundary", this.boundary);
         return clientDistrict;
-
     }
 
 

@@ -29,6 +29,12 @@ public class Job{
     @JsonProperty
     private String jobID;
     @JsonIgnore
+    private Plan averageDistrictPlan;
+    @JsonIgnore
+    private Plan extremeDistrictPlan;
+    @JsonIgnore
+    private Plan randomDistrictPlan;
+    @JsonIgnore
     private String stateAbbrev;
     @JsonIgnore
     private int averagePlanPopulation;
@@ -42,13 +48,7 @@ public class Job{
     private List <Plan> allDistrictingPlan;
     @JsonIgnore
     private List <Plan> otherDistrictingPlan;
-    @JsonIgnore
-    private Plan averageDistrictPlan;
-    @JsonIgnore
-    private Plan extremeDistrictPlan;
-    @JsonIgnore
-    private Plan randomDistrictPlan;
-  
+    
     public Job (@JsonProperty("jobName")String jobName, 
                 @JsonProperty("districtsAmount")int numOfDistricts, 
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
@@ -243,18 +243,27 @@ public class Job{
         this.averagePlanCompactness = averagePlanCompactness;
     }
 
+    // @JsonIgnore
+    // public Map<String, Object> getClientInitialData(){
+    //     Map<String, Object> clientJob = new HashMap<>();
+    //     clientJob.put("stateAbbrev", this.stateAbbrev);
+    //     clientJob.put("jobID", this.jobID);
+    //     clientJob.put("jobName", this.jobName);
+    //     clientJob.put("numOfDistricts", this.numOfDistricts);
+    //     clientJob.put("numDistrictingPlan", this.numDistrictingPlan);
+    //     clientJob.put("clientCompactness", this.clientCompactness);
+    //     clientJob.put("populationDifference", this.populationDifference);
+    //     clientJob.put("minorityAnalyzed", this.minorityAnalyzed);
+    //     clientJob.put("status", this.status);
+    //     return clientJob;
+    // }
+
     @JsonIgnore
-    public Map<String, Object> getClientInitialData(){
+    public Map<String, Object> getClientPlans(){
         Map<String, Object> clientJob = new HashMap<>();
-        clientJob.put("stateAbbrev", this.stateAbbrev);
-        clientJob.put("jobID", this.jobID);
-        clientJob.put("jobName", this.jobName);
-        clientJob.put("numOfDistricts", this.numOfDistricts);
-        clientJob.put("numDistrictingPlan", this.numDistrictingPlan);
-        clientJob.put("clientCompactness", this.clientCompactness);
-        clientJob.put("populationDifference", this.populationDifference);
-        clientJob.put("minorityAnalyzed", this.minorityAnalyzed);
-        clientJob.put("status", this.status);
+        clientJob.put("averageDistrictPlan", this.averageDistrictPlan);
+        clientJob.put("extremeDistrictPlan", this.extremeDistrictPlan);
+        clientJob.put("randomDistrictPlan", this.randomDistrictPlan);
         return clientJob;
     }
 

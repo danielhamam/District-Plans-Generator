@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -46,7 +47,6 @@ public class ServerService {
         try{
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
-            error.getMessage();
             clientData = "{serverError:\"" + error.getMessage() + "\"}"; 
         }
         catch(Exception error){
@@ -58,15 +58,27 @@ public class ServerService {
     public String createClientStateData(State state, List <Job> jobs)throws JsonProcessingException{
         Map <String,Object> clientData = new HashMap<>();
         List<Object> clientJob = new ArrayList<>();
-        jobs.forEach(job -> clientJob.add(job.getClientInitialData()));
+        jobs.forEach(job -> clientJob.add(job));
         clientData.put("state", state.getClientInitialData());
         clientData.put("jobs", clientJob);
         String clientDataString = mapper.writeValueAsString(clientData);
         return clientDataString;
     }
 
-    public String getJob(String state){
-        return "getJob";
+    public String getJob(String jobID){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            Job requestedJob = this.session.getJobByID(jobID);
+            Map<String, Object> dataObject = requestedJob.getClientPlans();
+            clientData = this.createClient_Data(dataObject);
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
     }
 
     public String getBoundries(String boundryType){

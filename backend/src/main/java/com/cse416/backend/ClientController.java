@@ -49,12 +49,8 @@ public class ClientController {
 
    @GetMapping(path = "/job/{jobID}", produces = "application/json")
    public String getJob(@PathVariable String jobID){
-       System.out.println("Getting Job: " + jobID);
-//        State state  = service.getState(stateAbberivation);
-//        List<Object> listFromState = createListFromState(state);
-       //return listFromState;
-       return "getJob";
-
+       System.out.println("Sending jobID " + jobID + " to Client");
+       return service.getJob(jobID);
    }
 
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")

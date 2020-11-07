@@ -27,11 +27,9 @@ public class FakeDataAccessObject{
     private static List<Job> jobDB = new ArrayList<>();
 
     public FakeDataAccessObject(){
-        stateDB.add(buildNY());
-        jobDB.add(new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.BLACK_AMERICAN,JobStatus.COMPLETED));
+        buildNY();
         // stateDB.add(State("California", "CA", 1, null, null, null, null));
         // stateDB.add(State("Geogira", "GA", 1, null, null, null, null));
-        
     }
 
 
@@ -43,7 +41,7 @@ public class FakeDataAccessObject{
 
 // LinkedIn: https://www.linkedin.com/in/courtsull/
 
-    public State buildNY(){
+    public void buildNY(){
         Precinct [] NYPrecints = new Precinct[10]; 
         Map<CensusCatagories,Integer>d= new HashMap<>();
         d.put(CensusCatagories.WHITE_AMERICAN, 2);
@@ -75,7 +73,22 @@ public class FakeDataAccessObject{
         Plan NYEnactedPlan = new Plan("ENACTEDPLAN", "NY", "1", 2, 5, 10, true, 2020, NYDistricts);
         Demographic demographic = new Demographic(100);
         State NY = new State("New York", "NY", 1, demographic, null, NYEnactedPlan, NYPrecints);
-        return NY;
+        stateDB.add(NY);
+        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.BLACK_AMERICAN,JobStatus.COMPLETED);
+        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,CensusCatagories.HAWAIIAN_PACIFIC_AMERICA,JobStatus.PENDING);
+        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.MEDUIM ,CensusCatagories.ASIAN_AMERICAN,JobStatus.RUNNING);
+        job1.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
+        job1.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));
+        job1.setRandomDistrictPlan(new Plan("Random", "NY", "4", 2, 5, 10, true, 2020, NYDistricts));
+        job2.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
+        job2.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));
+        job2.setRandomDistrictPlan(new Plan("Random", "NY", "4", 2, 5, 10, true, 2020, NYDistricts));
+        job3.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
+        job3.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));
+        job3.setRandomDistrictPlan(new Plan("Random", "NY", "4", 2, 5, 10, true, 2020, NYDistricts));
+        jobDB.add(job1);
+        jobDB.add(job2);
+        jobDB.add(job3);
     }
 
     public State queryGetStateInformation(String stateAbbrev) {
