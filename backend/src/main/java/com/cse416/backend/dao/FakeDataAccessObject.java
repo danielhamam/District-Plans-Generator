@@ -46,9 +46,9 @@ public class FakeDataAccessObject{
         Map<CensusCatagories,Integer>d= new HashMap<>();
         d.put(CensusCatagories.WHITE_AMERICAN, 2);
         d.put(CensusCatagories.BLACK_AMERICAN, 2);
-        d.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICA, 2);
+        d.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN, 2);
         d.put(CensusCatagories.NATIVE_ALASKA_AMERICAN, 2);
-        d.put(CensusCatagories.HISPANIC_AMERICA, 2);
+        d.put(CensusCatagories.HISPANIC_AMERICAN, 2);
         Demographic a = new Demographic(10l, d, null);
         NYPrecints[0] = (new Precinct("precinct" + 0, 0, null, a,null));
         NYPrecints[1] =(new Precinct("precinct" + 1, 1, null, a,null));
@@ -64,9 +64,9 @@ public class FakeDataAccessObject{
         Map<CensusCatagories,Integer>dd= new HashMap<>();
         dd.put(CensusCatagories.WHITE_AMERICAN, 2);
         dd.put(CensusCatagories.BLACK_AMERICAN, 2);
-        dd.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICA, 2);
+        dd.put(CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN, 2);
         dd.put(CensusCatagories.NATIVE_ALASKA_AMERICAN, 2);
-        dd.put(CensusCatagories.HISPANIC_AMERICA, 2);
+        dd.put(CensusCatagories.HISPANIC_AMERICAN, 2);
         Demographic aa = new Demographic(10l, dd, null);
         NYDistricts.add(new District("district" + 0, 0, 0, aa, null));
         NYDistricts.add(new District("district" + 1, 1, 1, aa, null));
@@ -75,7 +75,7 @@ public class FakeDataAccessObject{
         State NY = new State("New York", "NY", 1, demographic, null, NYEnactedPlan, NYPrecints);
         stateDB.add(NY);
         Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.BLACK_AMERICAN,JobStatus.COMPLETED);
-        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,CensusCatagories.HAWAIIAN_PACIFIC_AMERICA,JobStatus.PENDING);
+        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN ,JobStatus.PENDING);
         Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.MEDUIM ,CensusCatagories.ASIAN_AMERICAN,JobStatus.RUNNING);
         job1.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
         job1.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));

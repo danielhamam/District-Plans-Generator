@@ -3,24 +3,25 @@ import * as endpoint from '../../endpoint/Client';
 
 const Dev = () =>{
 
-    const generateJobHandler = () =>{
+    async function generateJobHandler(){
         let newBatch =  {
-            "numberOfDistricting" : 10,
-            "name": "batch1",
-            "isAvailable": false,
-            "populationDifference": 10.0,
-            "compactness": 10.0,
-            "state": "NY"
+            jobName : "Batch", // name of the job
+            districtsAmount : 10, // # district 
+            plansAmount : 1000, // # district plans
+            compactness : "LOW", // compactness (string can be low, intermediate or high)
+            populationDifference : 1.2, // population difference varies from 0-1.7%
+            minorityFocus : "HISPANIC_AMERICAN"
         }
-        let res = endpoint.generateJob(newBatch)
-      }
+        let res = await endpoint.generateJob(newBatch);
+        console.log(res);
+    }
 
     async function getStateHandler(){
     let getState =  {
         state: "NY"
     }
     let res = await endpoint.getState(getState);
-    console.log(res)
+    console.log(res);
     }
 
 

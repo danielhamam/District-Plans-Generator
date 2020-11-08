@@ -108,11 +108,9 @@ export async function deleteJob(data){
 export async function generateJob(data){
     console.log("Generating Job");
     const requestOptions = createFetchOptions('POST', data);
-    const NEW_URL = URL + SERVER_PATHS.JOB;
-    return fetch(NEW_URL, requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error is:', error));
+    const NEW_URL = URL + SERVER_PATHS.GENERATE_JOB;
+    const response = await fetch(NEW_URL, requestOptions).catch(error => error);
+    return await response.json()
 }
 
 export async function generateHeatMap(data){
