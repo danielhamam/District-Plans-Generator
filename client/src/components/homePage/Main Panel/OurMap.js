@@ -23,12 +23,15 @@ import GeorgiaStateBoundary from '../../../json/GEORGIA/GeorgiaStateBoundaries.j
 //                NEW YORK IMPORTS
 // ---------------------------------------------
 import NewYorkStateBoundary from '../../../json/NEW_YORK/NewYorkStateBoundaries.json';
-// import NYDistricts from '../../../json/NEW_YORK/NewYorkDistricts.json';
+import NYDistricts from '../../../json/NEW_YORK/NewYorkDistricts.json';
+// import NYSAssemblyDistricts from '../../../json/Preprocessed_Data/ny_districts.json';
 
 class OurMap extends Component {
     constructor () {
         super();
-        this.state = {}
+        this.state = {
+            test : null
+        }
 
         this.mapCenter = [39, -105];
         // this.mapZoom = 5;
@@ -37,6 +40,31 @@ class OurMap extends Component {
         this.precinctView = false;
         this.districtView = false;
         this.stateView = true;
+        // this.mapZoom;
+    }
+
+    handleZoomChange = (e) => {
+        // console.log("now: " + this.mapZoom);
+        this.mapZoom = e.target._zoom;
+        this.props.changeCurrentZoom(this.mapZoom);
+
+        if (this.mapZoom <= 7) {
+            this.props.changeViewFromZoom("Districts", 0); // delete district view (if there)
+            this.props.changeViewFromZoom("Precincts", 0); // delete precinct view (if there)
+        }
+        else if (this.mapZoom > 8 && this.mapZoom < 11) {
+            this.props.changeViewFromZoom("Precincts", 0); // delete precinct view (if there)
+            this.props.changeViewFromZoom("Districts", 1); // insert district view
+            console.log("district view")
+            console.log("loaded geojson")
+        }
+        else if (this.mapZoom > 9) {
+            this.props.changeViewFromZoom("Districts", 0); // delete district view (if there)
+            this.props.changeViewFromZoom("Precincts", 1); // insert precinct view
+            console.log("precinct view")
+            // precinct view
+        }
+        // else only state view
     }
 
     // 6 for district view
@@ -63,7 +91,7 @@ class OurMap extends Component {
         // scrollWheelZoom={false} 
         // zoomControl={true}
         return(
-                <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} onzoomend={(e) => this.props.handleZoomChange(e)} >
+                <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} onzoomend={(e) => this.handleZoomChange(e)} >
                     <HeatmapLayer
                                 // fitBoundsOnLoad
                                 // fitBoundsOnUpdate
@@ -86,9 +114,12 @@ class OurMap extends Component {
                     {/* <GeoJSON key='Georgia' data={GeorgiaDistricts} onClick={ () => this.props.changeCurrentState("Georgia")}/>  /> */}
 
                     <GeoJSON weight="1" color="red" key='NewYork' data={NewYorkStateBoundary} onClick={ () => this.props.changeCurrentState("New York")}/>
-                    {/* <GeoJSON key='NewYorkDistricts' data={NYSAssemblyDistricts} /> */}
-                    {/* <GeoJSON key='NewYorkDistricts' data={NewYorkDistricts} />  */}
-                    {/* <GeoJSON key='NewYork' data={NYDistricts} onClick={ () => this.props.changeCurrentState("New York")}/> */}
+
+                    {/* From map view filter */}
+                    {this.props.districtsView ? this.props.districtsContent : ""}
+                    {this.props.precinctsView ? this.props.precinctsContent : ""}
+
+                    {/*  */}
 
                 </Map> 
             );

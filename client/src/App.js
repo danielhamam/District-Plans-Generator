@@ -7,6 +7,13 @@ import * as endpoint from './endpoint/Client';
 import testJobCards from './json/TestJobCards.json'
 import './css/project_styles.css';
 
+// Map GeoJSONS
+import {GeoJSON} from 'react-leaflet';
+
+  // NEW YORK:
+import NYDistricts from './json/NEW_YORK/NewYorkDistricts.json';
+import NYPrecincts from './json/NEW_YORK/NewYorkPrecincts.json';
+
 // App.js is the parent component
 class App extends Component {
     state = {
@@ -21,9 +28,15 @@ class App extends Component {
 
       // Map View Filters:
       selectedFilters : null, // current demographic filters
-      precinctView : false, // show precincts
-      districtView : false, // show districts
+      precinctsView : false, // currently showing precincts
+      districtsView : false, // currently showing districts
+      filterDistrictsView : false, // currently showing districts via selected map view filter
+      filterPrecinctsView : false, // currently showing districts via selected map view filter
       stateView : true, // show stateView
+
+      // Map View Content
+      districtsContent : null,
+      precinctsContent : null,
 
       // Checks for Selection
       selectedPlanCheck: false,
@@ -48,11 +61,7 @@ class App extends Component {
    * 
    */
   changeCurrentState = async (stateName) => {
-    // let getState =  {
-    //   state: "GA"
-    // }
-    // let res = await endpoint.getState(getState);
-    // console.log(res)
+
     this.setState({currentJob : ""}) // any current job is no longer selected now
     this.setState({currentState : stateName});
     if (stateName == "Georgia") stateName = "GE"
@@ -82,8 +91,15 @@ class App extends Component {
    * the event occurs.
    */
   createJob = async (userInputs) => { // userInputs is an OBJECT of the constraints user selected. Let's gather them here. 
-      
-      let res = await endpoint.generateJob(userInputs); // use of .then here? or keep that in client.js for fetch?
+    
+      try {
+        let res = await endpoint.generateJob(userInputs); // use of .then here? or keep that in client.js for fetch?
+        console.log(res)
+
+      } catch (exception) {
+        console.error(exception);
+      }
+
   }
 
    /**
@@ -174,9 +190,85 @@ class App extends Component {
   changeSelectedFilters = (mapFilters) => {
     // open questions: check if change for demographic heat map or for cluster? Separate functions?
       // does updates one at a time (but if you have two filters does it over again)
+
+    let foundDistrictsView = false
+    let foundPrecinctsView = false
+
     this.setState({selectedFilters : mapFilters});
+
+    // Precondition --> if array is empty, reset district and precinct view
+    if (mapFilters == null) {
+      this.setState({districtsView : false})
+      this.setState({districtsContent : null })
+      // precinct view
+      this.setState({precinctsView : false})
+      this.setState({precinctsContent : null })
+      return;
+    }
+
     for (var i = 0; i < mapFilters.length; i++) {
+      if (mapFilters[i].label == "Precincts")  { // precinct view
+        this.setState({precinctsView : true})
+        this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
+        foundPrecinctsView = true;
+        this.setState({ filterPrecinctsView : true })
+      }
+      else if (mapFilters[i].label == "Districts") {  // district view
+        console.log("DISTRICTS VIEW ON")
+        this.setState({districtsView : true})
+        this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={NYDistricts} /> })
+        foundDistrictsView = true; // MARKED AS FOUND
+        this.setState({filterDistrictsView : true})
+      }
       console.log(mapFilters[i].label); // this is how you access the label of the array element at position i 
+    }
+      // If filter "Precincts View" isn't found, then reset state variables
+      if (foundPrecinctsView == false) {
+        this.setState({precinctsView : false})
+        this.setState({precinctsContent : null })
+        this.setState({filterPrecinctsView : false })
+      }
+      // If filter "Districts View" isn't found, then reset state variables
+      if (foundDistrictsView == false) {
+        this.setState({districtsView : false})
+        this.setState({districtsContent : null})
+        this.setState({filterDistrictsView : false})
+      }
+  }
+
+  /**
+   * This function is responsible for maintaining the map changes based off the user ZOOMING IN AND OUT
+   * 
+   * @param {String} viewType Represents the map filters selected by the user, can be either 
+   * @param {Int} actionType Represents the map filters selected by the user, can be either 
+   * 
+   */
+  changeViewFromZoom = (viewType, actionType) => { // status can be 0 (delete view) or 1 (insert view).
+
+    // "Districts" is currently selected as a map view filter
+    if (viewType == "Districts") {
+      if (this.state.filterDistrictsView == true) return; // nothing you can do
+      else if (this.state.filterDistrictsView == false && actionType == 1) { // insert districts into map based on zoom
+        this.setState({districtsView : true})
+        this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={NYDistricts} /> })
+      }
+      else if (this.state.filterDistrictsView == false && actionType == 0) { // delete districts from map based on zoom
+        this.setState({districtsView : false})
+        this.setState({districtsContent : null })
+      }
+    }
+
+    // "Precincts" is currently selected as a map view filter
+    if (viewType == "Precincts") {
+      if (this.state.filterPrecinctsView == true) return; // nothing you can do
+      else if (this.state.filterPrecinctsView == false && actionType == 1) { // insert precincts into map based on zoom
+        this.setState({precinctsView : true})
+        this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
+      }
+      else if (this.state.filterPrecinctsView == false && actionType == 0) { // delete precincts from map based on zoom
+        this.setState({precinctsView : false})
+        this.setState({precinctsContent : null })
+      }
     }
   }
 
@@ -217,11 +309,18 @@ class App extends Component {
     <div >
 
             <HomeScreen 
-            jobCards={this.state.jobCards} currentState={this.state.currentState} changeSelectedFilters={this.changeSelectedFilters} changeCurrentState={this.changeCurrentState} 
+            jobCards={this.state.jobCards} currentState={this.state.currentState} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
             enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob} cancelJob={this.cancelJob}
-            generateBoxWhiskerValues={this.generateBoxWhiskerValues}
+            generateBoxWhiskerValues={this.generateBoxWhiskerValues} 
+
+            // Handling use cases for precinct and district views
+            changeSelectedFilters={this.changeSelectedFilters} changeViewFromZoom={this.changeViewFromZoom}
+            districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
+            precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
+
+
             />
 
             <DeveloperScreen/>            
