@@ -74,9 +74,13 @@ public class FakeDataAccessObject{
         Demographic demographic = new Demographic(100);
         State NY = new State("New York", "NY", 1, demographic, null, NYEnactedPlan, NYPrecints);
         stateDB.add(NY);
-        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,CensusCatagories.BLACK_AMERICAN,JobStatus.COMPLETED);
-        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN ,JobStatus.PENDING);
-        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.MEDUIM ,CensusCatagories.ASIAN_AMERICAN,JobStatus.RUNNING);
+        List<CensusCatagories> kk = new ArrayList<>();
+        kk.add(CensusCatagories.BLACK_AMERICAN);
+        kk.add(CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN);
+        kk.add(CensusCatagories.BLACK_AMERICAN);
+        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,kk,JobStatus.COMPLETED);
+        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,kk ,JobStatus.PENDING);
+        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.MEDUIM ,kk,JobStatus.RUNNING);
         job1.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
         job1.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));
         job1.setRandomDistrictPlan(new Plan("Random", "NY", "4", 2, 5, 10, true, 2020, NYDistricts));
