@@ -46,8 +46,8 @@ class InputsJob extends Component {
         this.setState({minorityFocus : e}); // e is an array of labels/values (label is the name). e also has length in it
     }
 
-    handleGenerateJob = () => {
-        
+    handleGenerateJob = (e) => {
+        e.preventDefault(); // stop re-freshing of the page
         // Convert districtsAmount, plansAmount and populationDifference to strings
         var string_districtsAmount = this.state.districtsAmount.toString();
         var string_plansAmount = this.state.plansAmount.toString();
@@ -85,9 +85,9 @@ class InputsJob extends Component {
             {
               label: "Measurement",
               options: [
-                { label:"Low", value: "0"},
-                { label:"Intermediate", value: "50"},
-                { label:"High", value: "100"},
+                { label:"LOW", value: "0"},
+                { label:"MEDUIM", value: "50"},
+                { label:"HIGH", value: "100"},
               ]},
           ];
 
@@ -187,7 +187,7 @@ class InputsJob extends Component {
                 {/*            GENERATE BUTTON              */}
                 {/* --------------------------------------- */}
 
-                    <button type="submit" className="btn btn-primary" onClick={this.handleGenerateJob} >Generate</button>
+                    <button className="btn btn-primary" onClick={this.handleGenerateJob} >Generate</button>
             </Form>
         );
     }

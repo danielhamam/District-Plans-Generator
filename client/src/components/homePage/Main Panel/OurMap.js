@@ -52,7 +52,7 @@ class OurMap extends Component {
             this.props.changeViewFromZoom("Districts", 0); // delete district view (if there)
             this.props.changeViewFromZoom("Precincts", 0); // delete precinct view (if there)
         }
-        else if (this.mapZoom > 8 && this.mapZoom < 11) {
+        else if (this.mapZoom == 8) {
             this.props.changeViewFromZoom("Precincts", 0); // delete precinct view (if there)
             this.props.changeViewFromZoom("Districts", 1); // insert district view
             console.log("district view")

@@ -19,7 +19,7 @@ class DistrictPlan extends Component {
 
         if (this.state.selected == false && this.props.selectedPlanCheck == false) {
             this.setState({selected: true});
-            this.props.toggleSelectedPlanCheck();
+            this.props.toggleSelectedPlanCheck(this.props.plan);
             this.goTop="goTopPlan";
         }
         else if (this.state.selected == false && this.props.selectedPlanCheck == true) {
@@ -28,7 +28,7 @@ class DistrictPlan extends Component {
         }
         else if (this.state.selected == true && this.props.selectedPlanCheck == true) {
             this.setState({selected: false});
-            this.props.toggleSelectedPlanCheck();
+            this.props.toggleSelectedPlanCheck(this.props.plan);
             this.goTop="";
         }
         else {
@@ -59,7 +59,7 @@ class DistrictPlan extends Component {
                 <div className={this.districtPlanClassStyle + this.goTop} >             
                     <div className="planContents" onClick={this.toggleSelectPlan}>
                         <button className="planDelete badge badge-pill badge-danger" onClick={this.toggleDeleteModal} > <div className="deleteText"> X </div> </button>
-                        <span className="planTitle"> {this.props.planName} </span> 
+                        <span className="planTitle"> {this.props.plan.type} </span> 
                         <button className="planView badge badge-pill badge-dark"> <div className="viewText" > Select </div> </button>
                     </div> 
                     <DeletePlanModal toggleDeleteModal={this.toggleDeleteModal} handleDeletePlan={this.handleDeletePlan} 

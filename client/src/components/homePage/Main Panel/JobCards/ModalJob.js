@@ -18,6 +18,7 @@ class ModalJob extends Component {
 
         // To check to disable or enable select button
 
+
         if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == "Pending" ) {
             // turn the select button gray
             this.selectStatus = "Select"
@@ -73,7 +74,7 @@ class ModalJob extends Component {
                     </p>
                     <p> 
                         <span> Focused Minority Group(s): </span> 
-                        <span className={"inline "}> {this.props.minorityAnalyzed} </span>
+                        <span className={"inline "}> {this.props.minorityAnalyzed.join(", ")} </span>
                     </p>
                     <p> 
                         <span> Analysis Summary: </span> 

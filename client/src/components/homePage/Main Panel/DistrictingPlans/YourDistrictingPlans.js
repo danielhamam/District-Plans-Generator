@@ -46,7 +46,7 @@ class YourDistrictingPlans extends Component {
                     <DistrictPlan plan={this.props.enactedPlan} planName={this.props.enactedPlan.planName} selectedPlanCheck={this.props.selectedPlanCheck} 
                     toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} currentJob={this.props.currentJob} />
 
-                    {/* {this.receiveDistricts()} */}
+                    {this.receiveDistricts()}
 
                     {/* <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
                     <DistrictPlan selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />

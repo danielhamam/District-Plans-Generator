@@ -18,9 +18,9 @@
             "jobID" : "2",
             "state" : "NY",
             "status" : "Completed",
-            "minorityAnalyzed": "Hawaiian",
+            "minorityAnalyzed": ["Hawaiian"],
             "populationLimit": "0.5%",
-            "compactness": "Low",
+            "compactness": "LOW",
             "numberPlans": "101",
             "districtPlans": [
                 {
@@ -54,9 +54,9 @@
             "jobID" : "3",
             "state" : "NY",
             "status" : "Completed",
-            "minorityAnalyzed": "American Indian",
+            "minorityAnalyzed": ["American Indian"],
             "populationLimit": "1.6%",
-            "compactness": "Low",
+            "compactness": "LOW",
             "numberPlans": "411",
             "districtPlans": [
                 {
@@ -90,9 +90,9 @@
             "jobID" : "4",
             "state" : "NY",
             "status" : "Completed",
-            "minorityAnalyzed": "Latino",
+            "minorityAnalyzed": ["Latino"],
             "populationLimit": "0.3%",
-            "compactness": "Low",
+            "compactness": "LOW",
             "numberPlans": "19",
             "districtPlans": [
                 {
@@ -122,13 +122,13 @@
             ]
         },
         {
-            "jobName": "Low Comp.",
+            "jobName": "High Comp.",
             "jobID" : "5",
             "state" : "NY",
             "status" : "Pending",
-            "minorityAnalyzed": "Asian",
+            "minorityAnalyzed": ["Asian", "Hawaiian", "American Indian", "White"],
             "populationLimit": "0.8%",
-            "compactness": "High",
+            "compactness": "HIGH",
             "numberPlans": "941",
             "districtPlans": [
                 {
@@ -162,9 +162,9 @@
             "jobID" : "6",
             "state" : "NY",
             "status" : "Pending",
-            "minorityAnalyzed": "African American",
+            "minorityAnalyzed": ["African American"],
             "populationLimit": "1.3%",
-            "compactness": "Intermediate",
+            "compactness": "MIDDLE",
             "numberPlans": "192",
             "districtPlans": [
                 {

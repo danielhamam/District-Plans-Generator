@@ -5,7 +5,7 @@ const Dev = () =>{
 
     async function generateJobHandler(){
         let newBatch =  {
-            jobName : "Batch", // name of the job
+            jobName : "Job", // name of the job
             districtsAmount : 10, // # district 
             plansAmount : 1000, // # district plans
             compactness : "LOW", // compactness (string can be low, intermediate or high)

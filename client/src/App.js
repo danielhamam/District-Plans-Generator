@@ -13,6 +13,7 @@ import {GeoJSON} from 'react-leaflet';
   // NEW YORK:
 import NYDistricts from './json/NEW_YORK/NewYorkDistricts.json';
 import NYPrecincts from './json/NEW_YORK/NewYorkPrecincts.json';
+// import NYDistricts from './json/Preprocessed_Data/ny_districts.json'
 
 // App.js is the parent component
 class App extends Component {
@@ -91,15 +92,26 @@ class App extends Component {
    * the event occurs.
    */
   createJob = async (userInputs) => { // userInputs is an OBJECT of the constraints user selected. Let's gather them here. 
-    
+    // let newBatch =  {
+    //   jobName : "Job", // name of the job
+    //   districtsAmount : 10, // # district 
+    //   plansAmount : 1000, // # district plans
+    //   compactness : "LOW", // compactness (string can be low, intermediate or high)
+    //   populationDifference : 1.2, // population difference varies from 0-1.7%
+    //   minorityFocus : "HISPANIC_AMERICAN"
+    // }
+    // let res = await endpoint.generateJob(newBatch);
+    // console.log(res);
       try {
-        let res = await endpoint.generateJob(userInputs); // use of .then here? or keep that in client.js for fetch?
+        let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)
+
+        this.state.jobCards.push(userInputs);
+        this.setState({jobCards : this.state.jobCards})
 
       } catch (exception) {
         console.error(exception);
       }
-
   }
 
    /**
@@ -216,7 +228,7 @@ class App extends Component {
       else if (mapFilters[i].label == "Districts") {  // district view
         console.log("DISTRICTS VIEW ON")
         this.setState({districtsView : true})
-        this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={NYDistricts} /> })
+        // this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={NYDistricts} /> })
         foundDistrictsView = true; // MARKED AS FOUND
         this.setState({filterDistrictsView : true})
       }
@@ -299,10 +311,17 @@ class App extends Component {
     else this.setState({selectedJobCheck : false});
 }
 
-  toggleSelectedPlanCheck = () => {
-    if (this.state.selectedPlanCheck == false) this.setState({selectedPlanCheck: true});
-    else this.setState({selectedPlanCheck : false});
-}
+  toggleSelectedPlanCheck = (districtPlan) => {
+    if (this.state.selectedPlanCheck == false) {
+      this.setState({selectedPlanCheck: true});
+      // this.setState({districtContent : districtPlan.districtGeoJSON})
+       this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={NYDistricts} /> })
+    }
+    else {
+      this.setState({selectedPlanCheck : false});
+      this.setState({districtsContent : null})
+    }
+  }
 
   render() {
   return (
@@ -311,12 +330,13 @@ class App extends Component {
             <HomeScreen 
             jobCards={this.state.jobCards} currentState={this.state.currentState} changeCurrentState={this.changeCurrentState} 
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
-            toggleSelectedPlanCheck={this.toggleSelectedPlanCheck} selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
+            selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
             enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob} cancelJob={this.cancelJob}
             generateBoxWhiskerValues={this.generateBoxWhiskerValues} 
 
             // Handling use cases for precinct and district views
             changeSelectedFilters={this.changeSelectedFilters} changeViewFromZoom={this.changeViewFromZoom}
+            selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck}
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
 
