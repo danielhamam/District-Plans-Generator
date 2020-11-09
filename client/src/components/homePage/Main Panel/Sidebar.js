@@ -174,9 +174,9 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-home" > </i> </div>} title={<b> State Details</b>}> 
-                                    <MenuItem>Population: </MenuItem>
-                                    <MenuItem>Number of Precincts: </MenuItem>
-                                    <MenuItem>Number of Counties: </MenuItem>
+                                    <MenuItem>Population: {this.props.totalPopulation} </MenuItem>
+                                    <MenuItem>Number of Precincts: {this.props.numOfPrecincts} </MenuItem>
+                                    <MenuItem>Number of Counties: {this.props.numOfCounties} </MenuItem>
                                 </SubMenu>
 
                             {/* -------------------------- */}

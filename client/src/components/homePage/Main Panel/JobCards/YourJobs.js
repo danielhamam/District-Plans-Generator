@@ -21,7 +21,7 @@ class YourJobs extends Component {
                     < br />
                     {this.props.jobCards.map( (jobCard) => {
                             return <JobCard jobCard={jobCard} jobName={jobCard.jobName} deleteJob={this.props.deleteJob}
-                            minorityAnalyzed={jobCard.minorityAnalyzed} populationLimit={jobCard.populationLimit} 
+                            minorityAnalyzed={jobCard.minorityAnalyzed} populationDifference={jobCard.populationDifference} 
                             compactness={jobCard.compactness} plansAmount={jobCard.plansAmount} districts={jobCard.districts} 
                             status={jobCard.status} updateCurrentJob={this.props.updateCurrentJob} 
                             selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 

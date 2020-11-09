@@ -70,7 +70,7 @@ class ModalJob extends Component {
                     </p>
                     <p> 
                         <span> Population Difference Limit: </span> 
-                        <span className={"inline "}> {this.props.populationLimit} </span>
+                        <span className={"inline "}> {this.props.populationDifference} </span>
                     </p>
                     <p> 
                         <span> Focused Minority Group(s): </span> 

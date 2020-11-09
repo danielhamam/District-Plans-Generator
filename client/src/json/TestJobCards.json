@@ -8,8 +8,7 @@
         "type": "Enacted Plan",
         "id" : "1",
         "boundary" : "",
-        "districts": [{}],
-        "precincts": [{}]
+        "districts": [{}]
     },
 
     "jobs": [
@@ -28,24 +27,21 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Extreme Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Random Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 }
             ]
         },
@@ -64,24 +60,21 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Extreme Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Random Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 }
             ]
         },
@@ -100,24 +93,21 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Extreme Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Random Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 }
             ]
         },
@@ -136,24 +126,21 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Extreme Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Random Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 }
             ]
         },
@@ -172,24 +159,21 @@
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Extreme Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 },
                 {
                     "type": "Random Plan",
                     "id" : "1",
                     "FIPS Code" : "1234",
                     "boundary" : "",
-                    "districts": [{}],
-                    "precincts": [{}]
+                    "districts": [{}]
                 }
             ]
         }

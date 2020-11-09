@@ -22,6 +22,9 @@ class App extends Component {
       // State:
       currentState : "Select a state",
       enactedPlan : testJobCards.enactedPlan, // holds district view
+      totalPopulation : 0,
+      numOfPrecincts : 0,
+      numOfCounties : 0,
 
       // Jobs:
       jobCards : testJobCards.jobs, // holds all the jobs retrieved back from the serverside (UPDATED BY JSON)
@@ -76,6 +79,9 @@ class App extends Component {
       console.log(res)
       this.setState({ jobCards : res.jobs}); // update the current jobCards
       this.setState({ enactedPlan : res.state.enactedPlan}); // update the current enacted plan
+      this.setState({ totalPopulation : res.state.demographic.totalPopulation}); // update the current enacted plan
+      this.setState({ numOfPrecincts : res.state.numOfPrecincts}); // update the current enacted plan
+      this.setState({ numOfCounties : res.state.numOfCounties}); // update the current enacted plan
     } catch (exception) {
       console.error(exception);
     }
@@ -96,6 +102,36 @@ class App extends Component {
       try {
         let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)
+
+        // change values back to keys
+        let labelsMinorities = [];
+        res.minorityAnalyzed.forEach(element => {
+            switch (element) {
+              case "WHITE_AMERICAN": 
+                labelsMinorities.push("White");
+                break;
+              case "AFRICAN_AMERICAN": 
+                labelsMinorities.push("African American");
+                break;
+              case "LATINO_AMERICAN": 
+                labelsMinorities.push("Latino");
+                break;
+              case "ASIAN_AMERICAN": 
+                labelsMinorities.push("Asian");
+                break;
+              case "AMERICAN_INDIAN": 
+                labelsMinorities.push("American Indian");
+                break;
+              case "HAWAIIAN_AMERICAN": 
+                labelsMinorities.push("Hawaiian");
+                break;
+              case "OTHER_AMERICAN": 
+                labelsMinorities.push("Other");
+                break;
+
+            }
+        })
+        res.minorityAnalyzed = labelsMinorities
 
         this.state.jobCards.push(res);
         this.setState({jobCards : this.state.jobCards})
@@ -323,7 +359,8 @@ class App extends Component {
             currentJob ={this.state.currentJob} updateCurrentJob={this.updateCurrentJob} selectedPlanCheck={this.state.selectedPlanCheck} 
             selectedJobCheck={this.state.selectedJobCheck} toggleSelectedCard={this.toggleSelectedCard}
             enactedPlan = {this.state.enactedPlan} deleteJob={this.deleteJob} deletePlan={this.deletePlan} createJob={this.createJob} cancelJob={this.cancelJob}
-            generateBoxWhiskerValues={this.generateBoxWhiskerValues} 
+            generateBoxWhiskerValues={this.generateBoxWhiskerValues} totalPopulation={this.state.totalPopulation} numOfPrecincts={this.state.numOfPrecincts}
+            numOfCounties={this.state.numOfCounties}
 
             // Handling use cases for precinct and district views
             changeSelectedFilters={this.changeSelectedFilters} changeViewFromZoom={this.changeViewFromZoom}

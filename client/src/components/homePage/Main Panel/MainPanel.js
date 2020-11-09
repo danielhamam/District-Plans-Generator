@@ -64,6 +64,7 @@ class MainPanel extends Component {
                     toggleSelectedCard={this.props.toggleSelectedCard} currentState={this.props.currentState} selectedFilters={this.props.selectedFilters}
                     currentJob ={this.props.currentJob} enactedPlan = {this.props.enactedPlan} deleteJob={this.props.deleteJob} deletePlan={this.props.deletePlan}
                     createJob={this.props.createJob} cancelJob = {this.props.cancelJob} generateBoxWhiskerValues={this.props.generateBoxWhiskerValues}
+                    totalPopulation={this.props.totalPopulation} numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
                     />
                 </div>
 
@@ -75,7 +76,7 @@ class MainPanel extends Component {
                     currentState={this.props.currentState} changeCurrentZoom={this.changeCurrentZoom} 
                     districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent}
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
-                    changeViewFromZoom={this.props.changeViewFromZoom}
+                    changeViewFromZoom={this.props.changeViewFromZoom} 
                     />
                     {/* Map Filters  */}
                     <div id="mapFilters">
