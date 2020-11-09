@@ -106,6 +106,7 @@ class App extends Component {
         // change values back to keys
         let labelsMinorities = [];
         res.minorityAnalyzed.forEach(element => {
+            // server takes the value because it acts as an enum. gives it back in that same type. Let's put it back.
             switch (element) {
               case "WHITE_AMERICAN": 
                 labelsMinorities.push("White");

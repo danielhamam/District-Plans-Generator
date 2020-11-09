@@ -47,8 +47,8 @@ class MainPanel extends Component {
               {
               label: "Cluster",
               options: [
-                { label:"Precincts", value: "precincts", isDisabled : this.state.disablePrecinctView},
-                { label:"Districts", value: "districts", isDisabled : (!this.state.disableDistrictView && !this.props.selectedPlanCheck) },
+                { label:"Precincts", value: "precincts", isDisabled : (this.state.disablePrecinctView || !this.props.selectedPlanCheck) },
+                { label:"Districts", value: "districts", isDisabled : (this.state.disableDistrictView || !this.props.selectedPlanCheck) },
               ]},
           ];
 
