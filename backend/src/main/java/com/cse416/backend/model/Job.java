@@ -14,7 +14,7 @@ public class Job{
 
     @JsonProperty("jobName")
     private String jobName;
-    @JsonProperty("minorityFocus")
+    @JsonProperty
     private List<CensusCatagories> minorityAnalyzed;
     @JsonProperty("compactness")
     private ClientCompactness clientCompactness;
