@@ -92,12 +92,12 @@ class App extends Component {
    * the event occurs.
    */
   createJob = async (userInputs) => { // userInputs is an OBJECT of the constraints user selected. Let's gather them here. 
-  
+
       try {
         let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)
 
-        this.state.jobCards.push(userInputs);
+        this.state.jobCards.push(res);
         this.setState({jobCards : this.state.jobCards})
 
       } catch (exception) {
