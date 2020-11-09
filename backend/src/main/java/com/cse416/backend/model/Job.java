@@ -54,7 +54,7 @@ public class Job{
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
-                @JsonProperty("minorityFocus")List<CensusCatagories> minorityAnalyzed){
+                @JsonProperty List<CensusCatagories> minorityAnalyzed){
         this.jobName = jobName;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
