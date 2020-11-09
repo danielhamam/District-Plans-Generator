@@ -86,6 +86,9 @@ public class State {
     public Map<String, Object>  getClientInitialData(){
         Map<String, Object> clientState = new HashMap<>();
         clientState.put("stateName", this.stateName);
+        clientState.put("numOfPrecinct", 10);
+        clientState.put("numOfCounties", 10);
+        clientState.put("stateName", this.stateName);
         clientState.put("stateAbbreviation", this.stateAbbreviation);
         clientState.put("stateFIPSCode", this.stateFIPSCode);
         clientState.put("enactedPlan", this.enactedPlan.getClientInitialData());
