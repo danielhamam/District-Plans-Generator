@@ -53,13 +53,17 @@ class InputsJob extends Component {
         var string_plansAmount = this.state.plansAmount.toString();
         var string_populationDifference = this.state.populationDifference.toString();
 
+        let arr = [];
+        this.state.minorityFocus.array.forEach(element => {
+            arr.push(element.values);
+        });
         let userInputs = {
             jobName : this.state.jobName, // name of the job
             districtsAmount : string_districtsAmount, // # district 
             plansAmount :string_plansAmount, // # district plans
             compactness : this.state.compactness, // compactness (string can be low, intermediate or high)
             populationDifference : string_populationDifference, // population difference varies from 0-1.7%
-            minorityFocus : this.state.minorityFocus
+            minorityFocus : arr
         }
 
         this.props.createJob(userInputs)

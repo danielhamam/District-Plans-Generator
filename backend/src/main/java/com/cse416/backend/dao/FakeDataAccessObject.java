@@ -78,9 +78,9 @@ public class FakeDataAccessObject{
         kk.add(CensusCatagories.BLACK_AMERICAN);
         kk.add(CensusCatagories.HAWAIIAN_PACIFIC_AMERICAN);
         kk.add(CensusCatagories.BLACK_AMERICAN);
-        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.MEDUIM ,kk,JobStatus.COMPLETED);
-        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDUIM ,kk ,JobStatus.PENDING);
-        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.MEDUIM ,kk,JobStatus.RUNNING);
+        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.LOW ,kk,JobStatus.COMPLETED);
+        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING);
+        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING);
         job1.setExtremeDistrictPlan(new Plan("Extreme", "NY", "2", 2, 5, 10, true, 2020, NYDistricts));
         job1.setAverageDistrictPlan(new Plan("Avg", "NY", "3", 2, 5, 10, true, 2020, NYDistricts));
         job1.setRandomDistrictPlan(new Plan("Random", "NY", "4", 2, 5, 10, true, 2020, NYDistricts));
