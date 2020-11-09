@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Plan{
+    @JsonProperty("type")
     private String planName;
     private String stateAbbrev;
     private String planID;

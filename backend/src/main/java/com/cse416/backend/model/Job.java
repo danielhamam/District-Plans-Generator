@@ -15,7 +15,7 @@ public class Job{
     @JsonProperty("jobName")
     private String jobName;
     @JsonProperty("minorityFocus")
-    private CensusCatagories minorityAnalyzed;
+    private List<CensusCatagories> minorityAnalyzed;
     @JsonProperty("compactness")
     private ClientCompactness clientCompactness;
     @JsonProperty("populationDifference")
@@ -54,7 +54,7 @@ public class Job{
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
-                @JsonProperty("minorityFocus")CensusCatagories minorityAnalyzed){
+                @JsonProperty("minorityFocus")List<CensusCatagories> minorityAnalyzed){
         this.jobName = jobName;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
@@ -64,7 +64,7 @@ public class Job{
         this.status = JobStatus.PENDING;
     }
     
-    public Job(String jobName, String stateAbbrev, String jobID, int seawulfJobID, int numOfDistricts, int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness, CensusCatagories minorityAnalyzed, JobStatus status) {
+    public Job(String jobName, String stateAbbrev, String jobID, int seawulfJobID, int numOfDistricts, int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness, List<CensusCatagories> minorityAnalyzed, JobStatus status) {
         this.stateAbbrev = stateAbbrev;
         this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
@@ -77,7 +77,7 @@ public class Job{
         this.status = status;
     }
 
-    public Job(String stateAbbrev, String jobID, int seawulfJobID, String jobName, int numOfDistricts, int numDistrictingPlan, ClientCompactness clientCompactness, long populationDifference, CensusCatagories minorityAnalyzed, JobStatus status, String jobSummary, List<Plan> allDistrictingPlan, List<Plan> otherDistrictingPlan, Plan averageDistrictPlan, Plan extremeDistrictPlan, Plan randomDistrictPlan, int averagePlanPopulation, int averagePlanCompactness) {
+    public Job(String stateAbbrev, String jobID, int seawulfJobID, String jobName, int numOfDistricts, int numDistrictingPlan, ClientCompactness clientCompactness, long populationDifference, List<CensusCatagories> minorityAnalyzed, JobStatus status, String jobSummary, List<Plan> allDistrictingPlan, List<Plan> otherDistrictingPlan, Plan averageDistrictPlan, Plan extremeDistrictPlan, Plan randomDistrictPlan, int averagePlanPopulation, int averagePlanCompactness) {
         this.stateAbbrev = stateAbbrev;
         this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
@@ -163,11 +163,11 @@ public class Job{
         this.populationDifference = populationDifference;
     }
 
-    public CensusCatagories getminorityAnalyzed() {
+    public List<CensusCatagories> getminorityAnalyzed() {
         return minorityAnalyzed;
     }
 
-    public void setminorityAnalyzed(CensusCatagories minorityAnalyzed) {
+    public void setminorityAnalyzed(List<CensusCatagories> minorityAnalyzed) {
         this.minorityAnalyzed = minorityAnalyzed;
     }
 
