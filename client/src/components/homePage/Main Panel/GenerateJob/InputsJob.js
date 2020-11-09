@@ -42,8 +42,8 @@ class InputsJob extends Component {
         this.setState({populationDifference: e.target.value});
     }
 
-    changeMinorityFocus = (e) => {
-        this.setState({minorityFocus : e}); // e is an array of labels/values (label is the name). e also has length in it
+    changeMinorityAnalyzed = (e) => {
+        this.setState({minorityAnalyzed : e}); // e is an array of labels/values (label is the name). e also has length in it
     }
 
     handleGenerateJob = (e) => {
@@ -53,17 +53,18 @@ class InputsJob extends Component {
         var string_plansAmount = this.state.plansAmount.toString();
         var string_populationDifference = this.state.populationDifference.toString();
 
-        let arr = [];
-        this.state.minorityFocus.array.forEach(element => {
-            arr.push(element.values);
-        });
+        let valuesMinorities = [];
+        this.state.minorityAnalyzed.forEach(element => {
+            valuesMinorities.push(element.value);
+        })
+
         let userInputs = {
             jobName : this.state.jobName, // name of the job
             districtsAmount : string_districtsAmount, // # district 
             plansAmount :string_plansAmount, // # district plans
             compactness : this.state.compactness, // compactness (string can be low, intermediate or high)
             populationDifference : string_populationDifference, // population difference varies from 0-1.7%
-            minorityFocus : arr
+            minorityAnalyzed : valuesMinorities
         }
 
         this.props.createJob(userInputs)
@@ -76,13 +77,13 @@ class InputsJob extends Component {
             {
               label: "Ethnicity",
               options: [
-                { label:"White", value: "white"},
-                { label:"African American", value: "africanamerican"},
-                { label:"Latino", value: "latino"},
-                { label:"Asian", value: "asian"},
-                { label:"American Indian", value: "americanindian"},
-                { label:"Hawaiian", value: "hawaiian"},
-                { label:"Other", value: "other"},
+                { label:"White", value: "WHITE_AMERICAN"},
+                { label:"African American", value: "AFRICAN_AMERICAN"},
+                { label:"Latino", value: "LATINO_AMERICAN"},
+                { label:"Asian", value: "ASIAN_AMERICAN"},
+                { label:"American Indian", value: "AMERICAN_INDIAN"},
+                { label:"Hawaiian", value: "HAWAIIAN_AMERICAN"},
+                { label:"Other", value: "OTHER_AMERICAN"},
               ]},
           ];
           const compactnessOptions = [
@@ -171,7 +172,7 @@ class InputsJob extends Component {
                 <label > Minority Focus Group(s): </label>
 
                     <div className="minorityFocusStyle">
-                        <Select onChange={this.changeMinorityFocus} isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
+                        <Select onChange={this.changeMinorityAnalyzed} isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
                     </div>
                     <small className="form-text text-muted"> Select the minority group(s) in the dropdown to particularly analyze. </small>
 
