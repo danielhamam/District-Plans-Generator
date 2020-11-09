@@ -156,7 +156,7 @@ public class Plan{
     @JsonIgnore
     public Map<String, Object> getClientInitialData(){
         Map<String, Object> clientPlan = new HashMap<>();
-        clientPlan.put("planName", this.planName);
+        clientPlan.put("type", this.planName);
         clientPlan.put("planID", this.planID);
         clientPlan.put("numOfDistricts", this.numOfDistricts);
         clientPlan.put("numOfCounties", this.numOfCounties);
