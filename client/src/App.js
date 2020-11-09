@@ -92,16 +92,7 @@ class App extends Component {
    * the event occurs.
    */
   createJob = async (userInputs) => { // userInputs is an OBJECT of the constraints user selected. Let's gather them here. 
-    // let newBatch =  {
-    //   jobName : "Job", // name of the job
-    //   districtsAmount : 10, // # district 
-    //   plansAmount : 1000, // # district plans
-    //   compactness : "LOW", // compactness (string can be low, intermediate or high)
-    //   populationDifference : 1.2, // population difference varies from 0-1.7%
-    //   minorityFocus : "HISPANIC_AMERICAN"
-    // }
-    // let res = await endpoint.generateJob(newBatch);
-    // console.log(res);
+  
       try {
         let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)

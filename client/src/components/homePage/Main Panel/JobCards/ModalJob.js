@@ -62,7 +62,7 @@ class ModalJob extends Component {
                     {/* Second let's display the inputs chosen by the user */}
                     <p> 
                         <span> Number of plans: </span> 
-                        <span className={"inline "}> {this.props.numberPlans} </span>
+                        <span className={"inline "}> {this.props.plansAmount} </span>
                     </p>
                     <p> 
                         <span> Compactness: </span> 

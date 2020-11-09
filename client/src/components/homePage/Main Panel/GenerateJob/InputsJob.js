@@ -13,7 +13,7 @@ class InputsJob extends Component {
             plansAmount : 0, // # district plans
             compactness : "", // compactness (string can be low, intermediate or high)
             populationDifference : 0, // population difference varies from 0-1.7%
-            minorityFocus : ""
+            minorityAnalyzed : ""
         }
     }
 
@@ -86,7 +86,7 @@ class InputsJob extends Component {
               label: "Measurement",
               options: [
                 { label:"LOW", value: "0"},
-                { label:"MEDUIM", value: "50"},
+                { label:"MEDIUM", value: "50"},
                 { label:"HIGH", value: "100"},
               ]},
           ];
