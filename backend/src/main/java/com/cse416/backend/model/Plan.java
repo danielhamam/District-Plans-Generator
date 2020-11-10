@@ -27,6 +27,8 @@ public class Plan{
     private int averageDistrictPopulation;
     @JsonIgnore
     private int averageDistrictCompactness;
+    //Change to file name path
+    String districtGeoJSONFileName; 
 
     public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts,boolean isEnactedPlan, int year) {
         this.planName = planName;
@@ -164,7 +166,6 @@ public class Plan{
         districts.forEach(district -> clientDistrict.add(district.getClientInitialData()));
         clientPlan.put("districts", clientDistrict);
         return clientPlan;
-
     }
 
     // @JsonIgnore

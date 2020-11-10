@@ -28,7 +28,7 @@ const Dev = () =>{
 
     return(
         <div>
-            <h1> Hello Devloper </h1>
+            <h1> Hello Developer </h1>
 
             <button onClick={getStateHandler}> Get State </button>
             <button onClick={generateJobHandler}> Generate Job</button>
