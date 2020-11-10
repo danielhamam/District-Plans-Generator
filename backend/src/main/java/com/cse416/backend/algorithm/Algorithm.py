@@ -65,7 +65,7 @@ def initiateAlgorithm(): # Main function
 
     # testList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # DEBUG
 
-    newList = combinePrecincts(precincts) # DEBUG
+    newDistricts = combinePrecincts(precincts) # DEBUG
 
     for i in newList: # DEBUG
         print("New District--------") # DEBUG
@@ -97,6 +97,9 @@ def getData():
     state = data['data']['state']
     global job
     job = data['data']['job']
+    global precincts
+    precincts=data['data']['state']['precincts']
+    precincts
 
     global clientPopulationDifference
     clientPopulationDifference = data['data']['job']['populationDifference']
@@ -254,3 +257,48 @@ initiateAlgorithm()
 # to get the state and job data objects, then pass them through to initiateAlgorithm()
 
 # districting = None # DistrictingPlan object ?????
+
+
+
+####################
+graphOfPrecinct = {
+        "000":{
+            'neighbors': [
+                2, 3
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+        },
+        "001": {},
+        }
+graphOfDistricts = {
+        1:{
+            'neighbors': [
+                2
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+        2: {
+            'neighbors': [
+                2
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+        }
