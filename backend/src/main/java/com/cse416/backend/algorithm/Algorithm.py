@@ -176,10 +176,42 @@ def checkNeighbors():
     print("Checking neighbors. . .")
     # Checks the new splitted precinct list to see if they are all neighbors
 
+
+
+
 def balanceGraph():
     print("Balancing graph. . .")
-    while (isGraphBalanced):
-        optimizeDistrictPair()
+    i = 0
+    districts = graphOfDistricts = {
+        1:{
+            'neighbors': [
+                2
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+        2: {
+            'neighbors': [
+                2
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+        }
+    
+    while i < 100:
+        optimizeDistrictPair(districts)
+        i = i + 100;
 
 def isGraphBalanced(districts):
     print("Is graph balanced?")
@@ -194,20 +226,24 @@ def isGraphBalanced(districts):
 #     # Check compactness is within the limit requested
 #     # Check if populationDifference lies within 1/2 of user's input
 
-def optimizeDistrictPair():
-    print("Optimizing district pair. . .")
-    # pair = randomDistrictPair() # List of two districts
-    # tree = createSpanningTree()
+def optimizeDistrictPair(districts : dict):
+    pair = getRandomDistrictPair(districts) # List of two districts
+    #tree = createSpanningTree(pair)
     # edgesToCut = generateEdgesToCut()
 #     # Do something
 
-def randomDistrictPair():
+def getRandomDistrictPair(districts : dict):
+    """Returns list of two adjancent district. Current implementaton returns key of district dictionary. TODO: Return list of dict objects such as [{1:{...}},{2:{...}}]"""
     print("Selecting random disrict pair. . .")
-#     # Do something
-#     # -- returns District []
+    districtOne = random.randrange(1,len(districts)+1)
+    districtOnesNeighbors = districts.get(districtOne)['neighbors']
+    districtTwo = random.choice(districtOnesNeighbors)
+    return [districtOne, districtTwo]
 
-def createSpanningTree():
+def createSpanningTree(districtPair : list):
     print("Creating spanning tree. . .")
+    combinedPrecinct = districtPair[0]['precinct'].append(districtPair[1]['precinct'])
+    return combinedPrecinct
 #     # Do something
 #     # -- inputs pair: District[]
 #     # -- returns List<Precinct>
@@ -291,7 +327,7 @@ graphOfDistricts = {
             },
         2: {
             'neighbors': [
-                2
+                1, 3
             ],
             'compactness': 0.5,
             'populationDiff': 0.3,
@@ -301,4 +337,30 @@ graphOfDistricts = {
                 "002"
             ]
             },
+        3: {
+            'neighbors': [
+                2, 4
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+        4: {
+            'neighbors': [
+                3
+            ],
+            'compactness': 0.5,
+            'populationDiff': 0.3,
+            'precincts': [
+                "000",
+                "001",
+                "002"
+            ]
+            },
+            
+            
         }
