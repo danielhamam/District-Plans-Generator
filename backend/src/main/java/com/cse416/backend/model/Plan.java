@@ -1,4 +1,7 @@
 package com.cse416.backend.model;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.cse416.backend.model.regions.District;
@@ -7,80 +10,73 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.geojson.FeatureCollection;
 
 
 public class Plan{
-    @JsonProperty("type")
-    private String planName;
-    private String stateAbbrev;
+    @JsonProperty
+    private String type;
+    @JsonProperty
+    private String stateAbbreviation;
+    @JsonProperty
     private String planID;
-    private int numOfDistricts;
-    private int numOfCounties;
-    private int numofPrecincts;
-    private boolean isEnactedPlan;
-    private int year;
+    @JsonProperty
+    private int numberOfDistricts;
+    @JsonProperty
+    private boolean isPlanEnacted;
     @JsonIgnore
     private List<District> districts;
     @JsonIgnore
     private int averageDistrictPopulation;
     @JsonIgnore
     private int averageDistrictCompactness;
-    //Change to file name path
-    String districtGeoJSONFileName; 
+    @JsonIgnore
+    private File districtFile;
+    @JsonProperty
+    private FeatureCollection districtsGeoJson;
+    // // //https://github.com/opendatalab-de/geojson-jackson
 
-    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts,boolean isEnactedPlan, int year) {
-        this.planName = planName;
-        this.stateAbbrev = stateAbbrev;
+    public Plan(String stateAbbreviation, String type, String planID, int numberOfDistricts,boolean isPlanEnacted) {
+        this.stateAbbreviation = stateAbbreviation;
+        this.type = type;
         this.planID = planID;
-        this.numOfDistricts = numOfDistricts;
-        this.numOfCounties = numOfCounties;
-        this.numofPrecincts = numofPrecincts;
-        this.isEnactedPlan = isEnactedPlan;
-        this.year = year;
+        this.numberOfDistricts = numberOfDistricts;
+        this.isPlanEnacted = isPlanEnacted;
+        String filePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/" + this.type + "Districts.json";
+        this.districtFile = new File(new File(filePath).getAbsolutePath());
+        try{
+            this.districtsGeoJson = createDistrictFeatureCollection();
+        }
+        catch(IOException error){
+            error.printStackTrace();
+        }
     }
-    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, boolean isEnactedPlan, int year, List<District> districts){
-        this.planName = planName;
-        this.stateAbbrev = stateAbbrev;
-        this.planID = planID;
-        this.numOfDistricts = numOfDistricts;
-        this.numOfCounties = numOfCounties;
-        this.numofPrecincts = numofPrecincts;
-        this.isEnactedPlan = isEnactedPlan;
-        this.districts = districts;
-        this.year = year;
+
+    public FeatureCollection createDistrictFeatureCollection()throws IOException{
+        return new ObjectMapper().readValue(this.districtFile, FeatureCollection.class);
     }
     
-
-    public Plan(String planName, String stateAbbrev, String planID, int numOfDistricts, int numOfCounties, int numofPrecincts, List<District> districts, int averageDistrictPopulation, int averageDistrictCompactness, boolean isEnactedPlan, int year) {
-        this.planName = planName;
-        this.stateAbbrev = stateAbbrev;
-        this.planID = planID;
-        this.numOfDistricts = numOfDistricts;
-        this.numOfCounties = numOfCounties;
-        this.numofPrecincts = numofPrecincts;
-        this.districts = districts;
-        this.averageDistrictPopulation = averageDistrictPopulation;
-        this.averageDistrictCompactness = averageDistrictCompactness;
-        this.isEnactedPlan = isEnactedPlan;
-        this.year = year;
+    public String gettype() {
+        return type;
     }
 
-    public String getPlanName() {
-        return planName;
+    public void settype(String type) {
+        this.type = type;
     }
 
-    public void setPlanName(String planName) {
-        this.planName = planName;
+    public String getstateAbbreviation() {
+        return stateAbbreviation;
     }
 
-    public String getStateAbbrev() {
-        return stateAbbrev;
-    }
-
-    public void setStateAbbrev(String stateAbbrev) {
-        this.stateAbbrev = stateAbbrev;
+    public void setstateAbbreviation(String stateAbbreviation) {
+        this.stateAbbreviation = stateAbbreviation;
     }
 
     public String getPlanID() {
@@ -91,28 +87,12 @@ public class Plan{
         this.planID = planID;
     }
 
-    public int getNumOfDistricts() {
-        return numOfDistricts;
+    public int getNumberOfDistricts() {
+        return numberOfDistricts;
     }
 
-    public void setNumOfDistricts(int numOfDistricts) {
-        this.numOfDistricts = numOfDistricts;
-    }
-
-    public int getNumOfCounties() {
-        return numOfCounties;
-    }
-
-    public void setNumOfCounties(int numOfCounties) {
-        this.numOfCounties = numOfCounties;
-    }
-
-    public int getNumofPrecincts() {
-        return numofPrecincts;
-    }
-
-    public void setNumofPrecincts(int numofPrecincts) {
-        this.numofPrecincts = numofPrecincts;
+    public void setNumberOfDistricts(int numberOfDistricts) {
+        this.numberOfDistricts = numberOfDistricts;
     }
 
     public List<District> getDistricts() {
@@ -139,39 +119,39 @@ public class Plan{
         this.averageDistrictCompactness = averageDistrictCompactness;
     }
 
-    public boolean isisEnactedPlan() {
-        return isEnactedPlan;
+    public boolean isisPlanEnacted() {
+        return isPlanEnacted;
     }
 
-    public void setisEnactedPlan(boolean isEnactedPlan) {
-        this.isEnactedPlan = isEnactedPlan;
+    public void setisPlanEnacted(boolean isPlanEnacted) {
+        this.isPlanEnacted = isPlanEnacted;
     }
 
-    public int getYear() {
-        return year;
+    public FeatureCollection getDistrictGeoJson() {
+        return districtsGeoJson;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setDistrictGeoJson(FeatureCollection districtFeatureCollection) {
+        this.districtsGeoJson = districtFeatureCollection;
     }
 
-    @JsonIgnore
-    public Map<String, Object> getClientInitialData(){
-        Map<String, Object> clientPlan = new HashMap<>();
-        clientPlan.put("type", this.planName);
-        clientPlan.put("planID", this.planID);
-        clientPlan.put("numOfDistricts", this.numOfDistricts);
-        clientPlan.put("numOfCounties", this.numOfCounties);
-        List <Object> clientDistrict = new ArrayList<>();
-        districts.forEach(district -> clientDistrict.add(district.getClientInitialData()));
-        clientPlan.put("districts", clientDistrict);
-        return clientPlan;
-    }
+    // @JsonIgnore
+    // public Map<String, Object> getClientInitialData(){
+    //     Map<String, Object> clientPlan = new HashMap<>();
+    //     clientPlan.put("type", this.type);
+    //     clientPlan.put("planID", this.planID);
+    //     clientPlan.put("numOfDistricts", this.numOfDistricts);
+    //     clientPlan.put("numOfCounties", this.numOfCounties);
+    //     List <Object> clientDistrict = new ArrayList<>();
+    //     districts.forEach(district -> clientDistrict.add(district.getClientInitialData()));
+    //     clientPlan.put("districts", clientDistrict);
+    //     return clientPlan;
+    // }
 
     // @JsonIgnore
     // public List<District> getClientDistricts(){
     //     Map<String, Object> clientPlan = new HashMap<>();
-    //     clientPlan.put("planName", this.planName);
+    //     clientPlan.put("type", this.type);
     //     clientPlan.put("planID", this.planID);
     //     clientPlan.put("numOfDistricts", this.numOfDistricts);
     //     clientPlan.put("numOfCounties", this.numOfCounties);
@@ -185,17 +165,14 @@ public class Plan{
     @Override
     public String toString() {
         return "Plan{" +
-                "planName='" + planName + '\'' +
-                ", stateAbbrev='" + stateAbbrev + '\'' +
+                ", stateAbbreviation='" + stateAbbreviation + '\'' +
+                "type='" + type + '\'' +
                 ", planID='" + planID + '\'' +
-                ", numOfDistricts=" + numOfDistricts +
-                ", numOfCounties=" + numOfCounties +
-                ", numofPrecincts=" + numofPrecincts +
+                ", numberOfDistricts=" + numberOfDistricts +
                 ", districts=" + districts +
                 ", averageDistrictPopulation=" + averageDistrictPopulation +
                 ", averageDistrictCompactness=" + averageDistrictCompactness +
-                ", isEnactedPlan=" + isEnactedPlan +
-                ", year=" + year +
+                ", isPlanEnacted=" + isPlanEnacted +
                 '}';
     }
 }

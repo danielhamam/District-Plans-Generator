@@ -2,31 +2,49 @@ package com.cse416.backend.model.regions;
 
 import com.cse416.backend.model.Plan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.geojson.FeatureCollection;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
+
 
 public class State {
     private String stateName;
     private String stateAbbreviation;
     private int stateFIPSCode;
+    private int totalPopulation;
     private Plan enactedPlan;
+    @JsonIgnore
     private Precinct [] statePrecincts;
-    private Demographic demographic;
+    @JsonIgnore
     private Boundary boundary;
+    @JsonIgnore
+    private File precinctFile;
+    @JsonIgnore
+    private File stateFile;
+    @JsonIgnore
+    private FeatureCollection precinctsGeoJson;
+    @JsonIgnore
+    private FeatureCollection stateGeoJson;
 
-    public State(String stateName, String stateAbbreviation, int stateFIPSCode, Demographic demographic, Boundary boundary, Plan enactedPlan, Precinct [] statePrecincts){
+    public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation){
         this.stateName = stateName;
         this.stateAbbreviation = stateAbbreviation;
         this.stateFIPSCode = stateFIPSCode;
-        this.boundary = boundary;
-        this.demographic = demographic;
-        this.enactedPlan = enactedPlan;
-        this.statePrecincts = statePrecincts;
+        this.totalPopulation = totalPopulation;
+        String precinctFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/Precincts.json";
+        String boundaryFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/StateBoundry.json";
+        this.precinctFile = new File(new File(precinctFilePath).getAbsolutePath());
+        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
     }
-
+    
     public String getStateName() {
         return stateName;
     }
@@ -67,14 +85,6 @@ public class State {
         this.statePrecincts = statePrecincts;
     }
 
-    public Demographic getDemographic() {
-        return demographic;
-    }
-
-    public void setDemographic(Demographic demographic) {
-        this.demographic = demographic;
-    }
-
     public Boundary getBoundary() {
         return boundary;
     }
@@ -83,18 +93,17 @@ public class State {
         this.boundary = boundary;
     }
 
-    public Map<String, Object>  getClientInitialData(){
-        Map<String, Object> clientState = new HashMap<>();
-        clientState.put("stateName", this.stateName);
-        clientState.put("numOfPrecincts", 10);
-        clientState.put("numOfCounties", 10);
-        clientState.put("stateName", this.stateName);
-        clientState.put("stateAbbreviation", this.stateAbbreviation);
-        clientState.put("stateFIPSCode", this.stateFIPSCode);
-        clientState.put("enactedPlan", this.enactedPlan.getClientInitialData());
-        clientState.put("demographic", this.demographic);
-        return clientState;
-    }
+    // public Map<String, Object>  getClientInitialData(){
+    //     Map<String, Object> clientState = new HashMap<>();
+    //     clientState.put("stateName", this.stateName);
+    //     clientState.put("stateAbbreviation", this.stateAbbreviation);
+    //     clientState.put("stateFIPSCode", this.stateFIPSCode);
+    //     clientState.put("numOfPrecincts", 10);
+    //     clientState.put("numOfCounties", 10);
+    //     clientState.put("enactedPlan", this.enactedPlan.getClientInitialData());
+    //     clientState.put("demographic", this.demographic);
+    //     return clientState;
+    // }
 
     @Override
     public String toString() {
@@ -104,7 +113,6 @@ public class State {
                 ", stateFIPSCode=" + stateFIPSCode +
                 ", enactedPlan=" + enactedPlan +
                 ", statePrecincts=" + Arrays.toString(statePrecincts) +
-                ", demographic=" + demographic +
                 ", boundary=" + boundary +
                 '}';
     }

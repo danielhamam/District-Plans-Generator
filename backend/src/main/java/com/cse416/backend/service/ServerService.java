@@ -38,9 +38,9 @@ public class ServerService {
         return "connectingClient";
     }
     
-    public String getState(String stateAbbrev){
-        State state = fake.queryGetStateInformation(stateAbbrev);
-        List <Job> jobs = this.getStateJobsInformation(stateAbbrev);
+    public String getState(String stateAbbrevation){
+        State state = fake.queryGetStateInformation(stateAbbrevation);
+        List <Job> jobs = this.getStateJobsInformation(stateAbbrevation);
         this.session = new Session(state);
         this.session.addJobs(jobs);
         String clientData = "{serverError:null}";
@@ -59,7 +59,7 @@ public class ServerService {
         Map <String,Object> clientData = new HashMap<>();
         List<Object> clientJob = new ArrayList<>();
         jobs.forEach(job -> clientJob.add(job));
-        clientData.put("state", state.getClientInitialData());
+        clientData.put("state", state);
         clientData.put("jobs", clientJob);
         String clientDataString = mapper.writeValueAsString(clientData);
         return clientDataString;
