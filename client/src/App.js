@@ -58,7 +58,7 @@ class App extends Component {
       console.log(res)
       this.setState({ jobCards : res.jobs}); 
       this.setState({ enactedPlan : res.state.enactedPlan}); 
-      this.setState({ totalPopulation : res.state.demographic.totalPopulation});
+      this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
       this.setState({ numOfCounties : res.state.numOfCounties}); 
     } catch (exception) {
