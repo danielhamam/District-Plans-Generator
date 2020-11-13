@@ -48,11 +48,18 @@ public class ClientController {
 
     // }
 
+
    @GetMapping(path = "/job/{jobID}", produces = "application/json")
    public String getJob(@PathVariable String jobID){
        System.out.println("Sending jobID " + jobID + " to Client");
        return service.getJob(jobID);
    }
+
+    @GetMapping(path = "/precincts", produces = "application/json")
+    public String getPrecinct(){
+
+        return service.getPrecinct();
+    }
 
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
     public String getDemographicFilter(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){

@@ -105,6 +105,15 @@ public class State {
         this.boundary = boundary;
     }
 
+    public Map getClientPrecinctsGeoJson() {
+        Map <String, Object> map = new HashMap<>();
+        map.put("precincts", precinctsGeoJson);
+        return map;
+    }
+
+
+
+
     // public Map<String, Object>  getClientInitialData(){
     //     Map<String, Object> clientState = new HashMap<>();
     //     clientState.put("stateName", this.stateName);

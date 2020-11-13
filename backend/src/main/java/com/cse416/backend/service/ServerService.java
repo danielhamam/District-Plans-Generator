@@ -4,6 +4,7 @@ import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.model.*;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.model.regions.*;
+import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,22 @@ public class ServerService {
         return "getBoundries";
     }
 
+    public String getPrecinct(){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            Object precinctsGeoJson = this.session.getState().getClientPrecinctsGeoJson();
+            clientData = this.createClient_Data(precinctsGeoJson);
+
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+
+    }
     public String getPlan(String jobID, String planID){
         Job currentJob = this.session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);

@@ -4,6 +4,7 @@ const SERVER_PATHS = {
     CONNECTING: "/connect",
     STATE: "/state",
     BOUNDARIES: "/boundaries",
+    PRECINCTS: "/precincts",
     DEMOGRAPHIC_FILTER: "/demographicfilter",
     JOB: "/job",
     PLAN: "/plan",
@@ -63,6 +64,15 @@ export async function getState(data){
     const response = await fetch(NEW_URL, requestOptions).catch(error => error);
     return await response.json()
 }
+
+export async function getStatePrecincts(){ 
+	    console.log("Gettting State Precincts"); 
+	    const requestOptions = createFetchOptions('GET'); 
+	    const NEW_URL = URL + SERVER_PATHS.PRECINCTS; 
+	    const response = await fetch(NEW_URL, requestOptions).catch(error => error); 
+	    return await response.json() 
+} 
+
 
 export async function getBoundaries(path){
 
