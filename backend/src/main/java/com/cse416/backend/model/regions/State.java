@@ -3,8 +3,10 @@ package com.cse416.backend.model.regions;
 import com.cse416.backend.model.Plan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geojson.FeatureCollection;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
@@ -39,10 +41,20 @@ public class State {
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
         String boundaryFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/StateBoundry.json";
+                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
         this.precinctFile = new File(new File(precinctFilePath).getAbsolutePath());
         this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
         this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        try{
+            this.precinctsGeoJson = createPrecinctFeatureCollection();
+        }
+        catch(IOException error){
+            error.printStackTrace();
+        }
+    }
+
+    public FeatureCollection createPrecinctFeatureCollection()throws IOException {
+        return new ObjectMapper().readValue(this.precinctFile, FeatureCollection.class);
     }
     
     public String getStateName() {
