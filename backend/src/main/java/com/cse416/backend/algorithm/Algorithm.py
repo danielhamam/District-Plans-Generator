@@ -58,15 +58,20 @@ def initiateAlgorithm(): # Main function
     # districts = combinePrecincts(precincts)
 
     # print(precincts) # DEBUG
-    print(len(precincts)) # DEBUG
+    # print(len(precincts)) # DEBUG
     # print(precincts[1]) # DEBUG
-    print(precincts[1]["neighbors"][0]) # DEBUG
-    print(len(precincts[1]["neighbors"])) # DEBUG
+    # print(precincts[1]["neighbors"][0]) # DEBUG
+    # print(len(precincts[1]["neighbors"])) # DEBUG
+
+    # ranNum = random.randint(0, len(precincts)-1)
+    # keys = list(precincts.keys())
+    # print(keys)
+    # print(keys[ranNum])
+    # print(precincts["001"])
 
     # testList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # DEBUG
 
-    newDistricts = combinePrecincts(precincts) # DEBUG
-
+    newList = combinePrecincts(precincts) # DEBUG
     for i in newList: # DEBUG
         print("New District--------") # DEBUG
         for j in i: # DEBUG
@@ -97,9 +102,6 @@ def getData():
     state = data['data']['state']
     global job
     job = data['data']['job']
-    global precincts
-    precincts=data['data']['state']['precincts']
-    precincts
 
     global clientPopulationDifference
     clientPopulationDifference = data['data']['job']['populationDifference']
@@ -121,6 +123,7 @@ def combinePrecincts(precinctList): # Use Case #29
     print("Combining precincts (districts needed: " + str(numOfDistricts) + "). . .")
     counter = 0 # Counter for loop
     randomIndex = 0 # Random number used for randomization of precinct combining
+    precinctKeys = list(precinctList.keys()) # List of keys to randomly select from
     subGraphs = [] # List of newly-created districts
     takenPrecincts = [] # Precincts already combined (by FIPS Code)
     precinctNeighbors = [] # List of selected precinct's neighbors
@@ -139,7 +142,8 @@ def combinePrecincts(precinctList): # Use Case #29
             randomIndex = random.randint(0, listSize-1)
             # print("DEBUG 1") # DEBUG
             # print(randomIndex) # DEBUG
-            precinct1 = precinctList[randomIndex] # Precinct 1 chosen randomly
+            precinctCode = precinctKeys[randomIndex]
+            precinct1 = precinctList[precinctCode] # Precinct 1 chosen randomly
             # print("DEBUG 2") # DEBUG
             # print(precinct1) # DEBUG
             if (precinct1["precinctFIPSCode"] not in takenPrecincts): # If not already taken
@@ -167,10 +171,6 @@ def combinePrecincts(precinctList): # Use Case #29
 
     return subGraphs
     # Or globally set districts to subGraphs(result)
-
-    # Randomly select neighbor - combine and get a subgraph 
-    # run this numOfDistricts number of times
-    # return combinedSubgraph or save it
 
 def checkNeighbors():
     print("Checking neighbors. . .")
