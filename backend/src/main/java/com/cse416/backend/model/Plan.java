@@ -150,11 +150,11 @@ public class Plan{
         this.isPlanEnacted = isPlanEnacted;
     }
 
-    public FeatureCollection getDistrictGeoJson() {
+    public FeatureCollection getDistrictsGeoJson() {
         return districtsGeoJson;
     }
 
-    public void setDistrictGeoJson(FeatureCollection districtFeatureCollection) {
+    public void setDistrictsGeoJson(FeatureCollection districtFeatureCollection) {
         this.districtsGeoJson = districtFeatureCollection;
     }
 
