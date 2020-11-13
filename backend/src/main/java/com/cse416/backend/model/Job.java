@@ -9,43 +9,71 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Entity
+@Table (name = 'Jobs')
 public class Job{
 
     @JsonProperty("jobName")
     private String jobName;
+
     @JsonProperty
     private List<CensusCatagories> minorityAnalyzed;
+
     @JsonProperty("compactness")
+    @Column(name = "compactness")
     private ClientCompactness clientCompactness;
+
     @JsonProperty("populationDifference")
     private double populationDifference;
+
     @JsonProperty("plansAmount")
+    @Column(name = "numberOfPlans")
     private int numDistrictingPlan;
+
     @JsonProperty("districtsAmount")
+    @Column(name = "numberOfDistricts")
     private int numOfDistricts;
+
     @JsonProperty
+    @Column(name = "jobStatus")
     private JobStatus status;
+
     @JsonProperty
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String jobID;
+
     @JsonIgnore
     private Plan averageDistrictPlan;
+
     @JsonIgnore
     private Plan extremeDistrictPlan;
+
     @JsonIgnore
     private Plan randomDistrictPlan;
+
     @JsonIgnore
+    @Column(name = "stateID")
     private String stateAbbrev;
+
+    @JsonIgnore
+    private int stateFIPSCode;
+
     @JsonIgnore
     private int averagePlanPopulation;
+
     @JsonIgnore
     private int averagePlanCompactness;
+
     @JsonIgnore
     private int seawulfJobID;
+
     @JsonIgnore
     private String jobSummary;
+
     @JsonIgnore
     private List <Plan> allDistrictingPlan;
+
     @JsonIgnore
     private List <Plan> otherDistrictingPlan;
     
