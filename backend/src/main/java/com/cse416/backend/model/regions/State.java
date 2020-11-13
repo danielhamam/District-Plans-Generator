@@ -35,6 +35,7 @@ public class State {
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 
+
     public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts){
         this.stateName = stateName;
         this.stateAbbreviation = stateAbbreviation;
@@ -107,6 +108,14 @@ public class State {
 
     public void setBoundary(Boundary boundary) {
         this.boundary = boundary;
+    }
+
+    public int getNumOfCounties() {
+        return numOfCounties;
+    }
+
+    public int getNumOfDistricts() {
+        return numOfDistricts;
     }
 
     public Map getClientPrecinctsGeoJson() {
