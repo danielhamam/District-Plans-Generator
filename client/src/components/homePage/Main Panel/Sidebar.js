@@ -6,7 +6,7 @@ import blackBackground from "./blackBackground.jpg"
 import YourJobs from './JobCards/YourJobs'
 import YourDistrictingPlans from './DistrictingPlans/YourDistrictingPlans'
 import InputsJob from './GenerateJob/InputsJob';
-import ModalGraph from './GraphDisplay/ModalGraph'
+import BoxWhiskerModal from './GraphDisplay/BoxWhiskerModal'
 
 class Sidebar extends Component {
     constructor () {
@@ -122,7 +122,7 @@ class Sidebar extends Component {
         }
     }
 
-    handleModalGraph = () => {
+    handleBoxWhiskerModal = () => {
         if (this.state.modalOpen == false) {
             this.props.generateBoxWhiskerValues();
             this.setState({modalOpen : true});
@@ -227,15 +227,15 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
                             <div id="displayGraph" > 
                                 <MenuItem  icon={<div > <i className="fa fa-connectdevelop" > </i> </div>} title={<b> Display Graph Panel &nbsp;   <i className="fa fa-expand"> </i> </b>} >
-                                    <div onClick={this.handleModalGraph}>
+                                    <div onClick={this.handleBoxWhiskerModal}>
                                         <b> Display Graph Panel </b>
                                         <i id="displayGraph_icon" className="fa fa-external-link"> </i> 
                                     </div>
-                                    <ModalGraph 
-                                    graphOptions={this.state.graphOptions} 
-                                    handleModalGraph={this.handleModalGraph} 
-                                    showModal={this.state.modalOpen} > 
-                                    </ModalGraph>
+                                    <BoxWhiskerModal 
+                                        graphOptions={this.state.graphOptions} 
+                                        handleBoxWhiskerModal ={this.handleBoxWhiskerModal} 
+                                        showModal={this.state.modalOpen} > 
+                                    </BoxWhiskerModal >
                                 </MenuItem>
                             </div>
                             </Menu>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import ModalJob from './ModalJob'
-import DeleteModal from './DeleteModal'
+import ViewJobModal from './ViewJobModal'
+import DeleteJobModal from './DeleteJobModal'
 
 class JobCard extends Component {
     constructor () {
@@ -114,11 +114,11 @@ class JobCard extends Component {
                     <br /> 
                     <br />
                 </div>
-                <DeleteModal showDeleteModal={this.state.showDeleteModal} handleModalAction={this.handleModalAction} 
+                <DeleteJobModal showDeleteModal={this.state.showDeleteModal} handleModalAction={this.handleModalAction} 
                 toggleDeleteModal={this.toggleDeleteModal} jobName={this.props.jobName} jobCard={this.props.jobCard} 
                 status={this.props.status}
                 />
-                <ModalJob populationDifference={this.props.populationDifference} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
+                <ViewJobModal populationDifference={this.props.populationDifference} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
                 plansAmount={this.props.plansAmount} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
                 toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}
                 />

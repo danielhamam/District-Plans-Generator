@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 // Triggered when clicking "View" on a Job
 
-class DeleteModal extends Component {
+class DeleteJobModal extends Component {
     constructor () {
         super();
         this.state = {
@@ -14,8 +14,8 @@ class DeleteModal extends Component {
     render() {
 
         if (this.props.status == "Pending" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
+
         return (
-        // "Props" means properties. We communicated with JobCard.js to connect the card's buttons with the modal.
     
                 <Modal backdrop="static" show={this.props.showDeleteModal} onHide={this.props.showDeleteModal}>  
                     <Modal.Header closeButton >
@@ -27,10 +27,8 @@ class DeleteModal extends Component {
                         <Button variant="primary" onClick={(e) => this.props.handleModalAction(e, this.props.jobCard, this.state.actionType)}>Yes</Button>
                     </Modal.Footer>
                 </Modal>
-            // {/* </div> */}
-            
         );
     }
 }
 
-export default DeleteModal;
+export default DeleteJobModal;

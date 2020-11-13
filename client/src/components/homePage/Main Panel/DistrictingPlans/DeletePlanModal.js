@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-// Triggered when clicking "View" on a job
+// Trigger: onClick "Delete" on a plan
 
 class DeletePlanModal extends Component {
     constructor () {
         super();
-        this.state = {
-        }
-
+        this.state = {}
     }
     render() {
-
         return (
-        // "Props" means properties. We communicated with JobCard.js to connect the card's buttons with the modal.
-    
                 <Modal backdrop="static" show={this.props.showDeleteModal} onHide={this.props.showDeleteModal}>  
                     <Modal.Header closeButton >
                     <h5> Are you sure you want to delete this district plan? </h5>
@@ -25,8 +20,6 @@ class DeletePlanModal extends Component {
                         <Button variant="primary" onClick={(e) => this.props.handleDeletePlan(e, this.props.plan)}>Yes</Button>
                     </Modal.Footer>
                 </Modal>
-            // {/* </div> */}
-            
         );
     }
 }

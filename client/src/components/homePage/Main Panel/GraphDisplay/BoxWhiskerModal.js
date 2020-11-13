@@ -6,14 +6,14 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 // Triggered when clicking "View" on a job
 
-class ModalGraph extends Component {
+class BoxWhiskerModal extends Component {
     constructor () {
         super();
         this.state = {}
     }
     render() {
         return (
-            <Modal backdrop="static" show={this.props.showModal} onHide={this.props.handleModalGraph}>  
+            <Modal backdrop="static" show={this.props.showModal} onHide={this.props.handleBoxWhiskerModal}>  
                 <Modal.Header closeButton >
                     <Modal.Title> Graph Display </Modal.Title>
                 </Modal.Header>
@@ -21,11 +21,11 @@ class ModalGraph extends Component {
                     <CanvasJSChart options = {this.props.graphOptions}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" onClick={this.props.handleModalGraph}>Close</Button>
+                    <Button variant="danger" onClick={this.props.handleBoxWhiskerModal}>Close</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 }
 
-export default ModalGraph;
+export default BoxWhiskerModal;

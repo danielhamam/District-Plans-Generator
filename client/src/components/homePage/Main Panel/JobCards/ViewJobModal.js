@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 // Triggered when clicking "View" on a Job
 
-class ModalJob extends Component {
+class ViewJobModal extends Component {
     constructor () {
         super();
         this.state = {
@@ -92,4 +92,4 @@ class ModalJob extends Component {
     }
 }
 
-export default ModalJob;
+export default ViewJobModal;

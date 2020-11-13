@@ -1,6 +1,6 @@
 // import Plot from 'react-plotly.js';
 import React, {Component} from 'react';
-import ModalGraph from './ModalGraph'
+import BoxWhiskerModal from './BoxWhiskerModal'
 import CanvasJSReact from './canvasjs-3.0.5/canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -78,7 +78,7 @@ class GraphDisplay extends Component {
         }
     }
 
-    toggleModalGraph = () => {
+    toggleBoxWhiskerModal = () => {
         // console.log(this.state.selectedFilters);
         if (this.state.modalOpen == false) this.setState({modalOpen : true});
         else this.setState({modalOpen : false});
@@ -95,13 +95,13 @@ class GraphDisplay extends Component {
 
         return (
             <div className="graphDisplayWrapper"> 
-                <div onClick={this.toggleModalGraph} >
+                <div onClick={this.toggleBoxWhiskerModal} >
                     <div id="plotView1"> 
                         <CanvasJSChart options = {this.state.graphOptions}/>
                     </div>
                 </div>
                 <div>
-                    <ModalGraph graphOptions={this.state.graphOptions} toggleModal ={this.toggleModalGraph} showModal={this.state.modalOpen} > </ModalGraph>
+                    <BoxWhiskerModal graphOptions={this.state.graphOptions} toggleModal ={this.toggleBoxWhiskerModal} showModal={this.state.modalOpen} />
                 </div>
                     < br />
                     < br />
