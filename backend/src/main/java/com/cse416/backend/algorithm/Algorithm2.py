@@ -15,7 +15,7 @@ def debug(optional, printout, *args):
     global debug_status 
     if debug_status == 0:
         return "-"
-    if debug_status == optional:
+    if debug_status <= optional:
         print(printout, *args)
         # sys.stdout.write(format % args)
         # print()
@@ -94,18 +94,24 @@ def get_dict_neighbors(graph:dict, key):
 
 
 def updateGraphNeigbors(original_graph:dict, new_nodes:list):
-     for node in district_one:
-        struct = graph[node]
-        neighbors = get_dict_neighbors(graph,node)
+    new_graph = {}
+    for node in new_nodes:
+        struct = original_graph[node]
+        neighbors = get_dict_neighbors(original_graph,node)
         for neighbor in neighbors:
-            if not neighbor in district_one:
+            if not neighbor in new_nodes:
                 struct['neighbors'].remove(neighbor)  
-        dict_district_one.setdefault(node,struct)
+        new_graph.setdefault(node,struct)
+    return new_graph
 
 
 
-def combinePDFS(graph:dict):
+def combinePRec(graph:dict, n:int):
     global numberOfDistricts, debug
+    debug(1,"\n" * 2);
+    debug(1, "~"*60 + "\n\tSTARTING RECURSIVE IB\n" + "~"*60)
+    if n == 0:
+        debug(2, "[DEBUG] graph: ", graph)
     counter = numberOfDistricts
     #districts_struct = create_district_struct(numberOfDistricts)
     #debug(2, "[DEBUG] Created districts...", list(districts_struct.keys()))
@@ -115,25 +121,61 @@ def combinePDFS(graph:dict):
     degrees = dfs_value["degrees"]
     debug(2, "[DEBUG] edge: ", edges)
     debug(2, "[DEBUG] visited: ", visited)
-    debug(2, "[DEBUG] degrees: ", degrees)
+    debug(1, "[DEBUG] degrees: ", degrees)
     pivot_index = len(edges)//2
     pivot_edge = edges[pivot_index]
-    edges_one = edges[:pivot_index]
-    edges_two = edges[pivot_index+1:]
-    district_one = []
-    district_two = []
-    pivot_index = visited.index(pivot_edge[1])
     debug(2, "\t[DEBUG] pivot_edge: ", pivot_edge, "visisted_pivot_index", pivot_index)
-    district_one= visited[:pivot_index]
-    district_two= visited[pivot_index:]
+    pivot_index = visited.index(pivot_edge[1])
+    district_one = visited[:pivot_index]
+    district_two = visited[pivot_index:]
     debug(2, "\t[DEBUG] district_one: ", district_one)
     debug(2, "\t[DEBUG] district_two: ", district_two)
-    dict_district_one={}
-    dict_district_two={}
-    for i in district_two:
-        dict_district_two.setdefault(i,graph[i])
+    dict_district_one = updateGraphNeigbors(graph,district_one)
+    dict_district_two = updateGraphNeigbors(graph,district_two)
     debug(2, "\t[DEBUG] dict_district_one: ", dict_district_one)
-    debug(2, "\t[DEBUG] dict_district_two: ", dict_district_two.keys())
+    debug(2, "\t[DEBUG] dict_district_two: ", dict_district_two)
+    combinePRec(dict_district_one, n-1)
+    combinePRec(dict_district_two, n-1)
+    debug(1, "+"*60 + "\n\tENDING RECURSIVE IB\n" + "+"*60)
+
+
+    #combinePRec(dict_district_two, n-1)
+    # if len(dict_district_one.keys()) > 2:
+    #     combinePDFS(dict_district_one)
+    #combinePDFS(dict_district_two)
+
+
+
+def combinePDFS(graph:dict):
+    global numberOfDistricts, debug
+    debug(1,"\n" * 2);
+    debug(1, "~"*60 + "\n\tSTARTING RECURSIVE IB\n" + "~"*60)
+    if n == 0:
+        return graph
+    counter = numberOfDistricts
+    #districts_struct = create_district_struct(numberOfDistricts)
+    #debug(2, "[DEBUG] Created districts...", list(districts_struct.keys()))
+    dfs_value = dict_dfs(graph)
+    edges = dfs_value["edges"]
+    visited = dfs_value["visited"]
+    degrees = dfs_value["degrees"]
+    pivot_edge = edges[pivot_index]
+    # edges_one = edges[:pivot_index]
+    # edges_two = edges[pivot_index+1:]
+    pivot_index = visited.index(pivot_edge[1])
+    district_one = visited[:pivot_index]
+    district_two = visited[pivot_index:]
+    debug(2, "[DEBUG] edge: ", edges)
+    debug(2, "[DEBUG] visited: ", visited)
+    debug(2, "[DEBUG] degrees: ", degrees)
+    debug(2, "\t[DEBUG] pivot_edge: ", pivot_edge, "visisted_pivot_index", pivot_index)
+    debug(2, "\t[DEBUG] district_one: ", district_one)
+    debug(2, "\t[DEBUG] district_two: ", district_two)
+    dict_district_one = updateGraphNeigbors(graph,district_one)
+    dict_district_two = updateGraphNeigbors(graph,district_two)
+    debug(2, "\t[DEBUG] dict_district_one: ", dict_district_one)
+    debug(2, "\t[DEBUG] dict_district_two: ", dict_district_two)
+    debug(1, "+"*60 + "\n\tENDING RECURSIVE IB\n" + "+"*60)
     # if len(dict_district_one.keys()) > 2:
     #     combinePDFS(dict_district_one)
     #combinePDFS(dict_district_two)
@@ -153,8 +195,8 @@ def create_dict_struct(num_of_districts:int):
 
 def cal_node_degree(nodes:list,edges:list):
     dict_struct = {}
-    debug(1,"\n" * 5);
-    debug(1, "-"*60 + "\n\t\tCALCULATING EACH NODES DEGREE\n" + "-"*60)
+    debug(1,"\n" * 2);
+    debug(1, "~"*60 + "\n\tSTARTING CALCULATING EACH NODES DEGREE\n" + "~"*60)
     debug(1, "[DEBUG:NODE_DEGREE] node", nodes, "edges", edges)
     for i in nodes:
         degree  = 0
@@ -166,9 +208,8 @@ def cal_node_degree(nodes:list,edges:list):
 
     debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] Completed " + ">"*20) + "\n") * 3)
     debug(1, "[DEBUG:NODE_DEGREE] ", dict_struct)
+    debug(1, "+"*60 + "\n\tENDING CALCULATING EACH NODES DEGREE\n" + "+"*60)
     return dict_struct
-
-
 
 
 def dict_dfs(graph:dict):
@@ -179,8 +220,8 @@ def dict_dfs(graph:dict):
     stack = [node]
     edges = []
     current_node = node
-    debug(1,"\n" * 5);
-    debug(1, "-"*60 + "\n\t\tSTARTING DFS ALGORITHM\n" + "-"*60)
+    debug(1,"\n" * 2);
+    debug(1, "~"*60 + "\n\t\tSTARTING DFS ALGORITHM\n" + "~"*60)
     debug(1, "[DEBUG:DFS] nodes of the graph", nodes)
     debug(1, "[DEBUG:DFS] nodes visited", visited)
     debug(1, "[DEBUG:DFS] nodes on stack", stack)
@@ -194,7 +235,7 @@ def dict_dfs(graph:dict):
         for node in neighbors:
             ##debug(1, "stack", stack))
             if not node in visited:
-                #debug(1, "[DEBUG:DFS] adding nodes", node)
+                debug(1, "[DEBUG:DFS] adding nodes", node)
                 visited.append(node)
                 stack.append(node)
                 edges.append((current_node,node))
@@ -219,7 +260,7 @@ def dict_dfs(graph:dict):
         "edges": edges,
         "degrees": degrees,
     }
-
+    debug(1, "+"*60 + "\n\tENDING DFS ALGORITHM\n" + "+"*60)
     return values
 
 
@@ -288,9 +329,9 @@ def main():
         }
     }
     #adfs(graph5,'000', [])
-    #print(dfs(graph5))
-    global numberOfDistricts
-    combinePDFS(graph5)
+    print(dict_dfs(graph5))
+    #global numberOfDistricts
+    #print(combinePRec(graph5,numberOfDistricts-1))
     #combineP(graph5)
 
 if __name__ == "__main__":
