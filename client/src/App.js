@@ -118,6 +118,14 @@ class App extends Component {
         this.state.jobCards.splice(indexOfJob, 1);
     this.setState({ jobCards : this.state.jobCards})
   }
+  
+  getPrecincts = () => {
+    try {
+      // let res = await endpoint.getPrecincts(stateObject);
+    } catch (exception) {
+      console.error(exception);
+    }
+  }
 
   deletePlan = (plan) => {
 
@@ -152,6 +160,8 @@ class App extends Component {
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
       this.setState({precinctsView : false})
+      this.setState({filterDistrictsView : false})
+      this.setState({filterPrecinctsView : false })
       this.setState({precinctsContent : null })
       return;
     }
@@ -185,7 +195,9 @@ class App extends Component {
 
     if (viewType == "Districts") {
       if (this.state.filterDistrictsView == true) return; 
-      else if (this.state.filterDistrictsView == false && actionType == 1) this.setState({districtsView : true})
+      else if (this.state.filterDistrictsView == false && actionType == 1) {
+        this.setState({districtsView : true})
+      }
       else if (this.state.filterDistrictsView == false && actionType == 0) this.setState({districtsView : false})
     }
 
