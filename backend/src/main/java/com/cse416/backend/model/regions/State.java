@@ -20,6 +20,7 @@ public class State {
     private int stateFIPSCode;
     private int totalPopulation;
     private Plan enactedPlan;
+    private int numOfPrecincts;
     private int numOfCounties;
     private int numOfDistricts;
     @JsonIgnore
@@ -36,11 +37,12 @@ public class State {
     private FeatureCollection stateGeoJson;
 
 
-    public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts){
+    public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
         this.stateName = stateName;
         this.stateAbbreviation = stateAbbreviation;
         this.stateFIPSCode = stateFIPSCode;
         this.totalPopulation = totalPopulation;
+        this.numOfPrecincts = numOfPrecincts;
         this.numOfCounties = numOfCounties;
         this.numOfDistricts = numOfDistricts;
         String precinctFilePath = "src/main/resources/system/states/" +
@@ -110,12 +112,20 @@ public class State {
         this.boundary = boundary;
     }
 
+    public int getTotalPopulation() {
+        return totalPopulation;
+    }
+
     public int getNumOfCounties() {
         return numOfCounties;
     }
 
     public int getNumOfDistricts() {
         return numOfDistricts;
+    }
+
+    public int getNumOfPrecincts() {
+        return numOfPrecincts;
     }
 
     @JsonIgnore
