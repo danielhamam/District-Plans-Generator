@@ -6,11 +6,15 @@ import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+//import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Entity
-@Table (name = 'Jobs')
+
+
+//@Entity
+//@Table(name = "Jobs")
 public class Job{
 
     @JsonProperty("jobName")
@@ -20,27 +24,27 @@ public class Job{
     private List<CensusCatagories> minorityAnalyzed;
 
     @JsonProperty("compactness")
-    @Column(name = "compactness")
+    //@Column(name = "compactness")
     private ClientCompactness clientCompactness;
 
     @JsonProperty("populationDifference")
     private double populationDifference;
 
     @JsonProperty("plansAmount")
-    @Column(name = "numberOfPlans")
+    //@Column(name = "numberOfPlans")
     private int numDistrictingPlan;
 
     @JsonProperty("districtsAmount")
-    @Column(name = "numberOfDistricts")
+    //@Column(name = "numberOfDistricts")
     private int numOfDistricts;
 
     @JsonProperty
-    @Column(name = "jobStatus")
+    //@Column(name = "jobStatus")
     private JobStatus status;
 
     @JsonProperty
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private String jobID;
 
     @JsonIgnore
@@ -53,7 +57,7 @@ public class Job{
     private Plan randomDistrictPlan;
 
     @JsonIgnore
-    @Column(name = "stateID")
+    //@Column(name = "stateID")
     private String stateAbbrev;
 
     @JsonIgnore

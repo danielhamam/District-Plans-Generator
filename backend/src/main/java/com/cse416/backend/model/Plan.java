@@ -18,33 +18,36 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.geojson.FeatureCollection;
 
-@Entity
-@Table(name="Plans")
+
+//import javax.persistence.*;
+
+//@Entity
+//@Table(name="Plans")
 public class Plan{
     
     @JsonProperty
-    @Transient
+    //@Transient
     private String type;
 
     @JsonProperty
-    @Column(name = "stateID")
+    //@Column(name = "stateID")
     private String stateAbbreviation;
 
     @JsonProperty
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private String planID;
 
     @JsonProperty
-    @Column(name = "numberOfDistricts")
+    //@Column(name = "numberOfDistricts")
     private int numberOfDistricts;
 
     @JsonProperty
-    @Transient
+    //@Transient
     private boolean isPlanEnacted;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private List<District> districts;
 
     @JsonIgnore
@@ -54,11 +57,11 @@ public class Plan{
     private int averageDistrictCompactness;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private File districtFile;
 
     @JsonProperty
-    @Transient
+    //@Transient
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
 
