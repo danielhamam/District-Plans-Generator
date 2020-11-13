@@ -18,14 +18,12 @@ class Sidebar extends Component {
             collapsedIconLeft : false,
             collapsedIconRight : false,
             selectedFilters : null,
-
-            // Graph Variables
             modalOpen : false,
             graphOptions : {
                 animationEnabled: true,
                 theme: "light2",
                 title:{
-                    text: "VAP Filter vs. Indexed Districts" // Existing plan v.s probabilistic plan - R. Kelly's words. Existing plan should "overlap" or be compared alongside with these district plans.
+                    text: "VAP Filter vs. Indexed Districts" // Existing plan "overlaps"/compared alongside with these district plans.
                 },
                 legend:{
                     horizontalAlign: "right",
@@ -81,40 +79,16 @@ class Sidebar extends Component {
 
     toggleCollapse = () => {
         if (this.state.statusCollapsed == false) {
-
-            // First, Let's toggle hiding the header
-
-            if (this.state.hideSidebarHeader == false) {
-                document.getElementById("sidebarHeader").style.visibility = "hidden";
-                this.setState({hideSidebarHeader : true});
-            }
-            else {
-                document.getElementById("sidebarHeader").style.visibility = "visible";
-                this.setState({hideSidebarHeader : false})
-            };
-
-            //  Let's toggle the visibility of the rest
-
+            document.getElementById("sidebarHeader").style.visibility = "hidden";
+            this.setState({hideSidebarHeader : true});
             this.setState({statusCollapsed: true})
             document.getElementById("collapseButtonRight").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.visibility = "hidden";
             document.getElementById("collapseButtonLeft").style.display = "none";
         }
         else {
-
-            // First, Let's toggle hiding the header
-
-            if (this.state.hideSidebarHeader == false) {
-                document.getElementById("sidebarHeader").style.visibility = "hidden";
-                this.setState({hideSidebarHeader : true});
-            }
-            else {
-                document.getElementById("sidebarHeader").style.visibility = "visible";
-                this.setState({hideSidebarHeader : false})
-            };
-
-            //  Let's toggle the visibility of the rest
-
+            document.getElementById("sidebarHeader").style.visibility = "visible";
+            this.setState({hideSidebarHeader : false})
             this.setState({statusCollapsed : false})
             document.getElementById("collapseButtonRight").style.visibility = "hidden";
             document.getElementById("collapseButtonLeft").style.visibility = "visible";
@@ -133,8 +107,6 @@ class Sidebar extends Component {
     render() {
 
         if (this.state.selectedFilters != this.props.selectedFilters) this.setState({selectedFilters : this.props.selectedFilters});
-
-        // If changed from map
         if (this.state.currentState != this.props.currentState) this.setState({currentState : this.props.currentState});
 
         return (
@@ -215,8 +187,6 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-edit" > </i> </div>} title={<b> Generate New Job </b>} >
-                                    {/* <MenuItem>Component 1</MenuItem>
-                                    <MenuItem>Component 2</MenuItem> */}
                                     <InputsJob createJob={this.props.createJob}/>
                                 </SubMenu>
 
@@ -241,7 +211,6 @@ class Sidebar extends Component {
                             </Menu>
                     </ProSidebar> 
                 </div>
-/* <!-- Sidebar --> */
         );
     }
 }

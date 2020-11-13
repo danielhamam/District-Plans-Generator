@@ -6,8 +6,7 @@ import { Modal, Button } from 'react-bootstrap';
 class ViewJobModal extends Component {
     constructor () {
         super();
-        this.state = {
-        }
+        this.state = {}
         // To edit class name of modal display
         this.selectStatus = "Select"
         this.selectButtonColor = "primary"
@@ -16,14 +15,11 @@ class ViewJobModal extends Component {
     }
     render() {
 
-        // To check to disable or enable select button
-
-
+        // Enabled/Disabled? (Select button)
         if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == "Pending" ) {
-            // turn the select button gray
             this.selectStatus = "Select"
-            this.selectButtonColor = "secondary";
-            this.disabledStatus = "disabled";
+            this.selectButtonColor = "secondary"; // gray
+            this.disabledStatus = "disabled"; 
         }
         else if (this.props.selectedJobCheck == true && this.props.currentSelected == true) {
             this.selectStatus = "Deselect"
@@ -36,17 +32,10 @@ class ViewJobModal extends Component {
             this.disabledStatus = "active";
         }
 
-        // To display whether it is ready or pending
-        if (this.props.status == "Pending") {
-            this.readyColorStatus = " jobdisplayPending"
-        }
-        else if (this.props.status == "Completed") {
-            this.readyColorStatus = " jobdisplaySuccess"
-        }
+        if (this.props.status == "Pending") this.readyColorStatus = " jobdisplayPending"
+        else if (this.props.status == "Completed") this.readyColorStatus = " jobdisplaySuccess"
 
         return (
-        // "Props" means properties. We communicated with JobCard.js to connect the card's buttons with the modal.
-    
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
@@ -87,7 +76,6 @@ class ViewJobModal extends Component {
                         <Button className = {this.disabledStatus} variant={this.selectButtonColor} onClick={this.props.toggleSelection}>{this.selectStatus}</Button>
                     </Modal.Footer>
                 </Modal>
-            // {/* </div> */}
         );
     }
 }

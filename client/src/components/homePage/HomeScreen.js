@@ -1,6 +1,5 @@
 import Navbar from "../navbar/Navbar";
 import MainPanel from "./Main Panel/MainPanel";
-import Footer from "../footer/Footer";
 import React, { Component } from "react";
 
 export class HomeScreen extends Component {
@@ -8,23 +7,30 @@ export class HomeScreen extends Component {
   render() {
     return (
       <div id="home_screen">
-
           <Navbar /> 
-          {/* This is the container showing the content the panel tells us to display */}
           <MainPanel 
-          jobCards={this.props.jobCards} currentState={this.props.currentState} changeSelectedFilters={this.props.changeSelectedFilters} changeCurrentState={this.props.changeCurrentState} 
-          updateCurrentJob={this.props.updateCurrentJob} selectedPlanCheck={this.props.selectedPlanCheck} currentJob ={this.props.currentJob}
-          toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
-          enactedPlan = {this.props.enactedPlan} deleteJob={this.props.deleteJob} deletePlan={this.props.deletePlan} createJob = {this.props.createJob}
-          cancelJob = {this.props.cancelJob} generateBoxWhiskerValues= {this.props.generateBoxWhiskerValues} totalPopulation={this.props.totalPopulation}
+
+          // State-Related Content
+          currentState={this.props.currentState} changeCurrentState={this.props.changeCurrentState}
+          jobCards={this.props.jobCards} enactedPlan = {this.props.enactedPlan} totalPopulation={this.props.totalPopulation}
           numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
+
+          // Job-Related Content
+          currentJob ={this.props.currentJob} updateCurrentJob={this.props.updateCurrentJob} 
+          selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
+          deleteJob={this.props.deleteJob} createJob = {this.props.createJob}
+          cancelJob = {this.props.cancelJob} generateBoxWhiskerValues= {this.props.generateBoxWhiskerValues}
+
+          // Plan-Related Content
+          selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
+          deletePlan={this.props.deletePlan}
 
           // Map-Related Content
           districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent} selectedPlanCheck={this.props.selectedPlanCheck}
           precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent} changeViewFromZoom={this.props.changeViewFromZoom}
+          changeSelectedFilters={this.props.changeSelectedFilters}
           />
-          
-          {/* <Footer /> */}
+
       </div>
     );
   }
