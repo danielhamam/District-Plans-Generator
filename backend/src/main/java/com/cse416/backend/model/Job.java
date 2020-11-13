@@ -77,27 +77,6 @@ public class Job{
         this.status = status;
     }
 
-    public Job(String stateAbbrev, String jobID, int seawulfJobID, String jobName, int numOfDistricts, int numDistrictingPlan, ClientCompactness clientCompactness, long populationDifference, List<CensusCatagories> minorityAnalyzed, JobStatus status, String jobSummary, List<Plan> allDistrictingPlan, List<Plan> otherDistrictingPlan, Plan averageDistrictPlan, Plan extremeDistrictPlan, Plan randomDistrictPlan, int averagePlanPopulation, int averagePlanCompactness) {
-        this.stateAbbrev = stateAbbrev;
-        this.jobID = jobID;
-        this.seawulfJobID = seawulfJobID;
-        this.jobName = jobName;
-        this.numOfDistricts = numOfDistricts;
-        this.numDistrictingPlan = numDistrictingPlan;
-        this.clientCompactness = clientCompactness;
-        this.populationDifference = populationDifference;
-        this.minorityAnalyzed = minorityAnalyzed;
-        this.status = status;
-        this.jobSummary = jobSummary;
-        this.allDistrictingPlan = allDistrictingPlan;
-        this.otherDistrictingPlan = otherDistrictingPlan;
-        this.averageDistrictPlan = averageDistrictPlan;
-        this.extremeDistrictPlan = extremeDistrictPlan;
-        this.randomDistrictPlan = randomDistrictPlan;
-        this.averagePlanPopulation = averagePlanPopulation;
-        this.averagePlanCompactness = averagePlanCompactness;
-    }
-
 
     public String getStateAbbrev() {
         return stateAbbrev;
@@ -241,6 +220,23 @@ public class Job{
 
     public void setAveragePlanCompactness(int averagePlanCompactness) {
         this.averagePlanCompactness = averagePlanCompactness;
+    }
+
+    public Plan getPlanByID(String planID){
+        if(planID.equals(averageDistrictPlan.getPlanID())){
+            return averageDistrictPlan;
+        }
+        else if(planID.equals(extremeDistrictPlan.getPlanID())) {
+            return extremeDistrictPlan;
+        }
+        else if(planID.equals(randomDistrictPlan.getPlanID())) {
+            return randomDistrictPlan;
+        }
+        else{
+
+        }
+        return null;
+
     }
 
     // @JsonIgnore

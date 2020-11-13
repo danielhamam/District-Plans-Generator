@@ -12,11 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 
 @Service
@@ -85,13 +81,30 @@ public class ServerService {
         return "getBoundries";
     }
 
-    public String getDemographicFilter(String jobID, String planID, List <CensusCatagories> censusCategory, String CensusCategoryboundaryType, List<Integer> desiredRegion ){
+    public String getDemographicFilter(String jobID, String planID, List <CensusCatagories> censusCategory){
+        Job currentJob = this.session.getJobByID(jobID);
+        Plan plan = currentJob.getPlanByID(planID);
+        System.out.println(censusCategory);
+
 
         return "getBoundries";
     }
 
     public String getPlan(String jobID, String planID){
-        return "getPlan";
+        Job currentJob = this.session.getJobByID(jobID);
+        Plan plan = currentJob.getPlanByID(planID);
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            clientData = this.createClient_Data(plan);
+
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
     }
 
     public String BoxWhisker(String jobID, String planID){
@@ -138,10 +151,6 @@ public class ServerService {
     }
 
     public void updateJob(String jobID){
-
-    }
-
-    public void setSession(State state){
 
     }
 

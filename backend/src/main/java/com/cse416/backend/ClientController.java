@@ -1,5 +1,6 @@
 package com.cse416.backend;
 import com.cse416.backend.model.Job;
+import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.regions.*;
 import com.cse416.backend.service.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,10 @@ public class ClientController {
         return "connectingClient";
     }
 
-    @GetMapping(path = "/state/{stateAbbrev}", produces = "application/json")
-    public String getState(@PathVariable String stateAbbrev){
-        System.out.println("Sending " + stateAbbrev + "-State to Client");
-        String clientData = service.getState(stateAbbrev);
+    @GetMapping(path = "/state/{stateAbbreviation}", produces = "application/json")
+    public String getState(@PathVariable String stateAbbreviation){
+        System.out.println("Sending " + stateAbbreviation + "-State to Client");
+        String clientData = service.getState(stateAbbreviation);
         return clientData;
     }
 
@@ -55,17 +56,21 @@ public class ClientController {
 
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
     public String getDemographicFilter(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
+        List censusCatagories = Arrays.asList(demographicFilter.get("demographicFilter"));
+        service.getDemographicFilter(jobID, planID, censusCatagories);
         return "getDemographicFilter";
     }
 
    @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")
-   public String getPlan(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
-       return "getPlan";
+   public String getPlan(@PathVariable String jobID, @PathVariable String planID){
+
+        return "getPlan";
    }
 
    @GetMapping(path = "/boxwhisker/{jobID}/{planID}", produces = "application/json")
    public String getBoxwhisker(@PathVariable String jobID, @PathVariable String planID, @RequestBody String catagory){
-       return "getPlanGraph";
+
+        return "getPlanGraph";
    }
 //
 //    public String getGlobalHistory(){

@@ -90,6 +90,13 @@ public class FakeDataAccessObject{
     public void buildNY2(){
         State NY = new State("New York", "NY", 1, 1000000000);
         stateDB.add(NY);
+        List<CensusCatagories> kk = new ArrayList<>();
+        kk.add(CensusCatagories.AFRICAN_AMERICAN);
+        kk.add(CensusCatagories.AFRICAN_AMERICAN);
+        kk.add(CensusCatagories.ASIAN_AMERICAN);
+        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.LOW ,kk,JobStatus.COMPLETED);
+        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING);
+        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING);
     }
 
     public State queryGetStateInformation(String stateAbbrev) {
