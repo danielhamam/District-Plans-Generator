@@ -118,6 +118,14 @@ class App extends Component {
         this.state.jobCards.splice(indexOfJob, 1);
     this.setState({ jobCards : this.state.jobCards})
   }
+  
+  getPrecincts = () => {
+    try {
+      // let res = await endpoint.getPrecincts(stateObject);
+    } catch (exception) {
+      console.error(exception);
+    }
+  }
 
   deletePlan = (plan) => {
 
