@@ -118,6 +118,7 @@ public class State {
         return numOfDistricts;
     }
 
+    @JsonIgnore
     public Map getClientPrecinctsGeoJson() {
         Map <String, Object> map = new HashMap<>();
         map.put("precinctsGeoJson", precinctsGeoJson);
