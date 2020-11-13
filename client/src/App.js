@@ -119,9 +119,10 @@ class App extends Component {
     this.setState({ jobCards : this.state.jobCards})
   }
   
-  getPrecincts = () => {
+  getPrecincts = async () => {
     try {
-      // let res = await endpoint.getPrecincts(stateObject);
+      let res = await endpoint.getStatePrecincts();
+      this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='precincts' data={res.precinctsGeoJson} />});
     } catch (exception) {
       console.error(exception);
     }
@@ -169,7 +170,8 @@ class App extends Component {
     for (var i = 0; i < mapFilters.length; i++) {
       if (mapFilters[i].label == "Precincts")  { // precinct view
         this.setState({precinctsView : true})
-        this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
+        this.getPrecincts();
+        // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
         foundPrecinctsView = true;
         this.setState({ filterPrecinctsView : true })
       }
@@ -205,7 +207,8 @@ class App extends Component {
       if (this.state.filterPrecinctsView == true) return; 
       else if (this.state.filterPrecinctsView == false && actionType == 1) { 
         this.setState({precinctsView : true})
-        this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
+        this.getPrecincts();
+        // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
       }
       else if (this.state.filterPrecinctsView == false && actionType == 0) { 
         this.setState({precinctsView : false})
