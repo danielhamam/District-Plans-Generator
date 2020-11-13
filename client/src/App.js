@@ -152,6 +152,8 @@ class App extends Component {
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
       this.setState({precinctsView : false})
+      this.setState({filterDistrictsView : false})
+      this.setState({filterPrecinctsView : false })
       this.setState({precinctsContent : null })
       return;
     }
@@ -185,7 +187,9 @@ class App extends Component {
 
     if (viewType == "Districts") {
       if (this.state.filterDistrictsView == true) return; 
-      else if (this.state.filterDistrictsView == false && actionType == 1) this.setState({districtsView : true})
+      else if (this.state.filterDistrictsView == false && actionType == 1) {
+        this.setState({districtsView : true})
+      }
       else if (this.state.filterDistrictsView == false && actionType == 0) this.setState({districtsView : false})
     }
 
