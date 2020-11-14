@@ -117,14 +117,12 @@ def cal_node_degree(nodes:list,edges:list):
 
 
 def dict_dfs(graph:dict):
-    visited = []
     nodes = list(graph.keys())
     node = random_list_element(nodes)
     visited = [node]
     stack = [node]
     edges = []
     current_node = node
-    debug(1,"\n" * 2);
     debug(1, "~"*60 + "\n\t\tSTARTING DFS ALGORITHM\n" + "~"*60)
     debug(1, "[DEBUG:DFS] nodes of the graph", nodes)
     debug(1, "[DEBUG:DFS] adding node", node)
@@ -135,7 +133,6 @@ def dict_dfs(graph:dict):
         debug(1, "\t[DEBUG:DFS] nodes visited", visited)
         debug(1, "\t[DEBUG:DFS] nodes on stack", stack)
         for node in neighbors:
-            ##debug(1, "stack", stack))
             if not node in visited:
                 debug(1, "[DEBUG:DFS] adding nodes", node)
                 visited.append(node)
@@ -149,36 +146,13 @@ def dict_dfs(graph:dict):
                 stack.pop()
                 current_node = stack[-1]
                 debug(1, "[DEBUG:DFS] deadend returning to node", current_node)
-
-    debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] DFS Complete " + ">"*20) + "\n") * 3)
-    debug(2, "\n[DEBUG:DFS-COMPLETE] finshed nodes visited", visited)
-    debug(1, "[DEBUG:DFS-COMPLETE] finshed edges from dfs", edges)
     debug(1, "[DEBUG:DFS-COMPLETE] finshed nodes on stack", stack)
-
+    debug(1, "[DEBUG:DFS-COMPLETE] finshed edges from dfs", edges)
+    debug(2, "[DEBUG:DFS-COMPLETE] finshed nodes visited", visited)
     degrees = cal_node_degree(nodes,edges)
-    values = {
-        "visited": visited,
-        "edges": edges,
-        "degrees": degrees,
-    }
+    values = { "visited": visited, "edges": edges,"degrees": degrees}
     debug(1, "+"*60 + "\n\tENDING DFS ALGORITHM\n" + "+"*60)
     return values
-
-
-
-
-
-graph1 = {
-    'A' : ['B','S'],
-    'B' : ['A'],
-    'C' : ['D','E','F','S'],
-    'D' : ['C'],
-    'E' : ['C','H'],
-    'F' : ['C','G'],
-    'G' : ['F','S'],
-    'H' : ['E','G'],
-    'S' : ['A','C','G']
-}
 
 def main():
     graph6 = {
