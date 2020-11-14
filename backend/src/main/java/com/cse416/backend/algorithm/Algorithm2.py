@@ -17,181 +17,87 @@ def debug(optional, printout, *args):
         return "-"
     if debug_status <= optional:
         print(printout, *args)
-        # sys.stdout.write(format % args)
-        # print()
-    return
-    # new_debug_status = debug_status+optional
-    # new_debug_status == 3 or new_debug_status == 4
-    # if new_debug_status == 2:
-    #     return func
-    # if new_debug_status == 4:
-    #     return func
-    #1 high debug statement
-    #2 mid debug statement
 
-def printf(format, *args):
-    sys.stdout.write(format % args)
-
-def getRandomListElement(arr:list):
+def random_list_element(arr:list):
     random_node = random.choice(arr)
     return random_node
-
-def popListElement(arr:list,element):
-    arr.pop(arr.index(element))
-
-
-
-def create_district_struct(num_of_districts:int):
-    district_struct = {}
-    for i in range(1,num_of_districts+1):
-        struct = {"neighbors":[],"precincts":[]}
-        district_struct.setdefault(str(i),struct)
-        
-    return district_struct
-
-def combineP(graph : dict):
-    global numberOfDistricts, debug
-    taken_nodes = []
-    available_nodes = list(graph.keys())
-    min_nodes_in_district = len(available_nodes)//numberOfDistricts
-    districts_struct = create_district_struct(numberOfDistricts)
-    debug(print("[DEBUG] Created districts...", list(districts_struct.keys())))
-    debug(print("[DEBUG] The minimum amount of nodes for each districts is", min_nodes_in_district))
-    min_unfilled_districts = list(districts_struct.keys())
-    while len(taken_nodes) <= len(available_nodes):
-        district = getRandomListElement(min_unfilled_districts)
-        random_node = getRandomListElement(available_nodes)
-        debug(printf("[DEBUG] Filling districts %s with precincts\n", district))
-        for i in range(min_nodes_in_district):
-            debug(printf("\t[DEBUG] ...added precincts %s\n", random_node))
-            districts_struct[district]["precincts"].append(random_node)
-            popListElement(available_nodes, random_node) 
-            potential_node = getRandomListElement(graph[random_node]["neighbors"])
-            while not(potential_node in available_nodes) and i != min_nodes_in_district-1:
-                pass
-            random_node = potential_node
-        popListElement(min_unfilled_districts, district)
-        debug(printf("[DEBUG] District %s filled!\n", district))
-        debug(print("[DEBUG] Districts lefted", min_unfilled_districts, available_nodes))
-
-
-        #taken_nodes.append(1)
-        
-
-            
-            
-            
-        # min_filled_districts.append(district)
-        # print(random_node,available_nodes)
-
-def peak(arr:list):
-    value = graph[key]['neighbors']
-    return value
 
 def get_dict_neighbors(graph:dict, key):
     value = graph[key]['neighbors']
     return value
 
 
-def updateGraphNeigbors(original_graph:dict, new_nodes:list):
-    new_graph = {}
-    for node in new_nodes:
-        struct = original_graph[node]
-        neighbors = get_dict_neighbors(original_graph,node)
-        for neighbor in neighbors:
-            if not neighbor in new_nodes:
-                struct['neighbors'].remove(neighbor)  
-        new_graph.setdefault(node,struct)
-    return new_graph
+def create_subgraph_from_edges(edges_list:list):
+    districts = {}
+    nodes_taken = []
+    for i in range(len(edges_list)):
+        struct = {'precincts':[],'neighbors':[]}
+        debug(1, "[DEBUG]", edges_list[i], " len -> ", len(edges_list[i])) 
+        for j in range(len(edges_list[i])):
+            edge_one = edges_list[i][j][0]
+            edge_two = edges_list[i][j][1]
+            if not edge_one in struct['precincts'] and not edge_one in nodes_taken:
+                struct['precincts'].append(edge_one)
+                nodes_taken.append(edge_one)
+            if not edge_two in struct['precincts']and  not edge_two in nodes_taken:
+                struct['precincts'].append(edge_two)
+                nodes_taken.append(edge_two)
+ 
+        districts.setdefault(i+1, struct)
+    return districts
 
 
+def partition_edges(partitions:list):
+    global numberOfDistricts
+    while len(partitions) != numberOfDistricts:
+        random_subgraph = random_list_element(partitions)
+        if len(random_subgraph) == 1:
+            continue;
+        random_subgraph_index = partitions.index(random_subgraph)
+        random_index_in_element = random.randrange(len(random_subgraph)) 
+        debug(1, "\t[DEBUG] random_subgraph: ", random_subgraph, "index to split at: ", random_index_in_element)
+        partitions.pop(random_subgraph_index)
+        new_subgraph_one = []
+        new_subgraph_two = []
+        if random_index_in_element == 0:
+            new_subgraph_one = random_subgraph[:1]
+            new_subgraph_two = random_subgraph[1:]
+        else:
+            new_subgraph_one = random_subgraph[:random_index_in_element]
+            new_subgraph_two = random_subgraph[random_index_in_element:]
+        debug(1, "\t\t[DEBUG] new_subgraph_one: ", new_subgraph_one)
+        debug(1, "\t\t[DEBUG] new_subgraph_two: ", new_subgraph_two)
+        partitions.insert(random_subgraph_index, new_subgraph_one)
+        partitions.insert(random_subgraph_index+1, new_subgraph_two)
+        debug(1, "\t\t[DEBUG] new partitions: ", partitions)
+    debug(2, "[DEBUG:EDGE-PARTITIONING] Final Partitions: ", partitions)
+    return partitions
 
-def combinePRec(graph:dict, n:int):
-    global numberOfDistricts, debug
-    debug(1,"\n" * 2);
-    debug(1, "~"*60 + "\n\tSTARTING RECURSIVE IB\n" + "~"*60)
-    if n == 0:
-        debug(2, "[DEBUG] graph: ", graph)
-    counter = numberOfDistricts
-    #districts_struct = create_district_struct(numberOfDistricts)
-    #debug(2, "[DEBUG] Created districts...", list(districts_struct.keys()))
+def dfs_partition(graph:dict):
     dfs_value = dict_dfs(graph)
     edges = dfs_value["edges"]
     visited = dfs_value["visited"]
     degrees = dfs_value["degrees"]
-    debug(2, "[DEBUG] edge: ", edges)
-    debug(2, "[DEBUG] visited: ", visited)
+    debug(1, "[DEBUG] edge: ", edges)
+    debug(1, "[DEBUG] visited: ", visited)
     debug(1, "[DEBUG] degrees: ", degrees)
-    pivot_index = len(edges)//2
-    pivot_edge = edges[pivot_index]
-    debug(2, "\t[DEBUG] pivot_edge: ", pivot_edge, "visisted_pivot_index", pivot_index)
-    pivot_index = visited.index(pivot_edge[1])
-    district_one = visited[:pivot_index]
-    district_two = visited[pivot_index:]
-    debug(2, "\t[DEBUG] district_one: ", district_one)
-    debug(2, "\t[DEBUG] district_two: ", district_two)
-    dict_district_one = updateGraphNeigbors(graph,district_one)
-    dict_district_two = updateGraphNeigbors(graph,district_two)
-    debug(2, "\t[DEBUG] dict_district_one: ", dict_district_one)
-    debug(2, "\t[DEBUG] dict_district_two: ", dict_district_two)
-    combinePRec(dict_district_one, n-1)
-    combinePRec(dict_district_two, n-1)
-    debug(1, "+"*60 + "\n\tENDING RECURSIVE IB\n" + "+"*60)
-
-
-    #combinePRec(dict_district_two, n-1)
-    # if len(dict_district_one.keys()) > 2:
-    #     combinePDFS(dict_district_one)
-    #combinePDFS(dict_district_two)
-
-
-
-def combinePDFS(graph:dict):
-    global numberOfDistricts, debug
-    debug(1,"\n" * 2);
-    debug(1, "~"*60 + "\n\tSTARTING RECURSIVE IB\n" + "~"*60)
-    if n == 0:
-        return graph
-    counter = numberOfDistricts
-    #districts_struct = create_district_struct(numberOfDistricts)
-    #debug(2, "[DEBUG] Created districts...", list(districts_struct.keys()))
-    dfs_value = dict_dfs(graph)
-    edges = dfs_value["edges"]
-    visited = dfs_value["visited"]
-    degrees = dfs_value["degrees"]
-    pivot_edge = edges[pivot_index]
-    # edges_one = edges[:pivot_index]
-    # edges_two = edges[pivot_index+1:]
-    pivot_index = visited.index(pivot_edge[1])
-    district_one = visited[:pivot_index]
-    district_two = visited[pivot_index:]
-    debug(2, "[DEBUG] edge: ", edges)
-    debug(2, "[DEBUG] visited: ", visited)
-    debug(2, "[DEBUG] degrees: ", degrees)
-    debug(2, "\t[DEBUG] pivot_edge: ", pivot_edge, "visisted_pivot_index", pivot_index)
-    debug(2, "\t[DEBUG] district_one: ", district_one)
-    debug(2, "\t[DEBUG] district_two: ", district_two)
-    dict_district_one = updateGraphNeigbors(graph,district_one)
-    dict_district_two = updateGraphNeigbors(graph,district_two)
-    debug(2, "\t[DEBUG] dict_district_one: ", dict_district_one)
-    debug(2, "\t[DEBUG] dict_district_two: ", dict_district_two)
-    debug(1, "+"*60 + "\n\tENDING RECURSIVE IB\n" + "+"*60)
-    # if len(dict_district_one.keys()) > 2:
-    #     combinePDFS(dict_district_one)
-    #combinePDFS(dict_district_two)
-
-    
-  
-
-
-
-
-
-def create_dict_struct(num_of_districts:int):
-    district_struct = {}
-    for i in range(1,num_of_districts+1):
-        struct = {"neighbors":[],"precincts":[]}
-        district_struct.setdefault(str(i),struct)
+    path_split = []
+    for index in range(len(edges)-1):
+        current_edge = edges[index]
+        next_edge = edges[index+1]
+        if current_edge[1] != next_edge[0]:
+            path_split.append(index+1)
+    debug(1, "[DEBUG] path_split edges: ", path_split) 
+    intitial_edges_partition = [] 
+    starting_index = 0
+    for i in path_split:
+        intitial_edges_partition.append(edges[starting_index:i]) 
+        starting_index = i
+    intitial_edges_partition.append(edges[starting_index:]) 
+    debug(1, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition) 
+    new_edges_partition = partition_edges(intitial_edges_partition)
+    districts = create_subgraph_from_edges(new_edges_partition)
+    debug(2, "[DEBUG:DFS-PARITION] districts: ", districts) 
 
 def cal_node_degree(nodes:list,edges:list):
     dict_struct = {}
@@ -201,13 +107,11 @@ def cal_node_degree(nodes:list,edges:list):
     for i in nodes:
         degree  = 0
         dict_struct.setdefault(i,degree)
-
     for edge in edges:
         dict_struct[edge[0]] = dict_struct[edge[0]] + 1
         dict_struct[edge[1]] = dict_struct[edge[1]] + 1
-
     debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] Completed " + ">"*20) + "\n") * 3)
-    debug(1, "[DEBUG:NODE_DEGREE] ", dict_struct)
+    debug(2, "[DEBUG:NODE_DEGREE] ", dict_struct)
     debug(1, "+"*60 + "\n\tENDING CALCULATING EACH NODES DEGREE\n" + "+"*60)
     return dict_struct
 
@@ -215,7 +119,7 @@ def cal_node_degree(nodes:list,edges:list):
 def dict_dfs(graph:dict):
     visited = []
     nodes = list(graph.keys())
-    node = getRandomListElement(nodes)
+    node = random_list_element(nodes)
     visited = [node]
     stack = [node]
     edges = []
@@ -223,8 +127,6 @@ def dict_dfs(graph:dict):
     debug(1,"\n" * 2);
     debug(1, "~"*60 + "\n\t\tSTARTING DFS ALGORITHM\n" + "~"*60)
     debug(1, "[DEBUG:DFS] nodes of the graph", nodes)
-    debug(1, "[DEBUG:DFS] nodes visited", visited)
-    debug(1, "[DEBUG:DFS] nodes on stack", stack)
     debug(1, "[DEBUG:DFS] adding node", node)
     while len(visited) < len(nodes):
         pop_stack = True
@@ -242,7 +144,6 @@ def dict_dfs(graph:dict):
                 current_node = node
                 pop_stack = False
                 break
-        
         if pop_stack:
             if stack:
                 stack.pop()
@@ -250,7 +151,7 @@ def dict_dfs(graph:dict):
                 debug(1, "[DEBUG:DFS] deadend returning to node", current_node)
 
     debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] DFS Complete " + ">"*20) + "\n") * 3)
-    debug(1, "\n[DEBUG:DFS-COMPLETE] finshed nodes visited", visited)
+    debug(2, "\n[DEBUG:DFS-COMPLETE] finshed nodes visited", visited)
     debug(1, "[DEBUG:DFS-COMPLETE] finshed edges from dfs", edges)
     debug(1, "[DEBUG:DFS-COMPLETE] finshed nodes on stack", stack)
 
@@ -279,18 +180,8 @@ graph1 = {
     'S' : ['A','C','G']
 }
 
-def adfs(graph,node,visited):
-    #visited = contianer[visited]  
-    if node not in visited:
-        visited.append(node)
-        for n in get_dict_neighbors(graph, node):
-            adfs(graph,n,visited)
-    if len(visited) == len(graph.keys()):
-        return visited
-
-
 def main():
-    graph5 = {
+    graph6 = {
         "000":{
             "population":10,
             'neighbors': [
@@ -328,10 +219,43 @@ def main():
             ],
         }
     }
+    graph5 = {
+        "000":{
+            "population":10,
+            'neighbors': [
+                "001", "002"
+            ],
+        },
+        "001": {
+            "population":10,
+            'neighbors': [
+                "000", "003"
+            ],
+        },
+        "002":{
+            "population":10,
+            'neighbors': [
+                "000", "003"
+            ],
+        },
+        "003": {
+            "population":10,
+            'neighbors': [
+                "001", "002", "004"
+            ],
+        },
+        "004":{
+            "population":10,
+            'neighbors': [
+               "003"
+            ],
+        },
+    }
     #adfs(graph5,'000', [])
-    print(dict_dfs(graph5))
+    #print(dict_dfs(graph5))
     #global numberOfDistricts
-    #print(combinePRec(graph5,numberOfDistricts-1))
+   # print(create_n_partition(graph5,numberOfDistricts))
+    print(dfs_partition(graph5))
     #combineP(graph5)
 
 if __name__ == "__main__":
