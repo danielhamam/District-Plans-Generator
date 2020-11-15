@@ -2,7 +2,7 @@ import random
 import math
 import sys
 
-numberOfDistricts = 4
+number_of_districts = 4
 debug_status = 2
 #0 no debug
 #1 low-level interpretation debug
@@ -24,7 +24,7 @@ def get_dict_neighbors(graph:dict, key):
     value = graph[key]['neighbors']
     return value
 
-def create_subgraph_from_edges(edges_list:list):
+def create_subgraphs_from_edges(edges_list:list):
     districts = {}
     nodes_taken = []
     for i in range(len(edges_list)):
@@ -41,15 +41,16 @@ def create_subgraph_from_edges(edges_list:list):
                 nodes_taken.append(edge_two)
  
         districts.setdefault(i+1, struct)
+    # New function - call it here - calculates list of neighboring districts for the district
     return districts
 
 
 def partition_edges(partitions:list):
-    global numberOfDistricts
-    while len(partitions) != numberOfDistricts:
+    global number_of_districts
+    while len(partitions) != number_of_districts:
         random_subgraph = random_list_element(partitions)
         if len(random_subgraph) == 1:
-            continue;
+            continue
         random_subgraph_index = partitions.index(random_subgraph)
         random_index_in_element = random.randrange(len(random_subgraph)) 
         debug(1, "\t[DEBUG] random_subgraph: ", random_subgraph, "index to split at: ", random_index_in_element)
@@ -75,8 +76,8 @@ def dfs_partition(graph:dict):
     edges = dfs_value["edges"]
     visited = dfs_value["visited"]
     degrees = dfs_value["degrees"]
-    debug(1, "[DEBUG] edge: ", edges)
-    debug(1, "[DEBUG] visited: ", visited)
+    debug(2, "[DEBUG] edge: ", edges)
+    debug(2, "[DEBUG] visited: ", visited)
     debug(1, "[DEBUG] degrees: ", degrees)
     path_split = []
     for index in range(len(edges)-1):
@@ -84,21 +85,21 @@ def dfs_partition(graph:dict):
         next_edge = edges[index+1]
         if current_edge[1] != next_edge[0]:
             path_split.append(index+1)
-    debug(1, "[DEBUG] path_split edges: ", path_split) 
+    debug(2, "[DEBUG] path_split edges: ", path_split) 
     intitial_edges_partition = [] 
     starting_index = 0
     for i in path_split:
         intitial_edges_partition.append(edges[starting_index:i]) 
         starting_index = i
     intitial_edges_partition.append(edges[starting_index:]) 
-    debug(1, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition) 
+    debug(2, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition) 
     new_edges_partition = partition_edges(intitial_edges_partition)
-    districts = create_subgraph_from_edges(new_edges_partition)
+    districts = create_subgraphs_from_edges(new_edges_partition)
     debug(2, "[DEBUG:DFS-PARITION] districts: ", districts) 
 
 def cal_node_degree(nodes:list,edges:list):
     dict_struct = {}
-    debug(1,"\n" * 2);
+    debug(1,"\n" * 2)
     debug(1, "~"*60 + "\n\tSTARTING CALCULATING EACH NODES DEGREE\n" + "~"*60)
     debug(1, "[DEBUG:NODE_DEGREE] node", nodes, "edges", edges)
     for i in nodes:
@@ -150,6 +151,8 @@ def dict_dfs(graph:dict):
     values = { "visited": visited, "edges": edges,"degrees": degrees}
     debug(1, "+"*60 + "\n\tENDING DFS ALGORITHM\n" + "+"*60)
     return values
+
+
 
 def main():
     graph6 = {
@@ -224,8 +227,8 @@ def main():
     }
     #adfs(graph5,'000', [])
     #print(dict_dfs(graph5))
-    #global numberOfDistricts
-   # print(create_n_partition(graph5,numberOfDistricts))
+    #global number_of_districts
+   # print(create_n_partition(graph5,number_of_districts))
     print(dfs_partition(graph5))
     #combineP(graph5)
 
