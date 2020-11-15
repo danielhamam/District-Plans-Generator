@@ -6,25 +6,58 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import javax.persistence.*;
+import java.lang.Integer;
 
+
+@Entity
+@Table(name="Districts")
 public class District {
+
+    @Id
+    @GeneratedValue
+    private Integer districtId;
+
+    @Transient
     private String districtName;
+
+
     private int districtNumber;
+
+    @Transient
     private int districtFIPSCode;
+
+    @ManyToOne
     private String stateAbbrev;
+
     private String numofCounties;
+
     private String numofPrecincts;
+
+    @OneToOne
     private Demographic demographic;
+
     private Boundary boundary;
+
+    @JoinTable
+    @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore
     private List<Precinct> precincts;
+
+    @Transient
     @JsonIgnore
     private List <District> neighbors;
+
+    @Transient
     @JsonIgnore
     private double perimeter;
+
+    @Transient
     @JsonIgnore
     private double area;
    
+    //Neccessary for JPA
+    protected District (){}
 
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
         this.districtName = districtName;

@@ -12,30 +12,52 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+import javax.persistence.*;
+import java.lang.Integer;
 
-
+@Entity
+@Table(name="States")
 public class State {
+
+    @Column(length=25)
     private String stateName;
+
+    @Id
+    @Column(nullable=false, length=2)
     private String stateAbbreviation;
+
+    @Column(nullable=false)
     private int stateFIPSCode;
+
     private int totalPopulation;
+
     private Plan enactedPlan;
+
     private int numOfPrecincts;
     private int numOfCounties;
     private int numOfDistricts;
+
+    @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore
     private Precinct [] statePrecincts;
+
     @JsonIgnore
     private Boundary boundary;
+
     @JsonIgnore
     private File precinctFile;
+
     @JsonIgnore
     private File stateFile;
+
     @JsonIgnore
     private FeatureCollection precinctsGeoJson;
+
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 
+    //Neccessary for JPA
+    protected State (){}
 
     public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
         this.stateName = stateName;

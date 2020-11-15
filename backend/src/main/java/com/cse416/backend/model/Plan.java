@@ -17,12 +17,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.geojson.FeatureCollection;
+import javax.persistence.*;
 
+import java.lang.Integer;
 
-//import javax.persistence.*;
-
-//@Entity
-//@Table(name="Plans")
+@Entity
+@Table(name="Plans")
 public class Plan{
     
     @JsonProperty
@@ -64,6 +64,9 @@ public class Plan{
     //@Transient
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
+
+    //Neccessary for JPA
+    protected Plan (){}
 
     public Plan(String stateAbbreviation, String type, String planID, int numberOfDistricts,boolean isPlanEnacted) {
         this.stateAbbreviation = stateAbbreviation;

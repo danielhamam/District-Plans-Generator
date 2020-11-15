@@ -1,12 +1,31 @@
 package com.cse416.backend.model.regions;
 import com.cse416.backend.model.enums.CensusCatagories;
-import java.util.Map;
 
+import java.util.Map;
+import javax.persistence.*;
+import java.lang.Integer;
+
+
+@Entity
+@Table(name="Demographics")
 public class Demographic {
+
+    @Id
+    @GeneratedValue
+    private Integer demographicId;
+
+    @Transient
     private long totalPopulation;
+
+    @Transient
     private String referenceType;
+
     private Map<CensusCatagories, Integer> ethnicityPopulation;
+
     private Map<CensusCatagories, Integer> votingAgePopulation;
+
+    //Neccessary for JPA
+    protected Demographic (){}
 
     public Demographic(long totalPopulation){
         this.totalPopulation = totalPopulation;

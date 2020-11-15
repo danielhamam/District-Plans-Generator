@@ -6,14 +6,44 @@ import java.util.List;
 
 import javax.naming.spi.StateFactory;
 
-public class Precinct {
-    String precinctName;
-    int precinctFIPSCode;
-    Boundary boundary;
-    Demographic demographic;
-    Precinct [] neighbors;
+import javax.persistence.*;
+import java.lang.Integer;
 
-    
+@Entity
+@Table(name="Precincts")
+public class Precinct {
+
+    @Id
+    @GeneratedValue
+    private Integer countyId;
+
+    @ManyToOne
+    private County county;
+
+    @ManyToOne
+    private State state;
+
+    @ManyToOne
+    private District district;
+
+    @Column(nullable=false)
+    private String precinctName;
+
+    @Column(nullable=false)
+    private int precinctFIPSCode;
+
+    private Boundary boundary;
+
+    @OneToOne
+    private Demographic demographic;
+
+    @JoinTable
+    @OneToMany(targetEntity=Precinct.class)
+    private Precinct [] neighbors;
+
+    //Neccessary for JPA
+    protected Precinct (){}
+
     public Precinct(String precinctName, int precinctFIPSCode, Boundary boundary, Demographic demographic, Precinct [] neighbors) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;

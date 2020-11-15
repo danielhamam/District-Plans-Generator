@@ -145,7 +145,7 @@ states = '''
   CREATE TABLE IF NOT EXISTS States(
     stateId VARCHAR(2) PRIMARY KEY,
     stateName VARCHAR(25) NOT NULL,
-    stateFIPSCODE INT(2) NOT NULL,
+    stateFIPSCode NOT NULL,
     totalPopulation BIGINT DEFAULT 0
   )'''
 
@@ -179,8 +179,7 @@ stateDemographics = '''
 districts = '''
   CREATE TABLE IF NOT EXISTS Districts(
     districtId INT AUTO_INCREMENT PRIMARY KEY,
-    districtFIPSCode INT NOT NULL,
-    districtNumber INT(2) NOT NULL,
+    districtNumber INT NOT NULL,
     numberOfCounties INT DEFAULT 0,
     numberOfPrecincts INT DEFAULT 0,
     totalPopulation BIGINT DEFAULT 0,
@@ -236,6 +235,8 @@ counties = '''
     numberOfPrecincts INT DEFAULT 0, 
     totalPopulation BIGINT DEFAULT 0,
     districtId INT,
+    stateId VARCHAR(2),
+    FOREIGN KEY (stateId) REFERENCES States(stateId),
     FOREIGN KEY (districtId) REFERENCES Districts(districtId)
   )'''
 
