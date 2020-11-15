@@ -2,7 +2,7 @@ import random
 import math
 import sys
 
-number_of_districts = 4
+number_of_districts = 3
 debug_status = 2
 #0 no debug
 #1 low-level interpretation debug
@@ -24,7 +24,31 @@ def get_dict_neighbors(graph:dict, key):
     value = graph[key]['neighbors']
     return value
 
-def create_subgraphs_from_edges(edges_list:list):
+def calculate_neighboring_districts(districts: dict, graph: dict):
+    nodes = list(graph.keys())
+    subgraphs = list(districts.keys())
+    neighbors_of_precinct = [] # temp list
+    neighboring_precincts_of_district = [] # temp list
+    precincts_in_district = [] # temp list
+
+    for district in subgraphs: # First iteration through the districts
+        neighboring_precincts_of_district = []
+        precincts_in_district = districts[district]["precincts"]
+        for i in precincts_in_district: # Calculates all neighboring precincts to this district
+            neighbors_of_precinct = graph[i]["neighbors"]
+            for j in neighbors_of_precinct:
+                if j not in neighboring_precincts_of_district:
+                    neighboring_precincts_of_district.append(j)
+
+        for k in subgraphs: # Second iteration through the districts
+            if k != district:
+                precincts_in_district = districts[k]["precincts"]
+                for i in precincts_in_district:
+                    if i in neighboring_precincts_of_district:
+                        if k not in districts[district]["neighbors"]:
+                            districts[district]["neighbors"].append(k)
+                          
+def create_subgraphs_from_edges(edges_list:list, graph: dict):
     districts = {}
     nodes_taken = []
     for i in range(len(edges_list)):
@@ -41,7 +65,7 @@ def create_subgraphs_from_edges(edges_list:list):
                 nodes_taken.append(edge_two)
  
         districts.setdefault(i+1, struct)
-    # New function - call it here - calculates list of neighboring districts for the district
+    calculate_neighboring_districts(districts, graph)
     return districts
 
 
@@ -94,7 +118,7 @@ def dfs_partition(graph:dict):
     intitial_edges_partition.append(edges[starting_index:]) 
     debug(2, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition) 
     new_edges_partition = partition_edges(intitial_edges_partition)
-    districts = create_subgraphs_from_edges(new_edges_partition)
+    districts = create_subgraphs_from_edges(new_edges_partition, graph)
     debug(2, "[DEBUG:DFS-PARITION] districts: ", districts) 
 
 def cal_node_degree(nodes:list,edges:list):
@@ -229,7 +253,7 @@ def main():
     #print(dict_dfs(graph5))
     #global number_of_districts
    # print(create_n_partition(graph5,number_of_districts))
-    print(dfs_partition(graph5))
+    print(dfs_partition(graph6))
     #combineP(graph5)
 
 if __name__ == "__main__":
