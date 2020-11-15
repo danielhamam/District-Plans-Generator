@@ -2,14 +2,12 @@ import random
 import math
 import sys
 
-numberOfDistricts = 3
+numberOfDistricts = 4
 debug_status = 2
 #0 no debug
 #1 low-level interpretation debug
 #2 mid-level interpretation debug
 #3 high-level
-
-
 
 def debug(optional, printout, *args):
     global debug_status 
@@ -25,7 +23,6 @@ def random_list_element(arr:list):
 def get_dict_neighbors(graph:dict, key):
     value = graph[key]['neighbors']
     return value
-
 
 def create_subgraph_from_edges(edges_list:list):
     districts = {}
