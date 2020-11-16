@@ -68,6 +68,33 @@ def create_subgraphs_from_edges(edges_list:list, graph: dict):
     calculate_neighboring_districts(districts, graph)
     return districts
 
+def combine_two_districts(districts: dict, graph: dict):
+    new_district = {} # Only a dictionary with precincts
+    new_precincts_list = []
+    # new_neighbors_list = []
+    rand1 = random.randint(1, len(districts))
+    district_one = districts[rand1]
+    rand2 = district_one["neighbors"][random.randint(0, len(district_one["neighbors"])-1)]
+    district_two = districts[rand2]
+
+    for i in district_one["precincts"]:
+        new_precincts_list.append(i)
+    for i in district_two["precincts"]:
+        new_precincts_list.append(i)
+    # for i in district_one["neighbors"]:
+    #     if i != rand2:
+    #         new_neighbors_list.append(i)
+    # for i in district_two["neighbors"]:
+    #     if i != rand1:
+    #         new_neighbors_list.append(i)
+
+    for i in new_precincts_list:
+        new_district.setdefault(i, graph[i])
+    return new_district
+
+# def check_acceptability(spanning_tree: dict):
+
+
 
 def partition_edges(partitions:list):
     global number_of_districts
@@ -120,6 +147,7 @@ def dfs_partition(graph:dict):
     new_edges_partition = partition_edges(intitial_edges_partition)
     districts = create_subgraphs_from_edges(new_edges_partition, graph)
     debug(2, "[DEBUG:DFS-PARITION] districts: ", districts) 
+    return districts
 
 def cal_node_degree(nodes:list,edges:list):
     dict_struct = {}
@@ -253,7 +281,11 @@ def main():
     #print(dict_dfs(graph5))
     #global number_of_districts
    # print(create_n_partition(graph5,number_of_districts))
-    print(dfs_partition(graph6))
+    # print(dfs_partition(graph6))
+    dict_districts = dfs_partition(graph6)
+    new_subgraph = combine_two_districts(dict_districts, graph6)
+    new_spanning_tree = dict_dfs(new_subgraph)
+    value = check_acceptability(new_spanning_tree)
     #combineP(graph5)
 
 if __name__ == "__main__":
