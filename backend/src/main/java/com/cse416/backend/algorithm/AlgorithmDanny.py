@@ -6,6 +6,7 @@ numDistricts = 2
 numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
+terminationLimit = 50
 
 # precinctList = []
 
@@ -90,7 +91,7 @@ def updateNeighbors(foundNeighbor, oldSubgraph, newSubgraph):
 # (1) Find Combine Algorithm
 
 def findCombine_driver(graph):
-    global neighbors, subgraphs, numDistricts
+    global neighbors, subgraphs, numDistricts, terminationLimit
     initialSubgraphs = list(graph.keys()) # takes precinct key
 
     # Convert into list of lists
@@ -104,11 +105,17 @@ def findCombine_driver(graph):
         value = graph.values()[i]['neighbors'] # get value
         neighbors[str(key)] = value # keys stored as strings
 
-    while len(subgraphs) != numDistricts: # CURRENT ISSUE: <= VS !=. WE DONT KNOW HOW BIG THE CLUSTER IS TO COMBINE WITH.
+    # USE CASE #29 GENERATE SEED DISTRICTING
+    while len(subgraphs) != numDistricts: 
         for subgraph in subgraphs: # for each node, randomly select neighbors
             findCombine(graph, subgraph)
             if len(subgraphs) == numDistricts:
                 break
+
+    # 35. Repeat the steps above until you generate satisfy the termination condition (required)
+    for i in range(terminationLimit):
+        algorithm()
+
     # When we're done, let's print the subgraphs:
     counter = 1
     print("\n")
@@ -117,6 +124,35 @@ def findCombine_driver(graph):
         counter = counter + 1
     print("\n")
     return
+
+def algorithm():
+    global subgraphs, neighbors
+
+
+    # USE CASE #30 --> Generate a random districting satisfying constraints (required)
+
+    # Random Subgraph, Random neighbor
+    randomSubgraph = random.choice(subgraphs)
+    subgraphNeighbors = neighbors.get(str(randomSubgraph))
+    randomNeighbor = random.choice(subgraphNeighbors) # get random neighbor
+
+    # Combine both subgraphs into one
+    subgraphsCombined = []
+    for i in randomSubgraph:
+        subgraphsCombined.append(i)
+    for j in randomNeighbor:
+        subgraphsCombined.append(j)
+    
+    # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
+
+    # DFS for combined subgraph (spanning tree)
+    
+
+
+
+    # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
+    # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
+    # USE CASE #34 --> Cut the edge in the combined sub-graph (required)
 
 def findCombine(graph, subgraph):
     global subgraphs, neighbors
