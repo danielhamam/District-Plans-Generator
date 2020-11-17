@@ -4,6 +4,10 @@ import sys
 
 number_of_districts = 3
 debug_status = 2
+ideal_population = 10
+percentage_difference = 0.1
+compactness_lower_bound = 0.33
+compactness_upper_bound = 0.67
 #0 no debug
 #1 low-level interpretation debug
 #2 mid-level interpretation debug
@@ -97,9 +101,52 @@ def combine_two_districts(districts: dict, graph: dict):
     debug(2, "[COMBINE-2-DISTRICTS] combined subgraph", new_district)
     return new_district
 
-# def check_acceptability(spanning_tree: dict):
+def check_acceptability(spanning_tree: dict, districts: dict, precincts: dict):
+    global ideal_population
+    global percentage_difference
 
+    upper_bound = ideal_population * (1 + (percentage_difference * 0.5)) # Population upper bound
+    lower_bound = ideal_population * (1 - (percentage_difference * 0.5)) # Population lower bound
 
+    list_edges = spanning_tree["edges"] # Current list of edges
+    acceptable_edges = [] # Acceptable list of edges
+    
+    for edge in list_edges:
+        district_one = [] # New subgraph 1
+        district_two = [] # New subgraph 2
+        total_population_one = 0 # Total population of new subgraph 1
+        total_population_two = 0 # Total population of new subgraph 2
+        compactness_one = 0.4 # Compactness of new subgraph 1
+        compactness_two = 0.4 # Compactness of new subgraph 2
+
+        precinct_one = precincts[edge[0]]
+        district_one.append(precinct_one)
+        precinct_two = precincts[edge[1]]
+        district_two.append(precinct_two)
+
+        for i in precinct_one["neighbors"]: # Adds precincts to new subgraph 1
+            if i != edge[1] and i not in precinct_two["neighbors"]:
+                district_one.append(precincts[i])
+        for i in precinct_two["neighbors"]: # Adds precinct to new subgraph 1
+            if i != edge[0] and i not in precinct_one["neighbors"]:
+                district_two.append(precincts[i])
+
+        for precinct in district_one: # Calculates total population & compactness of subgraph 1
+            total_population_one = total_population_one + precinct["population"]
+        for precinct in district_two: # Calculates total population & compactness of subgraph 2
+            total_population_two = total_population_two + precinct["population"]
+
+        # Checks if population lands within specified population difference & compactness boundaries
+        if (total_population_one <= upper_bound) and (total_population_one >= lower_bound):
+            if (total_population_two <= upper_bound) and (total_population_two >= lower_bound):
+                if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
+                    if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
+                        acceptable_edges.append(edge)
+    
+    return acceptable_edges
+
+def calculate_compactness():
+    print("Calculate Compactness: FUNCTION IN PROGRESS")
 
 def partition_edges(partitions:list):
     global number_of_districts
@@ -290,7 +337,7 @@ def main():
     dict_districts = dfs_partition(graph6)
     new_subgraph = combine_two_districts(dict_districts, graph6)
     new_spanning_tree = dict_dfs(new_subgraph)
-    #value = check_acceptability(new_spanning_tree)
+    value = check_acceptability(new_spanning_tree, dict_districts, graph6)
     #combineP(graph5)
 
 if __name__ == "__main__":
