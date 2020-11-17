@@ -8,6 +8,10 @@ numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
 terminationLimit = 1
+ideal_population = 15
+compactness_lower_bound = 0.1
+compactness_upper_bound = 1.3
+
 
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
@@ -118,15 +122,11 @@ def findCombine_driver(graph):
                 break
 
     # 35. Repeat the steps above until you generate satisfy the termination condition (required)
-    print("\n")
-    print("Precincts: " + str(precincts))
-    print("Precincts Neighbors " + str(precinctsNeighbors))
     for i in range(terminationLimit):
-        algorithm()
+        algorithm(graph)
 
     # When we're done, let's print the subgraphs:
     counter = 1
-    print("Neighbors: " + str(neighbors))
     print("\n")
     for subgraph in subgraphs:
         print("District " + str(counter) + " --> " + str(subgraph))
@@ -134,7 +134,7 @@ def findCombine_driver(graph):
     print("\n")
     return
 
-def algorithm():
+def algorithm(graph):
     global subgraphs, neighbors, precincts, precinctsNeighbors
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
@@ -159,7 +159,7 @@ def algorithm():
     else:
         for j in randomNeighbor:
             subgraphsCombined.append(j)
-    print(str(subgraphsCombined))
+    print("Combined Subgraph: " + str(subgraphsCombined))
 
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
     # DFS for combined subgraph (spanning tree)
@@ -192,12 +192,72 @@ def algorithm():
             if stack:
                 stack.pop()
                 currentPrecinct = stack[-1]
-    values = { "visited": visited, "edges": edges}
-    print(str(values))
+    spanning_tree = { "visited": visited, "edges": edges}
+    print("\n" + str(spanning_tree))
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
+    check_acceptability(spanning_tree, subgraphsCombined, graph)
+
     # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
     # USE CASE #34 --> Cut the edge in the combined sub-graph (required)
+
+def check_acceptability(spanning_tree, subgraphsCombined, graph):
+    global ideal_population
+    global populationVariance
+    global compactness_lower_bound, compactness_upper_bound
+
+    upper_bound = ideal_population * (1 + (populationVariance * 0.5)) # Population upper bound
+    lower_bound = ideal_population * (1 - (populationVariance * 0.5)) # Population lower bound
+
+    list_edges = spanning_tree["edges"] # Current list of edges
+    acceptable_edges = [] # Acceptable list of edges
+    
+    for edge in list_edges:
+        subgraph_one = [] # New subgraph 1
+        subgraph_two = [] # New subgraph 2
+        total_population_one = 0 # Total population of new subgraph 1
+        total_population_two = 0 # Total population of new subgraph 2
+        compactness_one = 0.4 # Compactness of new subgraph 1
+        compactness_two = 0.4 # Compactness of new subgraph 2
+
+        print("Edge 0 --> " + str(edge[0]))
+        print("Edge 1 --> " + str(edge[1]))
+        print("Edges: " + str(spanning_tree["edges"]))
+        precinct_one = edge[0]
+        subgraph_one.append(precinct_one)
+        precinct_two = edge[1]
+        subgraph_two.append(precinct_two)
+
+        print("Precincts Neighbors: " + str(precinctsNeighbors))
+        print("Target precinct: " + str(precinct_one.split(', ')))
+        for i in precinctsNeighbors[str(precinct_one.split(', '))]: # Adds precincts to new subgraph 1
+            print("Found precinct neighbor " + str(i))
+            if i != edge[1] and i not in precinctsNeighbors[str(precinct_two.split(', '))]:
+                subgraph_one.append(i)
+        for i in precinctsNeighbors[str(precinct_two.split(', '))]: # Adds precinct to new subgraph 1
+            if i != edge[0] and i not in precinctsNeighbors[str(precinct_one.split(', '))]:
+                subgraph_two.append(i)
+
+        # print("Print Dictrict One --> " + str(district_one))
+        # print("Print Dictrict Two --> " + str(district_two))
+
+        for precinct in subgraph_one: # Calculates total population & compactness of subgraph 1
+            total_population_one = total_population_one + graph.get(precinct)["population"]
+        for precinct in subgraph_two: # Calculates total population & compactness of subgraph 2
+            total_population_two = total_population_two + graph.get(precinct)["population"]
+
+        # print("Total population one --> " + str(total_population_one))
+        # print("Total population two --> " + str(total_population_two))
+
+        # Checks if population lands within specified population difference & compactness boundaries
+        # if (total_population_one <= upper_bound) and (total_population_one >= lower_bound):
+            # if (total_population_two <= upper_bound) and (total_population_two >= lower_bound):
+                # if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
+                #     if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
+            acceptable_edges.append(edge)
+    
+    print("Acceptable edges --> " + str(acceptable_edges))
+    return acceptable_edges
 
 def findCombine(graph, subgraph):
     global subgraphs, neighbors
