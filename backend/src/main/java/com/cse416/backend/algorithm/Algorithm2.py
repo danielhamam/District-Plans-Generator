@@ -14,7 +14,7 @@ def debug(optional, printout, *args):
     if debug_status == 0:
         return "-"
     if debug_status <= optional:
-        print(printout, *args)
+        print("[DEBUG]:", printout, *args)
 
 def random_list_element(arr:list):
     random_node = random.choice(arr)
@@ -72,24 +72,29 @@ def combine_two_districts(districts: dict, graph: dict):
     new_district = {} # Only a dictionary with precincts
     new_precincts_list = []
     # new_neighbors_list = []
-    rand1 = random.randint(1, len(districts))
-    district_one = districts[rand1]
-    rand2 = district_one["neighbors"][random.randint(0, len(district_one["neighbors"])-1)]
-    district_two = districts[rand2]
-
+    rand_district_one_element = random_list_element(list(districts.keys()))
+    district_one = districts[rand_district_one_element]
+    district_one_neighbors = district_one['neighbors']
+    rand_district_two_element = random_list_element(district_one_neighbors)
+    district_two = districts[rand_district_two_element]
+    debug(1, "[COMBINE-2-DISTRICTS] selected: subgraph", rand_district_one_element,
+          district_one, "\t&&\tsubgraph", rand_district_two_element, district_two)
     for i in district_one["precincts"]:
         new_precincts_list.append(i)
     for i in district_two["precincts"]:
         new_precincts_list.append(i)
-    # for i in district_one["neighbors"]:
-    #     if i != rand2:
-    #         new_neighbors_list.append(i)
-    # for i in district_two["neighbors"]:
-    #     if i != rand1:
-    #         new_neighbors_list.append(i)
-
+    debug(1, "[COMBINE-2-DISTRICTS]", new_precincts_list)
     for i in new_precincts_list:
-        new_district.setdefault(i, graph[i])
+        new_precinct = graph[i].copy()
+        new_precinct_neighbors = new_precinct['neighbors']
+        updated_precinct_neighbors = list(filter(
+            lambda precinct: (precinct in new_precincts_list),
+            new_precinct_neighbors))
+        new_precinct['neighbors'] = updated_precinct_neighbors
+        new_district.setdefault(i, new_precinct)
+        debug(1, "old", i, graph[i]['neighbors'])
+        debug(1, "new", i, updated_precinct_neighbors)
+    debug(2, "[COMBINE-2-DISTRICTS] combined subgraph", new_district)
     return new_district
 
 # def check_acceptability(spanning_tree: dict):
@@ -127,26 +132,26 @@ def dfs_partition(graph:dict):
     edges = dfs_value["edges"]
     visited = dfs_value["visited"]
     degrees = dfs_value["degrees"]
-    debug(2, "[DEBUG] edge: ", edges)
-    debug(2, "[DEBUG] visited: ", visited)
-    debug(1, "[DEBUG] degrees: ", degrees)
+    debug(1, "[DFS-PARITION] edge: ", edges)
+    debug(1, "[DFS-PARITION] visited: ", visited)
+    debug(1, "[DFS-PARITION] degrees: ", degrees)
     path_split = []
     for index in range(len(edges)-1):
         current_edge = edges[index]
         next_edge = edges[index+1]
         if current_edge[1] != next_edge[0]:
             path_split.append(index+1)
-    debug(2, "[DEBUG] path_split edges: ", path_split) 
+    debug(1, "[DEBUG] path_split edges: ", path_split)
     intitial_edges_partition = [] 
     starting_index = 0
     for i in path_split:
         intitial_edges_partition.append(edges[starting_index:i]) 
         starting_index = i
     intitial_edges_partition.append(edges[starting_index:]) 
-    debug(2, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition) 
+    debug(1, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition)
     new_edges_partition = partition_edges(intitial_edges_partition)
     districts = create_subgraphs_from_edges(new_edges_partition, graph)
-    debug(2, "[DEBUG:DFS-PARITION] districts: ", districts) 
+    debug(2, "[DFS-PARITION] districts: ", districts)
     return districts
 
 def cal_node_degree(nodes:list,edges:list):
@@ -161,7 +166,7 @@ def cal_node_degree(nodes:list,edges:list):
         dict_struct[edge[0]] = dict_struct[edge[0]] + 1
         dict_struct[edge[1]] = dict_struct[edge[1]] + 1
     debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] Completed " + ">"*20) + "\n") * 3)
-    debug(2, "[DEBUG:NODE_DEGREE] ", dict_struct)
+    debug(1, "[DEBUG:NODE_DEGREE] ", dict_struct)
     debug(1, "+"*60 + "\n\tENDING CALCULATING EACH NODES DEGREE\n" + "+"*60)
     return dict_struct
 
@@ -196,9 +201,9 @@ def dict_dfs(graph:dict):
                 stack.pop()
                 current_node = stack[-1]
                 debug(1, "[DEBUG:DFS] deadend returning to node", current_node)
-    debug(1, "[DEBUG:DFS-COMPLETE] finshed nodes on stack", stack)
-    debug(1, "[DEBUG:DFS-COMPLETE] finshed edges from dfs", edges)
-    debug(2, "[DEBUG:DFS-COMPLETE] finshed nodes visited", visited)
+    debug(1, "[DFS-COMPLETE] finshed nodes on stack", stack)
+    debug(1, "[DFS-COMPLETE] finshed edges from dfs", edges)
+    debug(2, "[DFS] dfs complete. nodes visited", visited)
     degrees = cal_node_degree(nodes,edges)
     values = { "visited": visited, "edges": edges,"degrees": degrees}
     debug(1, "+"*60 + "\n\tENDING DFS ALGORITHM\n" + "+"*60)
@@ -285,11 +290,11 @@ def main():
     dict_districts = dfs_partition(graph6)
     new_subgraph = combine_two_districts(dict_districts, graph6)
     new_spanning_tree = dict_dfs(new_subgraph)
-    value = check_acceptability(new_spanning_tree)
+    #value = check_acceptability(new_spanning_tree)
     #combineP(graph5)
 
 if __name__ == "__main__":
-    
+
     main()
 
 
