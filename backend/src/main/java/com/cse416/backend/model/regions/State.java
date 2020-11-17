@@ -22,8 +22,13 @@ public class State {
     //@Column(length=25)
     private String stateName;
 
+<<<<<<< Updated upstream
     //@Id
     //@Column(nullable=false, length=2)
+=======
+    @Id
+    @Column(name="stateId", nullable=false, length=2)
+>>>>>>> Stashed changes
     private String stateAbbreviation;
 
     //@Column(nullable=false)
@@ -31,28 +36,44 @@ public class State {
 
     private int totalPopulation;
 
+    @Transient
     private Plan enactedPlan;
 
+    @Transient
     private int numOfPrecincts;
+
+    @Transient
     private int numOfCounties;
+
+    @Transient
     private int numOfDistricts;
 
+<<<<<<< Updated upstream
     //@OneToMany(targetEntity=Precinct.class)
+=======
+    @Transient
+    // @OneToMany(targetEntity=Precinct.class)
+>>>>>>> Stashed changes
     @JsonIgnore
     private Precinct [] statePrecincts;
 
+    @Transient
     @JsonIgnore
     private Boundary boundary;
 
+    @Transient
     @JsonIgnore
     private File precinctFile;
 
+    @Transient
     @JsonIgnore
     private File stateFile;
 
+    @Transient
     @JsonIgnore
     private FeatureCollection precinctsGeoJson;
 
+    @Transient
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 

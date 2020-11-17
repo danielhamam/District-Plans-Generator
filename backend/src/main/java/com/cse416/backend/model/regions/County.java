@@ -41,17 +41,32 @@ public class County {
     //@Transient
     private Boundary boundary;
 
+<<<<<<< Updated upstream
     //@ManyToOne
     private District district;
 
     //@ManyToOne
+=======
+    @Transient
+    // @ManyToOne
+    private District district;
+
+    @Transient
+    // @ManyToOne
+>>>>>>> Stashed changes
     private State state;
 
     //@Column(name = "numberOfPrecincts")
     private int numOfPrecincts;
 
+<<<<<<< Updated upstream
     //@JoinTable
     //@OneToMany(targetEntity=Precinct.class)
+=======
+    @Transient
+    // @JoinTable
+    // @OneToMany(targetEntity=Precinct.class)
+>>>>>>> Stashed changes
     @JsonIgnore 
     private List<Precinct> precincts;
 

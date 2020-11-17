@@ -27,20 +27,37 @@ public class District {
     //@Transient
     private int districtFIPSCode;
 
+<<<<<<< Updated upstream
     //@ManyToOne
+=======
+    @Transient
+    // @ManyToOne
+>>>>>>> Stashed changes
     private String stateAbbrev;
 
     private String numofCounties;
 
     private String numofPrecincts;
 
+<<<<<<< Updated upstream
     //@OneToOne
+=======
+    @Transient
+    // @OneToOne
+>>>>>>> Stashed changes
     private Demographic demographic;
 
+    @Transient
     private Boundary boundary;
 
+<<<<<<< Updated upstream
     //@JoinTable
     //@OneToMany(targetEntity=Precinct.class)
+=======
+    @Transient
+    // @JoinTable
+    // @OneToMany(targetEntity=Precinct.class)
+>>>>>>> Stashed changes
     @JsonIgnore
     private List<Precinct> precincts;
 
