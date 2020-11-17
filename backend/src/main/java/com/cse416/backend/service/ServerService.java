@@ -3,8 +3,8 @@ package com.cse416.backend.service;
 import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.model.*;
 import com.cse416.backend.model.enums.*;
+import com.cse416.backend.model.livememory.Session;
 import com.cse416.backend.model.regions.*;
-import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 
-import java.io.IOException;
 import java.util.*;
 
 

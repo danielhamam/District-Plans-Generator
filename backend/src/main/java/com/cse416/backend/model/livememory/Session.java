@@ -1,4 +1,4 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.livememory;
 
 import java.util.List;
 import java.util.NoSuchElementException;

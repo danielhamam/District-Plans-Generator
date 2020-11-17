@@ -65,6 +65,14 @@ public class Plan{
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
 
+    @JsonIgnore
+    private int x;
+
+    @JsonIgnore
+    private int y;
+
+
+
     //Neccessary for JPA
     protected Plan (){}
 

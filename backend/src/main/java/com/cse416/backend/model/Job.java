@@ -96,6 +96,10 @@ public class Job{
     @JsonIgnore
     @Transient
     private List <Plan> otherDistrictingPlan;
+
+    @JsonIgnore
+    @Transient
+    private BoxWhisker boxWhisker;
     
     //Neccessary for JPA
     protected Job (){}
