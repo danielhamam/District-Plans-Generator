@@ -20,8 +20,10 @@ public class Demographic {
     //@Transient
     private String referenceType;
 
+    @Transient
     private Map<CensusCatagories, Integer> ethnicityPopulation;
 
+    @Transient
     private Map<CensusCatagories, Integer> votingAgePopulation;
 
     //Neccessary for JPA

@@ -12,6 +12,7 @@ public class Precinct {
     //@GeneratedValue
     private Integer countyId;
 
+<<<<<<< Updated upstream
     //@ManyToOne
     private County county;
 
@@ -19,6 +20,18 @@ public class Precinct {
     private State state;
 
     //@ManyToOne
+=======
+    @Transient
+    // @ManyToOne
+    private County county;
+
+    @Transient
+    // @ManyToOne
+    private State state;
+
+    @Transient
+    // @ManyToOne
+>>>>>>> Stashed changes
     private District district;
 
     //@Column(nullable=false)
@@ -27,13 +40,24 @@ public class Precinct {
     //@Column(nullable=false)
     private int precinctFIPSCode;
 
+    @Transient
     private Boundary boundary;
 
+<<<<<<< Updated upstream
     //@OneToOne
     private Demographic demographic;
 
     //@JoinTable
     //@OneToMany(targetEntity=Precinct.class)
+=======
+    @Transient
+    // @OneToOne
+    private Demographic demographic;
+
+    @Transient
+    // @JoinTable
+    // @OneToMany(targetEntity=Precinct.class)
+>>>>>>> Stashed changes
     private Precinct [] neighbors;
 
     //Neccessary for JPA

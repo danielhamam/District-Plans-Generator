@@ -26,42 +26,43 @@ import java.lang.Integer;
 public class Plan{
     
     @JsonProperty
-    //@Transient
+    @Transient
     private String type;
 
     @JsonProperty
-    //@Column(name = "stateID")
+    @Column(name = "stateID")
     private String stateAbbreviation;
 
     @JsonProperty
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String planID;
 
     @JsonProperty
-    //@Column(name = "numberOfDistricts")
     private int numberOfDistricts;
 
     @JsonProperty
-    //@Transient
+    @Transient
     private boolean isPlanEnacted;
 
     @JsonIgnore
-    //@Transient
+    @Transient
     private List<District> districts;
 
     @JsonIgnore
+    @Transient
     private int averageDistrictPopulation;
 
     @JsonIgnore
+    @Transient
     private int averageDistrictCompactness;
 
     @JsonIgnore
-    //@Transient
+    @Transient
     private File districtFile;
 
     @JsonProperty
-    //@Transient
+    @Transient
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
 
