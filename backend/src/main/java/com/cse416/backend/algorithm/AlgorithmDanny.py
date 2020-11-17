@@ -1,14 +1,13 @@
 import random
 import math
 import sys
+from copy import deepcopy
 
 numDistricts = 2
 numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
-terminationLimit = 50
-
-# precinctList = []
+terminationLimit = 1
 
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
@@ -21,6 +20,8 @@ terminationLimit = 50
 # // Global Variables
 subgraphs = [] # holds precincts in it. also holds neighbors with other subgraphs. make name of it the first precinct
 neighbors = {} # dictionary of keys that have neighbors. initialize via graph, update as we go on
+precincts = [] # initial list of precinct neighbors for use later.
+precinctsNeighbors = {} 
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
@@ -98,26 +99,34 @@ def findCombine_driver(graph):
     for sub in initialSubgraphs:
         sub = sub.split(', ')
         subgraphs.append(sub)
+        sub2 = deepcopy(sub)
+        precincts.append(sub2)
 
     # Initialize neighbors from graph
     for i in range(len(graph.values())):
         key = subgraphs[i] # get key
         value = graph.values()[i]['neighbors'] # get value
+        value2 = graph.values()[i]['neighbors'] # get value
         neighbors[str(key)] = value # keys stored as strings
+        precinctsNeighbors[str(deepcopy(key))] = deepcopy(value2)
 
     # USE CASE #29 GENERATE SEED DISTRICTING
     while len(subgraphs) != numDistricts: 
-        for subgraph in subgraphs: # for each node, randomly select neighbors
+        for subgraph in subgraphs: # for each precinct, randomly select neighbors
             findCombine(graph, subgraph)
             if len(subgraphs) == numDistricts:
                 break
 
     # 35. Repeat the steps above until you generate satisfy the termination condition (required)
+    print("\n")
+    print("Precincts: " + str(precincts))
+    print("Precincts Neighbors " + str(precinctsNeighbors))
     for i in range(terminationLimit):
         algorithm()
 
     # When we're done, let's print the subgraphs:
     counter = 1
+    print("Neighbors: " + str(neighbors))
     print("\n")
     for subgraph in subgraphs:
         print("District " + str(counter) + " --> " + str(subgraph))
@@ -126,29 +135,65 @@ def findCombine_driver(graph):
     return
 
 def algorithm():
-    global subgraphs, neighbors
-
+    global subgraphs, neighbors, precincts, precinctsNeighbors
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
 
     # Random Subgraph, Random neighbor
     randomSubgraph = random.choice(subgraphs)
     subgraphNeighbors = neighbors.get(str(randomSubgraph))
+
     randomNeighbor = random.choice(subgraphNeighbors) # get random neighbor
 
     # Combine both subgraphs into one
+
     subgraphsCombined = []
-    for i in randomSubgraph:
-        subgraphsCombined.append(i)
-    for j in randomNeighbor:
-        subgraphsCombined.append(j)
-    
+    if type(randomSubgraph) == str:
+        subgraphsCombined.append(randomSubgraph)
+    else:
+        for i in randomSubgraph:
+            subgraphsCombined.append(i)
+
+    if type(randomNeighbor) == str:
+        subgraphsCombined.append(randomNeighbor)
+    else:
+        for j in randomNeighbor:
+            subgraphsCombined.append(j)
+    print(str(subgraphsCombined))
+
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
-
     # DFS for combined subgraph (spanning tree)
-    
-
-
+    randomStart = random.choice(subgraphsCombined) # randomly select a start
+    visited = [randomStart]
+    stack = [randomStart]
+    edges = []
+    currentPrecinct = randomStart
+    while len(visited) < len(precincts):
+        pop_stack = True
+        neighborsPrecinct = precinctsNeighbors.get(str(currentPrecinct.split(', '))) # get neighbors of precinct
+        for precinct in neighborsPrecinct:
+            if precinct not in visited:
+                visited.append(precinct)
+                stack.append(precinct)
+                # Create the edge and add it 
+                newList = []
+                vertexOne = currentPrecinct
+                vertexTwo = precinct
+                if (type(vertexOne) == str):
+                    vertexOne = vertexOne.split(', ')
+                if (type(vertexTwo) == str):
+                    vertexTwo = vertexTwo.split(', ')
+                newList = vertexOne + vertexTwo
+                edges.append(newList) # assume creates edge
+                currentPrecinct = precinct
+                pop_stack = False
+                break
+        if pop_stack: # go back
+            if stack:
+                stack.pop()
+                currentPrecinct = stack[-1]
+    values = { "visited": visited, "edges": edges}
+    print(str(values))
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
     # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
