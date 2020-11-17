@@ -1,4 +1,4 @@
-package com.cse416.backend.model.livememory;
+package com.cse416.backend.livememory;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -7,6 +7,7 @@ import com.cse416.backend.model.Job;
 import com.cse416.backend.model.regions.State;
 import com.cse416.backend.model.Plan;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class Session{
@@ -14,10 +15,12 @@ public class Session{
     private List<Job> jobs;
     private Plan enactedPlan;
 
-    public Session(State state){
-        this.state = state;
+    public Session(){
         this.jobs = new ArrayList<>();
-        this.enactedPlan = null;
+    }
+
+    public void setState(State state){
+        this.state = state;
     }
 
     public State getState(){
@@ -35,6 +38,22 @@ public class Session{
         this.jobs.addAll(jobs);
     }
 
-    
+    public boolean deleteJob(String jobID){
+//        this.jobs.stream()
+//                .filter(job -> !jobID.equals(job.getJobID()))
+//                .collect(Collectors.toList());
+        boolean isDeletionSuccesful = false;
+        for(Job job : this.jobs){
+            if(jobID.equals(job.getJobID())){
+                this.jobs.remove(job);
+                isDeletionSuccesful = true;
+                break;
+            }
+        }
+        return isDeletionSuccesful;
+    }
+
+
+
 
 }

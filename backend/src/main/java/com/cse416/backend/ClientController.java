@@ -57,7 +57,7 @@ public class ClientController {
 
     @GetMapping(path = "/precincts", produces = "application/json")
     public String getPrecinct(){
-
+        System.out.println("Sending precincts");
         return service.getPrecinct();
     }
 
@@ -90,8 +90,8 @@ public class ClientController {
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")
-   public String deleteStateJob(@PathVariable String jobID){
-       return "deleteStateJob";
+   public void deleteStateJob(@PathVariable String jobID){
+       service.deleteJob(jobID);
    }
 
    @PostMapping(path = "/generate", consumes = "application/json", produces = "application/json")

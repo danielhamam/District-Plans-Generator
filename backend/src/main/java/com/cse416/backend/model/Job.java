@@ -13,96 +13,96 @@ import java.util.HashMap;
 import java.util.Map;
 import java.lang.Integer;
  
-@Entity
-@Table(name = "Jobs")
+//@Entity
+//@Table(name = "Jobs")
 public class Job{
 
-    @Id
-    @GeneratedValue
-    @Column(name = "jobId")
+    //@Id
+    //@GeneratedValue
+    //@Column(name = "jobId")
     private Integer generatedId;
 
     @JsonProperty("jobName")
-    @Column(nullable=true)
+    //@Column(nullable=true)
     private String jobName;
 
     @JsonProperty
-    @Transient
+    //@Transient
     private List<CensusCatagories> minorityAnalyzed;
 
     @JsonProperty("compactness")
-    @Column(name = "compactness")
+    //@Column(name = "compactness")
     private ClientCompactness clientCompactness;
 
     @JsonProperty("populationDifference")
     private double populationDifference;
 
     @JsonProperty("plansAmount")
-    @Column(name = "numberOfPlans")
+    //@Column(name = "numberOfPlans")
     private int numDistrictingPlan;
 
     @JsonProperty("districtsAmount")
-    @Column(name = "numberOfDistricts")
+    //@Column(name = "numberOfDistricts")
     private int numOfDistricts;
 
     @JsonProperty
-    @Column(name = "jobStatus", nullable=false)
+    //@Column(name = "jobStatus", nullable=false)
     private JobStatus status;
 
     @JsonProperty
-    @Transient
+    //@Transient
     private String jobID;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private Plan averageDistrictPlan;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private Plan extremeDistrictPlan;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private Plan randomDistrictPlan;
 
     @JsonIgnore
-    @Column(name = "stateId", nullable=false, length=2)
+    //@Column(name = "stateId", nullable=false, length=2)
     private String stateAbbrev;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private int stateFIPSCode;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private int averagePlanPopulation;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private int averagePlanCompactness;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private int seawulfJobID;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private String jobSummary;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private List <Plan> allDistrictingPlan;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private List <Plan> otherDistrictingPlan;
 
     @JsonIgnore
-    @Transient
+    //@Transient
     private BoxWhisker boxWhisker;
     
     //Neccessary for JPA
-    protected Job (){}
+    //protected Job (){}
 
     public Job (@JsonProperty("jobName")String jobName, 
                 @JsonProperty("districtsAmount")int numOfDistricts, 

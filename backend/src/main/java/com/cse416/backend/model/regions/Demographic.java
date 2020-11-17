@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.lang.Integer;
 
 
-@Entity
-@Table(name="Demographics")
+//@Entity
+//@Table(name="Demographics")
 public class Demographic {
 
-    @Id
-    @GeneratedValue
+    //@Id
+    //@GeneratedValue
     private Integer demographicId;
 
-    @Transient
+    //@Transient
     private long totalPopulation;
 
-    @Transient
+    //@Transient
     private String referenceType;
 
     private Map<CensusCatagories, Integer> ethnicityPopulation;
