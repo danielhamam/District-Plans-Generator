@@ -119,17 +119,20 @@ public class Job{
         this.status = JobStatus.PENDING;
     }
     
-    public Job(String jobName, String stateAbbrev, String jobID, int seawulfJobID, int numOfDistricts, int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness, List<CensusCatagories> minorityAnalyzed, JobStatus status) {
+    public Job(String stateAbbrev, String jobName, String jobID, int seawulfJobID, int numOfDistricts,
+               int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness,
+               List<CensusCatagories> minorityAnalyzed, JobStatus status, BoxWhisker boxWhisker){
         this.stateAbbrev = stateAbbrev;
+        this.jobName = jobName;
         this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
-        this.jobName = jobName;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
         this.minorityAnalyzed = minorityAnalyzed;
         this.status = status;
+        this.boxWhisker = boxWhisker;
     }
 
 
@@ -147,6 +150,14 @@ public class Job{
 
     public void setJobID(String jobID) {
         this.jobID = jobID;
+    }
+
+    public JobStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatus status) {
+        this.status = status;
     }
 
     public int getSeawulfJobID() {
@@ -205,13 +216,6 @@ public class Job{
         this.minorityAnalyzed = minorityAnalyzed;
     }
 
-    public JobStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(JobStatus status) {
-        this.status = status;
-    }
 
     public String getJobSummary() {
         return jobSummary;
@@ -276,6 +280,7 @@ public class Job{
     public void setAveragePlanCompactness(int averagePlanCompactness) {
         this.averagePlanCompactness = averagePlanCompactness;
     }
+
 
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){

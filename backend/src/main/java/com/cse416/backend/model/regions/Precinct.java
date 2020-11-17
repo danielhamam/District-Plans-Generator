@@ -1,12 +1,7 @@
 package com.cse416.backend.model.regions;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.cse416.backend.model.Demographic;
 
-import java.util.List;
-
-import javax.naming.spi.StateFactory;
-
-import javax.persistence.*;
 import java.lang.Integer;
 
 //@Entity
@@ -43,11 +38,16 @@ public class Precinct {
 
     //Neccessary for JPA
     //protected Precinct (){}
-
-    public Precinct(String precinctName, int precinctFIPSCode, Boundary boundary, Demographic demographic, Precinct [] neighbors) {
+    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
-        this.boundary = boundary;
+        this.demographic = demographic;
+
+    }
+
+    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic, Precinct [] neighbors) {
+        this.precinctName = precinctName;
+        this.precinctFIPSCode = precinctFIPSCode;
         this.demographic = demographic;
         this.neighbors = neighbors;
     }

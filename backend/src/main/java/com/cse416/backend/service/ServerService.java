@@ -36,6 +36,19 @@ public class ServerService {
 
     }
 
+    private String createClient_Data(Object obj)throws JsonProcessingException{
+        return mapper.writeValueAsString(obj);
+    }
+
+    private String createClientStateData(State state, List <Job> jobs)throws JsonProcessingException{
+        Map <String,Object> clientData = new HashMap<>();
+        List<Object> clientJob = new ArrayList<>();
+        jobs.forEach(job -> clientJob.add(job));
+        clientData.put("state", state);
+        clientData.put("jobs", clientJob);
+        return  mapper.writeValueAsString(clientData);
+    }
+
     public String connectingClient(){
         //TODO: [DISCUSS] There may be no need to implement this function.
         //                We keep all the state geoJson on client-side.
@@ -62,15 +75,6 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
-    }
-
-    private String createClientStateData(State state, List <Job> jobs)throws JsonProcessingException{
-        Map <String,Object> clientData = new HashMap<>();
-        List<Object> clientJob = new ArrayList<>();
-        jobs.forEach(job -> clientJob.add(job));
-        clientData.put("state", state);
-        clientData.put("jobs", clientJob);
-        return  mapper.writeValueAsString(clientData);
     }
 
     public String getJob(String jobID){
@@ -163,7 +167,7 @@ public class ServerService {
 
     private void determineAlgorithmComputeLocation(Job job)throws IOException {
         if(runAlgoLocally){
-            System.out.println("Running algorithm locally");
+            System.out.println("Running algorithm locally... Python output...");
             ProcessBuilder pb = new ProcessBuilder("python3", "src/main/resources/algorithm/Algorithm2.py");
             pb.redirectErrorStream(true);
             Process process = pb.start();
@@ -188,16 +192,11 @@ public class ServerService {
                 builder.append(System.getProperty("line.separator"));
             }
             String result = builder.toString();
-            System.out.println(result);
+            System.out.println("\t\t" + result);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private String createClient_Data(Object obj)throws JsonProcessingException{
-        return mapper.writeValueAsString(obj);
-    }
-
 
     public String generateHeatMap(){
         return "generateHeatMap";
@@ -205,13 +204,12 @@ public class ServerService {
     }
 
     public int saveJob(Job job){
+        //TODO: [DATABASE] This could help communicate to the database. Helper function. Determine usage & importance
         return 0;
-
     }
 
     public void cancelJob(String jobID){
-        //TODO: [SERVER] implement cancel job functionality. Update job status to cancel and cancel all
-        //               process corresponding to the job.
+        this.session.cancelJob(jobID);
         //TODO: [DATABASE] implement cancel job functionality.
         //                 mutation function to update job status of a job on the remote database.
         //

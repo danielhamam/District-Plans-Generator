@@ -85,8 +85,8 @@ public class ClientController {
 //    }
 
    @PutMapping(path = "/cancel/{jobID}", produces = "application/json")
-   public String putCancelStateJob(@PathVariable String jobID){
-       return "putCancelStateJob";
+   public void putCancelStateJob(@PathVariable String jobID){
+       service.cancelJob(jobID);
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")

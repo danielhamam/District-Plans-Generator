@@ -1,4 +1,4 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model;
 import com.cse416.backend.model.enums.CensusCatagories;
 
 import java.util.Map;

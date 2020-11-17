@@ -3,7 +3,7 @@
 //import com.cse416.backend.dao.repositories.DemographicRepository;
 //import org.springframework.stereotype.*;
 //
-//import com.cse416.backend.model.regions.Demographic;
+//import com.cse416.backend.model.Demographic;
 //import org.springframework.beans.factory.annotation.Autowired;
 //
 //import java.util.ArrayList;

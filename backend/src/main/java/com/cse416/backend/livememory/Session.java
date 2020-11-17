@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.cse416.backend.model.Job;
+import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.regions.State;
 import com.cse416.backend.model.Plan;
 import java.util.ArrayList;
@@ -38,10 +39,19 @@ public class Session{
         this.jobs.addAll(jobs);
     }
 
+    public boolean cancelJob(String jobID){
+        boolean isDeletionSuccesful = false;
+        for(Job job : this.jobs){
+            if(jobID.equals(job.getJobID()) && job.getStatus() != JobStatus.COMPLETED){
+                job.setStatus(JobStatus.CANCELED);
+                isDeletionSuccesful = true;
+                break;
+            }
+        }
+        return isDeletionSuccesful;
+    }
+
     public boolean deleteJob(String jobID){
-//        this.jobs.stream()
-//                .filter(job -> !jobID.equals(job.getJobID()))
-//                .collect(Collectors.toList());
         boolean isDeletionSuccesful = false;
         for(Job job : this.jobs){
             if(jobID.equals(job.getJobID())){

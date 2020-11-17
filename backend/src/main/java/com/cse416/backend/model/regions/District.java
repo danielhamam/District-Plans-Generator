@@ -1,5 +1,6 @@
 package com.cse416.backend.model.regions;
 
+import com.cse416.backend.model.Demographic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
@@ -59,6 +60,19 @@ public class District {
     //Neccessary for JPA
     //protected District (){}
 
+    public District(String districtName, int districtNumber, int districtFIPSCode) {
+        this.districtName = districtName;
+        this.districtNumber = districtNumber;
+        this.districtFIPSCode = districtFIPSCode;
+    }
+
+    public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic) {
+        this.districtName = districtName;
+        this.districtNumber = districtNumber;
+        this.districtFIPSCode = districtFIPSCode;
+        this.demographic = demographic;
+    }
+
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
@@ -67,20 +81,6 @@ public class District {
         this.demographic = demographic;
     }
 
-    public District(String districtName, int districtNumber, int districtFIPSCode, String stateAbbrev, String numofCounties, String numofPrecincts, List<Precinct> precincts, List<District> neighbors, double perimeter, double area, Boundary boundary, Demographic demographic) {
-        this.districtName = districtName;
-        this.districtNumber = districtNumber;
-        this.districtFIPSCode = districtFIPSCode;
-        this.stateAbbrev = stateAbbrev;
-        this.numofCounties = numofCounties;
-        this.numofPrecincts = numofPrecincts;
-        this.precincts = precincts;
-        this.neighbors = neighbors;
-        this.perimeter = perimeter;
-        this.area = area;
-        this.boundary = boundary;
-        this.demographic = demographic;
-    }
 
     public String getDistrictName() {
         return districtName;
