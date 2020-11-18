@@ -68,6 +68,8 @@ class App extends Component {
         let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)
         let labelsMinorities = [];
+        if (res.status == "PENDING") res.status = "Pending";
+        if (res.status == "COMPLETED") res.status = "Completed"
         res.minorityAnalyzed.forEach(element => { // values --> keys
             switch (element) {
               case "WHITE_AMERICAN": 
@@ -108,10 +110,16 @@ class App extends Component {
     this.setState({ jobCards : this.state.jobCards})
   }
 
-  deleteJob = (job) => { 
+  deleteJob = async (job) => { 
     let indexOfJob = this.state.jobCards.indexOf(job);
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
+      try {
+        let res = await endpoint.deleteJob(job);
+        console.log(res)
+      } catch (exception) {
+        console.error(exception);
+      }
     this.setState({ jobCards : this.state.jobCards})
   }
   

@@ -18,7 +18,7 @@ class InputsJob extends Component {
     }
 
     changeJobName = (e) => this.setState({jobName : e.target.value});
-    changeDistrictsAmount = (e) => this.setState({districtsAmount : e.target.value});
+    // changeDistrictsAmount = (e) => this.setState({districtsAmount : e.target.value});
     changePlanAmount = (e) => this.setState({plansAmount : e.target.value});
     changeCompactness = (e) => this.setState({compactness : e.label});
     changePopulationDifference = (e) => this.setState({populationDifference: e.target.value});
@@ -27,14 +27,14 @@ class InputsJob extends Component {
     handleGenerateJob = (e) => {
         e.preventDefault(); 
 
-        var string_districtsAmount = this.state.districtsAmount.toString();
+        // var string_districtsAmount = this.state.districtsAmount.toString();
         var string_plansAmount = this.state.plansAmount.toString();
         var string_populationDifference = this.state.populationDifference.toString();
         let valuesMinorities = [];
         this.state.minorityAnalyzed.forEach(element => { valuesMinorities.push(element.value); })
         let userInputs = {
             jobName : this.state.jobName, 
-            districtsAmount : string_districtsAmount, 
+            // districtsAmount : string_districtsAmount, 
             plansAmount :string_plansAmount, 
             compactness : this.state.compactness, 
             populationDifference : string_populationDifference,
@@ -77,7 +77,7 @@ class InputsJob extends Component {
                 {/*             NUMBER OF DISTRICTS         */}
                 {/* --------------------------------------- */}
 
-                    <label for="exampleInputEmail1"> Districts (#): </label>
+                    {/* <label for="exampleInputEmail1"> Districts (#): </label>
                     <div className="row"> 
                         <div className="col-4">
                             <Form.Control size="sm" value={this.state.districtsAmount} onChange={this.changeDistrictsAmount}/>
@@ -88,9 +88,9 @@ class InputsJob extends Component {
                             </div>
                         </div>
                     </div>
-                    <small className="form-text text-muted">Enter the amount of districts you'd like to construct for your selected state </small>
+                    <small className="form-text text-muted">Enter the amount of districts you'd like to construct for your selected state </small> */}
 
-                    < br/>
+                    {/* < br/> */}
                 {/* --------------------------------------- */}
                 {/*     NUMBER OF DISTRICT PLANS SLIDER     */}
                 {/* --------------------------------------- */}

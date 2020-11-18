@@ -12,7 +12,6 @@ ideal_population = 15
 compactness_lower_bound = 0.1
 compactness_upper_bound = 1.3
 
-
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
 # (3) go through each edge and see if resulting subgraphs would be acceptable
@@ -160,12 +159,12 @@ def algorithm(graph):
     else:
         for j in randomNeighbor:
             subgraphsCombined.append(j)
-    print("Subgraphs: " + str(subgraphs))
-    print("Combined Subgraph: " + str(subgraphsCombined)) 
+    # print("Subgraphs: " + str(subgraphs))
+    # print("Combined Subgraph: " + str(subgraphsCombined)) 
 
     # Let's also combine the neighbors of these subgraphs 
     updateNeighbors(randomNeighbor, randomSubgraph, subgraphsCombined)
-    print("Neighbors: " + str(neighbors))
+    # print("Neighbors: " + str(neighbors))
 
     # DELETE THEM FROM THE SUBGRAPHS LIST
     if type(randomNeighbor) == str:
@@ -225,10 +224,10 @@ def generate_spanning_tree():
                 stack.pop()
                 currentPrecinct = stack[-1]
     spanning_tree = { "visited": visited, "edges": edges}
-    print("\n" + str(spanning_tree))
+    # print("\n" + str(spanning_tree))
     return spanning_tree
 
-def cut_acceptable(spanning_tree, targetCut):
+def cut_acceptable(acceptableEdges, targetCut):
     global subgraphsCombined
 
     subgraph_one = [] # New subgraph 1
@@ -238,30 +237,65 @@ def cut_acceptable(spanning_tree, targetCut):
     compactness_one = 0.4 # Compactness of new subgraph 1
     compactness_two = 0.4 # Compactness of new subgraph 2
 
-    precinct_one = targetCut[0]
-    subgraph_one.append(precinct_one)
-    precinct_two = targetCut[1]
-    subgraph_two.append(precinct_two)
+    # precinct_one = targetCut[0]
+    # subgraph_one.append(precinct_one)
+    # precinct_two = targetCut[1]
+    # subgraph_two.append(precinct_two)
 
     # Look into these more
-    for i in precinctsNeighbors[str(precinct_one.split(', '))]: # Adds precincts to new subgraph 1
-        if i != targetCut[1] and i not in precinctsNeighbors[str(precinct_two.split(', '))]:
-            subgraph_one.append(i)
-    for i in precinctsNeighbors[str(precinct_two.split(', '))]: # Adds precinct to new subgraph 1
-        if i != targetCut[0] and i not in precinctsNeighbors[str(precinct_one.split(', '))]:
-            subgraph_two.append(i)
+    # for i in precinctsNeighbors[str(precinct_one.split(', '))]: # Adds precincts to new subgraph 1
+    #     if i != targetCut[1] and i not in precinctsNeighbors[str(precinct_two.split(', '))]:
+    #         subgraph_one.append(i)
+    # for i in precinctsNeighbors[str(precinct_two.split(', '))]: # Adds precinct to new subgraph 1
+    #     if i != targetCut[0] and i not in precinctsNeighbors[str(precinct_one.split(', '))]:
+    #         subgraph_two.append(i)
 
     # Attach precincts to subgraph 1 (start --> first precinct in cut)
     # Attach precincts to subgraph 2 (second precinct in cut --> end)
-    intoSecond = 0
-    for i in subgraphsCombined:
-        if intoSecond == 0:
-            subgraph_one.append(i)
-        elif intoSecond == 1:
-            subgraph_two.append(i)
-        if i == targetCut[0]:
-            intoSecond = 1
+    # Perform bfs on both edge nodes
+    # bfs(precinct_one) 
+    # bfs(precinct_two) 
 
+    precinct_one = targetCut[0]
+    precinct_two = targetCut[1]
+
+    queue = []
+    visited = []
+    queue.append(precinct_one)
+    while queue:
+        targetNode = queue.pop(0)
+        print("Target node --> " + str(targetNode))
+        for edge in acceptableEdges:
+            firstNode = edge[0]
+            secondNode = edge[1]
+            print("First node --> " + str(firstNode))
+            print("Second node --> " + str(secondNode))
+            if firstNode == targetNode and secondNode not in visited:
+                print("Found node --> " + str(firstNode))
+                subgraph_one.append(secondNode)
+                queue.append(secondNode)
+                visited.append(firstNode)
+            # elif secondNode == targetNode and secondNode not in visited:
+            #     print("Found node --> " + str(secondNode))
+            #     subgraph_one.append(secondNode)
+            #     queue.append(secondNode)
+            #     visited.append(secondNode)
+
+    queue = []
+    queue.append(precinct_two)
+    while queue:
+        targetNode = queue.pop(0)
+        for edge in acceptableEdges:
+            firstNode = edge[0]
+            secondNode = edge[1]
+            if firstNode == targetNode:
+                subgraph_two.append(firstNode)
+                queue.append(firstNode)
+            elif secondNode == targetNode:
+                subgraph_two.append(secondNode)
+                queue.append(secondNode)
+
+    print("Spanning tree edges: " + str(acceptableEdges))
     print("Cut edge --> " + str(targetCut))
     print("Combined Subgraph: " + str(subgraphsCombined))
     print("Combined Subgraph Neighbors: " + str(neighbors.get(str(subgraphsCombined))))
@@ -330,7 +364,7 @@ def check_acceptability(spanning_tree, subgraphsCombined, graph):
                 #     if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
         acceptable_edges.append(edge)
     
-    print("Acceptable edges --> " + str(acceptable_edges))
+    # print("Acceptable edges --> " + str(acceptable_edges))
     return acceptable_edges
 
 def findCombine(graph, subgraph):
