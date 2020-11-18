@@ -1,7 +1,10 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model.regions.district;
 
-import com.cse416.backend.model.Demographic;
+import com.cse416.backend.model.demographic.*;
+import com.cse416.backend.model.regions.precinct.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.cse416.backend.model.Boundary;
+
 
 import java.util.List;
 import java.util.Map;

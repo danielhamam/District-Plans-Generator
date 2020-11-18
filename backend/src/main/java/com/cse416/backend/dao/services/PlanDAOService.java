@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.PlanRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.Plan;
+import com.cse416.backend.model.plan.Plan;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -47,10 +47,6 @@ public class PlanDAOService{
    public void deletePlanById(Integer Id){
        planRepository.deleteById(Id);
    }
-
-   // public Boolean planExistById(Integer Id){
-   //    return planRepository.existById(Id);
-   // }
 
    public Long numberPlanEntities(){
        return planRepository.count();

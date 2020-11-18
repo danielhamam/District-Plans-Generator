@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.JobRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.Job;
+import com.cse416.backend.model.job.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -47,9 +47,6 @@ public class JobDAOService{
        jobRepository.deleteById(Id);
    }
 
-   // public Boolean jobExistById(Integer Id){
-   //    return jobRepository.existById(Id);
-   // }
 
    public Long numberJobEntities(){
        return jobRepository.count();

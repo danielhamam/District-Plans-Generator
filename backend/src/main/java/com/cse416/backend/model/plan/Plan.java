@@ -1,11 +1,11 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.plan;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import com.cse416.backend.model.regions.District;
-import com.cse416.backend.model.regions.Precinct;
+import com.cse416.backend.model.regions.district.District;
+import com.cse416.backend.model.regions.precinct.Precinct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;

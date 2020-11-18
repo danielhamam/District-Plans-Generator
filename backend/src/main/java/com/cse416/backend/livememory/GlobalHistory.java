@@ -1,6 +1,6 @@
 package com.cse416.backend.livememory;
 
-import com.cse416.backend.model.Job;
+import com.cse416.backend.model.job.Job;
 
 import java.util.ArrayList;
 import java.util.List;

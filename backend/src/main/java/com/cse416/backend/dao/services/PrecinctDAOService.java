@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.PrecinctRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.regions.Precinct;
+import com.cse416.backend.model.regions.precinct.Precinct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -46,10 +46,6 @@ public class PrecinctDAOService{
    public void deletePrecinctById(Integer Id){
        precinctRepository.deleteById(Id);
    }
-
-   // public Boolean precinctExistById(Integer Id){
-   //    return precinctRepository.existById(Id);
-   // }
 
    public Long numberPrecinctEntities(){
        return precinctRepository.count();

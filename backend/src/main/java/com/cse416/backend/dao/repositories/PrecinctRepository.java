@@ -1,6 +1,6 @@
 package com.cse416.backend.dao.repositories;
 
-import com.cse416.backend.model.regions.Precinct;
+import com.cse416.backend.model.regions.precinct.Precinct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.*;
 import java.lang.Integer;

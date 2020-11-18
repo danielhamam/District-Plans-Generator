@@ -1,4 +1,4 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.job;
 import java.util.List;
 
 import com.cse416.backend.model.enums.CensusCatagories;
@@ -6,6 +6,8 @@ import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.cse416.backend.model.plan.*;
+
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model;
 
 import java.util.List;
 

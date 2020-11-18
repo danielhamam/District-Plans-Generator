@@ -3,10 +3,10 @@ package com.cse416.backend.livememory;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.cse416.backend.model.Job;
+import com.cse416.backend.model.job.Job;
 import com.cse416.backend.model.enums.JobStatus;
-import com.cse416.backend.model.regions.State;
-import com.cse416.backend.model.Plan;
+import com.cse416.backend.model.regions.state.State;
+import com.cse416.backend.model.plan.Plan;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 

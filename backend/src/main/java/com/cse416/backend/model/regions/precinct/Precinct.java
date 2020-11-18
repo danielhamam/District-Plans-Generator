@@ -1,6 +1,11 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model.regions.precinct;
 
-import com.cse416.backend.model.Demographic;
+import com.cse416.backend.model.demographic.*;
+import com.cse416.backend.model.regions.county.*;
+import com.cse416.backend.model.regions.state.*;
+import com.cse416.backend.model.regions.district.*;
+import com.cse416.backend.model.Boundary;
+
 
 import java.lang.Integer;
 import javax.persistence.*;

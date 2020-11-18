@@ -1,6 +1,15 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model.regions.county;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.cse416.backend.model.regions.precinct.*;
+import com.cse416.backend.model.regions.district.*;
+import com.cse416.backend.model.regions.state.*;
+
+
+import com.cse416.backend.model.Boundary;
+
+
+
 
 import java.util.List;
 import javax.persistence.*;

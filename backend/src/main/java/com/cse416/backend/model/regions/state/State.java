@@ -1,6 +1,12 @@
-package com.cse416.backend.model.regions;
+package com.cse416.backend.model.regions.state;
 
-import com.cse416.backend.model.Plan;
+import com.cse416.backend.model.plan.*;
+import com.cse416.backend.model.regions.precinct.*;
+import com.cse416.backend.model.Boundary;
+import com.cse416.backend.model.demographic.*;
+
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;

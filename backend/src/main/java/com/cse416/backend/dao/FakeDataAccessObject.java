@@ -1,16 +1,16 @@
 package com.cse416.backend.dao;
 
 
-import com.cse416.backend.model.BoxWhisker;
-import com.cse416.backend.model.Job;
-import com.cse416.backend.model.Plan;
+import com.cse416.backend.model.plan.BoxWhisker;
+import com.cse416.backend.model.job.Job;
+import com.cse416.backend.model.plan.Plan;
 import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
-import com.cse416.backend.model.Demographic;
-import com.cse416.backend.model.regions.District;
-import com.cse416.backend.model.regions.Precinct;
-import com.cse416.backend.model.regions.State;
+import com.cse416.backend.model.demographic.Demographic;
+import com.cse416.backend.model.regions.district.District;
+import com.cse416.backend.model.regions.precinct.Precinct;
+import com.cse416.backend.model.regions.state.State;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

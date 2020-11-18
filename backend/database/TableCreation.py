@@ -253,15 +253,15 @@ demographics = '''
 censusGeneralDemographics = '''
   CREATE TABLE IF NOT EXISTS CensusGeneralDemographics(
     censusGeneralDemographicId INT AUTO_INCREMENT PRIMARY KEY,
-    totalPopulation INT DEFAULT 0,
+    totalPopulation BIGINT DEFAULT 0,
     populationID INT,
     FOREIGN KEY (populationID) REFERENCES Populations(populationId)
-  )'''
+  )''' 
 
 censusVotingAgeDemographics = '''
   CREATE TABLE IF NOT EXISTS CensusVotingAgeDemographics(
     censusVotingAgeDemographicId INT AUTO_INCREMENT PRIMARY KEY,
-    totalPopulation INT DEFAULT 0,
+    totalPopulation BIGINT DEFAULT 0,
     populationID INT,
     FOREIGN KEY (populationID) REFERENCES Populations(populationId)
   )'''

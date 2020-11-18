@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.StateRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.regions.State;
+import com.cse416.backend.model.regions.state.State;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -47,9 +47,6 @@ public class StateDAOService{
        stateRepository.deleteById(Id);
    }
 
-   // public Boolean stateExistById(String Id){
-   //    return stateRepository.existById(Id);
-   // }
 
    public Long numberStateEntities(){
        return stateRepository.count();

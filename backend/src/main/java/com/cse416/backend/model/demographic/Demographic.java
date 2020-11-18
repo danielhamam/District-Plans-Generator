@@ -1,4 +1,4 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.demographic;
 import com.cse416.backend.model.enums.CensusCatagories;
 
 import java.util.Map;
@@ -14,6 +14,41 @@ public class Demographic {
     @GeneratedValue
     private Integer demographicId;
 
+    @OneToOne
+    @JoinColumn(name = "fk_generalDemographic")
+    private CensusGeneralDemographic generalDemographic;
+
+    @OneToOne
+    @JoinColumn(name = "fk_votingAgeDemographic")
+    private CensusVotingAgeDemographic votingAgeDemographic;
+
+    //Neccessary for JPA
+    protected Demographic (){}
+
+    public Demographic(CensusGeneralDemographic generalDemographic, CensusVotingAgeDemographic votingAgeDemographic){
+        this.generalDemographic = generalDemographic;
+        this.votingAgeDemographic = votingAgeDemographic;
+    }
+
+    public Integer getId(){return this.demographicId;}
+
+    public CensusGeneralDemographic getGeneralDemographic(){return this.generalDemographic;}
+
+    public CensusVotingAgeDemographic getVotingAgeDemographic(){return this.votingAgeDemographic;}
+
+    public Integer getGeneralDemographicId(){return this.generalDemographic.getId();}
+
+    public Integer getVotingAgeDemographicId(){return this.votingAgeDemographic.getId();}
+
+    public Long getGeneralDemographicTotalPopulation(){ return this.generalDemographic.getTotalPopulation();}
+
+    public Long getVotingAgeDemographicTotalPopulation(){ return this.generalDemographic.getTotalPopulation();}
+
+    // public String toString(){
+    //     return this.generalDemographic.toString() + '\n' + this.votingAgeDemographic.toString();
+    // }
+
+    //////////CODE TO BE REMOVED AND PLACED IN THE APPROPRIATE CLASS
     @Transient
     private long totalPopulation;
 
@@ -25,9 +60,6 @@ public class Demographic {
 
     @Transient
     private Map<CensusCatagories, Integer> votingAgePopulation;
-
-    //Neccessary for JPA
-    protected Demographic (){}
 
     public Demographic(long totalPopulation){
         this.totalPopulation = totalPopulation;

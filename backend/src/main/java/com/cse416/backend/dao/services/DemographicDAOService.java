@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.DemographicRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.Demographic;
+import com.cse416.backend.model.demographic.Demographic;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -48,10 +48,6 @@ public class DemographicDAOService{
    public void deleteDemographicById(Integer Id){
        demographicRepository.deleteById(Id);
    }
-
-   // public Boolean demographicExistById(Integer Id){
-   //    return demographicRepository.existById(Id);
-   // }
 
    public Long numberDemographicEntities(){
        return demographicRepository.count();

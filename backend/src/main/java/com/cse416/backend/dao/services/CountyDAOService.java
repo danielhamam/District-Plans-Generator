@@ -3,7 +3,7 @@ package com.cse416.backend.dao.services;
 import com.cse416.backend.dao.repositories.CountyRepository;
 import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.regions.County;
+import com.cse416.backend.model.regions.county.County;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -48,10 +48,6 @@ public class CountyDAOService{
    public void deleteCountyById(Integer Id){
        countyRepository.deleteById(Id);
    }
-
-   // public Boolean CountyExistById(Integer Id){
-   //    return countyRepository.existById(Id);
-   // }
 
    public Long numberCountyEntities(){
        return countyRepository.count();

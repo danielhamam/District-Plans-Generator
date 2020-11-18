@@ -2,10 +2,15 @@ package com.cse416.backend.service;
 
 import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.livememory.GlobalHistory;
-import com.cse416.backend.model.*;
+import com.cse416.backend.model.regions.state.*;
+import com.cse416.backend.model.job.*;
+import com.cse416.backend.model.plan.*;
+import com.cse416.backend.model.regions.district.*;
+import com.cse416.backend.model.regions.precinct.*;
+import com.cse416.backend.model.demographic.*;
+import com.cse416.backend.model.Boundary;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
-import com.cse416.backend.model.regions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

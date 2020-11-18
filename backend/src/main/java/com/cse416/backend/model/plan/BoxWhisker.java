@@ -1,4 +1,4 @@
-package com.cse416.backend.model;
+package com.cse416.backend.model.plan;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

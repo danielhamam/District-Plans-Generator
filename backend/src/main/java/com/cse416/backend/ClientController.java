@@ -1,7 +1,6 @@
 package com.cse416.backend;
-import com.cse416.backend.model.Job;
+import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.enums.CensusCatagories;
-import com.cse416.backend.model.regions.*;
 import com.cse416.backend.service.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
