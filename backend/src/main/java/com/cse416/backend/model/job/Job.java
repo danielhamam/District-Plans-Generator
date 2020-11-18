@@ -67,6 +67,10 @@ public class Job{
     @Transient
     private Plan randomDistrictPlan;
 
+//    @JsonIgnore
+//    @Transient
+//    private Plan districts;
+
     @JsonIgnore
     @Column(name = "stateId", nullable=false, length=2)
     private String stateAbbrev;
@@ -90,6 +94,7 @@ public class Job{
     @JsonIgnore
     @Transient
     private String jobSummary;
+
 
     @JsonIgnore
     @Transient

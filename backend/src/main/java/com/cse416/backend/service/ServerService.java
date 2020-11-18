@@ -68,6 +68,7 @@ public class ServerService {
         //      Mutation function to update job status of a job on the remote database.
         State state = fake.queryGetStateInformation(stateAbbrevation);
         List <Job> jobs = this.getStateJobsInformation(stateAbbrevation);
+        System.out.println(jobs);
         this.session.setState(state);
         this.session.addJobs(jobs);
         String clientData = "{serverError:null}";
@@ -85,10 +86,10 @@ public class ServerService {
     public String getJob(String jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job requestedJob = this.session.getJobByID(jobID);
             //TODO: [DECISION] Since the job object will not have a reference to the geoJSON for each plan a decision
             //                 needs to be made on how it is going to acquire the random, average, extreme plan data.
             //                 Would it look in the in seawulf? would it query to the database?
+            Job requestedJob = this.session.getJobByID(jobID);
             Map<String, Object> dataObject = requestedJob.getClientPlans();
             clientData = this.createClient_Data(dataObject);
         }catch(NoSuchElementException|JsonProcessingException error){

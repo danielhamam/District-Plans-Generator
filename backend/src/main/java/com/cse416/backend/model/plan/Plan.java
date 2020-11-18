@@ -73,7 +73,6 @@ public class Plan{
     private int y;
 
 
-
     //Neccessary for JPA
     protected Plan (){}
 

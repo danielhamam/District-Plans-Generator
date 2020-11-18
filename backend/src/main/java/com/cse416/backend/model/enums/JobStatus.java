@@ -1,5 +1,14 @@
 package com.cse416.backend.model.enums;
 
 public enum JobStatus  {
-    PENDING, RUNNING, COMPLETED, CANCELED,
+    PENDING("Pending"),
+    RUNNING("Running"),
+    COMPLETED("Completed"),
+    CANCELED("Canceled");
+
+    private final String representation;
+
+    private JobStatus(String representation) {
+        this.representation = representation;
+    }
 }

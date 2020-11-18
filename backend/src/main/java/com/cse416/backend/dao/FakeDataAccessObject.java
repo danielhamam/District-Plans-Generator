@@ -32,6 +32,7 @@ public class FakeDataAccessObject{
         stateDB.add(GA);
         // stateDB.add(State("California", "CA", 1, null, null, null, null));
         // stateDB.add(State("Geogira", "GA", 1, null, null, null, null));
+        System.out.println(jobDB);
     }
     public void NYjob(){
             Precinct [] NYPrecints = new Precinct[10];
@@ -107,11 +108,12 @@ public class FakeDataAccessObject{
         Integer [] district = {1,2,3,4};
         Integer [] calues ={12,12,41,214,12} ;
         BoxWhisker bw = new BoxWhisker(district,calues);
-
-
-        Job job1 = new Job("JOB1", "NY", "1", -1, 2, 500, 0.03, ClientCompactness.LOW ,kk,JobStatus.COMPLETED,bw);
-        Job job2 = new Job("JOB2", "NY", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
-        Job job3 = new Job("JOB3", "NY", "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING,bw);
+        Job job1 = new Job( "NY","JOB2", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
+        Job job2 = new Job("NY","JOB2",  "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
+        Job job3 = new Job("NY","JOB2",  "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING,bw);
+        jobDB.add(job1);
+        jobDB.add(job2);
+        jobDB.add(job3);
     }
 
     public State queryGetStateInformation(String stateAbbrev) {
@@ -127,7 +129,6 @@ public class FakeDataAccessObject{
                 jobs.add(job);
             }
         }
-
         return jobs;
     }
 
