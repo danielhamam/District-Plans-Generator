@@ -166,12 +166,12 @@ def partition_edges(partitions:list):
         else:
             new_subgraph_one = random_subgraph[:random_index_in_element]
             new_subgraph_two = random_subgraph[random_index_in_element:]
-        debug(1, "\t\t[DEBUG] new_subgraph_one: ", new_subgraph_one)
-        debug(1, "\t\t[DEBUG] new_subgraph_two: ", new_subgraph_two)
+        debug(1, "\t\t[EDGE-PARTITIONING] new_subgraph_one: ", new_subgraph_one)
+        debug(1, "\t\t[EDGE-PARTITIONING] new_subgraph_two: ", new_subgraph_two)
         partitions.insert(random_subgraph_index, new_subgraph_one)
         partitions.insert(random_subgraph_index+1, new_subgraph_two)
-        debug(1, "\t\t[DEBUG] new partitions: ", partitions)
-    debug(2, "[DEBUG:EDGE-PARTITIONING] Final Partitions: ", partitions)
+        debug(1, "\t\t[EDGE-PARTITIONING] new partitions: ", partitions)
+    debug(3, "[EDGE-PARTITIONING] Final Partitions: ", partitions)
     return partitions
 
 def dfs_partition(graph:dict):
@@ -188,33 +188,29 @@ def dfs_partition(graph:dict):
         next_edge = edges[index+1]
         if current_edge[1] != next_edge[0]:
             path_split.append(index+1)
-    debug(1, "[DEBUG] path_split edges: ", path_split)
+    debug(1, "[DFS-PARITION] path_split edges: ", path_split)
     intitial_edges_partition = [] 
     starting_index = 0
     for i in path_split:
         intitial_edges_partition.append(edges[starting_index:i]) 
         starting_index = i
     intitial_edges_partition.append(edges[starting_index:]) 
-    debug(1, "[DEBUG] intitial_edges_partition: ", intitial_edges_partition)
+    debug(2, "[DFS-PARITION] intitial_edges_partition: ", intitial_edges_partition)
     new_edges_partition = partition_edges(intitial_edges_partition)
     districts = create_subgraphs_from_edges(new_edges_partition, graph)
-    debug(2, "[DFS-PARITION] districts: ", districts)
+    debug(3, "[DFS-PARITION] districts: ", districts)
     return districts
 
 def cal_node_degree(nodes:list,edges:list):
     dict_struct = {}
-    debug(1,"\n" * 2)
-    debug(1, "~"*60 + "\n\tSTARTING CALCULATING EACH NODES DEGREE\n" + "~"*60)
-    debug(1, "[DEBUG:NODE_DEGREE] node", nodes, "edges", edges)
+    debug(1, "[NODE_DEGREE] node", nodes, "edges", edges)
     for i in nodes:
         degree  = 0
         dict_struct.setdefault(i,degree)
     for edge in edges:
         dict_struct[edge[0]] = dict_struct[edge[0]] + 1
         dict_struct[edge[1]] = dict_struct[edge[1]] + 1
-    debug(1,(("<"*20 + " [DEBUG:DFS-COMPLETE] Completed " + ">"*20) + "\n") * 3)
-    debug(1, "[DEBUG:NODE_DEGREE] ", dict_struct)
-    debug(1, "+"*60 + "\n\tENDING CALCULATING EACH NODES DEGREE\n" + "+"*60)
+    debug(1, "[NODE_DEGREE] ", dict_struct)
     return dict_struct
 
 
@@ -225,15 +221,14 @@ def dict_dfs(graph:dict):
     stack = [node]
     edges = []
     current_node = node
-    debug(1, "~"*60 + "\n\t\tSTARTING DFS ALGORITHM\n" + "~"*60)
-    debug(1, "[DEBUG:DFS] nodes of the graph", nodes)
-    debug(1, "[DEBUG:DFS] adding node", node)
+    debug(1, "[DFS] nodes of the graph", nodes)
+    debug(1, "[DFS] adding node", node)
     while len(visited) < len(nodes):
         pop_stack = True
         neighbors = get_dict_neighbors(graph,current_node)
-        debug(1, "\t[DEBUG:DFS] current_node:", current_node, "\tcurrent_node-neighbors:", neighbors)
-        debug(1, "\t[DEBUG:DFS] nodes visited", visited)
-        debug(1, "\t[DEBUG:DFS] nodes on stack", stack)
+        debug(1, "\t[DFS] current_node:", current_node, "\tcurrent_node-neighbors:", neighbors)
+        debug(1, "\t[DFS] nodes visited", visited)
+        debug(1, "\t[DFS] nodes on stack", stack)
         for node in neighbors:
             if not node in visited:
                 debug(1, "[DEBUG:DFS] adding nodes", node)
@@ -247,13 +242,12 @@ def dict_dfs(graph:dict):
             if stack:
                 stack.pop()
                 current_node = stack[-1]
-                debug(1, "[DEBUG:DFS] deadend returning to node", current_node)
-    debug(1, "[DFS-COMPLETE] finshed nodes on stack", stack)
-    debug(1, "[DFS-COMPLETE] finshed edges from dfs", edges)
-    debug(2, "[DFS] dfs complete. nodes visited", visited)
+                debug(1, "[DFS] deadend returning to node", current_node)
+    debug(1, "[DFS] finshed nodes on stack", stack)
+    debug(2, "[DFS] finshed edges from dfs", edges)
+    debug(3, "[DFS] dfs complete. nodes visited", visited)
     degrees = cal_node_degree(nodes,edges)
     values = { "visited": visited, "edges": edges,"degrees": degrees}
-    debug(1, "+"*60 + "\n\tENDING DFS ALGORITHM\n" + "+"*60)
     return values
 
 
