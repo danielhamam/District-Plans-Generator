@@ -3,24 +3,16 @@ package com.cse416.backend.model.regions;
 import com.cse416.backend.model.Demographic;
 
 import java.lang.Integer;
+import javax.persistence.*;
 
-//@Entity
-//@Table(name="Precincts")
+@Entity
+@Table(name="Precincts")
 public class Precinct {
 
-    //@Id
-    //@GeneratedValue
+    @Id
+    @GeneratedValue
     private Integer countyId;
 
-<<<<<<< Updated upstream
-    //@ManyToOne
-    private County county;
-
-    //@ManyToOne
-    private State state;
-
-    //@ManyToOne
-=======
     @Transient
     // @ManyToOne
     private County county;
@@ -31,25 +23,17 @@ public class Precinct {
 
     @Transient
     // @ManyToOne
->>>>>>> Stashed changes
     private District district;
 
-    //@Column(nullable=false)
+    @Column(nullable=false)
     private String precinctName;
 
-    //@Column(nullable=false)
+    @Column(nullable=false)
     private int precinctFIPSCode;
 
     @Transient
     private Boundary boundary;
 
-<<<<<<< Updated upstream
-    //@OneToOne
-    private Demographic demographic;
-
-    //@JoinTable
-    //@OneToMany(targetEntity=Precinct.class)
-=======
     @Transient
     // @OneToOne
     private Demographic demographic;
@@ -57,11 +41,11 @@ public class Precinct {
     @Transient
     // @JoinTable
     // @OneToMany(targetEntity=Precinct.class)
->>>>>>> Stashed changes
     private Precinct [] neighbors;
 
     //Neccessary for JPA
-    //protected Precinct (){}
+    protected Precinct (){}
+
     public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;

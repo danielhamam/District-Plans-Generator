@@ -21,8 +21,8 @@ import javax.persistence.*;
 
 import java.lang.Integer;
 
-//@Entity
-//@Table(name="Plans")
+@Entity
+@Table(name="Plans")
 public class Plan{
     
     @JsonProperty
@@ -75,7 +75,7 @@ public class Plan{
 
 
     //Neccessary for JPA
-    //protected Plan (){}
+    protected Plan (){}
 
     public Plan(String stateAbbreviation, String type, String planID, int numberOfDistricts,boolean isPlanEnacted) {
         this.stateAbbreviation = stateAbbreviation;
