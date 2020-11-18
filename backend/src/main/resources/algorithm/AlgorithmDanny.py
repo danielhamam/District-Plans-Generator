@@ -3,7 +3,7 @@ import math
 import sys
 from copy import deepcopy
 
-numDistricts = 4
+numDistricts = 3
 numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
@@ -26,6 +26,7 @@ subgraphs = [] # holds precincts in it. also holds neighbors with other subgraph
 neighbors = {} # dictionary of keys that have neighbors. initialize via graph, update as we go on
 precincts = [] # initial list of precinct neighbors for use later.
 precinctsNeighbors = {} 
+subgraphsCombined = []
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
@@ -116,7 +117,7 @@ def algorithm_driver(graph):
 
     # USE CASE #29 GENERATE SEED DISTRICTING
     while len(subgraphs) != numDistricts: 
-        for subgraph in subgraphs: # for each precinct, randomly select neighbors
+        for subgraph in subgraphs: 
             findCombine(graph, subgraph)
             if len(subgraphs) == numDistricts:
                 break
@@ -135,7 +136,7 @@ def algorithm_driver(graph):
     return
 
 def algorithm(graph):
-    global subgraphs, neighbors, precincts, precinctsNeighbors
+    global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
 
@@ -181,7 +182,7 @@ def algorithm(graph):
     subgraphs.append(subgraphsCombined)
 
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
-    spanning_tree = generate_spanning_tree(subgraphsCombined)
+    spanning_tree = generate_spanning_tree()
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
     # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
@@ -191,8 +192,8 @@ def algorithm(graph):
     targetCut = random.choice(acceptableEdges) # choose random edge to cut
     return cut_acceptable(acceptableEdges, targetCut)
 
-def generate_spanning_tree(subgraphsCombined):
-    global subgraphs, neighbors, precincts, precinctsNeighbors
+def generate_spanning_tree():
+    global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
     # DFS for combined subgraph (spanning tree)
     randomStart = random.choice(subgraphsCombined) # randomly select a start
     visited = [randomStart]
@@ -228,6 +229,7 @@ def generate_spanning_tree(subgraphsCombined):
     return spanning_tree
 
 def cut_acceptable(spanning_tree, targetCut):
+    global subgraphsCombined
 
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
@@ -248,7 +250,26 @@ def cut_acceptable(spanning_tree, targetCut):
     for i in precinctsNeighbors[str(precinct_two.split(', '))]: # Adds precinct to new subgraph 1
         if i != targetCut[0] and i not in precinctsNeighbors[str(precinct_one.split(', '))]:
             subgraph_two.append(i)
-    
+
+    # Attach precincts to subgraph 1 (start --> first precinct in cut)
+    # Attach precincts to subgraph 2 (second precinct in cut --> end)
+    intoSecond = 0
+    for i in subgraphsCombined:
+        if intoSecond == 0:
+            subgraph_one.append(i)
+        elif intoSecond == 1:
+            subgraph_two.append(i)
+        if i == targetCut[0]:
+            intoSecond = 1
+
+    print("Cut edge --> " + str(targetCut))
+    print("Combined Subgraph: " + str(subgraphsCombined))
+    print("Combined Subgraph Neighbors: " + str(neighbors.get(str(subgraphsCombined))))
+    print("Subgraph one --> " + str(subgraph_one))
+    print("Subgraph two --> " + str(subgraph_two))
+
+    exit()
+
     # Let's add these subgraphs to the subgraphs list, and update their neighbors
     # print("Combining")
     # subgraphs.append(newSubgraphs[0]) # add subgraph1 to subgraphs
