@@ -67,9 +67,9 @@ public class Job{
     @Transient
     private Plan randomDistrictPlan;
 
-//    @JsonIgnore
-//    @Transient
-//    private Plan districts;
+    @JsonProperty("districtPlans")
+    @Transient
+    private Plan [] clientDistrictingPlans;
 
     @JsonIgnore
     @Column(name = "stateId", nullable=false, length=2)
@@ -288,6 +288,10 @@ public class Job{
         this.averagePlanCompactness = averagePlanCompactness;
     }
 
+    public void setClientDistrictingPlans(Plan[]plans){
+        this.clientDistrictingPlans = plans;
+
+    }
 
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){
