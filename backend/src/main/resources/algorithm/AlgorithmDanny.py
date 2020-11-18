@@ -3,7 +3,7 @@ import math
 import sys
 from copy import deepcopy
 
-numDistricts = 3
+numDistricts = 2
 numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
@@ -114,6 +114,11 @@ def algorithm_driver(graph):
         neighbors[str(key)] = value # keys stored as strings
         precinctsNeighbors[str(deepcopy(key))] = deepcopy(value2)
 
+    # print("Before : " + str(neighbors))
+    # reinitializeNeighbors()
+    # print("After : " + str(neighbors))
+    # exit()
+
     # USE CASE #29 GENERATE SEED DISTRICTING
     while len(subgraphs) != numDistricts: 
         for subgraph in subgraphs: 
@@ -159,8 +164,6 @@ def algorithm(graph):
     else:
         for j in randomNeighbor:
             subgraphsCombined.append(j)
-    # print("Subgraphs: " + str(subgraphs))
-    # print("Combined Subgraph: " + str(subgraphsCombined)) 
 
     # Let's also combine the neighbors of these subgraphs 
     updateNeighbors(randomNeighbor, randomSubgraph, subgraphsCombined)
@@ -198,37 +201,38 @@ def generate_spanning_tree():
     visited = [randomStart]
     stack = [randomStart]
     edges = []
-    currentPrecinct = randomStart
-    while len(visited) < len(precincts):
+    currentNode = randomStart
+    # while len(visited) < len(precincts):
+    while stack:
         pop_stack = True
-        neighborsPrecinct = precinctsNeighbors.get(str(currentPrecinct.split(', '))) # get neighbors of precinct
-        for precinct in neighborsPrecinct:
-            if precinct not in visited:
-                visited.append(precinct)
-                stack.append(precinct)
+        # neighborsPrecinct = precinctsNeighbors.get(str(currentPrecinct.split(', '))) # get neighbors of precinct
+        for node in subgraphsCombined:
+            if node not in visited:
+                visited.append(node)
+                stack.append(node)
                 # Create the edge and add it 
                 newList = []
-                vertexOne = currentPrecinct
-                vertexTwo = precinct
+                vertexOne = currentNode
+                vertexTwo = node
                 if (type(vertexOne) == str):
                     vertexOne = vertexOne.split(', ')
                 if (type(vertexTwo) == str):
                     vertexTwo = vertexTwo.split(', ')
                 newList = vertexOne + vertexTwo
                 edges.append(newList) # assume creates edge
-                currentPrecinct = precinct
+                currentNode = node
                 pop_stack = False
                 break
         if pop_stack: # go back
             if stack:
+                currentNode = stack[-1]
                 stack.pop()
-                currentPrecinct = stack[-1]
     spanning_tree = { "visited": visited, "edges": edges}
     # print("\n" + str(spanning_tree))
     return spanning_tree
 
 def cut_acceptable(acceptableEdges, targetCut):
-    global subgraphsCombined
+    global subgraphsCombined, subgraphs, neighbors
 
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
@@ -237,80 +241,79 @@ def cut_acceptable(acceptableEdges, targetCut):
     compactness_one = 0.4 # Compactness of new subgraph 1
     compactness_two = 0.4 # Compactness of new subgraph 2
 
-    # precinct_one = targetCut[0]
-    # subgraph_one.append(precinct_one)
-    # precinct_two = targetCut[1]
-    # subgraph_two.append(precinct_two)
-
-    # Look into these more
-    # for i in precinctsNeighbors[str(precinct_one.split(', '))]: # Adds precincts to new subgraph 1
-    #     if i != targetCut[1] and i not in precinctsNeighbors[str(precinct_two.split(', '))]:
-    #         subgraph_one.append(i)
-    # for i in precinctsNeighbors[str(precinct_two.split(', '))]: # Adds precinct to new subgraph 1
-    #     if i != targetCut[0] and i not in precinctsNeighbors[str(precinct_one.split(', '))]:
-    #         subgraph_two.append(i)
-
-    # Attach precincts to subgraph 1 (start --> first precinct in cut)
-    # Attach precincts to subgraph 2 (second precinct in cut --> end)
-    # Perform bfs on both edge nodes
-    # bfs(precinct_one) 
-    # bfs(precinct_two) 
-
     precinct_one = targetCut[0]
     precinct_two = targetCut[1]
+
+    # Subgraph one:
 
     queue = []
     visited = []
     queue.append(precinct_one)
+    subgraph_one.append(precinct_one)
     while queue:
         targetNode = queue.pop(0)
-        print("Target node --> " + str(targetNode))
+        # print("Target node --> " + str(targetNode))
         for edge in acceptableEdges:
             firstNode = edge[0]
             secondNode = edge[1]
-            print("First node --> " + str(firstNode))
-            print("Second node --> " + str(secondNode))
-            if firstNode == targetNode and secondNode not in visited:
-                print("Found node --> " + str(firstNode))
+            if firstNode == targetNode and secondNode != precinct_two and secondNode not in visited:
+                # print("Found node --> " + str(secondNode))
                 subgraph_one.append(secondNode)
                 queue.append(secondNode)
-                visited.append(firstNode)
-            # elif secondNode == targetNode and secondNode not in visited:
-            #     print("Found node --> " + str(secondNode))
-            #     subgraph_one.append(secondNode)
-            #     queue.append(secondNode)
-            #     visited.append(secondNode)
+            if secondNode == targetNode and firstNode != precinct_two and firstNode not in visited:
+                # print("Found node --> " + str(firstNode))
+                subgraph_one.append(firstNode)
+                queue.append(firstNode)
+            visited.append(targetNode)
+
+    # print("------------------------------------")
+
+    # Subgraph Two: 
 
     queue = []
+    visited = []
     queue.append(precinct_two)
+    subgraph_two.append(precinct_two)
     while queue:
         targetNode = queue.pop(0)
+        # print("Target node --> " + str(targetNode))
         for edge in acceptableEdges:
             firstNode = edge[0]
             secondNode = edge[1]
-            if firstNode == targetNode:
-                subgraph_two.append(firstNode)
-                queue.append(firstNode)
-            elif secondNode == targetNode:
+            if firstNode == targetNode and secondNode != precinct_one and secondNode not in visited:
+                # print("Found node --> " + str(secondNode))
                 subgraph_two.append(secondNode)
                 queue.append(secondNode)
+            if secondNode == targetNode and firstNode != precinct_one and firstNode not in visited:
+                # print("Found node --> " + str(firstNode))
+                subgraph_two.append(firstNode)
+                queue.append(firstNode)
+        visited.append(targetNode)
 
-    print("Spanning tree edges: " + str(acceptableEdges))
-    print("Cut edge --> " + str(targetCut))
-    print("Combined Subgraph: " + str(subgraphsCombined))
-    print("Combined Subgraph Neighbors: " + str(neighbors.get(str(subgraphsCombined))))
-    print("Subgraph one --> " + str(subgraph_one))
-    print("Subgraph two --> " + str(subgraph_two))
-
-    exit()
-
-    # Let's add these subgraphs to the subgraphs list, and update their neighbors
-    # print("Combining")
-    # subgraphs.append(newSubgraphs[0]) # add subgraph1 to subgraphs
-    # subgraphs.append(newSubgraphs[1]) # add subgraph2 to subgraphs
-    # updateNeighbors(  ,newSubgraphs[0])
+    combinedSubgraphIndex = subgraphs.index(subgraphsCombined)
+    subgraphs[combinedSubgraphIndex] = subgraph_one # so it holds the same neighbors
+    subgraphs.append(subgraph_two)
+    reinitializeNeighbors()
 
     return subgraph_one, subgraph_two
+
+def reinitializeNeighbors():
+    global subgraphs, neighbors, precinctsNeighbors
+    # print("subgraphs: " + str(subgraphs))
+    neighbors = {}
+    for subgraph in subgraphs: # for every subgraph
+        for node in subgraph: # for every node
+            nodeNeighbors = precinctsNeighbors.get(str(node.split(', '))) # node in list format
+            for neighbor in nodeNeighbors: # for every neighbor
+                if neighbor not in subgraph:
+                    # find which subgraph the neighbor is in, and set neighbors
+                    for subgraph2 in subgraphs:
+                        if neighbor in subgraph2:
+                            if str(subgraph) in neighbors and subgraph2 not in neighbors[str(subgraph)]:
+                                neighbors[str(subgraph)].append(subgraph2)
+                            else:
+                                neighbors[str(subgraph)] = []
+                                neighbors[str(subgraph)].append(subgraph2)
 
 def check_acceptability(spanning_tree, subgraphsCombined, graph):
     global ideal_population
