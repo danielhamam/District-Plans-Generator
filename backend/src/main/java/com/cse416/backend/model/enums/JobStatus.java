@@ -11,4 +11,8 @@ public enum JobStatus  {
     private JobStatus(String representation) {
         this.representation = representation;
     }
+
+    public String getStringRepresentation(){
+        return representation;
+    }
 }

@@ -28,9 +28,13 @@ public class Job{
     @Column(nullable=true)
     private String jobName;
 
-    @JsonProperty
+    @JsonIgnore
     @Transient
     private List<CensusCatagories> minorityAnalyzed;
+
+    @JsonProperty("minorityAnalyzed")
+    @Transient
+    private List<String> clientMinorityAnalyzed;
 
     @JsonProperty("compactness")
     @Column(name = "compactness")
@@ -47,9 +51,13 @@ public class Job{
     @Column(name = "numberOfDistricts")
     private int numOfDistricts;
 
-    @JsonProperty
+    @JsonIgnore
     @Column(name = "jobStatus", nullable=false)
     private JobStatus status;
+
+    @JsonProperty("status")
+    @Transient
+    private String clientStatus;
 
     @JsonProperty
     @Transient
@@ -124,6 +132,10 @@ public class Job{
         this.populationDifference = populationDifference;
         this.minorityAnalyzed = minorityAnalyzed;
         this.status = JobStatus.PENDING;
+        this.clientStatus = status.getStringRepresentation();
+        for (CensusCatagories censusCatagories : minorityAnalyzed) {
+            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
+        }
     }
     
     public Job(String stateAbbrev, String jobName, String jobID, int seawulfJobID, int numOfDistricts,
@@ -324,6 +336,14 @@ public class Job{
     //     clientJob.put("status", this.status);
     //     return clientJob;
     // }
+
+    public List<String> getClientMinorityAnalyzed() {
+        return clientMinorityAnalyzed;
+    }
+
+    public String getClientStatus() {
+        return clientStatus;
+    }
 
     @JsonIgnore
     public Map<String, Object> getClientPlans(){
