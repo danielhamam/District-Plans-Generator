@@ -3,7 +3,7 @@ import math
 import sys
 
 number_of_districts = 3
-debug_status = 2
+debug_status = 3
 ideal_population = 10
 percentage_difference = 0.1
 compactness_lower_bound = 0.33
@@ -52,25 +52,6 @@ def calculate_neighboring_districts(districts: dict, graph: dict):
                         if k not in districts[district]["neighbors"]:
                             districts[district]["neighbors"].append(k)
                           
-def create_subgraphs_from_edges(edges_list:list, graph: dict):
-    districts = {}
-    nodes_taken = []
-    for i in range(len(edges_list)):
-        struct = {'precincts':[],'neighbors':[]}
-        debug(1, "[DEBUG]", edges_list[i], " len -> ", len(edges_list[i])) 
-        for j in range(len(edges_list[i])):
-            edge_one = edges_list[i][j][0]
-            edge_two = edges_list[i][j][1]
-            if not edge_one in struct['precincts'] and not edge_one in nodes_taken:
-                struct['precincts'].append(edge_one)
-                nodes_taken.append(edge_one)
-            if not edge_two in struct['precincts']and  not edge_two in nodes_taken:
-                struct['precincts'].append(edge_two)
-                nodes_taken.append(edge_two)
- 
-        districts.setdefault(i+1, struct)
-    calculate_neighboring_districts(districts, graph)
-    return districts
 
 def combine_two_districts(districts: dict, graph: dict):
     new_district = {} # Only a dictionary with precincts
@@ -148,6 +129,26 @@ def check_acceptability(spanning_tree: dict, districts: dict, precincts: dict):
 def calculate_compactness():
     print("Calculate Compactness: FUNCTION IN PROGRESS")
 
+def create_subgraphs_from_edges(edges_list:list, graph: dict):
+    districts = {}
+    nodes_taken = []
+    for i in range(len(edges_list)):
+        struct = {'precincts':[],'neighbors':[]}
+        debug(1, "[DEBUG]", edges_list[i], " len -> ", len(edges_list[i])) 
+        for j in range(len(edges_list[i])):
+            edge_one = edges_list[i][j][0]
+            edge_two = edges_list[i][j][1]
+            if not edge_one in struct['precincts'] and not edge_one in nodes_taken:
+                struct['precincts'].append(edge_one)
+                nodes_taken.append(edge_one)
+            if not edge_two in struct['precincts']and  not edge_two in nodes_taken:
+                struct['precincts'].append(edge_two)
+                nodes_taken.append(edge_two)
+ 
+        districts.setdefault(i+1, struct)
+    calculate_neighboring_districts(districts, graph)
+    return districts
+
 def partition_edges(partitions:list):
     global number_of_districts
     while len(partitions) != number_of_districts:
@@ -212,7 +213,6 @@ def cal_node_degree(nodes:list,edges:list):
         dict_struct[edge[1]] = dict_struct[edge[1]] + 1
     debug(1, "[NODE_DEGREE] ", dict_struct)
     return dict_struct
-
 
 def dict_dfs(graph:dict):
     nodes = list(graph.keys())
