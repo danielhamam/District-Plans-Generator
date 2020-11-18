@@ -15,23 +15,18 @@ import java.io.File;
 import javax.persistence.*;
 import java.lang.Integer;
 
-//@Entity
-//@Table(name="States")
+@Entity
+@Table(name="States")
 public class State {
 
-    //@Column(length=25)
+    @Column(length=25)
     private String stateName;
 
-<<<<<<< Updated upstream
-    //@Id
-    //@Column(nullable=false, length=2)
-=======
     @Id
     @Column(name="stateId", nullable=false, length=2)
->>>>>>> Stashed changes
     private String stateAbbreviation;
 
-    //@Column(nullable=false)
+    @Column(nullable=false)
     private int stateFIPSCode;
 
     private int totalPopulation;
@@ -48,12 +43,8 @@ public class State {
     @Transient
     private int numOfDistricts;
 
-<<<<<<< Updated upstream
-    //@OneToMany(targetEntity=Precinct.class)
-=======
     @Transient
     // @OneToMany(targetEntity=Precinct.class)
->>>>>>> Stashed changes
     @JsonIgnore
     private Precinct [] statePrecincts;
 
@@ -78,7 +69,7 @@ public class State {
     private FeatureCollection stateGeoJson;
 
     //Neccessary for JPA
-    //protected State (){}
+    protected State (){}
 
     public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
         this.stateName = stateName;
