@@ -38,6 +38,7 @@ public class ServerService {
         this.fake = fake;
         this.mapper = new ObjectMapper();
         this.session = new Session();
+        this.jobHistory = new GlobalHistory();
 
     }
 
@@ -71,6 +72,7 @@ public class ServerService {
         System.out.println(jobs);
         this.session.setState(state);
         this.session.addJobs(jobs);
+        this.jobHistory.addJobs(jobs);
         String clientData = "{serverError:null}";
         try{
             clientData = createClientStateData(state, jobs);
@@ -223,8 +225,9 @@ public class ServerService {
     }
 
     public void deleteJob(String jobID){
-        this.session.deleteJob(jobID);
-        this.jobHistory.deleteJob(jobID);
+        session.deleteJob(jobID);
+        jobHistory.deleteJob(jobID);
+        fake.deleteJob(jobID);
         //TODO: [DATABASE] implement delete job functionality.
         //                 mutation function to delete the job on the remote database.
     }

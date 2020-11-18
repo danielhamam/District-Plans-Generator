@@ -108,12 +108,12 @@ public class FakeDataAccessObject{
         Integer [] district = {1,2,3,4};
         Integer [] calues ={12,12,41,214,12} ;
         BoxWhisker bw = new BoxWhisker(district,calues);
-        Job job1 = new Job( "NY","Sucyamotta", "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
-        Job job2 = new Job("NY","JOB2",  "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
-        Job job3 = new Job("NY","JOB2",  "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING,bw);
-        Plan plan1 = new Plan("Ny","Average","0", 100, false);
-        Plan plan2 = new Plan("Ny","Extreme","0", 100, false);
-        Plan plan3 = new Plan("Ny","Random","0", 100, false);
+        Job job1 = new Job( "NY","Sukyamotta", "1", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
+        Job job2 = new Job("NY","TrynToCatchLawsuit",  "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
+        Job job3 = new Job("NY","high comp.",  "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING,bw);
+        Plan plan1 = new Plan("NY","Average","0", 100, false);
+        Plan plan2 = new Plan("NY","Extreme","0", 100, false);
+        Plan plan3 = new Plan("NY","Random","0", 100, false);
         Plan [] plans = {plan1,plan2,plan3};
         job1.setClientDistrictingPlans(plans);
         job2.setClientDistrictingPlans(plans);
@@ -139,6 +139,15 @@ public class FakeDataAccessObject{
         return jobs;
     }
 
+    public void deleteJob(String jobID){
+        for(Job job : jobDB){
+            if(jobID.equals(job.getJobID())){
+                jobDB.remove(job);
+                break;
+            }
+        }
+
+    }
 
     public State queryGetStateBoundary(String stateAbbrev) {
         return stateDB.stream()
