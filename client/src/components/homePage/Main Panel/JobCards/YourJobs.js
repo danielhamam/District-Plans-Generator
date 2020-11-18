@@ -6,7 +6,6 @@ class YourJobs extends Component {
         super();
         this.state = {}
     }
-
     render() {
         return (
                 <div >
@@ -17,13 +16,11 @@ class YourJobs extends Component {
                     < br />
                     {this.props.jobCards.map( (jobCard) => {
                             return <JobCard 
-                            
                             // Attributes
                             jobCard={jobCard} jobName={jobCard.jobName} deleteJob={this.props.deleteJob}
                             minorityAnalyzed={jobCard.minorityAnalyzed} populationDifference={jobCard.populationDifference} 
                             compactness={jobCard.compactness} plansAmount={jobCard.plansAmount} districts={jobCard.districts} 
                             status={jobCard.status} 
-                            
                             // Methods
                             updateCurrentJob={this.props.updateCurrentJob} selectedJobCheck={this.props.selectedJobCheck} 
                             toggleSelectedCard={this.props.toggleSelectedCard} cancelJob = {this.props.cancelJob}

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-// Triggered when clicking "View" on a Job
-
 class DeleteJobModal extends Component {
     constructor () {
         super();
@@ -10,11 +8,8 @@ class DeleteJobModal extends Component {
             actionType : "delete"
         }
     }
-
     render() {
-
         if (this.props.status == "Pending" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
-
         return (
     
                 <Modal backdrop="static" show={this.props.showDeleteModal} onHide={this.props.showDeleteModal}>  

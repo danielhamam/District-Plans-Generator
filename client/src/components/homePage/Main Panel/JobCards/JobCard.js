@@ -16,7 +16,6 @@ class JobCard extends Component {
     }
 
     toggleSelection = (e) => {
-
         if (this.props.status == "Pending") return;
 
         if (this.state.selected == false && this.props.selectedJobCheck== false) { // Select

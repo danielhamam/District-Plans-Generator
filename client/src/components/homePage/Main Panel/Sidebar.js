@@ -73,7 +73,6 @@ class Sidebar extends Component {
                     ]
                 }]
             },
-
         }
     }
 

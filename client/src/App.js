@@ -13,7 +13,6 @@ import NYPrecincts from './json/NEW_YORK/NewYorkPrecincts.json';
 
 class App extends Component {
     state = {
-
       // State:
       currentState : "Select a state",
       enactedPlan : testJobCards.enactedPlan, 
@@ -26,12 +25,12 @@ class App extends Component {
       currentJob : "",
 
       // Map View Filters:
-      selectedFilters : null, // current demographic filters
-      precinctsView : false, // currently showing precincts
-      districtsView : false, // currently showing districts
-      filterDistrictsView : false, // currently showing districts via selected map view filter
-      filterPrecinctsView : false, // currently showing districts via selected map view filter
-      stateView : true, // show stateView
+      selectedFilters : null,
+      precinctsView : false,
+      districtsView : false, 
+      filterDistrictsView : false, 
+      filterPrecinctsView : false, 
+      stateView : true,
 
       // Map View Content
       districtsContent : null,
@@ -40,12 +39,10 @@ class App extends Component {
       // Checks for Selection
       selectedPlanCheck: false,
       selectedJobCheck: false
-
     }
 
   changeCurrentState = async (stateName) => {
-
-    this.setState({currentJob : ""}) // any current job is no longer selected now
+    this.setState({currentJob : ""}) 
     this.setState({currentState : stateName});
     if (stateName == "Georgia") stateName = "GA"
     else if (stateName == "New York") stateName = "NY"
@@ -67,7 +64,6 @@ class App extends Component {
   }
 
   createJob = async (userInputs) => {
-
       try {
         let res = await endpoint.generateJob(userInputs); // bug right here
         console.log(res)
@@ -129,7 +125,6 @@ class App extends Component {
   }
 
   deletePlan = (plan) => {
-
     if (this.state.currentJob != "" && plan.type != "Enacted Plan") {
       let job = this.state.currentJob;
       let indexOfJob = this.state.jobCards.indexOf(job);
@@ -152,12 +147,9 @@ class App extends Component {
   }
 
   changeSelectedFilters = (mapFilters) => {
-
     let foundDistrictsView = false
     let foundPrecinctsView = false
-
     this.setState({selectedFilters : mapFilters});
-
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
       this.setState({precinctsView : false})
@@ -166,7 +158,6 @@ class App extends Component {
       this.setState({precinctsContent : null })
       return;
     }
-
     for (var i = 0; i < mapFilters.length; i++) {
       if (mapFilters[i].label == "Precincts")  { // precinct view
         this.setState({precinctsView : true})
@@ -194,7 +185,6 @@ class App extends Component {
   }
 
   changeViewFromZoom = (viewType, actionType) => { // actionType = 0 (delete view) or 1 (insert view)
-
     if (viewType == "Districts") {
       if (this.state.filterDistrictsView == true) return; 
       else if (this.state.filterDistrictsView == false && actionType == 1) {
@@ -202,7 +192,6 @@ class App extends Component {
       }
       else if (this.state.filterDistrictsView == false && actionType == 0) this.setState({districtsView : false})
     }
-
     if (viewType == "Precincts") {
       if (this.state.filterPrecinctsView == true) return; 
       else if (this.state.filterPrecinctsView == false && actionType == 1) { 
@@ -268,9 +257,7 @@ class App extends Component {
             selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck}
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
-
             />
-
             <DeveloperScreen/>            
 
       </div>

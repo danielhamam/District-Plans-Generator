@@ -16,7 +16,7 @@ export class HomeScreen extends Component {
           numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
 
           // Job-Related Content
-          currentJob ={this.props.currentJob} updateCurrentJob={this.props.updateCurrentJob} 
+          currentJob ={this.props.currentJob} updateCurrentJob={this.props.updateCurrentJob}
           selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
           deleteJob={this.props.deleteJob} createJob = {this.props.createJob}
           cancelJob = {this.props.cancelJob} generateBoxWhiskerValues= {this.props.generateBoxWhiskerValues}

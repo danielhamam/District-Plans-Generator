@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
-import { heatPoints } from './realWorldTest.js';
+import { heatPoints } from './HeatPoints.js';
 
 import CaliforniaStateBoundary from '../../../json/CALIFORNIA/CaliforniaStateBoundaries.json'
 import GeorgiaStateBoundary from '../../../json/GEORGIA/GeorgiaStateBoundaries.json';

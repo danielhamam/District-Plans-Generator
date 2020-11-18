@@ -14,8 +14,6 @@ class ViewJobModal extends Component {
         this.readyColorStatus = ""
     }
     render() {
-
-        // Enabled/Disabled? (Select button)
         if ( (this.props.selectedJobCheck == true && this.props.currentSelected == false) | this.props.status == "Pending" ) {
             this.selectStatus = "Select"
             this.selectButtonColor = "secondary"; // gray
@@ -31,10 +29,8 @@ class ViewJobModal extends Component {
             this.selectButtonColor = "primary";
             this.disabledStatus = "active";
         }
-
         if (this.props.status == "Pending") this.readyColorStatus = " jobdisplayPending"
         else if (this.props.status == "Completed") this.readyColorStatus = " jobdisplaySuccess"
-
         return (
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
                     <Modal.Header closeButton >
@@ -69,7 +65,6 @@ class ViewJobModal extends Component {
                         <span> Analysis Summary: </span> 
                         <span className={"inline "} > Testing Analysis Summary </span>
                     </p>
-
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.toggleViewModal}>Close</Button>
