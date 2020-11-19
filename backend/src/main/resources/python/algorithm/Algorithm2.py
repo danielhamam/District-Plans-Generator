@@ -123,7 +123,7 @@ def check_acceptability(spanning_tree: dict, districts: dict, precincts: dict):
                 if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
                     if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
                         acceptable_edges.append(edge)
-    
+    debug(3, "acceptable_edges", acceptable_edges)
     return acceptable_edges
 
 def calculate_compactness():

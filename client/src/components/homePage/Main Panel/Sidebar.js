@@ -125,7 +125,7 @@ class Sidebar extends Component {
                                             <Dropdown.Item className="stateSelect" key="CA">
                                                 <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>California</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" key="GE">
+                                            <Dropdown.Item className="stateSelect" key="GA">
                                                 <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>Georgia</div> 
                                             </Dropdown.Item>
                                             <Dropdown.Item className="stateSelect" key="NY">

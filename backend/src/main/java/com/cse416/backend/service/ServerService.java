@@ -272,15 +272,10 @@ public class ServerService {
         return null;
     }
 
-    public List<Precinct> getAllPrecinctInformation(String stateAbbrev, String planID){
+    public List<Precinct> getAllPrecinctInformation(String stateAbbrev, String planID) {
         //fake.queryGetAllPrecinctInformation(stateAbbrev, planID);
         return null;
     }
-
-    public Boundary getPrecinctBoundary(String stateAbbrev){
-        return null;
-    }
-
     public Demographic getPrecinctDemographic(String stateAbbrev){
         return null;
     }
