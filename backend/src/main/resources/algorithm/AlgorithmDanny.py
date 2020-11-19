@@ -3,7 +3,7 @@ import math
 import sys
 from copy import deepcopy
 
-numDistricts = 2
+numDistricts = 3
 numPrecincts = 30
 compactnessMeasure = ''
 populationVariance = 0.017
@@ -231,9 +231,11 @@ def generate_spanning_tree():
     # while len(visited) < len(precincts):
     while stack:
         pop_stack = True
-        # neighborsPrecinct = precinctsNeighbors.get(str(currentPrecinct.split(', '))) # get neighbors of precinct
+        neighborsPrecinct = precinctsNeighbors.get(str(currentNode.split(', '))) # get neighbors of currently selected precinct
+        # currentNodeNeighbors = neighbors.get(str(currentNode))
+
         for node in subgraphsCombined:
-            if node not in visited:
+            if node not in visited and node in neighborsPrecinct:
                 visited.append(node)
                 stack.append(node)
                 # Create the edge and add it 
