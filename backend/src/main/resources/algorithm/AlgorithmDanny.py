@@ -203,7 +203,7 @@ def algorithm(graph):
     print("Combined Subgraph: " + str(subgraphsCombined))
 
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
-    spanning_tree = generate_spanning_tree()
+    spanning_tree = generate_spanning_tree_BFS()
 
     print("Spanning tree edges: " + str(spanning_tree["edges"]))
 
@@ -220,24 +220,89 @@ def algorithm(graph):
 
     return cut_acceptable(acceptableEdges, targetCut)
 
-def generate_spanning_tree():
+def generate_spanning_tree_DFS():
     global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
     # DFS for combined subgraph (spanning tree)
     randomStart = random.choice(subgraphsCombined) # randomly select a start
+    print("------------- subgraphsCombined:")
+    print(subgraphsCombined)
     visited = [randomStart]
+    print("------------- visited:")
+    print(visited)
     stack = [randomStart]
+    print("------------- stack:")
+    print(stack)
     edges = []
     currentNode = randomStart
+    print("------------- currentNode:")
+    print(currentNode)
     # while len(visited) < len(precincts):
     while stack:
         pop_stack = True
         neighborsPrecinct = precinctsNeighbors.get(str(currentNode.split(', '))) # get neighbors of currently selected precinct
+        print("------------- neighborsPrecinct: ")
+        print(neighborsPrecinct)
         # currentNodeNeighbors = neighbors.get(str(currentNode))
+
+        for node in subgraphsCombined:
+            print("-------------  node:")
+            print(node)
+            if node not in visited and node in neighborsPrecinct:
+                visited.append(node)
+                stack.append(node)
+                # Create the edge and add it 
+                newList = []
+                vertexOne = currentNode
+                print("------------- vertexOne:")
+                print(currentNode)
+                vertexTwo = node
+                print("------------- vertexTwo:")
+                print(vertexTwo)
+                if (type(vertexOne) == str):
+                    vertexOne = vertexOne.split(', ')
+                if (type(vertexTwo) == str):
+                    vertexTwo = vertexTwo.split(', ')
+                newList = vertexOne + vertexTwo
+                print("------------- newList:")
+                print(newList)
+                edges.append(newList) # assume creates edge
+                print("------------- edges")
+                print(edges)
+                currentNode = node
+                pop_stack = False
+                break
+        if pop_stack: # go back
+            if stack:
+                print("------------- stack")
+                print(stack)
+                currentNode = stack[-1]
+                stack.pop()
+    spanning_tree = { "visited": visited, "edges": edges}
+    print("------------- spanning_tree")
+    print(spanning_tree)
+    # print("\n" + str(spanning_tree))
+    return spanning_tree
+
+def generate_spanning_tree_BFS():
+    global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
+    # DFS for combined subgraph (spanning tree)
+    randomStart = random.choice(subgraphsCombined) # randomly select a start
+    visited = [randomStart]
+    queue = [randomStart]
+    edges = []
+    currentNode = randomStart
+    # while len(visited) < len(precincts):
+    while queue:
+        pop_queue = True
+        neighborsPrecinct = precinctsNeighbors.get(str(currentNode.split(', '))) # get neighbors of currently selected precinct
+        # currentNodeNeighbors = neighbors.get(str(currentNode))
+
+        # queue.pop(0)
 
         for node in subgraphsCombined:
             if node not in visited and node in neighborsPrecinct:
                 visited.append(node)
-                stack.append(node)
+                queue.append(node)
                 # Create the edge and add it 
                 newList = []
                 vertexOne = currentNode
@@ -249,12 +314,12 @@ def generate_spanning_tree():
                 newList = vertexOne + vertexTwo
                 edges.append(newList) # assume creates edge
                 currentNode = node
-                pop_stack = False
+                pop_queue = False
                 break
-        if pop_stack: # go back
-            if stack:
-                currentNode = stack[-1]
-                stack.pop()
+        if pop_queue: # go back
+            if queue:
+                currentNode = queue.pop(0)
+                # stack.pop()
     spanning_tree = { "visited": visited, "edges": edges}
     # print("\n" + str(spanning_tree))
     return spanning_tree
