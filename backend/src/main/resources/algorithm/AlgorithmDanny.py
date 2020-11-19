@@ -114,10 +114,9 @@ def algorithm_driver(graph):
         neighbors[str(key)] = value # keys stored as strings
         precinctsNeighbors[str(deepcopy(key))] = deepcopy(value2)
 
-    # print("Before : " + str(neighbors))
-    # reinitializeNeighbors()
-    # print("After : " + str(neighbors))
-    # exit()
+    print("\n--------------------------------------------------------")
+    print("           INITIALIZING SEED DISTRICTS ALGORITHM          ")
+    print("--------------------------------------------------------")
 
     # USE CASE #29 GENERATE SEED DISTRICTING
     while len(subgraphs) != numDistricts: 
@@ -126,9 +125,27 @@ def algorithm_driver(graph):
             if len(subgraphs) == numDistricts:
                 break
 
+    # Print the subgraphs out
+    counter = 1
+    print("\n")
+    for subgraph in subgraphs:
+        print("Seed District #" + str(counter) + " --> " + str(subgraph))
+        counter = counter + 1
+
+    print("\n--------------------------------------------------------")
+    print("                BEGINNING ALGORITHM                       ")
+    print("--------------------------------------------------------")
+
+    print("Termination limit: " + str(terminationLimit))
+
     # 35. Repeat the steps above until you generate satisfy the termination condition (required)
+    counter = 1
     for i in range(terminationLimit):
+        print("\nBeginning iteration " + str(counter) + ":")
+        print("Initial subgraphs: " + str(subgraphs))
         algorithm(graph)
+        counter = counter + 1
+        print("Revised Subgraphs: " + str(subgraphs))
 
     # When we're done, let's print the subgraphs:
     counter = 1
@@ -143,7 +160,6 @@ def algorithm(graph):
     global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
-
     # Random Subgraph, Random neighbor
     randomSubgraph = random.choice(subgraphs)
     subgraphNeighbors = neighbors.get(str(randomSubgraph))
@@ -167,7 +183,6 @@ def algorithm(graph):
 
     # Let's also combine the neighbors of these subgraphs 
     updateNeighbors(randomNeighbor, randomSubgraph, subgraphsCombined)
-    # print("Neighbors: " + str(neighbors))
 
     # DELETE THEM FROM THE SUBGRAPHS LIST
     if type(randomNeighbor) == str:
@@ -183,15 +198,26 @@ def algorithm(graph):
     # ADD COMBINED SUBGRAPHS TO THE SUBGRAPHS LIST
     subgraphs.append(subgraphsCombined)
 
+    print("Random Subgraph: " + str(randomSubgraph))
+    print("Random Neighbor: " + str(randomNeighbor))
+    print("Combined Subgraph: " + str(subgraphsCombined))
+
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
     spanning_tree = generate_spanning_tree()
+
+    print("Spanning tree edges: " + str(spanning_tree["edges"]))
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
     # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
     acceptableEdges = check_acceptability(spanning_tree, subgraphsCombined, graph)
 
+    print("Acceptable Edges List: " + str(acceptableEdges))
+
     # USE CASE #34 --> Cut the edge in the combined sub-graph (required)
     targetCut = random.choice(acceptableEdges) # choose random edge to cut
+
+    print("Cutting at edge: " + str(targetCut))
+
     return cut_acceptable(acceptableEdges, targetCut)
 
 def generate_spanning_tree():
