@@ -10,46 +10,46 @@ import com.cse416.backend.model.Boundary;
 import java.lang.Integer;
 import javax.persistence.*;
 
-@Entity
-@Table(name="Precincts")
+// @Entity
+// @Table(name="Precincts")
 public class Precinct {
 
-    @Id
-    @GeneratedValue
+    // @Id
+    // @GeneratedValue
     private Integer countyId;
 
-    @Transient
+    // @Transient
     // @ManyToOne
     private County county;
 
-    @Transient
+    // @Transient
     // @ManyToOne
     private State state;
 
-    @Transient
+    // @Transient
     // @ManyToOne
     private District district;
 
-    @Column(nullable=false)
+    // @Column(nullable=false)
     private String precinctName;
 
-    @Column(nullable=false)
+    // @Column(nullable=false)
     private int precinctFIPSCode;
 
-    @Transient
+    // @Transient
     private Boundary boundary;
 
-    @Transient
+    // @Transient
     // @OneToOne
     private Demographic demographic;
 
-    @Transient
+    // @Transient
     // @JoinTable
     // @OneToMany(targetEntity=Precinct.class)
     private Precinct [] neighbors;
 
     //Neccessary for JPA
-    protected Precinct (){}
+    // protected Precinct (){}
 
     public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;

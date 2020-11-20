@@ -1,53 +1,53 @@
 
-package com.cse416.backend.dao.services;
-import com.cse416.backend.dao.repositories.PrecinctRepository;
-import org.springframework.stereotype.*;
+// package com.cse416.backend.dao.services;
+// import com.cse416.backend.dao.repositories.PrecinctRepository;
+// import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.regions.precinct.Precinct;
-import org.springframework.beans.factory.annotation.Autowired;
+// import com.cse416.backend.model.regions.precinct.Precinct;
+// import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.Integer;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.lang.Integer;
 
-import java.util.Optional;
+// import java.util.Optional;
 
-@Service
-public class PrecinctDAOService{
+// @Service
+// public class PrecinctDAOService{
 
-   @Autowired
-   private PrecinctRepository precinctRepository;
+//    @Autowired
+//    private PrecinctRepository precinctRepository;
 
-   public List<Precinct> getAllPrecincts(){
+//    public List<Precinct> getAllPrecincts(){
 
-      List<Precinct> precincts = new ArrayList<>();
+//       List<Precinct> precincts = new ArrayList<>();
 
-      precinctRepository.findAll().forEach(precincts::add);
+//       precinctRepository.findAll().forEach(precincts::add);
 
-      return precincts;
-   }
+//       return precincts;
+//    }
 
-   public Optional<Precinct> getPrecinctById(Integer Id){
-       return precinctRepository.findById(Id);
-   }
+//    public Optional<Precinct> getPrecinctById(Integer Id){
+//        return precinctRepository.findById(Id);
+//    }
 
-   public void addPrecinct(Precinct precinct){
-       precinctRepository.save(precinct);
-   }
+//    public void addPrecinct(Precinct precinct){
+//        precinctRepository.save(precinct);
+//    }
 
-   public void updatePrecinct(Precinct precinct){
-       precinctRepository.save(precinct);
-   }
+//    public void updatePrecinct(Precinct precinct){
+//        precinctRepository.save(precinct);
+//    }
 
-   public void deletePrecinct(Precinct precinct){
-       precinctRepository.delete(precinct);
-   }
+//    public void deletePrecinct(Precinct precinct){
+//        precinctRepository.delete(precinct);
+//    }
 
-   public void deletePrecinctById(Integer Id){
-       precinctRepository.deleteById(Id);
-   }
+//    public void deletePrecinctById(Integer Id){
+//        precinctRepository.deleteById(Id);
+//    }
 
-   public Long numberPrecinctEntities(){
-       return precinctRepository.count();
-   }
-}
+//    public Long numberPrecinctEntities(){
+//        return precinctRepository.count();
+//    }
+// }

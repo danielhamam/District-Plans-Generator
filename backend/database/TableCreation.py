@@ -254,24 +254,29 @@ censusGeneralDemographics = '''
   CREATE TABLE IF NOT EXISTS CensusGeneralDemographics(
     censusGeneralDemographicId INT AUTO_INCREMENT PRIMARY KEY,
     totalPopulation BIGINT DEFAULT 0,
-    populationID INT,
-    FOREIGN KEY (populationID) REFERENCES Populations(populationId)
+    whitePopulation BIGINT DEFAULT 0,
+    hispanicPopulation BIGINT DEFAULT 0,
+    alaskaNativePopulatoin BIGINT DEFAULT 0,
+    nativeHawaiianPopulation BIGINT DEFAULT 0,
+    africanAmericanPopulation BIGINT DEFAULT 0,
+    asianPopulation BIGINT DEFAULT 0,
+    otherPopulation BIGINT DEFAULT 0,
+    multipleRacePopulation BIGINT DEFAULT 0
+   
   )''' 
 
 censusVotingAgeDemographics = '''
   CREATE TABLE IF NOT EXISTS CensusVotingAgeDemographics(
     censusVotingAgeDemographicId INT AUTO_INCREMENT PRIMARY KEY,
     totalPopulation BIGINT DEFAULT 0,
-    populationID INT,
-    FOREIGN KEY (populationID) REFERENCES Populations(populationId)
-  )'''
-
-populations = '''
-  CREATE TABLE IF NOT EXISTS Populations(
-    populationId INT AUTO_INCREMENT PRIMARY KEY,
-    ethnicityName VARCHAR(100),
-    population BIGINT DEFAULT 0,
-    FOREIGN KEY (ethnicityName) REFERENCES CensusEthnicities(ethnicityName)
+    whitePopulation BIGINT DEFAULT 0,
+    hispanicPopulation BIGINT DEFAULT 0,
+    alaskaNativePopulatoin BIGINT DEFAULT 0,
+    nativeHawaiianPopulation BIGINT DEFAULT 0,
+    africanAmericanPopulation BIGINT DEFAULT 0,
+    asianPopulation BIGINT DEFAULT 0,
+    otherPopulation BIGINT DEFAULT 0,
+    multipleRacePopulation BIGINT DEFAULT 0
   )'''
 
 censusEthnicities = '''
@@ -294,30 +299,29 @@ files = '''
 #Create each table in the database
 #If and only the table does not 
 #already exist
-mycursor.execute(states)
-mycursor.execute(districts)
-mycursor.execute(counties)
-mycursor.execute(precincts)
-mycursor.execute(jobs)
-mycursor.execute(plans)
-mycursor.execute(files)
-mycursor.execute(summaries)
-mycursor.execute(censusEthnicities)
-mycursor.execute(minorityGroups)
-mycursor.execute(planGraphs)
-mycursor.execute(graphDistricts)
-mycursor.execute(jobGraphs)
-mycursor.execute(jobPlans)
-mycursor.execute(planDistricts)
-mycursor.execute(planPrecincts)
-mycursor.execute(extremePlans)
-mycursor.execute(averagePlans)
-mycursor.execute(planFiles)
-mycursor.execute(enactedPlan)
-mycursor.execute(enactedPlanFiles)
-mycursor.execute(precinctNeighbors)
-mycursor.execute(precinctNeighbors)
-mycursor.execute(populations)
+# mycursor.execute(states)
+# mycursor.execute(districts)
+# mycursor.execute(counties)
+# mycursor.execute(precincts)
+# mycursor.execute(jobs)
+# mycursor.execute(plans)
+# mycursor.execute(files)
+# mycursor.execute(summaries)
+# mycursor.execute(censusEthnicities)
+# mycursor.execute(minorityGroups)
+# mycursor.execute(planGraphs)
+# mycursor.execute(graphDistricts)
+# mycursor.execute(jobGraphs)
+# mycursor.execute(jobPlans)
+# mycursor.execute(planDistricts)
+# mycursor.execute(planPrecincts)
+# mycursor.execute(extremePlans)
+# mycursor.execute(averagePlans)
+# mycursor.execute(planFiles)
+# mycursor.execute(enactedPlan)
+# mycursor.execute(enactedPlanFiles)
+# mycursor.execute(precinctNeighbors)
+# mycursor.execute(precinctNeighbors)
 mycursor.execute(censusGeneralDemographics)
 mycursor.execute(censusVotingAgeDemographics)
 mycursor.execute(demographics)

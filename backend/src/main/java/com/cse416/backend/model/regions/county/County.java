@@ -16,52 +16,52 @@ import javax.persistence.*;
 import java.lang.Integer;
 
 
-@Entity
-@Table(name="Counties")
+// @Entity
+// @Table(name="Counties")
 public class County {
 
-    @Id
-    @GeneratedValue
+    // @Id
+    // @GeneratedValue
     private Integer countyId;
 
-    @Column(nullable=false, length=2)
+    // @Column(nullable=false, length=2)
     private String stateId;
 
-    @Column(nullable=false)
+    // @Column(nullable=false)
     private String countyName;
 
     private long totalPopulation;
 
-    @Transient
+    // @Transient
     private String districtName;
 
-    @Transient
+    // @Transient
     private String stateName;
 
-    @Column(nullable=false)
+    // @Column(nullable=false)
     private int countyFIPSCode;
 
-    @Transient
+    // @Transient
     private int districtFIPSCode;
 
-    @Transient
+    // @Transient
     private int stateFIPSCode;
 
-    @Transient
+    // @Transient
     private Boundary boundary;
 
     //@ManyToOne
-    @Transient
+    // @Transient
     private District district;
 
     //@ManyToOne
-    @Transient
+    // @Transient
     private State state;
 
-    @Column(name = "numberOfPrecincts")
+    // @Column(name = "numberOfPrecincts")
     private int numOfPrecincts;
 
-    @Transient
+    // @Transient
     // @JoinTable
     // @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore 

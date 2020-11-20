@@ -1,54 +1,54 @@
 
-package com.cse416.backend.dao.services;
-import com.cse416.backend.dao.repositories.PlanRepository;
-import org.springframework.stereotype.*;
+// package com.cse416.backend.dao.services;
+// import com.cse416.backend.dao.repositories.PlanRepository;
+// import org.springframework.stereotype.*;
 
-import com.cse416.backend.model.plan.Plan;
-import org.springframework.beans.factory.annotation.Autowired;
+// import com.cse416.backend.model.plan.Plan;
+// import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.Integer;
+// import java.util.ArrayList;
+// import java.util.List;
+// import java.lang.Integer;
 
-import java.util.Optional;
+// import java.util.Optional;
 
 
-@Service
-public class PlanDAOService{
+// @Service
+// public class PlanDAOService{
 
-   @Autowired
-   private PlanRepository planRepository;
+//    @Autowired
+//    private PlanRepository planRepository;
 
-   public List<Plan> getAllPlans(){
+//    public List<Plan> getAllPlans(){
 
-      List<Plan> plans = new ArrayList<>();
+//       List<Plan> plans = new ArrayList<>();
 
-      planRepository.findAll().forEach(plans::add);
+//       planRepository.findAll().forEach(plans::add);
 
-      return plans;
-   }
+//       return plans;
+//    }
 
-   public Optional<Plan> getPlanById(Integer Id){
-       return planRepository.findById(Id);
-   }
+//    public Optional<Plan> getPlanById(Integer Id){
+//        return planRepository.findById(Id);
+//    }
 
-   public void addPlan(Plan plan){
-       planRepository.save(plan);
-   }
+//    public void addPlan(Plan plan){
+//        planRepository.save(plan);
+//    }
 
-   public void updatePlan(Plan plan){
-       planRepository.save(plan);
-   }
+//    public void updatePlan(Plan plan){
+//        planRepository.save(plan);
+//    }
 
-   public void deletePlan(Plan plan){
-       planRepository.delete(plan);
-   }
+//    public void deletePlan(Plan plan){
+//        planRepository.delete(plan);
+//    }
 
-   public void deletePlanById(Integer Id){
-       planRepository.deleteById(Id);
-   }
+//    public void deletePlanById(Integer Id){
+//        planRepository.deleteById(Id);
+//    }
 
-   public Long numberPlanEntities(){
-       return planRepository.count();
-   }
-}
+//    public Long numberPlanEntities(){
+//        return planRepository.count();
+//    }
+// }

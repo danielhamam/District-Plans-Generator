@@ -3,10 +3,9 @@ import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import { heatPoints } from './HeatPoints.js';
 
-import CaliforniaStateBoundary from '../../../json/CALIFORNIA/CaliforniaStateBoundaries.json'
-import GeorgiaStateBoundary from '../../../json/GEORGIA/GeorgiaStateBoundaries.json';
-import NewYorkStateBoundary from '../../../json/NEW_YORK/NewYorkStateBoundaries.json';
-// import NYDistricts from '../../../json/NEW_YORK/NewYorkDistricts.json';
+import MarylandStateBoundary from '../../../json/MARYLAND/md_state.json';
+import GeorgiaStateBoundary from '../../../json/GEORGIA/ga_state.json';
+import PennsylvaniaStateBoundary from '../../../json/PENNSYLVANIA/pa_state.json';
 
 class OurMap extends Component {
     constructor () {
@@ -75,9 +74,9 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                <GeoJSON weight="1" color="red" key="California" data={CaliforniaStateBoundary} onClick={ () => this.props.changeCurrentState("California")}/> 
+                <GeoJSON weight="1" color="red" key="Maryland" data={MarylandStateBoundary} onClick={ () => this.props.changeCurrentState("Maryland")}/> 
                 <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("Georgia")} />
-                <GeoJSON weight="1" color="red" key='NewYork' data={NewYorkStateBoundary} onClick={ () => this.props.changeCurrentState("New York")}/>
+                <GeoJSON weight="1" color="red" key='Pennsylvania' data={PennsylvaniaStateBoundary} onClick={ () => this.props.changeCurrentState("Pennsylvania")}/>
 
                 {/* From map view filter */}
                 {this.props.districtsView ? this.props.districtsContent : ""}

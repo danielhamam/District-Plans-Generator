@@ -7,20 +7,20 @@ import com.cse416.backend.model.demographic.Population;
 import java.util.*;
 
 
-@Entity
-@Table(name = "CensusVotingAgeDemographic")
+// @Entity
+// @Table(name = "CensusVotingAgeDemographic")
 public class CensusVotingAgeDemographic{
-        @Id 
-        @GeneratedValue
+        // @Id 
+        // @GeneratedValue
         private Integer censusVotingAgeDemographicId;
     
         private Long totalPopulation;
     
-        @OneToMany
+        // @OneToMany
         private List<Population> populations;
     
         //Necessary for JPA
-        public CensusVotingAgeDemographic(){}
+        // public CensusVotingAgeDemographic(){}
     
         public CensusVotingAgeDemographic(Long totalPopulation, List<Population> populations){
             this.totalPopulation = totalPopulation;

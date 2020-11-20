@@ -3,19 +3,19 @@ package com.cse416.backend.model.file;
 import javax.persistence.*;
 import java.lang.Integer;
 
-@Entity
-@Table(name="File")
+// @Entity
+// @Table(name="File")
 public class File {
 
-    @Id
-    @GeneratedValue
+    // @Id
+    // @GeneratedValue
     private Integer fileId;
 
-    @Column(nullable=false, length=1000)
+    // @Column(nullable=false, length=1000)
     private String filePath;
 
     //Necessary for JPA
-    protected File(){}
+    // protected File(){}
 
     public File(String filePath){
         this.filePath = filePath;

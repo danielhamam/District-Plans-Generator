@@ -5,21 +5,21 @@ import com.cse416.backend.model.demographic.Population;
 import java.util.*;
 
 
-@Entity
-@Table(name = "CensusGeneralDemographic")
+// @Entity
+// @Table(name = "CensusGeneralDemographic")
 public class CensusGeneralDemographic{
 
-    @Id 
-    @GeneratedValue
+    // @Id 
+    // @GeneratedValue
     private Integer censusGeneralDemographicId;
 
     private Long totalPopulation;
 
-    @OneToMany
+    // @OneToMany
     private List<Population> populations;
 
     //Necessary for JPA
-    public CensusGeneralDemographic(){}
+    // public CensusGeneralDemographic(){}
 
     public CensusGeneralDemographic(Long totalPopulation, List<Population> populations){
         this.totalPopulation = totalPopulation;

@@ -3,19 +3,19 @@ package com.cse416.backend.model.demographic;
 import javax.persistence.*;
 import java.lang.Integer;
 
-@Entity
-@Table(name = "CensusEthnicities")
+// @Entity
+// @Table(name = "CensusEthnicities")
 public class CensusEthnicity {
 
-    @Id
-    @Column(nullable=false, length=100)
+    // @Id
+    // @Column(nullable=false, length=100)
     private String ethnicityName;
 
-    @Column(nullable=false, length=255)
+    // @Column(nullable=false, length=255)
     private String censusEthnicityName;
 
     //Necessary for JPA
-    protected CensusEthnicity(){}
+    // protected CensusEthnicity(){}
 
     public CensusEthnicity(String shortenEthnicityName, String censusEthnicityName){
         this.ethnicityName = shortenEthnicityName;

@@ -21,56 +21,56 @@ import java.io.File;
 import javax.persistence.*;
 import java.lang.Integer;
 
-@Entity
-@Table(name="States")
+// @Entity
+// @Table(name="States")
 public class State {
 
-    @Column(length=25)
+    // @Column(length=25)
     private String stateName;
 
-    @Id
-    @Column(name="stateId", nullable=false, length=2)
+    // @Id
+    // @Column(name="stateId", nullable=false, length=2)
     private String stateAbbreviation;
 
-    @Column(nullable=false)
+    // @Column(nullable=false)
     private int stateFIPSCode;
 
     private int totalPopulation;
 
-    @Transient
+    // @Transient
     private Plan enactedPlan;
 
-    @Transient
+    // @Transient
     private int numOfPrecincts;
 
-    @Transient
+    // @Transient
     private int numOfCounties;
 
-    @Transient
+    // @Transient
     private int numOfDistricts;
 
-    @Transient
+    // @Transient
     // @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore
     private Precinct [] statePrecincts;
 
-    @Transient
+    // @Transient
     @JsonIgnore
     private Boundary boundary;
 
-    @Transient
+    // @Transient
     @JsonIgnore
     private File precinctFile;
 
-    @Transient
+    // @Transient
     @JsonIgnore
     private File stateFile;
 
-    @Transient
+    // @Transient
     @JsonIgnore
     private FeatureCollection precinctsGeoJson;
 
-    @Transient
+    // @Transient
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 

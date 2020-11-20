@@ -8,8 +8,8 @@ import testJobCards from './json/TestJobCards.json'
 import './css/project_styles.css';
 
 import {GeoJSON} from 'react-leaflet';
-import NYDistricts from './json/NEW_YORK/NewYorkDistricts.json';
-import NYPrecincts from './json/NEW_YORK/NewYorkPrecincts.json';
+import GADistricts from './json/GEORGIA/ga_congressionalDistrict.json';
+import GAPrecincts from './json/GEORGIA/ga_precincts.json';
 
 class App extends Component {
     state = {
@@ -45,8 +45,8 @@ class App extends Component {
     this.setState({currentJob : ""}) 
     this.setState({currentState : stateName});
     if (stateName == "Georgia") stateName = "GA"
-    else if (stateName == "New York") stateName = "NY"
-    else stateName = "CA"
+    else if (stateName == "Maryland") stateName = "MD"
+    else stateName = "PA"
     let stateObject =  {
       state: stateName
     }
@@ -233,7 +233,7 @@ class App extends Component {
   toggleSelectedPlanCheck = (districtPlan) => {
     if (this.state.selectedPlanCheck == false) {
       this.setState({selectedPlanCheck: true});
-      this.setState({districtsContent : <GeoJSON weight="1" color="red" key='NewYorkDistricts' data={districtPlan.districtsGeoJson} /> })
+      this.setState({districtsContent : <GeoJSON weight="1" color="red" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
     }
     else {
       this.setState({selectedPlanCheck : false});

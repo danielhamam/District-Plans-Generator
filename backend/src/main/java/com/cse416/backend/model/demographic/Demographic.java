@@ -6,24 +6,24 @@ import javax.persistence.*;
 import java.lang.Integer;
 
 
-@Entity
-@Table(name="Demographics")
+// @Entity
+// @Table(name="Demographics")
 public class Demographic {
 
-    @Id
-    @GeneratedValue
+    // @Id
+    // @GeneratedValue
     private Integer demographicId;
 
-    @OneToOne
-    @JoinColumn(name = "fk_generalDemographic")
+    // @OneToOne
+    // @JoinColumn(name = "fk_generalDemographic")
     private CensusGeneralDemographic generalDemographic;
 
-    @OneToOne
-    @JoinColumn(name = "fk_votingAgeDemographic")
+    // @OneToOne
+    // @JoinColumn(name = "fk_votingAgeDemographic")
     private CensusVotingAgeDemographic votingAgeDemographic;
 
     //Neccessary for JPA
-    protected Demographic (){}
+    // protected Demographic (){}
 
     public Demographic(CensusGeneralDemographic generalDemographic, CensusVotingAgeDemographic votingAgeDemographic){
         this.generalDemographic = generalDemographic;
