@@ -47,13 +47,13 @@ class OurMap extends Component {
             this.mapCenter = [32.5, -85.00078];
             this.mapZoom = 7;
         }
-        else if (this.props.currentState == "California") {
-            this.mapCenter = [36.778259, -119.417931];
-            this.mapZoom = 6;
+        else if (this.props.currentState == "Maryland") {
+            this.mapCenter = [38.5, -76.417931];
+            this.mapZoom = 7.2;
         }
-        else if (this.props.currentState == "New York") {
-            this.mapCenter = [42.712776, -77.005974];
-            this.mapZoom = 6.5;
+        else if (this.props.currentState == "Pennsylvania") {
+            this.mapCenter = [40.712776, -77.005974];
+            this.mapZoom = 7;
         }
         else {
             this.mapCenter = [39, -105];
@@ -74,9 +74,9 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                <GeoJSON weight="1" color="red" key="Maryland" data={MarylandStateBoundary} onClick={ () => this.props.changeCurrentState("Maryland")}/> 
-                <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("Georgia")} />
-                <GeoJSON weight="1" color="red" key='Pennsylvania' data={PennsylvaniaStateBoundary} onClick={ () => this.props.changeCurrentState("Pennsylvania")}/>
+                <GeoJSON weight="1" color="red" key="Maryland" data={MarylandStateBoundary} onClick={ () => this.props.changeCurrentState("MD", "Maryland")}/> 
+                <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("GA", "Georgia")} />
+                <GeoJSON weight="1" color="red" key='Pennsylvania' data={PennsylvaniaStateBoundary} onClick={ () => this.props.changeCurrentState("PA", "Pennsylvania")}/>
 
                 {/* From map view filter */}
                 {this.props.districtsView ? this.props.districtsContent : ""}

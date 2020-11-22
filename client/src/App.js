@@ -41,19 +41,20 @@ class App extends Component {
       selectedJobCheck: false
     }
 
-  changeCurrentState = async (stateName) => {
+  changeCurrentState = async (stateAbrev, stateName) => {
     this.setState({currentJob : ""}) 
     this.setState({currentState : stateName});
-    if (stateName == "Georgia") stateName = "GA"
-    else if (stateName == "Maryland") stateName = "MD"
-    else stateName = "PA"
     let stateObject =  {
-      state: stateName
+      state: stateAbrev
     }
     try {
       let res = await endpoint.getState(stateObject);
       console.log(res)
       this.setState({ jobCards : res.jobs}); 
+      this.setState({ districtsContent : null})
+      this.setState({ precinctsContent : null})
+      this.setState({ districtsView : null})
+      this.setState({ precinctsView : null})
       this.setState({ enactedPlan : res.state.enactedPlan}); 
       this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});

@@ -8,39 +8,47 @@ class InputsJob extends Component {
     constructor () {
         super();
         this.state = {
-            jobName : "", 
+            jobName : '', 
             districtsAmount : 0, 
             plansAmount : 0, 
-            compactness : "", 
+            compactness : '',
             populationDifference : 0,
-            minorityAnalyzed : ""
+            minorityAnalyzed : ''
         }
     }
 
     changeJobName = (e) => this.setState({jobName : e.target.value});
-    // changeDistrictsAmount = (e) => this.setState({districtsAmount : e.target.value});
     changePlanAmount = (e) => this.setState({plansAmount : e.target.value});
-    changeCompactness = (e) => this.setState({compactness : e.label});
+    changeCompactness = (e) => {
+        this.setState({compactness : [{
+            label : e.label,
+            value : null
+        }]
+    })}
     changePopulationDifference = (e) => this.setState({populationDifference: e.target.value});
     changeMinorityAnalyzed = (e) => this.setState({minorityAnalyzed : e}); 
 
     handleGenerateJob = (e) => {
         e.preventDefault(); 
-
-        // var string_districtsAmount = this.state.districtsAmount.toString();
         var string_plansAmount = this.state.plansAmount.toString();
         var string_populationDifference = this.state.populationDifference.toString();
         let valuesMinorities = [];
         this.state.minorityAnalyzed.forEach(element => { valuesMinorities.push(element.value); })
         let userInputs = {
             jobName : this.state.jobName, 
-            // districtsAmount : string_districtsAmount, 
             plansAmount :string_plansAmount, 
             compactness : this.state.compactness, 
             populationDifference : string_populationDifference,
             minorityAnalyzed : valuesMinorities
         }
         this.props.createJob(userInputs)
+        // RESET ALL INPUTS
+        this.setState({jobName : ''})
+        this.setState({districtsAmount : 0})
+        this.setState({plansAmount : 0})
+        this.setState({compactness : ''})
+        this.setState({populationDifference : 0})
+        this.setState({minorityAnalyzed : ''})
     }
 
     render() {
@@ -73,24 +81,6 @@ class InputsJob extends Component {
             <Form> 
                 <div className="form-group">
 
-                {/* --------------------------------------- */}
-                {/*             NUMBER OF DISTRICTS         */}
-                {/* --------------------------------------- */}
-
-                    {/* <label for="exampleInputEmail1"> Districts (#): </label>
-                    <div className="row"> 
-                        <div className="col-4">
-                            <Form.Control size="sm" value={this.state.districtsAmount} onChange={this.changeDistrictsAmount}/>
-                        </div>
-                        <div className="col-8">
-                            <div className="rangeSliderContainer"> 
-                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changeDistrictsAmount} step={1} min={0} max={300} tooltip='auto' value={this.state.districtsAmount} />
-                            </div>
-                        </div>
-                    </div>
-                    <small className="form-text text-muted">Enter the amount of districts you'd like to construct for your selected state </small> */}
-
-                    {/* < br/> */}
                 {/* --------------------------------------- */}
                 {/*     NUMBER OF DISTRICT PLANS SLIDER     */}
                 {/* --------------------------------------- */}
@@ -133,7 +123,7 @@ class InputsJob extends Component {
 
                     <label for="exampleInputEmail1"> Compactness Preference: </label>
                     <div className="compactnessStyle">  
-                        <Select isSearchable={true} onChange={this.changeCompactness} placeholder="Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} />
+                        <Select isSearchable={true} onChange={this.changeCompactness} value={this.state.compactness} placeholder = "Compactness Measure" components={componentsAnimation} className="basic-multi-select" options={compactnessOptions} />
                     </div>
                     <small className="form-text text-muted"> Enter the compactness preference for your district plans. </small>
                     </div>
@@ -144,7 +134,7 @@ class InputsJob extends Component {
 
                     <label > Minority Focus Group(s): </label>
                     <div className="minorityFocusStyle">
-                    <Select onChange={this.changeMinorityAnalyzed} isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
+                        <Select onChange={this.changeMinorityAnalyzed} value={this.state.minorityAnalyzed} isSearchable={true} placeholder="Minority group(s)" components={componentsAnimation} className="basic-multi-select" options={minorityOptions} isMulti={true} />
                     </div>
                     <small className="form-text text-muted"> Select the minority group(s) in the dropdown to particularly analyze. </small>
                     <br />
@@ -155,7 +145,7 @@ class InputsJob extends Component {
 
                     <div className="form-group">
                         <label >Job Name:</label>
-                        <div className="customJobNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Job Name" onChange={this.changeJobName} /> </div> 
+                        <div className="customJobNameContainer"> <input className="input-normal form-control" maxlength={11} placeholder="Custom Job Name" value={this.state.jobName} onChange={this.changeJobName} /> </div> 
                     </div>
                     <br /> 
 

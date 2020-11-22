@@ -122,14 +122,14 @@ class Sidebar extends Component {
                                     <div className="col-md-8">
                                         <div id="currentState"> Current State: </div>
                                         <DropdownButton as={ButtonGroup} id="dropdownButton" title={this.state.currentState} size="sm" variant="secondary">
-                                            <Dropdown.Item className="stateSelect" key="CA">
-                                                <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>California</div> 
+                                            <Dropdown.Item className="stateSelect" >
+                                                <div title="GA" onClick={(e) => this.props.changeCurrentState(e.target.title, e.target.textContent)}>Georgia</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" key="GA">
-                                                <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>Georgia</div> 
+                                            <Dropdown.Item className="stateSelect" key="PA">
+                                                <div title="PA" onClick={(e) => this.props.changeCurrentState(e.target.title, e.target.textContent)}>Pennsylvania</div> 
                                             </Dropdown.Item>
-                                            <Dropdown.Item className="stateSelect" key="NY">
-                                                <div onClick={(e) => this.props.changeCurrentState(e.target.textContent)}>New York</div> 
+                                            <Dropdown.Item className="stateSelect" key="MD">
+                                                <div title="MD" onClick={(e) => this.props.changeCurrentState(e.target.title, e.target.textContent)}>Maryland</div> 
                                             </Dropdown.Item>
                                         </DropdownButton>
                                     </div>
