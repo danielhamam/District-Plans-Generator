@@ -26,9 +26,9 @@ public class FakeDataAccessObject{
 
     public FakeDataAccessObject(){
         buildNY2();
-        State CA = new State("California", "CA", 1, 1000000000, 40, 10,100);
+        State CA = new State("Pennsylvania", "PA", 1, 1000000000, 40, 10,100);
         stateDB.add(CA);
-        State GA = new State("Georgia", "GA", 1, 1000000000, 10, 24,1999);
+        State GA = new State("Maryland", "MD", 1, 1000000000, 10, 24,1999);
         stateDB.add(GA);
         // stateDB.add(State("California", "CA", 1, null, null, null, null));
         // stateDB.add(State("Geogira", "GA", 1, null, null, null, null));
