@@ -30,20 +30,20 @@ jobs = '''
     jobName VARCHAR(255)
   )'''
 
-summaries = '''
-  CREATE TABLE IF NOT EXISTS JobSummaries(
-    summaryId INT AUTO_INCREMENT PRIMARY KEY,
-    summaryFileId INT,
-    jobID INT, 
-    FOREIGN KEY (jobID) REFERENCES Jobs(jobId),
-    FOREIGN KEY (summaryFileId) REFERENCES Files(fileID)
-  )'''
+# summaries = '''
+#   CREATE TABLE IF NOT EXISTS JobSummaries(
+#     summaryId INT AUTO_INCREMENT PRIMARY KEY,
+#     summaryFileId INT,
+#     jobID INT, 
+#     FOREIGN KEY (jobID) REFERENCES Jobs(jobId),
+#     FOREIGN KEY (summaryFileId) REFERENCES Files(fileID)
+#   )'''
 
 minorityGroups = '''
   CREATE TABLE IF NOT EXISTS JobMinorityGroups(
     minorityGroupId VARCHAR(100),
     jobID INT,
-    FOREIGN KEY (minorityGroupId) REFERENCES CensusEthnicities(ethnicityName),
+    FOREIGN KEY (minorityGroupId) REFERENCES CensusEthnicities(shortenName),
     FOREIGN KEY (jobID) REFERENCES Jobs(jobId) 
   )'''
 
@@ -126,89 +126,71 @@ averagePlans = '''
     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
 )'''
 
-planFiles = '''
-  CREATE TABLE IF NOT EXISTS PlanFiles(
-    planFileId INT AUTO_INCREMENT PRIMARY KEY,
-    planId INT,
-    stateId VARCHAR(2),
-    stateFileId INT,
-    precinctFileId INT, 
-    districtFileId INT, 
-    FOREIGN KEY (planId) REFERENCES Plans(planId),
-    FOREIGN KEY (stateFileId) REFERENCES Files(fileId),
-    FOREIGN KEY (precinctFileId) REFERENCES Files(fileId),
-    FOREIGN KEY (districtFileId) REFERENCES Files(fileId)
-  )'''
+# planFiles = '''
+#   CREATE TABLE IF NOT EXISTS PlanFiles(
+#     planFileId INT AUTO_INCREMENT PRIMARY KEY,
+#     planId INT,
+#     stateId VARCHAR(2),
+#     stateFileId INT,
+#     precinctFileId INT, 
+#     districtFileId INT, 
+#     FOREIGN KEY (planId) REFERENCES Plans(planId),
+#     FOREIGN KEY (stateFileId) REFERENCES Files(fileId),
+#     FOREIGN KEY (precinctFileId) REFERENCES Files(fileId),
+#     FOREIGN KEY (districtFileId) REFERENCES Files(fileId)
+#   )'''
 
 #Create Tables related to States
 states = '''
   CREATE TABLE IF NOT EXISTS States(
     stateId VARCHAR(2) PRIMARY KEY,
     stateName VARCHAR(25) NOT NULL,
-    stateFIPSCode NOT NULL,
-    totalPopulation BIGINT DEFAULT 0
+    stateFIPSCode INT NOT NULL
   )'''
 
-enactedPlanFiles = '''
-  CREATE TABLE IF NOT EXISTS EnactedPlanFiles(
-    enactedPlanId INT,
-    enactedPlanFilesId INT,
-    FOREIGN KEY (enactedPlanId) REFERENCES EnactedPlans(enactedPlanId),
-    FOREIGN KEY (enactedPlanFilesId) REFERENCES PlanFiles(planFileId)
-)'''
+# enactedPlanFiles = '''
+#   CREATE TABLE IF NOT EXISTS EnactedPlanFiles(
+#     enactedPlanId INT,
+#     enactedPlanFilesId INT,
+#     FOREIGN KEY (enactedPlanId) REFERENCES EnactedPlans(enactedPlanId),
+#     FOREIGN KEY (enactedPlanFilesId) REFERENCES PlanFiles(planFileId)
+# )'''
 
-enactedPlan = '''
-  CREATE TABLE IF NOT EXISTS EnactedPlans(
-    enactedPlanId INT AUTO_INCREMENT PRIMARY KEY,
-    stateId VARCHAR(2),
-    planId INT,
-    FOREIGN KEY (stateId) REFERENCES States(stateId),
-    FOREIGN KEY (planId) REFERENCES Plans(planId)
+# enactedPlan = '''
+#   CREATE TABLE IF NOT EXISTS EnactedPlans(
+#     enactedPlanId INT AUTO_INCREMENT PRIMARY KEY,
+#     stateId VARCHAR(2),
+#     planId INT,
+#     FOREIGN KEY (stateId) REFERENCES States(stateId),
+#     FOREIGN KEY (planId) REFERENCES Plans(planId)
 
-)'''
+# )'''
 
-stateDemographics = '''
-  CREATE TABLE IF NOT EXISTS StateDemographics(
-    stateId VARCHAR(2),
-    demographicId INT,
-    FOREIGN KEY (stateId) REFERENCES States(stateId),
-    FOREIGN KEY (demographicId) REFERENCES Demographics(demographicId)
-  )'''
-
-# #Create Tables related to Districts
+#Create Tables related to Districts
 districts = '''
-  CREATE TABLE IF NOT EXISTS Districts(
-    districtId INT AUTO_INCREMENT PRIMARY KEY,
-    districtNumber INT NOT NULL,
-    numberOfCounties INT DEFAULT 0,
-    numberOfPrecincts INT DEFAULT 0,
-    totalPopulation BIGINT DEFAULT 0,
-    stateId VARCHAR(2),
-    FOREIGN KEY (stateId) REFERENCES States(stateId)
-  )'''
-
-districtDemographics = '''
-  CREATE TABLE IF NOT EXISTS DistrictDemographics(
-    districtId INT,
-    demographicId INT,
-    FOREIGN KEY (districtId) REFERENCES Districts(districtId),
-    FOREIGN KEY (demographicId) REFERENCES Demographics(demographicId)
-  )'''
+ CREATE TABLE IF NOT EXISTS Districts(
+   districtId INT AUTO_INCREMENT PRIMARY KEY,
+   districtNumber INT NOT NULL,
+   numberOfCounties INT DEFAULT 0,
+   numberOfPrecincts INT DEFAULT 0,
+   stateId VARCHAR(2),
+   FOREIGN KEY (stateId) REFERENCES States(stateId)
+ )'''
 
 #Create Tables related to Precincts
 precincts = '''
-  CREATE TABLE IF NOT EXISTS Precincts(
-    precinctId INT AUTO_INCREMENT PRIMARY KEY,
-    precinctFIPSCode INT NOT NULL,
-    precinctName VARCHAR(255) NOT NULL,
-    totalPopulation BIGINT DEFAULT 0,
-    countyId INT,
-    stateId VARCHAR(2),
-    districtId INT,
-    FOREIGN KEY (countyId) REFERENCES Counties(countyId),
-    FOREIGN KEY (stateId) REFERENCES States(stateId),
-    FOREIGN KEY (districtId) REFERENCES Districts(districtId)
-  )'''
+ CREATE TABLE IF NOT EXISTS Precincts(
+   precinctId INT AUTO_INCREMENT PRIMARY KEY,
+   precinctFIPSCode VARCHAR(25) NOT NULL,
+   precinctName VARCHAR(255) NOT NULL,
+   countyId INT,
+   stateId VARCHAR(2),
+   districtId INT,
+   FOREIGN KEY (countyId) REFERENCES Counties(countyId),
+   FOREIGN KEY (stateId) REFERENCES States(stateId),
+   FOREIGN KEY (districtId) REFERENCES Districts(districtId)
+ )'''
+
 
 precinctNeighbors = '''
   CREATE TABLE IF NOT EXISTS PrecinctNeighbors(
@@ -218,80 +200,66 @@ precinctNeighbors = '''
     FOREIGN KEY (precinctNeighborID) REFERENCES Precincts(precinctId)
   )'''
 
-precinctDemographics = '''
-  CREATE TABLE IF NOT EXISTS PrecinctDemographics(
-    precinctID INT,
-    demographicID INT,
-    FOREIGN KEY (precinctID) REFERENCES Precincts(precinctId),
-    FOREIGN KEY (demographicID) REFERENCES Demographics(demographicID)
-  )'''
-
 #Create Tables related to Counties
 counties = '''
-  CREATE TABLE IF NOT EXISTS Counties(
-    countyId INT AUTO_INCREMENT PRIMARY KEY,
-    countyFIPSCode INT NOT NULL,
-    countyName VARCHAR(255) NOT NULL,
-    numberOfPrecincts INT DEFAULT 0, 
-    totalPopulation BIGINT DEFAULT 0,
-    districtId INT,
-    stateId VARCHAR(2),
-    FOREIGN KEY (stateId) REFERENCES States(stateId),
-    FOREIGN KEY (districtId) REFERENCES Districts(districtId)
-  )'''
+ CREATE TABLE IF NOT EXISTS Counties(
+   countyId INT AUTO_INCREMENT PRIMARY KEY,
+   countyFIPSCode INT NOT NULL,
+   countyName VARCHAR(255) NOT NULL,
+   numberOfPrecincts INT DEFAULT 0,
+   districtId INT,
+   stateId VARCHAR(2),
+   FOREIGN KEY (stateId) REFERENCES States(stateId),
+   FOREIGN KEY (districtId) REFERENCES Districts(districtId)
+ )'''
+
+
 
 # Create Tables related to Demographics
 demographics = '''
   CREATE TABLE IF NOT EXISTS Demographics(
     demographicId INT AUTO_INCREMENT PRIMARY KEY,
-    censusGeneralDemographicId INT, 
-    censusVotingAgeDemographicId INT,
-    FOREIGN KEY (censusGeneralDemographicId) REFERENCES CensusGeneralDemographics(censusGeneralDemographicId),
-    FOREIGN KEY (censusVotingAgeDemographicId) REFERENCES CensusVotingAgeDemographics(censusVotingAgeDemographicId)
-  )'''
-
-censusGeneralDemographics = '''
-  CREATE TABLE IF NOT EXISTS CensusGeneralDemographics(
-    censusGeneralDemographicId INT AUTO_INCREMENT PRIMARY KEY,
     totalPopulation BIGINT DEFAULT 0,
     whitePopulation BIGINT DEFAULT 0,
     hispanicPopulation BIGINT DEFAULT 0,
-    alaskaNativePopulatoin BIGINT DEFAULT 0,
+    americanIndianPopulation BIGINT DEFAULT 0,
     nativeHawaiianPopulation BIGINT DEFAULT 0,
     africanAmericanPopulation BIGINT DEFAULT 0,
     asianPopulation BIGINT DEFAULT 0,
-    otherPopulation BIGINT DEFAULT 0,
-    multipleRacePopulation BIGINT DEFAULT 0
-   
-  )''' 
-
-censusVotingAgeDemographics = '''
-  CREATE TABLE IF NOT EXISTS CensusVotingAgeDemographics(
-    censusVotingAgeDemographicId INT AUTO_INCREMENT PRIMARY KEY,
-    totalPopulation BIGINT DEFAULT 0,
-    whitePopulation BIGINT DEFAULT 0,
-    hispanicPopulation BIGINT DEFAULT 0,
-    alaskaNativePopulatoin BIGINT DEFAULT 0,
-    nativeHawaiianPopulation BIGINT DEFAULT 0,
-    africanAmericanPopulation BIGINT DEFAULT 0,
-    asianPopulation BIGINT DEFAULT 0,
-    otherPopulation BIGINT DEFAULT 0,
-    multipleRacePopulation BIGINT DEFAULT 0
-  )'''
+    otherRacePopulation BIGINT DEFAULT 0,
+    multipleRacePopulation BIGINT DEFAULT 0,
+    totalVAPPopulation BIGINT DEFAULT 0,
+    whiteVAPPopulation BIGINT DEFAULT 0,
+    hispanicVAPPopulation BIGINT DEFAULT 0,
+    americanIndianVAPPopulation BIGINT DEFAULT 0,
+    nativeHawaiianVAPPopulation BIGINT DEFAULT 0,
+    africanAmericanVAPPopulation BIGINT DEFAULT 0,
+    asianVAPPopulation BIGINT DEFAULT 0,
+    otherRaceVAPPopulation BIGINT DEFAULT 0,
+    multipleRaceVAPPopulation BIGINT DEFAULT 0,
+    districtId INT,
+    stateId VARCHAR(2),
+    countyId INT,
+    precinctId INT,
+    FOREIGN KEY (precinctId) REFERENCES Precincts(precinctId),
+    FOREIGN KEY (countyId) REFERENCES Counties(countyId),
+    FOREIGN KEY (stateId) REFERENCES States(stateId),
+    FOREIGN KEY (districtId) REFERENCES Districts(districtId)
+ )'''
 
 censusEthnicities = '''
   CREATE TABLE IF NOT EXISTS CensusEthnicities(
-    ethnicityName VARCHAR(100) PRIMARY KEY,
+    shortenName VARCHAR(100) PRIMARY KEY,
     censusName VARCHAR(255) NOT NULL
   )'''
 
 
 # #Create Tables related to Files
-files = '''
-  CREATE TABLE IF NOT EXISTS Files(
-    fileID INT AUTO_INCREMENT PRIMARY KEY,
-    filePath VARCHAR(1000) NOT NULL
-  )'''
+# files = '''
+#   CREATE TABLE IF NOT EXISTS Files(
+#     fileID INT AUTO_INCREMENT PRIMARY KEY,
+#     filePath VARCHAR(1000) NOT NULL
+#   )'''
 
 
 
@@ -299,35 +267,34 @@ files = '''
 #Create each table in the database
 #If and only the table does not 
 #already exist
-# mycursor.execute(states)
-# mycursor.execute(districts)
-# mycursor.execute(counties)
-# mycursor.execute(precincts)
-# mycursor.execute(jobs)
-# mycursor.execute(plans)
+mycursor.execute(states)
+mycursor.execute(districts)
+mycursor.execute(counties)
+mycursor.execute(precincts)
+mycursor.execute(jobs)
+mycursor.execute(plans)
+
 # mycursor.execute(files)
 # mycursor.execute(summaries)
-# mycursor.execute(censusEthnicities)
-# mycursor.execute(minorityGroups)
-# mycursor.execute(planGraphs)
-# mycursor.execute(graphDistricts)
-# mycursor.execute(jobGraphs)
-# mycursor.execute(jobPlans)
-# mycursor.execute(planDistricts)
-# mycursor.execute(planPrecincts)
-# mycursor.execute(extremePlans)
-# mycursor.execute(averagePlans)
+
+mycursor.execute(censusEthnicities)
+mycursor.execute(minorityGroups)
+mycursor.execute(planGraphs)
+mycursor.execute(graphDistricts)
+mycursor.execute(jobGraphs)
+mycursor.execute(jobPlans)
+mycursor.execute(planDistricts)
+mycursor.execute(planPrecincts)
+mycursor.execute(extremePlans)
+mycursor.execute(averagePlans)
 # mycursor.execute(planFiles)
 # mycursor.execute(enactedPlan)
 # mycursor.execute(enactedPlanFiles)
-# mycursor.execute(precinctNeighbors)
-# mycursor.execute(precinctNeighbors)
-mycursor.execute(censusGeneralDemographics)
-mycursor.execute(censusVotingAgeDemographics)
+
+mycursor.execute(precinctNeighbors)
 mycursor.execute(demographics)
-mycursor.execute(stateDemographics)
-mycursor.execute(districtDemographics)
-mycursor.execute(precinctDemographics)
+
+
 
 print("Successfully Created Tables")
 
