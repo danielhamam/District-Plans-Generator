@@ -37,18 +37,18 @@ class InputsJob extends Component {
         let userInputs = {
             jobName : this.state.jobName, 
             plansAmount :string_plansAmount, 
-            compactness : this.state.compactness, 
+            compactness : this.state.compactness[0].label, 
             populationDifference : string_populationDifference,
             minorityAnalyzed : valuesMinorities
         }
         this.props.createJob(userInputs)
         // RESET ALL INPUTS
-        this.setState({jobName : ''})
-        this.setState({districtsAmount : 0})
-        this.setState({plansAmount : 0})
-        this.setState({compactness : ''})
-        this.setState({populationDifference : 0})
-        this.setState({minorityAnalyzed : ''})
+        // this.setState({jobName : ''})
+        // this.setState({districtsAmount : 0})
+        // this.setState({plansAmount : 0})
+        // this.setState({compactness : ''})
+        // this.setState({populationDifference : 0})
+        // this.setState({minorityAnalyzed : ''})
     }
 
     render() {

@@ -75,7 +75,7 @@ class MainPanel extends Component {
                     currentState={this.props.currentState} changeCurrentZoom={this.changeCurrentZoom} 
                     districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent}
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
-                    changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView}
+                    changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView} d
                     enableDistrictView={this.enableDistrictView}
                     />
                     <div id="mapFilters"> {/* Map Filters  */}
