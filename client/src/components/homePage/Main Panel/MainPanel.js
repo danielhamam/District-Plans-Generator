@@ -19,9 +19,12 @@ class MainPanel extends Component {
     console.log("New zoom is " + this.currentZoom);
   }
 
+  // disableDistrictView = () => { this.setState({disableDistrictView : true}); }
+  // enableDistrictView = () => { this.setState({disableDistrictView : false}); }
+
     render() {
 
-      console.log(this.state.selectedFilters);
+      // console.log(this.state.selectedFilters);
       const componentsAnimation = makeAnimated();
       const options = [
         {
@@ -38,7 +41,7 @@ class MainPanel extends Component {
           {
           label: "Cluster",
           options: [
-            { label:"Precincts", value: "precincts", isDisabled : (this.state.disablePrecinctView || !this.props.selectedPlanCheck) },
+            { label:"Precincts", value: "precincts", isDisabled : (this.state.disablePrecinctView) },
             { label:"Districts", value: "districts", isDisabled : (this.state.disableDistrictView || !this.props.selectedPlanCheck) },
           ]},
       ];
@@ -63,7 +66,7 @@ class MainPanel extends Component {
 
                     // Plan-related content
                     deletePlan={this.props.deletePlan} selectedPlanCheck={this.props.selectedPlanCheck} 
-                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
+                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
                     
                     />
                 </div>
@@ -72,10 +75,11 @@ class MainPanel extends Component {
                     currentState={this.props.currentState} changeCurrentZoom={this.changeCurrentZoom} 
                     districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent}
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
-                    changeViewFromZoom={this.props.changeViewFromZoom} 
+                    changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView}
+                    enableDistrictView={this.enableDistrictView}
                     />
                     <div id="mapFilters"> {/* Map Filters  */}
-                        <Select isSearchable={true} placeholder="Choose option(s) to filter map" components={componentsAnimation} 
+                        <Select isSearchable={true} value={this.props.selectedFilters} placeholder="Choose option(s) to filter map" components={componentsAnimation} 
                         className="basic-multi-select" options={options} isMulti={true} onChange={this.props.changeSelectedFilters}
                         />
                     </div>

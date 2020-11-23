@@ -22,7 +22,7 @@ class OurMap extends Component {
     handleZoomChange = (e) => { 
 
         this.mapZoom = e.target._zoom;
-        this.props.changeCurrentZoom(this.mapZoom);
+        this.props.changeCurrentZoom(e.target._zoom);
 
         if (this.mapZoom <= 7) { // 0 = delete view, 1 = insert view
             this.props.changeViewFromZoom("Districts", 0); 
@@ -33,7 +33,7 @@ class OurMap extends Component {
             this.props.changeViewFromZoom("Districts", 1); 
             console.log("district view")
         }
-        else if (this.mapZoom > 9) {
+        else if (this.mapZoom >= 9) {
             this.props.changeViewFromZoom("Districts", 0);
             this.props.changeViewFromZoom("Precincts", 1);
             console.log("precinct view")

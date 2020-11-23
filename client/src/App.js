@@ -55,6 +55,8 @@ class App extends Component {
       this.setState({ precinctsContent : null})
       this.setState({ districtsView : null})
       this.setState({ precinctsView : null})
+      this.setState({selectedFilters : null})
+      this.changeSelectedFilters(null)
       this.setState({ enactedPlan : res.state.enactedPlan}); 
       this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
@@ -266,6 +268,7 @@ class App extends Component {
             selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck}
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
+            selectedFilters = {this.state.selectedFilters}
             />
             <DeveloperScreen/>            
 
