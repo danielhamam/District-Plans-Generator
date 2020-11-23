@@ -1,4 +1,4 @@
-from json import load, JSONEncoder
+from json import load, JSONEncoder, dumps
 from argparse import ArgumentParser, FileType
 from re import compile
 import argparse, os, signal, sys
@@ -44,6 +44,8 @@ def main(args):
     print(dict_district_file['districts'])
     for district in dict_district.key():
         dict_district[district]['precincts']
+    newjsonfile = dumps(dict(precincts=outjson), indent=4)
+    outfile.write(newjsonfile)
     # encoder = JSONEncoder(separators=(',', ':'))
     # encoded = encoder.iterencode(outjson)
     # format = '%.' + str(args.precision) + 'f'
@@ -70,14 +72,54 @@ def commandline():
     parser = argparse.ArgumentParser(prog="district-geojson", description=helpMenuDescription)
     parser.add_argument('infiles', help='district-dictionary.json precinct.json', type=argparse.FileType('r'), nargs=3,
                         default=sys.stdin)
-    parser.add_argument('outfile',  help='name of output file', nargs=1, type=str)
+    parser.add_argument('outfile',  help='name of output summary', nargs=1, type=str)
     # parser.add_argument('-i', help=interfaceOptionHelp, nargs = "?")
     # parser.add_argument('-f', help=hostnameOptionHelp, type=argparse.FileType('r'))
     return parser
 
-if __name__ == "__main__":
-    parser = commandline()
-    if len(sys.argv) <= 1:
-        parser.print_help()
+
+def test():
+    file = open('testdistricts.json', 'r')
+    geojson_file = load(file)
+    outjson = dict()
+
+    features_list = geojson_file['features']
+    district_one_geojson = features_list[0]
+    district_two_geojson = features_list[1]
+    coor_one = district_one_geojson['geometry']['coordinates']
+    coor_two = district_two_geojson['geometry']['coordinates']
+    maxx = max(len(coor_one[0]), len(coor_two[0]))
+    trash = []
+    print(maxx, coor_two[0])
+    if maxx == len(coor_one):
+        for i in coor_one[0]:
+            if i in coor_two[0]:
+                trash.append(i)
+                # coor_one.remove(i)
+                # coor_two.remove(i)
     else:
-        main(parser)
+        for i in coor_two[0]:
+            if i in coor_one[0]:
+                trash.append(i)
+                # coor_one.remove(i)
+                # coor_two.remove(i)
+        pass
+    print(trash)
+
+
+# for feature in features_list:
+    #     coor = feature['geometry']['coordinates']
+    #     struct={'coordinates':coor}
+    #     outjson.setdefault(feature['properties']['VTD'],struct)
+
+    # print(outjson)
+
+
+
+if __name__ == "__main__":
+    # parser = commandline()
+    # if len(sys.argv) <= 1:
+    #     parser.print_help()
+    # else:
+    #     main(parser)
+    test()

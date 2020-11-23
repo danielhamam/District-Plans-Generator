@@ -4,6 +4,7 @@ import java.util.List;
 import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
+import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cse416.backend.model.plan.*;
@@ -51,13 +52,8 @@ public class Job{
     // @Column(name = "numberOfDistricts")
     private int numOfDistricts;
 
-<<<<<<< Updated upstream
     @JsonIgnore
     @Column(name = "jobStatus", nullable=false)
-=======
-    @JsonProperty
-    // @Column(name = "jobStatus", nullable=false)
->>>>>>> Stashed changes
     private JobStatus status;
 
     @JsonProperty("status")

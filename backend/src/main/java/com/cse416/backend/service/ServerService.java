@@ -182,7 +182,7 @@ public class ServerService {
             printProcessOutput(process);
         }
         else{
-            //TODO: [SERVER/ALGO] Implement slurm bash script, send the file to the seawulf.
+            //TODO: [SERVER/ALGO] Implement slurm bash script, send the summary to the seawulf.
             System.out.println("Running algorithm remotely");
 //            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/trigger.sh");
 //            Process process = pb.start();

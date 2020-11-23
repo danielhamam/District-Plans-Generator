@@ -4,7 +4,7 @@ import random
 # TESTING PURPOSES --------------
 
 # print("Running. . .")
-# # Opening JSON file 
+# # Opening JSON summary
 # f = open('test_data.json',) 
 
 # # returns JSON object as  
@@ -25,7 +25,7 @@ import random
 # test_populationDiff = data['data']['job']['populationDifference']
 # print(test_populationDiff)
 
-# # Closing file 
+# # Closing summary
 # f.close() 
 
 # TESTING PURPOSES --------------
@@ -91,7 +91,7 @@ def initiateAlgorithm(): # Main function
 def getData():
 
     print("Retrieving data. . .")
-    # Opening JSON file 
+    # Opening JSON summary
     f = open('test_data.json',) 
 
     # returns JSON object as  
@@ -115,7 +115,7 @@ def getData():
     precincts = data['data']['state']['precincts']
 
 
-    # Closing file 
+    # Closing summary
     f.close() 
 
 

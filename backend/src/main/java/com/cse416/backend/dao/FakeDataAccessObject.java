@@ -1,7 +1,7 @@
 package com.cse416.backend.dao;
 
 
-import com.cse416.backend.model.plan.BoxWhisker;
+import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
 import com.cse416.backend.model.job.Job;
 import com.cse416.backend.model.plan.Plan;
 import com.cse416.backend.model.enums.CensusCatagories;
@@ -107,7 +107,7 @@ public class FakeDataAccessObject{
         kk.add(CensusCatagories.ASIAN_AMERICAN);
         Integer [] district = {1,2,3,4};
         Integer [] calues ={12,12,41,214,12} ;
-        BoxWhisker bw = new BoxWhisker(district,calues);
+        BoxWhisker bw = new BoxWhisker();
         Job job1 = new Job( "NY","fair", "1", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
         Job job2 = new Job("NY","low comp.",  "2", -1, 3, 1000, 0.2, ClientCompactness.MEDIUM ,kk ,JobStatus.PENDING,bw);
         Job job3 = new Job("NY","high comp.",  "3", -1, 4, 100, 0.53, ClientCompactness.HIGH ,kk,JobStatus.RUNNING,bw);

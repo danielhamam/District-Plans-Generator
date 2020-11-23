@@ -9,7 +9,7 @@ import java.util.*;
 // @Table(name = "CensusGeneralDemographic")
 public class CensusGeneralDemographic{
 
-    // @Id 
+    // @Id
     // @GeneratedValue
     private Integer censusGeneralDemographicId;
 
@@ -37,7 +37,7 @@ public class CensusGeneralDemographic{
             String str = "";
 
             for(int i = 0; i < this.populations.size(); i++){
-                
+
                 Population getPopulation = (Population)this.populations.get(i);
 
                 str += getPopulation.toString() + "\n";
