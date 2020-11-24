@@ -74,9 +74,9 @@ class OurMap extends Component {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                <GeoJSON weight="1" color="red" key="Maryland" data={MarylandStateBoundary} onClick={ () => this.props.changeCurrentState("MD", "Maryland")}/> 
-                <GeoJSON weight="1" color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("GA", "Georgia")} />
-                <GeoJSON weight="1" color="red" key='Pennsylvania' data={PennsylvaniaStateBoundary} onClick={ () => this.props.changeCurrentState("PA", "Pennsylvania")}/>
+                <GeoJSON weight={1} color="red" key="Maryland" data={MarylandStateBoundary} onClick={ () => this.props.changeCurrentState("MD", "Maryland")}/> 
+                <GeoJSON weight={1} color="red" key="Georgia" data={GeorgiaStateBoundary} onClick={ () => this.props.changeCurrentState("GA", "Georgia")} />
+                <GeoJSON weight={1} color="red" key='Pennsylvania' data={PennsylvaniaStateBoundary} onClick={ () => this.props.changeCurrentState("PA", "Pennsylvania")}/>
 
                 {/* From map view filter */}
                 {this.props.districtsView ? this.props.districtsContent : ""}

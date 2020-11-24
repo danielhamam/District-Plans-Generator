@@ -138,7 +138,7 @@ class App extends Component {
   getPrecincts = async () => {
     try {
       let res = await endpoint.getStatePrecincts();
-      this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='precincts' data={res.precinctsGeoJson} />});
+      this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='precincts' data={res.precinctsGeoJson} />});
     } catch (exception) {
       console.error(exception);
     }
@@ -182,7 +182,7 @@ class App extends Component {
       if (mapFilters[i].label == "Precincts")  { // precinct view
         this.setState({precinctsView : true})
         this.getPrecincts();
-        // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
+        // this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
         foundPrecinctsView = true;
         this.setState({ filterPrecinctsView : true })
       }
@@ -245,7 +245,7 @@ class App extends Component {
   toggleSelectedPlanCheck = (districtPlan) => {
     if (this.state.selectedPlanCheck == false) {
       this.setState({selectedPlanCheck: true});
-      this.setState({districtsContent : <GeoJSON weight="1" color="red" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
+      this.setState({districtsContent : <GeoJSON weight={1} color="red" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
     }
     else {
       this.setState({selectedPlanCheck : false});
