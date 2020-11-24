@@ -38,7 +38,8 @@ class App extends Component {
 
       // Checks for Selection
       selectedPlanCheck: false,
-      selectedJobCheck: false
+      selectedJobCheck: false,
+
     }
 
   changeCurrentState = async (stateAbrev, stateName) => {
@@ -51,16 +52,24 @@ class App extends Component {
       let res = await endpoint.getState(stateObject);
       console.log(res)
       this.setState({ jobCards : res.jobs}); 
+
+      // Reset Views / Contents of Filters
       this.setState({ districtsContent : null})
       this.setState({ precinctsContent : null})
       this.setState({ districtsView : null})
       this.setState({ precinctsView : null})
       this.setState({selectedFilters : null})
       this.changeSelectedFilters(null)
+
+      // Initialize state object
       this.setState({ enactedPlan : res.state.enactedPlan}); 
       this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
       this.setState({ numOfCounties : res.state.numOfCounties}); 
+
+      // Clear Generate Job Sidebar
+
+
     } catch (exception) {
       console.error(exception);
     }
@@ -269,7 +278,11 @@ class App extends Component {
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
             selectedFilters = {this.state.selectedFilters}
+
             />
+
+            
+
             <DeveloperScreen/>            
 
       </div>
