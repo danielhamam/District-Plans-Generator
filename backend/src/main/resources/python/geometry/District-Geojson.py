@@ -1,81 +1,16 @@
-from json import load, JSONEncoder, dumps
-from argparse import ArgumentParser, FileType
-from re import compile
-import argparse, os, signal, sys
+from json import load, dumps
+import argparse
+import sys
 
-interfaceOptionHelp = "Listen on network device <interface> (e.g., eth0). If not specified, dnspoison should select a default interface to listen on. The sameinterface should be used for packet injection."
-hostnameOptionHelp = "Read a list of IP address and hostname pairs specifying the hostnames to be hijacked. If '-f' is not specified, dnspoison should forge replies to all observed requests with the local machine's IP address as an answer."
-helpMenuDescription = "Covert python dictionary of districts to the corresponding geojson"
-
-i_option = False
-f_option = False
-whitelist = {}
-forged_packet = None
-qrname = ""
+system_state_path = '../../system/states'
+dict_district = None
+dict_preprocessed_precincts = None
+output_file_name = None
 
 
-def is_valid_geojson(geojson_file, file_name):
-    if geojson_file.get('type', None) != 'FeatureCollection':
-        raise Exception('Sorry, "%s" does not look like GeoJSON' % file_name)
-    if type(geojson_file.get('features', None)) != list:
-        raise Exception('Sorry, "%s" does not look like GeoJSON' % file_name)
-
-
-def main(args):
-    args = parser.parse_args()
-    print(args)
-    infiles = args.infiles
-    outfile = args.outfile
-    dict_district_file = load(infiles[0])
-    preprocessed_precincts_file = load(infiles[1])
-    geojson_file = load(infiles[2])
-    is_valid_geojson(geojson_file, infiles[2])
-
-
-    outjson = dict(type='FeatureCollection', features=[])
-    dict_district = dict_district_file['districts']
-    preprocessed_precincts = dict_district_file['precincts']
-    try:
-        outjson['features'] += geojson_file['features']
-    except:
-        outjson['features'] += geojson_file
-
-    print(dict_district)
-    print(dict_district_file['districts'])
-    for district in dict_district.key():
-        dict_district[district]['precincts']
-    newjsonfile = dumps(dict(precincts=outjson), indent=4)
-    outfile.write(newjsonfile)
-    # encoder = JSONEncoder(separators=(',', ':'))
-    # encoded = encoder.iterencode(outjson)
-    # format = '%.' + str(args.precision) + 'f'
-    # output = outfile
-    # for token in encoded:
-    #     output.write(token)
-
-    # encoder = JSONEncoder(separators=(',', ':'))
-    # encoded = encoder.iterencode(outjson)
-
-    # try:
-    #     outjson['features'] += injson['features']
-    # except:
-    #     outjson['features'] += injson
-    #
-    # encoder = JSONEncoder(separators=(',', ':'))
-    # encoded = encoder.iterencode(outjson)
-
-    pass
-    #print(args)
-    #print(sys.argv)
-
-def commandline():
-    parser = argparse.ArgumentParser(prog="district-geojson", description=helpMenuDescription)
-    parser.add_argument('infiles', help='district-dictionary.json precinct.json', type=argparse.FileType('r'), nargs=3,
-                        default=sys.stdin)
-    parser.add_argument('outfile',  help='name of output summary', nargs=1, type=str)
-    # parser.add_argument('-i', help=interfaceOptionHelp, nargs = "?")
-    # parser.add_argument('-f', help=hostnameOptionHelp, type=argparse.FileType('r'))
-    return parser
+def feature_collection_struct():
+    output_json = dict(type='FeatureCollection', features=[])
+    return output_json
 
 
 def feature_struct():
@@ -85,9 +20,49 @@ def feature_struct():
     return feature_struct
 
 
-def featurecollection_struct():
-    output_json = dict(type='FeatureCollection', features=[])
-    return output_json
+def set_global_variable(args):
+    global system_state_path
+    global dict_district
+    global dict_preprocessed_precincts
+    global output_file_name
+    args = parser.parse_args()
+    output_file_name = args.outfile_name
+    path = system_state_path + '/' + args.state[0].lower()
+    preprocessed_precincts_file = load(open(path + '/' + 'PreprocessedPrecinct.json', 'r'))
+    precincts_geojson_file = load(open(path + '/' + 'Precincts.json', 'r'))
+    dict_district_file = load(args.infile[0])
+    dict_preprocessed_precincts = preprocessed_precincts_file['precincts']
+    dict_district = dict_district_file['districts']
+
+
+def combine_precinct_geojson(district:dict):
+    global dict_preprocessed_precincts
+    feature_geojson = feature_struct()
+    precincts = district['precincts']
+    district_coordinates = []
+    for precinct_name in precincts:
+        district_coordinates = district_coordinates + dict_preprocessed_precincts[precinct_name]['coordinates']
+    district_coordinates.append(district_coordinates[0])
+    feature_geojson['geometry']['coordinates'] = district_coordinates
+    return feature_geojson
+
+
+def write_output(dict_output:dict):
+    global output_file_name
+    output_file = open(output_file_name + '.json', 'w')
+    output_file.write(dumps(dict_output, indent=4))
+
+
+def main(args):
+    global dict_district
+    global dict_preprocessed_precincts
+    set_global_variable(args)
+    output_geojson = feature_collection_struct()
+    for district_name in dict_district.keys():
+        district = dict_district[district_name]
+        new_feature = combine_precinct_geojson(district)
+        output_geojson['features'].append(new_feature)
+    write_output(output_geojson)
 
 
 def shared_coordinates(coordinate_one:list, coordinate_two:list):
@@ -96,6 +71,15 @@ def shared_coordinates(coordinate_one:list, coordinate_two:list):
         if coordinate in coordinate_two:
             coordinates.append(coordinate)
     return coordinates
+
+
+def lowest_ycoordinate(coordinates:list):
+    y_coordinate = coordinates[0]
+    for coordinate in coordinates:
+        if coordinate[1] < y_coordinate[1]:
+            y_coordinate = coordinate
+    return y_coordinate
+
 
 
 def remove_shared_coordinates(shared_coordinates:list, coordinates:list):
@@ -109,8 +93,24 @@ def remove_shared_coordinates(shared_coordinates:list, coordinates:list):
         coordinates.append(coordinates[0])
 
 
+def re(shared_coordinates:list, coordinate_one:list, coordinate_two:list):
+    pass
 
-def merge_coordinates(coordinate_one:list, coordinate_two:list):
+
+def merge_coor(coordinate_one:list, coordinate_two:list):
+    coordinate_one.pop()
+    coordinate_two.pop()
+    merged_coordinates = []
+    merged_coordinates = coordinate_one + coordinate_two
+    merged_coordinates.append(merged_coordinates[0])
+    return merged_coordinates
+
+
+
+def merge_coordinates(coordinate_one:list, coordinate_two:list, coordinate_shared:list):
+    coordinate_one.pop()
+    coordinate_two.pop()
+
     print(coordinate_one)
     print(coordinate_two)
     merged_coordinates = []
@@ -129,7 +129,6 @@ def merge_coordinates(coordinate_one:list, coordinate_two:list):
     # print(coordinate_one[:5], "||||",coordinate_one[-1])
     # print(coordinate_two[:5], "||||",coordinate_two[-1])
     merged_coordinates = coordinate_two + coordinate_one
-    merged_coordinates.sort(key=sort_coordinate_by_x, reverse=True)
     merged_coordinates.append(merged_coordinates[0])
     #merged_coordinates = [coordinate_two[0]] + coordinate_one + coordinate_two[1:]
     # merged_coordinates = [coordinate_one[0]] + coordinate_two + coordinate_one[1:]
@@ -162,27 +161,12 @@ def test():
 
     if maxx == len(district_one_coordinates):
         share_coor = shared_coordinates(district_one_coordinates, district_two_coordinates_)
-        # remove_shared_coordinates(share_coor,district_one_coordinates)
-        # remove_shared_coordinates(share_coor,district_two_coordinates_)
-        print(district_one_coordinates)
+        remove_shared_coordinates(share_coor,district_one_coordinates)
+        remove_shared_coordinates(share_coor,district_two_coordinates_)
+        #merged_coor = merge_coordinates(district_one_coordinates, district_two_coordinates_)
+        merged_coor = merge_coor(district_one_coordinates, district_two_coordinates_)
 
-        print(district_one_coordinates)
-        print(district_two_coordinates_.sort())
-        merged_coor = merge_coordinates(district_one_coordinates, district_two_coordinates_)
-        merged_coor = []
-        for i in district_one_coordinates:
-            if i not in share_coor:
-                merged_coor.append(i)
-
-        for i in district_two_coordinates_:
-            if i not in share_coor:
-                merged_coor.append(i)
-
-        merged_coor.append(merged_coor[0])
-
-
-
-        outjson = featurecollection_struct()
+        outjson = feature_collection_struct()
         outfeature = feature_struct()
         outfeature['properties'] = district_one_geojson['properties']
         outfeature['geometry']['coordinates']=[merged_coor]
@@ -206,11 +190,22 @@ def test():
     # print(outjson)
 
 
+def commandline():
+    parser = argparse.ArgumentParser(prog="district-geojson",
+                                     description='Used to generate district geojson from algorithm-output')
+    parser.add_argument('state',  help='State abbreviation', nargs=1, type=str)
+    parser.add_argument('infile', help='Algo-output file', type=argparse.FileType('r'), nargs=1,
+                        default=sys.stdin)
+    parser.add_argument('outfile_name',  help='Name of output file', nargs=1, type=str)
+    # parser.add_argument('-i', help=interfaceOptionHelp, nargs = "?")
+    # parser.add_argument('-f', help=hostnameOptionHelp, type=argparse.FileType('r'))
+    return parser
+
 
 if __name__ == "__main__":
-    # parser = commandline()
-    # if len(sys.argv) <= 1:
-    #     parser.print_help()
-    # else:
-    #     main(parser)
-    test()
+    parser = commandline()
+    if len(sys.argv) <= 1:
+        parser.print_help()
+    else:
+        main(parser)
+    # test()
