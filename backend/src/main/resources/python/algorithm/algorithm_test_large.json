@@ -1,0 +1,244 @@
+{
+    "data": { 
+        "state": 
+            {
+                "stateName": "New York",
+                "nameAbbrev" : "NY",
+                "stateFIPSCode" : "12345",
+                "demographic": 
+                    {
+                    "totalPopulation": 1000000,
+                    "referenceType": "N/A",
+                    "ethnicityPopulation": {
+                        "white": 1000
+                    },
+                    "votingAgePopulation": 974123
+                    },
+                    "precincts": {
+                        "000":{
+                            "population":10,
+                            "neighbors": [
+                                "001", "002"
+                            ]
+                        },
+                        "001": {
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "002":{
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "003": {
+                            "population":10,
+                            "neighbors": [
+                                "001", "002", "004"
+                            ]
+                        },
+                        "004":{
+                            "population":10,
+                            "neighbors": [
+                               "003", "005"
+                            ]
+                        },
+                         "005":{
+                            "population":10,
+                            "neighbors": [
+                               "004", "006", "007", "008"
+                            ]
+                        },
+                        "006":{
+                           "population":10,
+                           "neighbors": [
+                              "005", "007"
+                           ]
+                        },
+                        "007":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "006", "008"
+                            ]
+                        },
+                        "008":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "007", "009", "010"
+                            ]
+                        },
+                        "009":{
+                            "population":10,
+                            "neighbors": [
+                               "008", "010", "011", "016"
+                            ]
+                        },
+                        "010":{
+                            "population":10,
+                            "neighbors": [
+                                "008", "009", "011", "012", "013"
+                            ]
+                        },
+                        "011":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "010", "012", "015", "016"
+                            ]
+                        },
+                        "012":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "011", "013", "014" 
+                            ]
+                        },
+                        "013":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "012", "014", "022"
+                            ]
+                        },
+                        "014":{
+                            "population":10,
+                            "neighbors": [
+                               "012", "013", "015", "018", "019", "022"
+                            ]
+                        },
+                        "015":{
+                            "population":10,
+                            "neighbors": [
+                               "011", "014", "016", "017"
+                            ]
+                        },
+                        "016":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "011", "015", "017"
+                            ]
+                        },
+                        "017":{
+                            "population":10,
+                            "neighbors": [
+                               "015", "016", "018"
+                            ]
+                        },
+                        "018":{
+                            "population":10,
+                            "neighbors": [
+                               "014", "017", "019", "020"
+                            ]
+                        },
+                        "019":{
+                            "population":10,
+                            "neighbors": [
+                               "014", "018", "020", "021"
+                            ]
+                        },
+                        "020":{
+                            "population":10,
+                            "neighbors": [
+                               "018", "019", "021"
+                            ]
+                        },
+                        "021":{
+                            "population":10,
+                            "neighbors": [
+                               "019", "020", "022", "023", "026"
+                            ]
+                        },
+                        "022":{
+                            "population":10,
+                            "neighbors": [
+                               "013", "014", "021", "024", "025", "034"
+                            ]
+                        },
+                        "023":{
+                            "population":10,
+                            "neighbors": [
+                               "021", "024", "026", "028"
+                            ]
+                        },
+                        "024":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "023", "025", "027"
+                            ]
+                        },
+                        "025":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "024", "027", "031"
+                            ]
+                        },
+                        "026":{
+                            "population":10,
+                            "neighbors": [
+                               "021", "023", "029"
+                            ]
+                        },
+                        "027":{
+                            "population":10,
+                            "neighbors": [
+                               "024", "025", "028", "030", "031"
+                            ]
+                        },
+                        "028":{
+                            "population":10,
+                            "neighbors": [
+                               "023", "027", "029"
+                            ]
+                        },
+                        "029":{
+                            "population":10,
+                            "neighbors": [
+                               "026", "028", "030"
+                            ]
+                        },
+                        "030":{
+                            "population":10,
+                            "neighbors": [
+                               "027", "029", "031"
+                            ]
+                        },
+                        "031":{
+                            "population":10,
+                            "neighbors": [
+                               "025", "027", "030", "032", "033", "034"
+                            ]
+                        },
+                        "032":{
+                            "population":10,
+                            "neighbors": [
+                               "031", "033", "034"
+                            ]
+                        },
+                        "033":{
+                            "population":10,
+                            "neighbors": [
+                               "031", "032", "034"
+                            ]
+                        },
+                        "034":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "031", "032", "033"
+                            ]
+                        }
+                    }
+                
+            },
+        "job": 
+            {
+                "jobID": "1",
+                "seawulfJobID": 1,
+                "jobName": "Job 1",
+                "stateAbbrev": "NY",
+                "numOfDistrictingPlans": 10,
+                "populationDifference": 0.8,
+                "clientCompactness": 0.2,
+                "numOfDistricts": 3,
+                "focusedMinority": 2
+            }
+    }
+}

@@ -1,6 +1,7 @@
 import random
 import math
 import sys
+import json
 from copy import deepcopy
 
 numDistricts = 3
@@ -26,12 +27,44 @@ neighbors = {} # dictionary of keys that have neighbors. initialize via graph, u
 precincts = [] # initial list of precinct neighbors for use later.
 precinctsNeighbors = {} 
 subgraphsCombined = []
+graph_main = {}
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
 #                        HELPER FUNCTIONS
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
+def getData():
+
+    print("Retrieving data. . .")
+    # Opening JSON file 
+    f = open('C:/Users/mdari/Desktop/416 Project/CSE-416-Project/backend/src/main/resources/python/algorithm/algorithm_test.json') 
+
+    # returns JSON object as  
+    # a dictionary 
+    data = json.load(f) 
+
+    global state
+    state = data['data']['state']
+    global job
+    job = data['data']['job']
+
+    # global populationVariance
+    # populationVariance = data['data']['job']['populationDifference']
+    # global compactnessMeasure
+    # compactnessMeasure = data['data']['job']['clientCompactness']
+    # global terminationLimit
+    # terminationLimit = data['data']['job']['numOfDistrictingPlans']
+    # global numDistricts
+    # numDistricts = data['data']['job']['numOfDistricts']
+    global graph_main
+    graph_main = data['data']['state']['precincts']
+
+    print("Data retrieval complete.")
+    # Closing file 
+    f.close() 
+
+
 def updateNeighbors(foundNeighbor, oldSubgraph, newSubgraph):
     global neighbors, subgraphs
     # For first iteration, may be string. Convert to list.
@@ -157,6 +190,8 @@ def algorithm_driver(graph):
     return
 
 def algorithm(graph):
+    print("---------------------------------")
+    print(graph)
     global subgraphs, neighbors, precincts, precinctsNeighbors, subgraphsCombined
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
@@ -535,7 +570,329 @@ def main():
             ],
         }
     }
-    algorithm_driver(graph5)
+
+    graph34 = {
+        "000":{
+                            "population":10,
+                            "neighbors": [
+                                "001", "002"
+                            ]
+                        },
+                        "001": {
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "002":{
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "003": {
+                            "population":10,
+                            "neighbors": [
+                                "001", "002", "004"
+                            ]
+                        },
+                        "004":{
+                            "population":10,
+                            "neighbors": [
+                               "003", "005"
+                            ]
+                        },
+                         "005":{
+                            "population":10,
+                            "neighbors": [
+                               "004", "006", "007", "008"
+                            ]
+                        },
+                        "006":{
+                           "population":10,
+                           "neighbors": [
+                              "005", "007"
+                           ]
+                        },
+                        "007":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "006", "008"
+                            ]
+                        },
+                        "008":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "007", "009", "010"
+                            ]
+                        },
+                        "009":{
+                            "population":10,
+                            "neighbors": [
+                               "008", "010", "011", "016"
+                            ]
+                        },
+                        "010":{
+                            "population":10,
+                            "neighbors": [
+                                "008", "009", "011", "012", "013"
+                            ]
+                        },
+                        "011":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "010", "012", "015", "016"
+                            ]
+                        },
+                        "012":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "011", "013", "014" 
+                            ]
+                        },
+                        "013":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "012", "014", "022"
+                            ]
+                        },
+                        "014":{
+                            "population":10,
+                            "neighbors": [
+                               "012", "013", "015", "018", "019", "022"
+                            ]
+                        },
+                        "015":{
+                            "population":10,
+                            "neighbors": [
+                               "011", "014", "016", "017"
+                            ]
+                        },
+                        "016":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "011", "015", "017"
+                            ]
+                        },
+                        "017":{
+                            "population":10,
+                            "neighbors": [
+                               "015", "016", "018"
+                            ]
+                        },
+                        "018":{
+                            "population":10,
+                            "neighbors": [
+                               "014", "017", "019", "020"
+                            ]
+                        },
+                        "019":{
+                            "population":10,
+                            "neighbors": [
+                               "014", "018", "020", "021"
+                            ]
+                        },
+                        "020":{
+                            "population":10,
+                            "neighbors": [
+                               "018", "019", "021"
+                            ]
+                        },
+                        "021":{
+                            "population":10,
+                            "neighbors": [
+                               "019", "020", "022", "023", "026"
+                            ]
+                        },
+                        "022":{
+                            "population":10,
+                            "neighbors": [
+                               "013", "014", "021", "024", "025", "034"
+                            ]
+                        },
+                        "023":{
+                            "population":10,
+                            "neighbors": [
+                               "021", "024", "026", "028"
+                            ]
+                        },
+                        "024":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "023", "025", "027"
+                            ]
+                        },
+                        "025":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "024", "027", "031"
+                            ]
+                        },
+                        "026":{
+                            "population":10,
+                            "neighbors": [
+                               "021", "023", "029"
+                            ]
+                        },
+                        "027":{
+                            "population":10,
+                            "neighbors": [
+                               "024", "025", "028", "030", "031"
+                            ]
+                        },
+                        "028":{
+                            "population":10,
+                            "neighbors": [
+                               "023", "027", "029"
+                            ]
+                        },
+                        "029":{
+                            "population":10,
+                            "neighbors": [
+                               "026", "028", "030"
+                            ]
+                        },
+                        "030":{
+                            "population":10,
+                            "neighbors": [
+                               "027", "029", "031"
+                            ]
+                        },
+                        "031":{
+                            "population":10,
+                            "neighbors": [
+                               "025", "027", "030", "032", "033", "034"
+                            ]
+                        },
+                        "032":{
+                            "population":10,
+                            "neighbors": [
+                               "031", "033", "034"
+                            ]
+                        },
+                        "033":{
+                            "population":10,
+                            "neighbors": [
+                               "031", "032", "034"
+                            ]
+                        },
+                        "034":{
+                            "population":10,
+                            "neighbors": [
+                               "022", "031", "032", "033"
+                            ]
+                        }
+    }
+
+    graph16 = {
+                        "000":{
+                            "population":10,
+                            "neighbors": [
+                                "001", "002"
+                            ]
+                        },
+                        "001": {
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "002":{
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "003": {
+                            "population":10,
+                            "neighbors": [
+                                "001", "002", "004"
+                            ]
+                        },
+                        "004":{
+                            "population":10,
+                            "neighbors": [
+                               "003", "005"
+                            ]
+                        },
+                         "005":{
+                            "population":10,
+                            "neighbors": [
+                               "004", "006", "007", "008"
+                            ]
+                        },
+                        "006":{
+                           "population":10,
+                           "neighbors": [
+                              "005", "007"
+                           ]
+                        },
+                        "007":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "006", "008"
+                            ]
+                        },
+                        "008":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "007", "009", "010"
+                            ]
+                        },
+                        "009":{
+                            "population":10,
+                            "neighbors": [
+                               "008", "010", "011", "016"
+                            ]
+                        },
+                        "010":{
+                            "population":10,
+                            "neighbors": [
+                                "008", "009", "011", "012", "013"
+                            ]
+                        },
+                        "011":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "010", "012", "015", "016"
+                            ]
+                        },
+                        "012":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "011", "013", "014" 
+                            ]
+                        },
+                        "013":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "012", "014"
+                            ]
+                        },
+                        "014":{
+                            "population":10,
+                            "neighbors": [
+                               "012", "013", "015"
+                            ]
+                        },
+                        "015":{
+                            "population":10,
+                            "neighbors": [
+                               "011", "014", "016"
+                            ]
+                        },
+                        "016":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "011", "015"
+                            ]
+                        }
+                    }
+                
+    # getData()
+    # print(graph5)
+    # print(graph_main)
+    algorithm_driver(graph34)
     return
 
 if __name__ == "__main__":

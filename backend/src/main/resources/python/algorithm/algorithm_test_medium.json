@@ -1,0 +1,136 @@
+{
+    "data": { 
+        "state": 
+            {
+                "stateName": "New York",
+                "nameAbbrev" : "NY",
+                "stateFIPSCode" : "12345",
+                "demographic": 
+                    {
+                    "totalPopulation": 1000000,
+                    "referenceType": "N/A",
+                    "ethnicityPopulation": {
+                        "white": 1000
+                    },
+                    "votingAgePopulation": 974123
+                    },
+                    "precincts": {
+                        "000":{
+                            "population":10,
+                            "neighbors": [
+                                "001", "002"
+                            ]
+                        },
+                        "001": {
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "002":{
+                            "population":10,
+                            "neighbors": [
+                                "000", "003"
+                            ]
+                        },
+                        "003": {
+                            "population":10,
+                            "neighbors": [
+                                "001", "002", "004"
+                            ]
+                        },
+                        "004":{
+                            "population":10,
+                            "neighbors": [
+                               "003", "005"
+                            ]
+                        },
+                         "005":{
+                            "population":10,
+                            "neighbors": [
+                               "004", "006", "007", "008"
+                            ]
+                        },
+                        "006":{
+                           "population":10,
+                           "neighbors": [
+                              "005", "007"
+                           ]
+                        },
+                        "007":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "006", "008"
+                            ]
+                        },
+                        "008":{
+                            "population":10,
+                            "neighbors": [
+                                "005", "007", "009", "010"
+                            ]
+                        },
+                        "009":{
+                            "population":10,
+                            "neighbors": [
+                               "008", "010", "011", "016"
+                            ]
+                        },
+                        "010":{
+                            "population":10,
+                            "neighbors": [
+                                "008", "009", "011", "012", "013"
+                            ]
+                        },
+                        "011":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "010", "012", "015", "016"
+                            ]
+                        },
+                        "012":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "011", "013", "014" 
+                            ]
+                        },
+                        "013":{
+                            "population":10,
+                            "neighbors": [
+                               "010", "012", "014"
+                            ]
+                        },
+                        "014":{
+                            "population":10,
+                            "neighbors": [
+                               "012", "013", "015"
+                            ]
+                        },
+                        "015":{
+                            "population":10,
+                            "neighbors": [
+                               "011", "014", "016"
+                            ]
+                        },
+                        "016":{
+                            "population":10,
+                            "neighbors": [
+                               "009", "011", "015"
+                            ]
+                        }
+                    }
+                
+            },
+        "job": 
+            {
+                "jobID": "1",
+                "seawulfJobID": 1,
+                "jobName": "Job 1",
+                "stateAbbrev": "NY",
+                "numOfDistrictingPlans": 10,
+                "populationDifference": 0.8,
+                "clientCompactness": 0.2,
+                "numOfDistricts": 3,
+                "focusedMinority": 2
+            }
+    }
+}
