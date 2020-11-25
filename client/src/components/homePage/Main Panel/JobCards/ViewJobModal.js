@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Accordion, Card } from 'react-bootstrap';
 
 // Triggered when clicking "View" on a Job
 
@@ -32,7 +32,7 @@ class ViewJobModal extends Component {
         if (this.props.status == "Pending") this.readyColorStatus = " jobdisplayPending"
         else if (this.props.status == "Completed") this.readyColorStatus = " jobdisplaySuccess"
         return (
-                <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleViewModal}>  
+                <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleXclose}>  
                     <Modal.Header closeButton >
                         <Modal.Title> 
                             <h4 className="jobTitle"> {this.props.jobName} </h4>
@@ -61,10 +61,25 @@ class ViewJobModal extends Component {
                         <span> Focused Minority Group(s): </span> 
                         <span className={"inline "}> {this.props.minorityAnalyzed.join(", ")} </span>
                     </p>
-                    <p> 
+
+                    <Accordion defaultActiveKey="1">
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                    More Summary Information
+                                </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    This is where we have more summary info. test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test 
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+                    {/* <p> 
                         <span> Analysis Summary: </span> 
                         <span className={"inline "} > Testing Analysis Summary </span>
-                    </p>
+                    </p> */}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={this.props.toggleViewModal}>Close</Button>

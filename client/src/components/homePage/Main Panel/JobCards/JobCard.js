@@ -38,6 +38,11 @@ class JobCard extends Component {
         else {} 
     }
 
+    toggleXclose = () => {
+        if (this.state.showViewModal == true) this.setState({showViewModal : false});
+        else this.setState({showViewModal : true});
+    }
+
     toggleViewModal = (e) => {
         e.stopPropagation();
         if (this.state.showViewModal == true) this.setState({showViewModal : false});
@@ -79,6 +84,7 @@ class JobCard extends Component {
                 <ViewJobModal populationDifference={this.props.populationDifference} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
                 plansAmount={this.props.plansAmount} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
                 toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}
+                toggleXclose = {this.toggleXclose}
                 />
             </div>
         );
