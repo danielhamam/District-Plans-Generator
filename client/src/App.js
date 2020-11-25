@@ -24,6 +24,8 @@ class App extends Component {
       // Jobs:
       jobCards : testJobCards.jobs,
       currentJob : "",
+      currentPlan : "",
+      planState : null,
 
       // Map View Filters:
       selectedFilters : null,
@@ -58,7 +60,7 @@ class App extends Component {
       console.log(res)
       this.setState({ jobCards : res.jobs}); 
 
-      // Reset Views / Contents of Filters
+      // Reset Views / Contents of Filters 
       this.setState({ districtsContent : null})
       this.setState({ precinctsContent : null})
       this.setState({ districtsView : null})
@@ -66,13 +68,19 @@ class App extends Component {
       this.setState({selectedFilters : null})
       this.changeSelectedFilters(null)
 
+      // Clear any selected job/plan
+      this.setState({currentJob : ""})
+      this.setState({selectedPlanCheck: false})
+      this.setState({selectedJobCheck : false})
+      this.state.planState.setState({selected : false})
+      this.state.planState.districtPlanClassStyle = "";
+      this.state.planState.goTop = ""
+
       // Initialize state object
       this.setState({ enactedPlan : res.state.enactedPlan}); 
       this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
       this.setState({ numOfCounties : res.state.numOfCounties}); 
-
-      // Clear Generate Job Sidebar
 
 
     } catch (exception) {
@@ -270,9 +278,11 @@ class App extends Component {
     else this.setState({selectedJobCheck : false});
   }
 
-  toggleSelectedPlanCheck = (districtPlan) => {
+  toggleSelectedPlanCheck = (districtPlan, state) => {
     if (this.state.selectedPlanCheck == false) {
       this.setState({selectedPlanCheck: true});
+      this.setState({currentPlan : districtPlan})
+      this.setState({planState : state})
       this.setState({districtsContent : <GeoJSON weight={1} color="red" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
     }
     else {

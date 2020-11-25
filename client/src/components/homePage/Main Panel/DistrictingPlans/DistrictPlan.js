@@ -15,7 +15,7 @@ class DistrictPlan extends Component {
     toggleSelectPlan= (e) => {
         if (this.state.selected == false && this.props.selectedPlanCheck == false) {
             this.setState({selected: true});
-            this.props.toggleSelectedPlanCheck(this.props.plan);
+            this.props.toggleSelectedPlanCheck(this.props.plan, this);
             this.goTop="goTopPlan";
         }
         else if (this.state.selected == false && this.props.selectedPlanCheck == true) {
