@@ -1,34 +1,26 @@
 package com.cse416.backend.service;
 
-import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.livememory.GlobalHistory;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
-import com.cse416.backend.model.regions.district.*;
-import com.cse416.backend.model.regions.precinct.*;
-import com.cse416.backend.model.demographic.*;
-import com.cse416.backend.model.Boundary;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.cse416.backend.dao.services.*;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 
 @Service
 public class ServerService {
 
-    private final FakeDataAccessObject fake;
+//    private final FakeDataAccessObject fake;
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
@@ -45,8 +37,8 @@ public class ServerService {
     private StateDAOService stateDAO;
 
     @Autowired
-    public ServerService(@Qualifier("fakeDao") FakeDataAccessObject fake) {
-        this.fake = fake;
+    public ServerService() {
+//        this.fake = fake;
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
@@ -72,8 +64,34 @@ public class ServerService {
         List<Object> clientJob = new ArrayList<>();
         jobs.forEach(job -> clientJob.add(job));
         clientData.put("state", state);
-        clientData.put("jobs", clientJob);
+        clientData.put("system/jobs", clientJob);
         return  mapper.writeValueAsString(clientData);
+    }
+
+    private String createAlgorithmData(Object stateObj, Job job)throws JsonProcessingException{
+        Map <String,Object> AlgorithmData = new HashMap<>();
+        Map <String,Object> insideOfAlgorithmData = new HashMap<>();
+        insideOfAlgorithmData.put("state", stateObj);
+        insideOfAlgorithmData.put("job", job);
+        AlgorithmData.put("data",insideOfAlgorithmData);
+        return  mapper.writeValueAsString(insideOfAlgorithmData);
+    }
+
+    private void createJobDirectory(String jobDirectoryName, String algorithmContents)throws IOException{
+        jobDirectoryName = jobDirectoryName.toLowerCase();
+        String jobDirectoryRelativePath = "src/main/resources/system/jobs";
+        String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
+        String newDirectoryAbsolutePath =  jobDirectoryAbsolutePath+"/"+jobDirectoryName;
+        boolean directoryCreated = new File(jobDirectoryAbsolutePath + "/" + jobDirectoryName).mkdirs();
+        if(directoryCreated){
+            System.out.println("./" + jobDirectoryName + " directory has been created. Writing AlgorithmInput.json");
+            FileWriter algorithmInputFileWriter = new FileWriter(newDirectoryAbsolutePath+"/"+"AlgorithmInput.json");
+            algorithmInputFileWriter.write(algorithmContents);
+            algorithmInputFileWriter.close();
+        }else{
+            System.err.println(jobDirectoryName + " has not been created some error has occured with");
+        }
+
     }
 
     public String connectingClient(){
@@ -88,22 +106,24 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
         //      Mutation function to update job status of a job on the remote database.
-        State state = fake.queryGetStateInformation(stateAbbrevation);
-        List <Job> jobs = this.getStateJobsInformation(stateAbbrevation);
-        System.out.println(jobs);
-        this.session.setState(state);
-        this.session.addJobs(jobs);
-        this.jobHistory.addJobs(jobs);
-        String clientData = "{serverError:null}";
-        try{
-            clientData = createClientStateData(state, jobs);
-        }catch(JsonProcessingException error){
-            clientData = "{serverError:\"" + error.getMessage() + "\"}"; 
-        }
-        catch(Exception error){
-            error.printStackTrace();
-        }
-        return clientData;
+        Optional state = stateDAO.getStateById(stateAbbrevation);
+        System.out.print(state);
+//        List <Job> jobs = null;
+//        System.out.println(jobs);
+//        this.session.setState(state);
+//        this.session.addJobs(jobs);
+//        this.jobHistory.addJobs(jobs);
+//        String clientData = "{serverError:null}";
+//        try{
+//            clientData = createClientStateData(state, jobs);
+//        }catch(JsonProcessingException error){
+//            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+//        }
+//        catch(Exception error){
+//            error.printStackTrace();
+//        }
+//        return clientData;
+        return "OKAY";
     }
 
     public String getJob(String jobID){
@@ -174,16 +194,20 @@ public class ServerService {
     }
 
     public String generateJob(Job job){
-        job.setStateAbbrev(session.getState().getStateAbbreviation());
+//        State currentState = session.getState();
+        //job.setStateAbbrev(currentState.getStateAbbreviation());
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
-        fake.mutationGenerateJob(job);
+        //fake.mutationGenerateJob(job);
         // this.jobService.addJob(job);
         
 
         try{
             //TODO: [SERVER] Implement USECASE 21
-            determineAlgorithmComputeLocation(job);
+//            String algorithmInputContents = createAlgorithmData(currentState.getAlgorithmJson(), job);
+            String algorithmInputContents = "Hello";
+            createJobDirectory(job.getJobName(), algorithmInputContents);
+            initiateAlgorithm(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
             error.getMessage();
@@ -196,37 +220,10 @@ public class ServerService {
         return clientData;
     }
 
-    private void determineAlgorithmComputeLocation(Job job)throws IOException {
-        if(runAlgoLocally){
-            System.out.println("Running algorithm locally... Python output...");
-            ProcessBuilder pb = new ProcessBuilder("python3",
-                    "src/main/resources/python/algorithm/AlgorithmDanny_p3.py");
-            pb.redirectErrorStream(true);
-            Process process = pb.start();
-            printProcessOutput(process);
-        }
-        else{
-            new Thread(() -> {
-                AlgorithmInterface seawulfAdapter = new AlgorithmInterface(job, session.getState(), runAlgoLocally);
-                seawulfAdapter.start();
-            });
-        }
-    }
-
-    private void printProcessOutput(Process process) {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder builder = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-                builder.append(System.getProperty("line.separator"));
-            }
-            String result = builder.toString();
-            System.out.println("\t\t" + result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void initiateAlgorithm(Job job){
+        System.out.println("Initiating Algorithm... Creating Thread");
+        AlgorithmInterface algorithmInterface = new AlgorithmInterface(job, null, runAlgoLocally);
+        algorithmInterface.start();
     }
 
     public String generateHeatMap(){
@@ -250,7 +247,7 @@ public class ServerService {
     public void deleteJob(String jobID){
         session.deleteJob(jobID);
         jobHistory.deleteJob(jobID);
-        fake.deleteJob(jobID);
+        //fake.deleteJob(jobID);
         //TODO: [DATABASE] implement delete job functionality.
         //                 mutation function to delete the job on the remote database.
     }
@@ -259,9 +256,9 @@ public class ServerService {
         //TODO: [SERVER] implement server functionality for updating attribution for job
     }
 
-    public List <Job> getStateJobsInformation(String stateAbbrev){
-        List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);
-        return jobs;
-    }
+//    public List <Job> getStateJobsInformation(String stateAbbrev){
+//        List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);
+//        return jobs;
+//    }
     
 }

@@ -85,7 +85,6 @@ public class State {
     @JsonIgnore
     private File precinctsFile;
 
-
     @Transient
     @JsonIgnore
     private File algorithmPrecinctsFile;
@@ -215,20 +214,17 @@ public class State {
         return map;
     }
 
+    @JsonIgnore
+    public Map getAlgorithmJson() {
+        Map <String, Object> map = new HashMap<>();
+        map.put("stateName", stateName);
+        map.put("nameAbbrev", stateAbbreviation);
+        map.put("stateFIPSCode", stateFIPSCode);
+        map.put("totalPopulation", totalPopulation);
+        map.put("precincts", algorithmPrecinctsJson);
+        return map;
+    }
 
-
-
-    // public Map<String, Object>  getClientInitialData(){
-    //     Map<String, Object> clientState = new HashMap<>();
-    //     clientState.put("stateName", this.stateName);
-    //     clientState.put("stateAbbreviation", this.stateAbbreviation);
-    //     clientState.put("stateFIPSCode", this.stateFIPSCode);
-    //     clientState.put("numOfPrecincts", 10);
-    //     clientState.put("numOfCounties", 10);
-    //     clientState.put("enactedPlan", this.enactedPlan.getClientInitialData());
-    //     clientState.put("demographic", this.demographic);
-    //     return clientState;
-    // }
 
     @Override
     public String toString() {

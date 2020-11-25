@@ -16,7 +16,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Districts")
-public class District {
+public class District{
 
     @Id
     @GeneratedValue
@@ -25,12 +25,8 @@ public class District {
     @Transient
     private String districtName;
 
-
+    @Transient
     private int districtNumber;
-
-    //Note : DistrictNumber and District FIPSCode are the same
-    // @Transient
-    // private int districtFIPSCode;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "stateId")
@@ -48,9 +44,6 @@ public class District {
     @OneToOne(mappedBy = "district", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL)
     private Demographic demographic;
-
-    @Transient
-    private Boundary boundary;
 
     @JsonIgnore
     @OneToMany(mappedBy = "district", fetch = FetchType.LAZY,
@@ -70,9 +63,13 @@ public class District {
     @JsonIgnore
     private double perimeter;
 
-   @Transient
+    @Transient
     @JsonIgnore
     private double area;
+
+    @Transient
+    @JsonIgnore
+    private double compactness;
    
     //Neccessary for JPA
     protected District (){}
@@ -94,7 +91,6 @@ public class District {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
         // this.districtFIPSCode = districtFIPSCode;
-        this.boundary = boundaries;
         this.demographic = demographic;
     }
 
@@ -179,14 +175,6 @@ public class District {
         this.area = area;
     }
 
-    public Boundary getBoundary() {
-        return boundary;
-    }
-
-    public void setBoundary(Boundary boundary) {
-        this.boundary = boundary;
-    }
-
     public Demographic getDemographic() {
         return demographic;
     }
@@ -195,16 +183,8 @@ public class District {
         this.demographic = demographic;
     }
 
-    public Map<String, Object> getClientInitialData(){
-        Map<String, Object> clientDistrict = new HashMap<>();
-        clientDistrict.put("districtName", this.districtName);
-        clientDistrict.put("districtNumber", this.districtNumber);
-        // clientDistrict.put("districtFIPSCode", this.districtFIPSCode);
-        clientDistrict.put("numofCounties", this.numofCounties);
-        clientDistrict.put("numofCounties", this.numofPrecincts);
-        clientDistrict.put("demographic", this.demographic);
-        clientDistrict.put("boundary", this.boundary);
-        return clientDistrict;
+    public double getCompactness() {
+        return compactness;
     }
 
 
@@ -221,11 +201,19 @@ public class District {
                 ", neighbors=" + neighbors +
                 ", perimeter=" + perimeter +
                 ", area=" + area +
-                ", boundary=" + boundary +
                 ", demographic=" + demographic +
                 '}';
     }
 
+}
 
-
+// Class to compare Movies by ratings
+class CompactnessCompare implements Comparator<District>
+{
+    public int compare(District m1, District m2)
+    {
+        if (m1.getCompactness() < m2.getCompactness()) return -1;
+        if (m1.getCompactness() > m2.getCompactness()) return 1;
+        else return 0;
+    }
 }

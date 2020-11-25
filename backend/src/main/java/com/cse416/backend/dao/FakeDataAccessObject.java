@@ -23,14 +23,17 @@ public class FakeDataAccessObject{
     private static List<Job> jobDB = new ArrayList<>();
 
     public FakeDataAccessObject(){
-        buildNY2();
-        State CA = new State("Pennsylvania", "PA", 1, 1000000000, 40, 10,100);
-        stateDB.add(CA);
-        State GA = new State("Maryland", "MD", 1, 1000000000, 10, 24,1999);
-        stateDB.add(GA);
+        State PA = new State("Pennsylvania", "PA", 1, 1000000000, 40, 10,100);
+//        State MD = new State("Maryland", "MD", 1, 1000000000, 10, 24,1999);
+//        State GA = new State("Georgia", "GA", 1, 1000000000, 10, 24,1999);
+        stateDB.add(PA);
+//        stateDB.add(MD);
+//        stateDB.add(GA);
+//        for(State state: stateDB){
+//            System.out.println(state);
+//        }
         // stateDB.add(State("California", "CA", 1, null, null, null, null));
         // stateDB.add(State("Geogira", "GA", 1, null, null, null, null));
-        System.out.println(jobDB);
     }
     public void NYjob(){
             Precinct [] NYPrecints = new Precinct[10];
@@ -125,9 +128,18 @@ public class FakeDataAccessObject{
     }
 
     public State queryGetStateInformation(String stateAbbrev) {
-        return stateDB.stream()
+        System.out.println("queryGetStateInformation");
+        System.out.println(stateDB.toString());
+        State a = stateDB.stream()
                 .filter(state -> stateAbbrev.equals(state.getStateAbbreviation()))
                 .findFirst().orElse(null);
+
+        if(a == null){
+            System.out.println("Null");
+        }else{
+            System.out.println(a);
+        }
+        return a;
     }
 
     public List<Job> queryGetStateJobsInformation(String stateAbbrev) {
@@ -148,12 +160,6 @@ public class FakeDataAccessObject{
             }
         }
 
-    }
-
-    public State queryGetStateBoundary(String stateAbbrev) {
-        return stateDB.stream()
-                .filter(e -> stateAbbrev.equals(e.getStateAbbreviation()))
-                .findFirst().orElse(null);
     }
 
     public void mutationGenerateJob(Job job){

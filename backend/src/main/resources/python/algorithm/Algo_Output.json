@@ -1,10 +1,22 @@
 {
-  "districts":{
-    "1": {
-      "precincts": ["020001", "020002","020003","020004", "020005"]
-    },
-    "2": {
-      "precincts": ["020006", "020007","020008","020009", "0200010"]
+  "districtings": [
+    {
+      "districtId": "one",
+      "districtName": 1,
+      "districtNumber": 1,
+      "state": "New York",
+      "stateAbbrev": "NY",
+      "numofPrecincts": 10,
+      "graph_districts":{
+        "1": {
+          "compactness": 0.2,
+          "precincts": ["020001", "020002","020003","020004", "020005"]
+        },
+        "2": {
+          "precincts": ["020006", "020007","020008","020009", "0200010"]
+        }
+      }
     }
-  }
+
+  ]
 }

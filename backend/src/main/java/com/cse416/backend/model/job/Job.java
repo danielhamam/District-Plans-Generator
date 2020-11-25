@@ -1,4 +1,6 @@
 package com.cse416.backend.model.job;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.cse416.backend.model.demographic.CensusEthnicity;
@@ -6,11 +8,13 @@ import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
-import com.cse416.backend.model.job.minoritygroup.*;
+import com.cse416.backend.model.job.minorityGroup.*;
 import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cse416.backend.model.plan.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import javax.persistence.*;
@@ -119,11 +123,8 @@ public class Job{
 
     @JsonIgnore
     @Transient
-    private List <Plan> allDistrictingPlan;
+    private List <Plan> allPlans;
 
-    @JsonIgnore
-    @Transient
-    private List <Plan> otherDistrictingPlan;
 
     @JsonIgnore
     @Transient
@@ -136,13 +137,13 @@ public class Job{
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
-                @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzed){
+                @JsonProperty("minorityAnalyzed") List<CensusEthnicity> minorityAnalyzed){
         this.jobName = jobName;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        // this.minorityAnalyzed = minorityAnalyzed;
+        this.minorityAnalyzed = minorityAnalyzed;
         this.status = JobStatus.PENDING;
         this.clientStatus = status.getStringRepresentation();
 //        for (CensusCatagories censusCatagories : minorityAnalyzed) {
@@ -256,21 +257,14 @@ public class Job{
         this.jobSummary = jobSummary;
     }
 
-    public List<Plan> getAllDistrictingPlan() {
-        return allDistrictingPlan;
+    public List<Plan> getAllPlans() {
+        return allPlans;
     }
 
-    public void setAllDistrictingPlan(List<Plan> allDistrictingPlan) {
-        this.allDistrictingPlan = allDistrictingPlan;
+    public void setAllPlans(List<Plan> allDistrictingPlan) {
+        this.allPlans = allDistrictingPlan;
     }
 
-    public List<Plan> getOtherDistrictingPlan() {
-        return otherDistrictingPlan;
-    }
-
-    public void setOtherDistrictingPlan(List<Plan> otherDistrictingPlan) {
-        this.otherDistrictingPlan = otherDistrictingPlan;
-    }
 
     public Plan getAverageDistrictPlan() {
         return averageDistrictPlan;
@@ -334,27 +328,25 @@ public class Job{
 
     }
 
-    // @JsonIgnore
-    // public Map<String, Object> getClientInitialData(){
-    //     Map<String, Object> clientJob = new HashMap<>();
-    //     clientJob.put("stateAbbrev", this.stateAbbrev);
-    //     clientJob.put("jobID", this.jobID);
-    //     clientJob.put("jobName", this.jobName);
-    //     clientJob.put("numOfDistricts", this.numOfDistricts);
-    //     clientJob.put("numDistrictingPlan", this.numDistrictingPlan);
-    //     clientJob.put("clientCompactness", this.clientCompactness);
-    //     clientJob.put("populationDifference", this.populationDifference);
-    //     clientJob.put("minorityAnalyzed", this.minorityAnalyzed);
-    //     clientJob.put("status", this.status);
-    //     return clientJob;
-    // }
-
-//    public List<String> getClientMinorityAnalyzed() {
-//        return clientMinorityAnalyzed;
-//    }
-
     public String getClientStatus() {
         return clientStatus;
+    }
+
+    public void processAlgorithmOutput(File algorithmOutputFile){
+        //Create ObjectMapper object
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(algorithmOutputFile);
+            JsonNode plansNode = rootNode.get("districtings");
+            allPlans = mapper.readValue(plansNode.asText(),
+                    mapper.getTypeFactory().constructCollectionType(List.class, Plan.class));
+
+        }
+        catch (IOException error){
+
+        }
+
+        //TODO:39 Generate a summary file of each job (required)
     }
 
     @JsonIgnore
@@ -380,8 +372,8 @@ public class Job{
                 // ", minorityAnalyzed=" + minorityAnalyzed +
                 ", status=" + status +
                 ", jobSummary='" + jobSummary + '\'' +
-                ", allDistrictingPlan=" + allDistrictingPlan +
-                ", otherDistrictingPlan=" + otherDistrictingPlan +
+                ", allPlans=" + allPlans +
+
                 ", averageDistrictPlan=" + averageDistrictPlan +
                 ", extremeDistrictPlan=" + extremeDistrictPlan +
                 ", randomDistrictPlan=" + randomDistrictPlan +

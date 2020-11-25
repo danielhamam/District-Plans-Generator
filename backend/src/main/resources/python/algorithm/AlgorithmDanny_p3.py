@@ -41,7 +41,7 @@ def getData():
 
     try:
         # Opening JSON file 
-        f = open('backend/src/main/resources/python/algorithm/algorithm_test_medium.json') 
+        f = open('./algorithm_test_medium.json')
 
         # returns JSON object as  
         # a dictionary 

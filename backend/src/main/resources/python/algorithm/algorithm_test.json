@@ -5,16 +5,15 @@
                 "stateName": "New York",
                 "nameAbbrev" : "NY",
                 "stateFIPSCode" : "12345",
-                "demographic": 
-                    {
+                "demographic":{
                     "totalPopulation": 1000000,
                     "referenceType": "N/A",
                     "ethnicityPopulation": {
                         "white": 1000
                     },
                     "votingAgePopulation": 974123
-                    },
-                    "precincts": {
+                },
+                "precincts": {
                         "000":{
                             "population":10,
                             "neighbors": [
