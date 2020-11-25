@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.cse416.backend.dao.services.*;
 
 
 import java.io.BufferedReader;
@@ -33,12 +34,32 @@ public class ServerService {
     private GlobalHistory jobHistory;
     private boolean runAlgoLocally  = true;
 
+    //DAO Servicers
+    private JobDAOService jobDAO;
+    private CountyDAOService countyDAO;
+    private DemographicDAOService demographicDAO;
+    private CensusEthnicityDAOService censusEthnicityDAO;
+    private DistrictDAOService districtDAO;
+    private PlanDAOService planDAO;
+    private PrecinctDAOService precinctDAO;
+    private StateDAOService stateDAO;
+
     @Autowired
     public ServerService(@Qualifier("fakeDao") FakeDataAccessObject fake) {
         this.fake = fake;
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
+
+        //DAO SERVICES
+        this.jobDAO = new JobDAOService();
+        this.countyDAO = new CountyDAOService();
+        this.demographicDAO = new DemographicDAOService();
+        this.censusEthnicityDAO = new CensusEthnicityDAOService();
+        this.districtDAO = new DistrictDAOService();
+        this.planDAO = new PlanDAOService();
+        this.precinctDAO = new PrecinctDAOService();
+        this.stateDAO = new StateDAOService();
 
     }
 
@@ -157,6 +178,8 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         fake.mutationGenerateJob(job);
+        // this.jobService.addJob(job);
+        
 
         try{
             //TODO: [SERVER] Implement USECASE 21

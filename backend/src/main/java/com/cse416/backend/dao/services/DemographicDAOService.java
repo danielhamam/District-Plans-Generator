@@ -1,55 +1,60 @@
 
-// package com.cse416.backend.dao.services;
-// import com.cse416.backend.dao.repositories.DemographicRepository;
-// import org.springframework.stereotype.*;
+package com.cse416.backend.dao.services;
+import com.cse416.backend.dao.repositories.DemographicRepository;
+import org.springframework.stereotype.*;
 
-// import com.cse416.backend.model.demographic.Demographic;
-// import org.springframework.beans.factory.annotation.Autowired;
+import com.cse416.backend.model.demographic.Demographic;
+import org.springframework.beans.factory.annotation.Autowired;
 
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.lang.Integer;
-
-// import java.util.Optional;
+import java.util.*;
+import java.lang.Integer;
 
 
 
-// @Service
-// public class DemographicDAOService{
 
-//    @Autowired
-//    private DemographicRepository demographicRepository;
+@Service
+public class DemographicDAOService{
 
-//    public List<Demographic> getAllDemographics(){
+   @Autowired
+   private DemographicRepository demographicRepository;
 
-//       List<Demographic> demographics = new ArrayList<>();
+   public Optional<Demographic> getDemographicById(Integer Id){
+       return demographicRepository.findById(Id);
+   }
 
-//       demographicRepository.findAll().forEach(demographics::add);
+   public Demographic getDemographicByPrecinctId(String precinctId){
+       return demographicRepository.findByPrecinctId(precinctId);
+   }
 
-//       return demographics;
-//    }
+   public Demographic getDemographicByDistrictId(Integer districtId){
+       return demographicRepository.findByDistrictId(districtId);
+   }
 
-//    public Optional<Demographic> getDemographicById(Integer Id){
-//        return demographicRepository.findById(Id);
-//    }
+   public Demographic getDemographicByStateId(String stateId){
+       return demographicRepository.findByStateId(stateId);
+   }
 
-//    public void addDemographic(Demographic demographic){
-//        demographicRepository.save(demographic);
-//    }
+   public Demographic getDemographicByCountyId(Integer countyId){
+       return demographicRepository.findByCountyId(countyId);
+   }
 
-//    public void updateDemographic(Demographic demographic){
-//        demographicRepository.save(demographic);
-//    }
+   public void addDemographic(Demographic demographic){
+       demographicRepository.save(demographic);
+   }
 
-//    public void deleteDemographic(Demographic demographic){
-//        demographicRepository.delete(demographic);
-//    }
+   public void updateDemographic(Demographic demographic){
+       demographicRepository.save(demographic);
+   }
 
-//    public void deleteDemographicById(Integer Id){
-//        demographicRepository.deleteById(Id);
-//    }
+   public void deleteDemographic(Demographic demographic){
+       demographicRepository.delete(demographic);
+   }
 
-//    public Long numberDemographicEntities(){
-//        return demographicRepository.count();
-//    }
-// }
+   public void deleteDemographicById(Integer Id){
+       demographicRepository.deleteById(Id);
+   }
+
+   public Long numberDemographicEntities(){
+       return demographicRepository.count();
+   }
+}

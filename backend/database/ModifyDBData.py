@@ -288,7 +288,7 @@ def writeStateDemographic(mycursor):
 
     for state in states:
         
-        #Count the number of counties that belong to this state
+        #Count the number of districts that belong to this state
         sql = "SELECT COUNT(*) FROM Districts WHERE stateId = (%s)"
         val = (states[state]['stateId'])
         mycursor.execute(sql, (val,))
@@ -299,6 +299,12 @@ def writeStateDemographic(mycursor):
         val = (states[state]['stateId'])
         mycursor.execute(sql, (val,))
         numPrecincts = mycursor.fetchone()[0]
+
+        #Count the number of counties that belong to this district
+        sql = "SELECT COUNT(*) FROM Counties WHERE stateId = (%s)"
+        val = (states[state]['stateId'])
+        mycursor.execute(sql, (val,))
+        numCounties = mycursor.fetchone()[0]
 
         #Update the number of precincts field of the state
         sql = "UPDATE States SET numberOfPrecincts = (%s) WHERE stateId = (%s)"
@@ -312,6 +318,13 @@ def writeStateDemographic(mycursor):
         mycursor.execute(sql, val)
         #mydb.commit()
 
+        #Update the number of counties field of the state
+        sql = "UPDATE States SET numberOfCounties = (%s) WHERE stateId = (%s)"
+        val = (numCounties, states[state]['stateId'])
+        mycursor.execute(sql, val)
+        # mydb.commit()
+
+
         # get array of district belonging to this state
         sql = "SELECT districtId FROM Districts WHERE stateId = (%s)"
         val = (states[state]['stateId'])
@@ -322,7 +335,7 @@ def writeStateDemographic(mycursor):
         computeSumDemographic(districts,  mycursor, "state", states[state]['stateId'])
 
 def getStatePrecincts():
-    f = open('./sqlFormat2.json')
+    f = open('backend/database/sqlFormat2.json')
     data = json.load(f)
 
     d = []
@@ -504,8 +517,6 @@ def writePrecinctNeighbors(data, mycursor):
             val = (currentPrecinctId, neighborPrecinctId)
             mycursor.execute(sql, val)
             #mydb.commit()
-
-
 
 
 if __name__ == '__main__':

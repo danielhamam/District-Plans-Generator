@@ -1,53 +1,63 @@
 
-// package com.cse416.backend.dao.services;
-// import com.cse416.backend.dao.repositories.PrecinctRepository;
-// import org.springframework.stereotype.*;
+package com.cse416.backend.dao.services;
+import com.cse416.backend.dao.repositories.PrecinctRepository;
+import org.springframework.stereotype.*;
 
-// import com.cse416.backend.model.regions.precinct.Precinct;
-// import org.springframework.beans.factory.annotation.Autowired;
+import com.cse416.backend.model.regions.precinct.Precinct;
+import org.springframework.beans.factory.annotation.Autowired;
 
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.lang.Integer;
 
-// import java.util.Optional;
+import java.util.*;
+import java.lang.Integer;
 
-// @Service
-// public class PrecinctDAOService{
 
-//    @Autowired
-//    private PrecinctRepository precinctRepository;
+@Service
+public class PrecinctDAOService{
 
-//    public List<Precinct> getAllPrecincts(){
+   @Autowired
+   private PrecinctRepository precinctRepository;
 
-//       List<Precinct> precincts = new ArrayList<>();
+   public Optional<Precinct> getPrecinctById(Integer Id){
+       return precinctRepository.findById(Id);
+   }
 
-//       precinctRepository.findAll().forEach(precincts::add);
+   public Precinct getPrecinctByName(String name){
+        return precinctRepository.findByName(name);
+    }
 
-//       return precincts;
-//    }
+    public Precinct getPrecinctByFIPSCode(String precinctFIPSCode){
+        return precinctRepository.findByFIPSCode(precinctFIPSCode);
+    }
 
-//    public Optional<Precinct> getPrecinctById(Integer Id){
-//        return precinctRepository.findById(Id);
-//    }
+    public List<Precinct> getPrecinctsByStateId(String stateAbbreviation){
+        return precinctRepository.findByStateId(stateAbbreviation);
+    }
 
-//    public void addPrecinct(Precinct precinct){
-//        precinctRepository.save(precinct);
-//    }
+    public List<Precinct> getPrecinctsByDistrictId(Integer districtId){
+        return precinctRepository.findByDistrictId(districtId);
+    }
 
-//    public void updatePrecinct(Precinct precinct){
-//        precinctRepository.save(precinct);
-//    }
+    public List<Precinct> getPrecinctsByCountyId(Integer countyId){
+        return precinctRepository.findByCountyId(countyId);
+    }
 
-//    public void deletePrecinct(Precinct precinct){
-//        precinctRepository.delete(precinct);
-//    }
+   public void addPrecinct(Precinct precinct){
+       precinctRepository.save(precinct);
+   }
 
-//    public void deletePrecinctById(Integer Id){
-//        precinctRepository.deleteById(Id);
-//    }
+   public void updatePrecinct(Precinct precinct){
+       precinctRepository.save(precinct);
+   }
 
-//    public Long numberPrecinctEntities(){
-//        return precinctRepository.count();
-//    }
-// }
+   public void deletePrecinct(Precinct precinct){
+       precinctRepository.delete(precinct);
+   }
+
+   public void deletePrecinctById(Integer Id){
+       precinctRepository.deleteById(Id);
+   }
+
+   public Long numberPrecinctEntities(){
+       return precinctRepository.count();
+   }
+}

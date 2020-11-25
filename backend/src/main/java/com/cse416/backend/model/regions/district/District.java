@@ -2,88 +2,98 @@ package com.cse416.backend.model.regions.district;
 
 import com.cse416.backend.model.demographic.*;
 import com.cse416.backend.model.regions.precinct.*;
+import com.cse416.backend.model.regions.state.*;
+import com.cse416.backend.model.regions.county.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.cse416.backend.model.Boundary;
 
-
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.lang.*;
+import java.util.*;
 
 import javax.persistence.*;
-import java.lang.Integer;
 
 
-// @Entity
-// @Table(name="Districts")
+
+@Entity
+@Table(name="Districts")
 public class District {
 
-    // @Id
-    // @GeneratedValue
+    @Id
+    @GeneratedValue
     private Integer districtId;
 
-    // @Transient
+    @Transient
     private String districtName;
 
 
     private int districtNumber;
 
+    //Note : DistrictNumber and District FIPSCode are the same
     // @Transient
-    private int districtFIPSCode;
+    // private int districtFIPSCode;
 
-    // @Transient
-    // @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stateId")
+    private State state;
+
+    @Transient
     private String stateAbbrev;
 
+    @Column(name = "numberOfCounties")
     private String numofCounties;
 
+    @Column(name = "numberOfPrecincts")
     private String numofPrecincts;
 
-    // @Transient
-    // @OneToOne
+    @OneToOne(mappedBy = "district", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     private Demographic demographic;
 
-    // @Transient
+    @Transient
     private Boundary boundary;
 
-    // @Transient
-    // @JoinTable
-    // @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore
+    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     private List<Precinct> precincts;
 
-    // @Transient
+    @JsonIgnore
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<County> counties;
+
+    @Transient
     @JsonIgnore
     private List <District> neighbors;
 
-    // @Transient
+    @Transient
     @JsonIgnore
     private double perimeter;
 
-//    @Transient
+   @Transient
     @JsonIgnore
     private double area;
    
     //Neccessary for JPA
-    // protected District (){}
+    protected District (){}
 
     public District(String districtName, int districtNumber, int districtFIPSCode) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        this.districtFIPSCode = districtFIPSCode;
+        // this.districtFIPSCode = districtFIPSCode;
     }
 
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        this.districtFIPSCode = districtFIPSCode;
+        // this.districtFIPSCode = districtFIPSCode;
         this.demographic = demographic;
     }
 
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        this.districtFIPSCode = districtFIPSCode;
+        // this.districtFIPSCode = districtFIPSCode;
         this.boundary = boundaries;
         this.demographic = demographic;
     }
@@ -105,13 +115,13 @@ public class District {
         this.districtNumber = districtNumber;
     }
 
-    public int getDistrictFIPSCode() {
-        return districtFIPSCode;
-    }
+    // public int getDistrictFIPSCode() {
+    //     return districtFIPSCode;
+    // }
 
-    public void setDistrictFIPSCode(int districtFIPSCode) {
-        this.districtFIPSCode = districtFIPSCode;
-    }
+    // public void setDistrictFIPSCode(int districtFIPSCode) {
+    //     this.districtFIPSCode = districtFIPSCode;
+    // }
 
     public String getStateAbbrev() {
         return stateAbbrev;
@@ -189,7 +199,7 @@ public class District {
         Map<String, Object> clientDistrict = new HashMap<>();
         clientDistrict.put("districtName", this.districtName);
         clientDistrict.put("districtNumber", this.districtNumber);
-        clientDistrict.put("districtFIPSCode", this.districtFIPSCode);
+        // clientDistrict.put("districtFIPSCode", this.districtFIPSCode);
         clientDistrict.put("numofCounties", this.numofCounties);
         clientDistrict.put("numofCounties", this.numofPrecincts);
         clientDistrict.put("demographic", this.demographic);
@@ -203,7 +213,7 @@ public class District {
         return "District{" +
                 "districtName='" + districtName + '\'' +
                 ", districtNumber=" + districtNumber +
-                ", districtFIPSCode=" + districtFIPSCode +
+                // ", districtFIPSCode=" + districtFIPSCode +
                 ", stateAbbrev='" + stateAbbrev + '\'' +
                 ", numofCounties='" + numofCounties + '\'' +
                 ", numofPrecincts='" + numofPrecincts + '\'' +

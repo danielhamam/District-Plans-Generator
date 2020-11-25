@@ -41,9 +41,9 @@ jobs = '''
 
 minorityGroups = '''
   CREATE TABLE IF NOT EXISTS JobMinorityGroups(
-    minorityGroupId VARCHAR(100),
+    censusEthnicityId VARCHAR(100),
     jobID INT,
-    FOREIGN KEY (minorityGroupId) REFERENCES CensusEthnicities(shortenName),
+    FOREIGN KEY (censusEthnicityId) REFERENCES CensusEthnicities(shortenName),
     FOREIGN KEY (jobID) REFERENCES Jobs(jobId) 
   )'''
 
@@ -51,80 +51,75 @@ minorityGroups = '''
 plans = '''
   CREATE TABLE IF NOT EXISTS Plans(
     planId INT AUTO_INCREMENT PRIMARY KEY,
-    stateID VARCHAR(2) NOT NULL,
+    stateId VARCHAR(2) NOT NULL,
     averageDistrictPopulation BIGINT DEFAULT 0,
     averageDistrictCompactness INT DEFAULT 0,
-    numberOfDistricts INT DEFAULT 0
-  )'''
-
-jobGraphs = '''
-  CREATE TABLE IF NOT EXISTS JobGraphs(
+    numberOfDistricts INT DEFAULT 0,
     jobId INT,
-    planGraphId INT,
-    FOREIGN KEY (jobId) REFERENCES Jobs(jobId),
-    FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
-  )'''
-
-planGraphs = '''
-  CREATE TABLE IF NOT EXISTS JobPlanGraphs(
-    planGraphId INT AUTO_INCREMENT PRIMARY KEY,
-    planId INT,
-    lowerExtreme INT DEFAULT 0,
-    upperExtreme INT DEFAULT 0,
-    lowerQuartile INT DEFAULT 0,
-    upperQuartile INT DEFAULT 0,
-    median INT DEFAULT 0,
-    FOREIGN KEY (planId) REFERENCES Plans(planId) 
-  )'''
-
-graphDistricts = '''
-  CREATE TABLE IF NOT EXISTS GraphDistricts(
-    planGraphId INT,
-    districtId INT,
-    districtValue INT DEFAULT 0,
-    FOREIGN KEY (districtId) REFERENCES Districts(districtId),
-    FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
-  )'''
-
-planDistricts = '''
-  CREATE TABLE IF NOT EXISTS JobPlanDistricts(
-    districtId INT,
-    planId INT,
-    FOREIGN KEY (districtId) REFERENCES Districts(districtId),
-    FOREIGN KEY (planId) REFERENCES Plans(planId)
-  )'''
-
-planPrecincts = '''
-  CREATE TABLE IF NOT EXISTS JobPlanPrecincts(
-    precinctId INT,
-    planId INT,
-    FOREIGN KEY (precinctID) REFERENCES Precincts(precinctId),
-    FOREIGN KEY (planId) REFERENCES Plans(planId)
-)'''
-
-jobPlans = '''
-  CREATE TABLE IF NOT EXISTS JobPlans(
-    planId INT,
-    jobId INT,
-    FOREIGN KEY (planId) REFERENCES Plans(planId),
     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
   )'''
 
-extremePlans = '''
-  CREATE TABLE IF NOT EXISTS ExtremePlans(
-    planId INT,
-    jobId INT,
-    FOREIGN KEY (planId) REFERENCES Plans(planId),
-    FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
-  )'''
+# jobGraphs = '''
+#   CREATE TABLE IF NOT EXISTS JobGraphs(
+#     jobId INT,
+#     planGraphId INT,
+#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId),
+#     FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
+#   )'''
 
-averagePlans = '''
-    CREATE TABLE IF NOT EXISTS AveragePlans(
-    planId INT,
-    jobId INT,
-    FOREIGN KEY (planId) REFERENCES Plans(planId),
-    FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
-)'''
+# planGraphs = '''
+#   CREATE TABLE IF NOT EXISTS JobPlanGraphs(
+#     planGraphId INT AUTO_INCREMENT PRIMARY KEY,
+#     planId INT,
+#     lowerExtreme INT DEFAULT 0,
+#     upperExtreme INT DEFAULT 0,
+#     lowerQuartile INT DEFAULT 0,
+#     upperQuartile INT DEFAULT 0,
+#     median INT DEFAULT 0,
+#     FOREIGN KEY (planId) REFERENCES Plans(planId) 
+#   )'''
+
+# graphDistricts = '''
+#   CREATE TABLE IF NOT EXISTS GraphDistricts(
+#     planGraphId INT,
+#     districtId INT,
+#     districtValue INT DEFAULT 0,
+#     FOREIGN KEY (districtId) REFERENCES Districts(districtId),
+#     FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
+#   )'''
+
+# planDistricts = '''
+#   CREATE TABLE IF NOT EXISTS JobPlanDistricts(
+#     districtId INT,
+#     planId INT,
+#     FOREIGN KEY (districtId) REFERENCES Districts(districtId),
+#     FOREIGN KEY (planId) REFERENCES Plans(planId)
+#   )'''
+
+# planPrecincts = '''
+#   CREATE TABLE IF NOT EXISTS JobPlanPrecincts(
+#     precinctId INT,
+#     planId INT,
+#     FOREIGN KEY (precinctID) REFERENCES Precincts(precinctId),
+#     FOREIGN KEY (planId) REFERENCES Plans(planId)
+# )'''
+
+
+# extremePlans = '''
+#   CREATE TABLE IF NOT EXISTS ExtremePlans(
+#     planId INT,
+#     jobId INT,
+#     FOREIGN KEY (planId) REFERENCES Plans(planId),
+#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
+#   )'''
+
+# averagePlans = '''
+#     CREATE TABLE IF NOT EXISTS AveragePlans(
+#     planId INT,
+#     jobId INT,
+#     FOREIGN KEY (planId) REFERENCES Plans(planId),
+#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
+# )'''
 
 # planFiles = '''
 #   CREATE TABLE IF NOT EXISTS PlanFiles(
@@ -279,14 +274,14 @@ mycursor.execute(plans)
 
 mycursor.execute(censusEthnicities)
 mycursor.execute(minorityGroups)
-mycursor.execute(planGraphs)
-mycursor.execute(graphDistricts)
-mycursor.execute(jobGraphs)
-mycursor.execute(jobPlans)
-mycursor.execute(planDistricts)
-mycursor.execute(planPrecincts)
-mycursor.execute(extremePlans)
-mycursor.execute(averagePlans)
+# mycursor.execute(planGraphs)
+# mycursor.execute(graphDistricts)
+# mycursor.execute(jobGraphs)
+# mycursor.execute(jobPlans)
+# mycursor.execute(planDistricts)
+# mycursor.execute(planPrecincts)
+# mycursor.execute(extremePlans)
+# mycursor.execute(averagePlans)
 # mycursor.execute(planFiles)
 # mycursor.execute(enactedPlan)
 # mycursor.execute(enactedPlanFiles)

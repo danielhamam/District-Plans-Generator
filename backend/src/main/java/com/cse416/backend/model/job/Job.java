@@ -1,10 +1,13 @@
 package com.cse416.backend.model.job;
 import java.util.List;
 
+import com.cse416.backend.model.demographic.CensusEthnicity;
 import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
+import com.cse416.backend.model.job.minoritygroup.*;
+import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cse416.backend.model.plan.*;
@@ -12,48 +15,56 @@ import com.cse416.backend.model.plan.*;
 
 import javax.persistence.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.lang.Integer;
+import java.lang.*;
+import java.util.*;
  
-// @Entity
-// @Table(name = "Jobs")
+@Entity
+@Table(name = "Jobs")
 public class Job{
 
-    // @Id
-    // @GeneratedValue
-    // @Column(name = "jobId")
+    @Id
+    @GeneratedValue
+    @Column(name = "jobId")
     private Integer generatedId;
 
     @JsonProperty("jobName")
-    // @Column(nullable=true)
+    @Column(nullable=true)
     private String jobName;
 
     @JsonProperty
-    // @Transient
-    private List<CensusCatagories> minorityAnalyzed;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "JobMinorityGroups",
+        joinColumns = @JoinColumn(name = "jobId"),
+        inverseJoinColumns = @JoinColumn(name = "censusEthnicityId")
+    )
+    private List<CensusEthnicity> minorityAnalyzed;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stateId")
+    private State state;
 
 //    @JsonProperty("minorityAnalyzed")
 //    @Transient
 //    private List<String> clientMinorityAnalyzed;
 
     @JsonProperty("compactness")
-    // @Column(name = "compactness")
+    @Column(name = "compactness")
     private ClientCompactness clientCompactness;
 
     @JsonProperty("populationDifference")
     private double populationDifference;
 
     @JsonProperty("plansAmount")
-    // @Column(name = "numberOfPlans")
+    @Column(name = "numberOfPlans")
     private int numDistrictingPlan;
 
     @JsonProperty("districtsAmount")
-    // @Column(name = "numberOfDistricts")
+    @Column(name = "numberOfDistricts")
     private int numOfDistricts;
 
     @JsonIgnore
-    @Column(name = "jobStatus", nullable=false)
+    @Column(name = "jobStatus")
     private JobStatus status;
 
     @JsonProperty("status")
@@ -61,64 +72,64 @@ public class Job{
     private String clientStatus;
 
     @JsonProperty
-    // @Transient
+    @Transient
     private String jobID;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private Plan averageDistrictPlan;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private Plan extremeDistrictPlan;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private Plan randomDistrictPlan;
 
     @JsonProperty("districtPlans")
-    @Transient
-    private Plan [] clientDistrictingPlans;
+    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<Plan> clientDistrictingPlans;
 
     @JsonIgnore
-    // @Column(name = "stateId", nullable=false, length=2)
+    @Transient
     private String stateAbbrev;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private int stateFIPSCode;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private int averagePlanPopulation;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private int averagePlanCompactness;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private int seawulfJobID;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private String jobSummary;
 
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private List <Plan> allDistrictingPlan;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private List <Plan> otherDistrictingPlan;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private BoxWhisker boxWhisker;
     
-    //Neccessary for JPA
-    // protected Job (){}
+    protected Job (){}
 
     public Job (@JsonProperty("jobName")String jobName, 
                 @JsonProperty("districtsAmount")int numOfDistricts, 
@@ -131,7 +142,7 @@ public class Job{
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        this.minorityAnalyzed = minorityAnalyzed;
+        // this.minorityAnalyzed = minorityAnalyzed;
         this.status = JobStatus.PENDING;
         this.clientStatus = status.getStringRepresentation();
 //        for (CensusCatagories censusCatagories : minorityAnalyzed) {
@@ -150,7 +161,7 @@ public class Job{
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        this.minorityAnalyzed = minorityAnalyzed;
+        // this.minorityAnalyzed = minorityAnalyzed;
         this.status = status;
         this.boxWhisker = boxWhisker;
     }
@@ -228,13 +239,13 @@ public class Job{
         this.populationDifference = populationDifference;
     }
 
-    public List<CensusCatagories> getminorityAnalyzed() {
-        return minorityAnalyzed;
-    }
+    // public List<CensusCatagories> getminorityAnalyzed() {
+    //     return minorityAnalyzed;
+    // }
 
-    public void setminorityAnalyzed(List<CensusCatagories> minorityAnalyzed) {
-        this.minorityAnalyzed = minorityAnalyzed;
-    }
+    // public void setminorityAnalyzed(List<CensusCatagories> minorityAnalyzed) {
+    //     this.minorityAnalyzed = minorityAnalyzed;
+    // }
 
 
     public String getJobSummary() {
@@ -301,7 +312,7 @@ public class Job{
         this.averagePlanCompactness = averagePlanCompactness;
     }
 
-    public void setClientDistrictingPlans(Plan[]plans){
+    public void setClientDistrictingPlans(List<Plan> plans){
         this.clientDistrictingPlans = plans;
 
     }
@@ -366,7 +377,7 @@ public class Job{
                 ", numDistrictingPlan=" + numDistrictingPlan +
                 ", clientCompactness=" + clientCompactness +
                 ", populationDifference=" + populationDifference +
-                ", minorityAnalyzed=" + minorityAnalyzed +
+                // ", minorityAnalyzed=" + minorityAnalyzed +
                 ", status=" + status +
                 ", jobSummary='" + jobSummary + '\'' +
                 ", allDistrictingPlan=" + allDistrictingPlan +

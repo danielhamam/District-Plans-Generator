@@ -2,10 +2,13 @@ package com.cse416.backend.model.regions.state;
 
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.regions.precinct.*;
+import com.cse416.backend.model.regions.county.*;
+import com.cse416.backend.model.regions.district.*;
+import com.cse416.backend.model.job.*;
+
+
 import com.cse416.backend.model.Boundary;
 import com.cse416.backend.model.demographic.*;
-
-
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,69 +16,95 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geojson.FeatureCollection;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.lang.*;
+import java.util.*;
 import java.io.File;
 import javax.persistence.*;
-import java.lang.Integer;
 
-// @Entity
-// @Table(name="States")
+
+@Entity
+@Table(name="States")
 public class State {
 
-    // @Column(length=25)
-    private String stateName;
-
-    // @Id
-    // @Column(name="stateId", nullable=false, length=2)
+    @Id
+    @Column(name="stateId", nullable=false, length=2)
     private String stateAbbreviation;
 
-    // @Column(nullable=false)
+    @Column(length=25)
+    private String stateName;
+
     private int stateFIPSCode;
 
+    @Transient
     private int totalPopulation;
 
-    // @Transient
+    @Transient
     private Plan enactedPlan;
 
-    // @Transient
+    @Column(name="numberOfPrecincts")
     private int numOfPrecincts;
 
-    // @Transient
+    @Column(name="numberOfCounties")
     private int numOfCounties;
 
-    // @Transient
+    @Column(name="numberOfDistricts")
     private int numOfDistricts;
 
-    // @Transient
-    // @OneToMany(targetEntity=Precinct.class)
     @JsonIgnore
-    private Precinct [] statePrecincts;
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<Precinct> statePrecincts;
 
-    // @Transient
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<County> stateCounties;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<District> stateDistricts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<Job> stateJobs;
+
+    @Transient
     @JsonIgnore
     private Boundary boundary;
 
-    // @Transient
+    @Transient
+    @JsonIgnore
+    private File stateFile;
+
+    @Transient
     @JsonIgnore
     private File precinctsFile;
 
-    // @Transient
+
+    @Transient
     @JsonIgnore
     private File algorithmPrecinctsFile;
 
     @JsonIgnore
     private String algorithmPrecinctsJson;
 
-    // @Transient
+    @Transient
     @JsonIgnore
     private FeatureCollection precinctsGeoJson;
 
-    // @Transient
+    @Transient
     @JsonIgnore
     private FeatureCollection stateGeoJson;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "state", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private Demographic demographic;
 
     //Neccessary for JPA
     protected State (){}
@@ -91,14 +120,15 @@ public class State {
         this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
-        String algorithmPrecinctsFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/AlgorithmPrecincts.json";
-//        String boundaryFilePath = "src/main/resources/system/states/" +
-//                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
-//        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
+        String boundaryFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
+        this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
+        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        
         try{
             this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
-            this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
+            // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
             this.precinctsGeoJson = createPrecinctsFeatureCollection();
         }
         catch(IOException error){
@@ -146,11 +176,11 @@ public class State {
         this.enactedPlan = enactedPlan;
     }
 
-    public Precinct[] getStatePrecincts() {
+    public List<Precinct> getStatePrecincts() {
         return statePrecincts;
     }
 
-    public void setStatePrecincts(Precinct[] statePrecincts) {
+    public void setStatePrecincts(List<Precinct> statePrecincts) {
         this.statePrecincts = statePrecincts;
     }
 
@@ -207,7 +237,7 @@ public class State {
                 ", stateAbbreviation='" + stateAbbreviation + '\'' +
                 ", stateFIPSCode=" + stateFIPSCode +
                 ", enactedPlan=" + enactedPlan +
-                ", statePrecincts=" + Arrays.toString(statePrecincts) +
+                ", statePrecincts=" + statePrecincts.toString() +
                 ", boundary=" + boundary +
                 '}';
     }

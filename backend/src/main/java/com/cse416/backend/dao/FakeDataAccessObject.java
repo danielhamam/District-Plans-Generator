@@ -13,11 +13,9 @@ import com.cse416.backend.model.regions.precinct.Precinct;
 import com.cse416.backend.model.regions.state.State;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.lang.*;
+
 
 @Repository("fakeDao")
 public class FakeDataAccessObject{
@@ -53,36 +51,36 @@ public class FakeDataAccessObject{
             vapPopulation.put(CensusCatagories.OTHER_AMERICAN, votingPopulation);
             vapPopulation.put(CensusCatagories.ASIAN_AMERICAN, votingPopulation);
 
-            Demographic precinctDemo = new Demographic(allPopulation, ethnicPopulation, vapPopulation);
-            NYPrecints[0] = (new Precinct("precinct" + 0, 0, precinctDemo));
-            NYPrecints[1] =(new Precinct("precinct" + 1, 1, precinctDemo));
-            NYPrecints[2] =(new Precinct("precinct" + 2, 2, precinctDemo));
-            NYPrecints[3] =(new Precinct("precinct" + 3, 3, precinctDemo));
-            NYPrecints[4] =(new Precinct("precinct" + 4, 4, precinctDemo));
-            NYPrecints[5] =(new Precinct("precinct" + 5, 5, precinctDemo));
-            NYPrecints[6] =(new Precinct("precinct" + 6, 6, precinctDemo));
-            NYPrecints[7] =(new Precinct("precinct" + 7, 7, precinctDemo));
-            NYPrecints[8] =(new Precinct("precinct" + 8, 8, precinctDemo));
-            NYPrecints[9] =(new Precinct("precinct" + 9, 9, precinctDemo));
+            // Demographic precinctDemo = new Demographic(allPopulation, ethnicPopulation, vapPopulation);
+            // NYPrecints[0] = (new Precinct("precinct" + 0, 0, precinctDemo));
+            // NYPrecints[1] =(new Precinct("precinct" + 1, 1, precinctDemo));
+            // NYPrecints[2] =(new Precinct("precinct" + 2, 2, precinctDemo));
+            // NYPrecints[3] =(new Precinct("precinct" + 3, 3, precinctDemo));
+            // NYPrecints[4] =(new Precinct("precinct" + 4, 4, precinctDemo));
+            // NYPrecints[5] =(new Precinct("precinct" + 5, 5, precinctDemo));
+            // NYPrecints[6] =(new Precinct("precinct" + 6, 6, precinctDemo));
+            // NYPrecints[7] =(new Precinct("precinct" + 7, 7, precinctDemo));
+            // NYPrecints[8] =(new Precinct("precinct" + 8, 8, precinctDemo));
+            // NYPrecints[9] =(new Precinct("precinct" + 9, 9, precinctDemo));
 
             List<District> NYDistricts = new ArrayList<>();
-            Map<CensusCatagories,Integer>districtEthnicPopulation= new HashMap<>();
-            Map<CensusCatagories,Integer> districtvapPopulation = new HashMap<>();
-            districtEthnicPopulation.put(CensusCatagories.WHITE_AMERICAN, 2);
-            districtEthnicPopulation.put(CensusCatagories.AFRICAN_AMERICAN, 2);
-            districtEthnicPopulation.put(CensusCatagories.AMERICAN_INDIAN, 2);
-            districtEthnicPopulation.put(CensusCatagories.OTHER_AMERICAN, 2);
-            districtvapPopulation.put(CensusCatagories.ASIAN_AMERICAN, 2);
-            districtvapPopulation.put(CensusCatagories.WHITE_AMERICAN, 2);
-            districtvapPopulation.put(CensusCatagories.AFRICAN_AMERICAN, 2);
-            districtvapPopulation.put(CensusCatagories.AMERICAN_INDIAN, 2);
-            districtvapPopulation.put(CensusCatagories.OTHER_AMERICAN, 2);
-            districtvapPopulation.put(CensusCatagories.ASIAN_AMERICAN, 2);
-            Demographic districtDemo = new Demographic(allPopulation*5, districtEthnicPopulation, districtvapPopulation);
-            NYDistricts.add(new District("district" + 1, 1, 0, districtDemo));
-            NYDistricts.add(new District("district" + 2, 2, 1, districtDemo));
-            NYDistricts.add(new District("district" + 3, 3, 0, districtDemo));
-            NYDistricts.add(new District("district" + 4, 4, 1, districtDemo));
+            // Map<CensusCatagories,Integer>districtEthnicPopulation= new HashMap<>();
+            // Map<CensusCatagories,Integer> districtvapPopulation = new HashMap<>();
+            // districtEthnicPopulation.put(CensusCatagories.WHITE_AMERICAN, 2);
+            // districtEthnicPopulation.put(CensusCatagories.AFRICAN_AMERICAN, 2);
+            // districtEthnicPopulation.put(CensusCatagories.AMERICAN_INDIAN, 2);
+            // districtEthnicPopulation.put(CensusCatagories.OTHER_AMERICAN, 2);
+            // districtvapPopulation.put(CensusCatagories.ASIAN_AMERICAN, 2);
+            // districtvapPopulation.put(CensusCatagories.WHITE_AMERICAN, 2);
+            // districtvapPopulation.put(CensusCatagories.AFRICAN_AMERICAN, 2);
+            // districtvapPopulation.put(CensusCatagories.AMERICAN_INDIAN, 2);
+            // districtvapPopulation.put(CensusCatagories.OTHER_AMERICAN, 2);
+            // districtvapPopulation.put(CensusCatagories.ASIAN_AMERICAN, 2);
+            // Demographic districtDemo = new Demographic(allPopulation*5, districtEthnicPopulation, districtvapPopulation);
+            // NYDistricts.add(new District("district" + 1, 1, 0, districtDemo));
+            // NYDistricts.add(new District("district" + 2, 2, 1, districtDemo));
+            // NYDistricts.add(new District("district" + 3, 3, 0, districtDemo));
+            // NYDistricts.add(new District("district" + 4, 4, 1, districtDemo));
 
             List<CensusCatagories> minorityAnalyzed = new ArrayList<>();
             minorityAnalyzed.add(CensusCatagories.AFRICAN_AMERICAN);
@@ -114,7 +112,10 @@ public class FakeDataAccessObject{
         Plan plan1 = new Plan("NY","Average","0", 100, false);
         Plan plan2 = new Plan("NY","Extreme","0", 100, false);
         Plan plan3 = new Plan("NY","Random","0", 100, false);
-        Plan [] plans = {plan1,plan2,plan3};
+        List<Plan>  plans = new ArrayList<>();
+        plans.add(plan1);
+        plans.add(plan2);
+        plans.add(plan3);
         job1.setClientDistrictingPlans(plans);
         job2.setClientDistrictingPlans(plans);
         job3.setClientDistrictingPlans(plans);
