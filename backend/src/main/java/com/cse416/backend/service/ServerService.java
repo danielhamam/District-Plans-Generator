@@ -176,7 +176,8 @@ public class ServerService {
     private void determineAlgorithmComputeLocation(Job job)throws IOException {
         if(runAlgoLocally){
             System.out.println("Running algorithm locally... Python output...");
-            ProcessBuilder pb = new ProcessBuilder("python3", "src/main/resources/algorithm/Algorithm2.py");
+            ProcessBuilder pb = new ProcessBuilder("python3",
+                    "src/main/resources/python/algorithm/AlgorithmDanny_p3.py");
             pb.redirectErrorStream(true);
             Process process = pb.start();
             printProcessOutput(process);
@@ -184,7 +185,7 @@ public class ServerService {
         else{
             //TODO: [SERVER/ALGO] Implement slurm bash script, send the summary to the seawulf.
             System.out.println("Running algorithm remotely");
-//            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/trigger.sh");
+//            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/trigger.sh);
 //            Process process = pb.start();
 //            printProcessOutput(process);
         }
@@ -236,48 +237,9 @@ public class ServerService {
         //TODO: [SERVER] implement server functionality for updating attribution for job
     }
 
-
-    public Boundary getStateBoundary(String stateAbbrev){
-        //fake.queryGetStateBoundary(stateAbbrev);
-        return null;
-    }
-
-
     public List <Job> getStateJobsInformation(String stateAbbrev){
         List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);
         return jobs;
-    }
-
-    public Job getJobInformation(String stateAbbrev, String jobID){
-        return null;
-    }
-
-    public Plan getPlanInformation(String stateAbbrev, String planID){
-        return null;
-    }
-
-    public District getDistrictInformation(String stateAbbrev){
-        return null;
-    }
-
-    public Boundary getDistrictBoundary(String stateAbbrev){
-        return null;
-    }
-
-    public Demographic getDistrictDemographic(String stateAbbrev){
-        return null;
-    }
-
-    public List<Precinct> getDesiredPrecinctInformation(String stateAbbrev, String planID, List <Integer> desiredPrecinct){
-        return null;
-    }
-
-    public List<Precinct> getAllPrecinctInformation(String stateAbbrev, String planID) {
-        //fake.queryGetAllPrecinctInformation(stateAbbrev, planID);
-        return null;
-    }
-    public Demographic getPrecinctDemographic(String stateAbbrev){
-        return null;
     }
     
 }

@@ -60,11 +60,14 @@ public class State {
 
     // @Transient
     @JsonIgnore
-    private File precinctFile;
+    private File precinctsFile;
 
     // @Transient
     @JsonIgnore
-    private File stateFile;
+    private File algorithmPrecinctsFile;
+
+    @JsonIgnore
+    private String algorithmPrecinctsJson;
 
     // @Transient
     @JsonIgnore
@@ -85,23 +88,30 @@ public class State {
         this.numOfPrecincts = numOfPrecincts;
         this.numOfCounties = numOfCounties;
         this.numOfDistricts = numOfDistricts;
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
-        String boundaryFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
-        this.precinctFile = new File(new File(precinctFilePath).getAbsolutePath());
-        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        String algorithmPrecinctsFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/AlgorithmPrecincts.json";
+//        String boundaryFilePath = "src/main/resources/system/states/" +
+//                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
+//        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
         try{
-            this.precinctsGeoJson = createPrecinctFeatureCollection();
+            this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
+            this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
+            this.precinctsGeoJson = createPrecinctsFeatureCollection();
         }
         catch(IOException error){
             error.printStackTrace();
         }
     }
 
-    public FeatureCollection createPrecinctFeatureCollection()throws IOException {
-        return new ObjectMapper().readValue(this.precinctFile, FeatureCollection.class);
+    private FeatureCollection createPrecinctsFeatureCollection()throws IOException {
+        return new ObjectMapper().readValue(this.precinctsFile, FeatureCollection.class);
+    }
+
+    private String createAlgorithmPrecinctsString()throws IOException {
+        return "";
     }
     
     public String getStateName() {
