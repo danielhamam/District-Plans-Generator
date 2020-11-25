@@ -8,7 +8,7 @@ num_districts = 3
 num_precincts = 30
 compactness_measure = ''
 population_variance = 0.017
-termination_limit = 2
+termination_limit = 30
 ideal_population = 15
 compactness_lower_bound = 0.1
 compactness_upper_bound = 1.3
@@ -41,7 +41,7 @@ def getData():
 
     try:
         # Opening JSON file 
-        f = open('backend/src/main/resources/python/algorithm/algorithm_test.json') 
+        f = open('backend/src/main/resources/python/algorithm/algorithm_test_medium.json') 
 
         # returns JSON object as  
         # a dictionary 
