@@ -183,11 +183,10 @@ public class ServerService {
             printProcessOutput(process);
         }
         else{
-            //TODO: [SERVER/ALGO] Implement slurm bash script, send the summary to the seawulf.
-            System.out.println("Running algorithm remotely");
-//            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/trigger.sh);
-//            Process process = pb.start();
-//            printProcessOutput(process);
+            new Thread(() -> {
+                AlgorithmInterface seawulfAdapter = new AlgorithmInterface(job, session.getState(), runAlgoLocally);
+                seawulfAdapter.start();
+            });
         }
     }
 
