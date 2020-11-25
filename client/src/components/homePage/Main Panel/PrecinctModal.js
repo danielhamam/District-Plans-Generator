@@ -13,13 +13,14 @@ class PrecinctModal extends Component {
     render() {
         
         return (
-            <div style={this.props.togglePrecinctModal ? { display : 'block' } : { display: 'none' }} >
-               <table id="precinctModal" class="table">
+            <div id="precinctModalWrapper" style={this.props.togglePrecinctModal ? { display : 'block' } : { display: 'none' }} >
+               <Table striped bordered hover id="precinctModal" className="table">
                     <thead>
+                        {/* <tr id="precinctName"> Precinct Name: {} </tr> */}
                         <tr>
-                        <th scope="col">Demographic Category</th>
-                        <th scope="col">Precinct Population </th>
-                        <th scope="col">Voting Age Population </th>
+                            <th scope="col">Demographic Category</th>
+                            <th scope="col">Overall Population </th>
+                            <th scope="col">Voting Age Population </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +60,7 @@ class PrecinctModal extends Component {
                             <td>250,000</td>
                         </tr>
                     </tbody>
-                </table>
+                </Table>
             </div>
             );
         }

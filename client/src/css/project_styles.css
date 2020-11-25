@@ -104,13 +104,19 @@ html, body {
   color: black;
 }
 
+#precinctName {
+  margin-left: 2px;
+  font-weight: bold;
+}
+
 #precinctModal {
-  position : absolute;
+  position : relative;
   background-color: white;
-  height: 10%;
-  width: 10%;
-  left:81.5%;
-  top: 15%;
+  height: 250px;
+  width: 350px;
+  float : right;
+  margin-top: 73px;
+  margin-right: 14px;
   z-index: 5;
 }
 
