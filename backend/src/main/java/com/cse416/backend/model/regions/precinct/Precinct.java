@@ -7,49 +7,52 @@ import com.cse416.backend.model.regions.district.*;
 import com.cse416.backend.model.Boundary;
 
 
-import java.lang.Integer;
+import java.lang.*;
+import java.util.*;
 import javax.persistence.*;
 
-// @Entity
-// @Table(name="Precincts")
+@Entity
+@Table(name="Precincts")
 public class Precinct {
 
-    // @Id
-    // @GeneratedValue
-    private Integer countyId;
-
-    // @Transient
-    // @ManyToOne
-    private County county;
-
-    // @Transient
-    // @ManyToOne
-    private State state;
-
-    // @Transient
-    // @ManyToOne
-    private District district;
-
-    // @Column(nullable=false)
+    @Id
+    @GeneratedValue
+    private Integer precinctId;
+    
     private String precinctName;
 
-    // @Column(nullable=false)
     private int precinctFIPSCode;
 
-    // @Transient
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "countyId")
+    private County county;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "districtId")
+    private District district;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stateId")
+    private State state;
+
+    @Transient
     private Boundary boundary;
 
-    // @Transient
-    // @OneToOne
+    @OneToOne(mappedBy = "precinct", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     private Demographic demographic;
 
-    // @Transient
-    // @JoinTable
-    // @OneToMany(targetEntity=Precinct.class)
-    private Precinct [] neighbors;
+    @Transient
+    @ManyToMany
+    @JoinTable(
+        name = "PrecinctNeighbors",
+        joinColumns = @JoinColumn(name = "precinctID", referencedColumnName = "precinctId"),
+        inverseJoinColumns = @JoinColumn(name = "neighborPrecinctID", referencedColumnName = "precinctId")
+    )
+    private List<Precinct> neighbors;
 
     //Neccessary for JPA
-    // protected Precinct (){}
+    protected Precinct (){}
 
     public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;
@@ -58,7 +61,7 @@ public class Precinct {
 
     }
 
-    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic, Precinct [] neighbors) {
+    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic, List<Precinct> neighbors) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
         this.demographic = demographic;
@@ -97,11 +100,11 @@ public class Precinct {
         this.demographic = demographic;
     }
 
-    public Precinct [] getNeighbors() {
+    public List<Precinct>  getNeighbors() {
         return this.neighbors;
     }
 
-    public void setNeighbors(Precinct [] neighbors) {
+    public void setNeighbors(List<Precinct> neighbors) {
         this.neighbors = neighbors;
     }
 

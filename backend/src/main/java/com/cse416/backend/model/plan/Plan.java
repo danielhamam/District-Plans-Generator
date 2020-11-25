@@ -6,10 +6,11 @@ import java.util.List;
 
 import com.cse416.backend.model.regions.district.District;
 import com.cse416.backend.model.regions.precinct.Precinct;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
+import com.cse416.backend.model.regions.state.State;
+import com.cse416.backend.model.job.*;
+
+import java.lang.*;
+import java.util.*;
 import java.io.File;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,50 +20,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.geojson.FeatureCollection;
 import javax.persistence.*;
 
-import java.lang.Integer;
-
-// @Entity
-// @Table(name="Plans")
+@Entity
+@Table(name="Plans")
 public class Plan{
     
     @JsonProperty
-    // @Transient
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String planID;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stateId")
+    private State state;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "jobId")
+    private Job job;
+
+    @JsonProperty
+    @Transient
     private String type;
 
     @JsonProperty
-    // @Column(name = "stateID")
     private String stateAbbreviation;
-
-    @JsonProperty
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    private String planID;
 
     @JsonProperty
     private int numberOfDistricts;
 
     @JsonProperty
-    // @Transient
+    @Transient
     private boolean isPlanEnacted;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private List<District> districts;
 
     @JsonIgnore
-    // @Transient
     private int averageDistrictPopulation;
 
     @JsonIgnore
-    // @Transient
     private int averageDistrictCompactness;
 
     @JsonIgnore
-    // @Transient
+    @Transient
     private File districtFile;
 
     @JsonProperty
-    // @Transient
+    @Transient
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
 

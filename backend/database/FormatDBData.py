@@ -401,6 +401,7 @@ def createPrecinctDictionary(file):
       
     return precinct_dict
 
+
 if __name__ == '__main__':
     main()
 

@@ -1,54 +1,60 @@
 
-// package com.cse416.backend.dao.services;
-// import com.cse416.backend.dao.repositories.StateRepository;
-// import org.springframework.stereotype.*;
+package com.cse416.backend.dao.services;
+import com.cse416.backend.dao.repositories.StateRepository;
+import org.springframework.stereotype.*;
 
-// import com.cse416.backend.model.regions.state.State;
-// import org.springframework.beans.factory.annotation.Autowired;
+import com.cse416.backend.model.regions.state.State;
+import org.springframework.beans.factory.annotation.Autowired;
 
-// import java.util.ArrayList;
-// import java.util.List;
-
-// import java.util.Optional;
+import java.util.*;
+import java.lang.Integer;
 
 
-// @Service
-// public class StateDAOService{
 
-//    @Autowired
-//    private StateRepository stateRepository;
+@Service
+public class StateDAOService{
 
-//    public List<State> getAllStates(){
+   @Autowired
+   private StateRepository stateRepository;
 
-//       List<State> states = new ArrayList<>();
+   public List<State> getAllStates(){
 
-//       stateRepository.findAll().forEach(states::add);
+      List<State> states = new ArrayList<>();
 
-//       return states;
-//    }
+      stateRepository.findAll().forEach(states::add);
 
-//    public Optional<State> getStateById(String Id){
-//        return stateRepository.findById(Id);
-//    }
+      return states;
+   }
 
-//    public void addState(State state){
-//        stateRepository.save(state);
-//    }
+   public Optional<State> getStateById(String Id){
+       return stateRepository.findById(Id);
+   }
 
-//    public void updateState(State state){
-//        stateRepository.save(state);
-//    }
+   public State getStateByName(String name){
+        return stateRepository.findByName(name);
+    }
 
-//    public void deleteState(State state){
-//        stateRepository.delete(state);
-//    }
+    public State getStateByFIPSCode(Integer stateFIPSCode){
+        return stateRepository.findByFIPSCode(stateFIPSCode);
+    }
 
-//    public void deleteStateById(String Id){
-//        stateRepository.deleteById(Id);
-//    }
+   public void addState(State state){
+       stateRepository.save(state);
+   }
 
+   public void updateState(State state){
+       stateRepository.save(state);
+   }
 
-//    public Long numberStateEntities(){
-//        return stateRepository.count();
-//    }
-// }
+   public void deleteState(State state){
+       stateRepository.delete(state);
+   }
+
+   public void deleteStateById(String Id){
+       stateRepository.deleteById(Id);
+   }
+
+   public Long numberStateEntities(){
+       return stateRepository.count();
+   }
+}

@@ -1,55 +1,53 @@
 
-// package com.cse416.backend.dao.services;
-// import com.cse416.backend.dao.repositories.DistrictRepository;
-// import org.springframework.stereotype.*;
+package com.cse416.backend.dao.services;
+import com.cse416.backend.dao.repositories.DistrictRepository;
+import org.springframework.stereotype.*;
 
-// import com.cse416.backend.model.regions.district.District;
-// import org.springframework.beans.factory.annotation.Autowired;
+import com.cse416.backend.model.regions.district.District;
+import org.springframework.beans.factory.annotation.Autowired;
 
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.lang.Integer;
 
-// import java.util.Optional;
+import java.util.*;
+import java.lang.Integer;
 
 
 
-// @Service
-// public class DistrictDAOService{
 
-//    @Autowired
-//    private DistrictRepository districtRepository;
+@Service
+public class DistrictDAOService{
 
-//    public List<District> getAllDistricts(){
+   @Autowired
+   private DistrictRepository districtRepository;
 
-//       List<District> districts = new ArrayList<>();
+   public Optional<District> getDistrictById(Integer Id){
+       return districtRepository.findById(Id);
+   }
 
-//       districtRepository.findAll().forEach(districts::add);
+   public District getDistrictByStateIdAndDistrictNumber(String stateAbbrevation, Integer districtNumber){
+        return districtRepository.findByStateIdAndDistrictNumber(stateAbbrevation, districtNumber);
+   }
 
-//       return districts;
-//    }
+   public List<District> getDistrictsByState(String stateAbbrevation){
+       return districtRepository.findByStateId(stateAbbrevation);
+   }
 
-//    public Optional<District> getDistrictById(Integer Id){
-//        return districtRepository.findById(Id);
-//    }
+   public void addDistrict(District district){
+       districtRepository.save(district);
+   }
 
-//    public void addDistrict(District district){
-//        districtRepository.save(district);
-//    }
+   public void updateDistrict(District district){
+       districtRepository.save(district);
+   }
 
-//    public void updateDistrict(District district){
-//        districtRepository.save(district);
-//    }
+   public void deleteDistrict(District district){
+       districtRepository.delete(district);
+   }
 
-//    public void deleteDistrict(District district){
-//        districtRepository.delete(district);
-//    }
+   public void deleteDistrictById(Integer Id){
+       districtRepository.deleteById(Id);
+   }
 
-//    public void deleteDistrictById(Integer Id){
-//        districtRepository.deleteById(Id);
-//    }
-
-//    public Long numberDistrictEntities(){
-//        return districtRepository.count();
-//    }
-// }
+   public Long numberDistrictEntities(){
+       return districtRepository.count();
+   }
+}

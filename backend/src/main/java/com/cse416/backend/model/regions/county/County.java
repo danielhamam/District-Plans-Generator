@@ -4,69 +4,53 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.district.*;
 import com.cse416.backend.model.regions.state.*;
+import com.cse416.backend.model.demographic.*;
 
 
 import com.cse416.backend.model.Boundary;
 
-
-
-
-import java.util.List;
+import java.lang.*;
+import java.util.*;
 import javax.persistence.*;
-import java.lang.Integer;
 
 
-// @Entity
-// @Table(name="Counties")
+
+@Entity
+@Table(name="Counties")
 public class County {
 
-    // @Id
-    // @GeneratedValue
+    @Id
+    @GeneratedValue
     private Integer countyId;
 
-    // @Column(nullable=false, length=2)
-    private String stateId;
-
-    // @Column(nullable=false)
     private String countyName;
 
-    private long totalPopulation;
-
-    // @Transient
-    private String districtName;
-
-    // @Transient
-    private String stateName;
-
-    // @Column(nullable=false)
-    private int countyFIPSCode;
-
-    // @Transient
-    private int districtFIPSCode;
-
-    // @Transient
-    private int stateFIPSCode;
-
-    // @Transient
+    private Integer countyFIPSCode;
+    
+    @Transient
     private Boundary boundary;
 
-    //@ManyToOne
-    // @Transient
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "districtId")
     private District district;
 
-    //@ManyToOne
-    // @Transient
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stateId")
     private State state;
 
-    // @Column(name = "numberOfPrecincts")
+    @Column(name = "numberOfPrecincts")
     private int numOfPrecincts;
 
-    // @Transient
-    // @JoinTable
-    // @OneToMany(targetEntity=Precinct.class)
+    @OneToMany(mappedBy = "county", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     @JsonIgnore 
     private List<Precinct> precincts;
 
+    @OneToOne(mappedBy = "county", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private Demographic demographic;
+
+ 
     //Neccessary for JPA
     protected County (){}
 
@@ -76,19 +60,19 @@ public class County {
         this.boundary = boundaries;
     }
 
-    public void setState(String name, int FIPSCode) {
-        stateName = name;
-        stateFIPSCode = FIPSCode;
-    }
+    // public void setState(String name, int FIPSCode) {
+    //     stateName = name;
+    //     stateFIPSCode = FIPSCode;
+    // }
 
-    public void setDistrict(String name, int FIPSCode) {
-        districtName = name;
-        districtFIPSCode = FIPSCode;
-    }
+    // public void setDistrict(String name, int FIPSCode) {
+    //     districtName = name;
+    //     districtFIPSCode = FIPSCode;
+    // }
 
-    public void setPrecincts(List<Precinct> precincts) {
-        this.precincts = precincts;
-    }
+    // public void setPrecincts(List<Precinct> precincts) {
+    //     this.precincts = precincts;
+    // }
 
     public String getName() {
         return countyName;
@@ -111,19 +95,19 @@ public class County {
     }
 
     public String getStateName() {
-        return stateName;
+        return state.getStateName();
     }
 
     public int getStateFIPSCode() {
-        return stateFIPSCode;
+        return state.getStateFIPSCode();
     }
 
     public String getDistrictName() {
-        return districtName;
+        return district.getDistrictName();
     }
 
     public int getDistrictFIPSCode() {
-        return districtFIPSCode;
+        return district.getDistrictNumber();
     }
 
 }
