@@ -104,6 +104,15 @@ html, body {
   color: black;
 }
 
+#precinctModal {
+  position : absolute;
+  background-color: white;
+  height: 10%;
+  width: 10%;
+  left:81.5%;
+  top: 15%;
+  z-index: 5;
+}
 
 
 /* ----------------------------------------------------------------------------- */

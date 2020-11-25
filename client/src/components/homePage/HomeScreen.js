@@ -29,6 +29,11 @@ export class HomeScreen extends Component {
           districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent} selectedPlanCheck={this.props.selectedPlanCheck}
           precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent} changeViewFromZoom={this.props.changeViewFromZoom}
           changeSelectedFilters={this.props.changeSelectedFilters} selectedFilters={this.props.selectedFilters}
+
+          // For Precinct Modal
+          selectedFeature = {this.props.selectedFeature} 
+          togglePrecinctModal = {this.props.togglePrecinctModal}
+
           />
 
       </div>

@@ -4,6 +4,8 @@ import OurMap from "./OurMap.js";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
+import PrecinctModal from "./PrecinctModal.js"
+
 class MainPanel extends Component {
   constructor () {
     super();
@@ -49,6 +51,7 @@ class MainPanel extends Component {
         return (
             <div id="mainPanelWrapper">
                 <div id="sideBarWrapper"> 
+
                     <Sidebar 
 
                     // State-related content
@@ -70,6 +73,7 @@ class MainPanel extends Component {
                     
                     />
                 </div>
+
                 <div id="mapPanelWrapper" className="container-fluid"> {/* bootstrap it so it's responsive */}
                     <OurMap changeCurrentState={this.props.changeCurrentState} 
                     currentState={this.props.currentState} changeCurrentZoom={this.changeCurrentZoom} 
@@ -84,6 +88,13 @@ class MainPanel extends Component {
                         />
                     </div>
                 </div>
+
+                {/* Precinct Modal */}
+                <PrecinctModal
+                selectedFeature = {this.props.selectedFeature} 
+                togglePrecinctModal = {this.props.togglePrecinctModal}
+                />
+
             </div> 
         );
 

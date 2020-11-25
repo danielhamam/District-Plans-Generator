@@ -1,5 +1,6 @@
 import HomeScreen from "./components/homePage/HomeScreen";
 import DeveloperScreen from "./components/developerscreen/Developer"
+
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Switch from "react-bootstrap/esm/Switch";
@@ -39,6 +40,10 @@ class App extends Component {
       // Checks for Selection
       selectedPlanCheck: false,
       selectedJobCheck: false,
+
+      // Modals
+      togglePrecinctModal : false,
+      selectedFeature : null
 
     }
 
@@ -134,11 +139,34 @@ class App extends Component {
       }
     this.setState({ jobCards : this.state.jobCards})
   }
+
+  togglePrecinctModal = (e) => {
+    if (this.state.togglePrecinctModal == false) this.setState({togglePrecinctModal : true})
+    else this.setState({togglePrecinctModal : false})
+  }
+
+  onEachFeature = (feature, layer) => {
+    console.log('onEachFeature fired: ');
+        this.setState({selectedFeature : feature})
+        layer.on({
+            mouseover: (e) => this.togglePrecinctModal(e),
+            mouseout: (e) => this.togglePrecinctModal(e)
+        });
+  }
   
   getPrecincts = async () => {
     try {
       let res = await endpoint.getStatePrecincts();
-      this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='precincts' data={res.precinctsGeoJson} />});
+      this.setState({precinctsContent : 
+      <GeoJSON 
+        weight={1} 
+        color="red" 
+        key='precincts' 
+        data={res.precinctsGeoJson} 
+        onEachFeature = {this.onEachFeature}
+        // onmouseover = {this.onEachFeature}
+        
+      />});
     } catch (exception) {
       console.error(exception);
     }
@@ -279,9 +307,10 @@ class App extends Component {
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
             selectedFilters = {this.state.selectedFilters}
 
+            // For Precinct Modal
+            selectedFeature = {this.state.selectedFeature} 
+            togglePrecinctModal = {this.state.togglePrecinctModal}
             />
-
-            
 
             <DeveloperScreen/>            
 
