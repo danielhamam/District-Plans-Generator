@@ -3,12 +3,13 @@ import math
 import sys
 import json
 from copy import deepcopy
+import argparse
 
 num_districts = 3
 num_precincts = 30
 compactness_measure = ''
 population_variance = 0.017
-termination_limit = 30
+termination_limit = 5
 ideal_population = 15
 compactness_lower_bound = 0.1
 compactness_upper_bound = 1.3
@@ -35,13 +36,16 @@ graph_main = {}
 #                        HELPER FUNCTIONS
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
-def getData():
+def getData(file):
 
     print("Retrieving data. . .")
 
     try:
         # Opening JSON file 
-        f = open('./algorithm_test_medium.json')
+
+
+        f = open('./backend/src/main/resources/python/algorithm/algorithm_test_medium.json')
+        # f = file
 
         # returns JSON object as  
         # a dictionary 
@@ -62,6 +66,13 @@ def getData():
     except:
         print("ERROR: File not found!")
         sys.exit()
+
+# def removeGhostPrecincts():
+#     global graph_main
+
+#     for precinct in graph_main:
+#         print(precinct)
+
 
 def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
     global neighbors, subgraphs
@@ -358,7 +369,7 @@ def generateSpanningTreeBFS():
     return spanning_tree
 
 def cutAcceptable(acceptable_edges, target_cut):
-    global subgraphs_combined, subgraphs, neighbors
+    global subgraphs_combined, subgraphs, neighbors, num_of_cut_edges
 
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
@@ -420,6 +431,8 @@ def cutAcceptable(acceptable_edges, target_cut):
     subgraphs[combined_subgraph_index] = subgraph_one # so it holds the same neighbors
     subgraphs.append(subgraph_two)
     reinitializeNeighbors()
+
+    num_of_cut_edges = num_of_cut_edges + 1
 
     return subgraph_one, subgraph_two
 
@@ -530,8 +543,19 @@ def findCombine(graph, subgraph):
 # ------------------------------------------------------------------
 
 def main():     
-    getData()
+    # parser = argparse.ArgumentParser(prog="algorithm",
+    #                                  description='Algorithm')
+    # parser.add_argument('infile', help='Algo-output file', type=argparse.FileType('r'), nargs=1,
+    #                     default=sys.stdin)
+
+    # getData(parser.parse_args().infile[0])
+
+    getData("")
+    # removeGhostPrecincts()
     algorithmDriver(graph_main)
+
+    global num_of_cut_edges
+    print(num_of_cut_edges)
     return
 
 if __name__ == "__main__":
