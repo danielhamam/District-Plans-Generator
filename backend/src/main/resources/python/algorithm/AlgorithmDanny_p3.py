@@ -67,12 +67,20 @@ def getData(file):
         print("ERROR: File not found!")
         sys.exit()
 
-# def removeGhostPrecincts():
-#     global graph_main
+def removeGhostPrecincts():
+    # Ghost precincts are precincts that do not have any neighbors (e.g. ones surrounded by water that is part of a state)
+    global graph_main
 
-#     for precinct in graph_main:
-#         print(precinct)
+    ghost_precincts = []
 
+
+    for precinct in graph_main:
+        if graph_main[precinct]["neighbors"] == []:
+            ghost_precincts.append(precinct)
+    
+    for precinct in ghost_precincts:
+        del graph_main[precinct]
+        
 
 def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
     global neighbors, subgraphs
@@ -551,8 +559,8 @@ def main():
     # getData(parser.parse_args().infile[0])
 
     getData("")
-    # removeGhostPrecincts()
-    algorithmDriver(graph_main)
+    removeGhostPrecincts()
+    # algorithmDriver(graph_main)
 
     global num_of_cut_edges
     print(num_of_cut_edges)
