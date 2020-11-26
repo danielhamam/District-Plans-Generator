@@ -106,7 +106,7 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
         //      Mutation function to update job status of a job on the remote database.
-        Optional state = stateDAO.getStateById(stateAbbrevation);
+        State state = stateDAO.getStateByName("Georgia");
         System.out.print(state);
 //        List <Job> jobs = null;
 //        System.out.println(jobs);
