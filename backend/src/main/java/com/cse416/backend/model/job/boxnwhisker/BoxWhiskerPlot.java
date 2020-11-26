@@ -10,6 +10,7 @@ public class BoxWhiskerPlot{
     private int q2;
     private int q3;
     private int max;
+    private int [] enactedPlan;
 
 
     public BoxWhiskerPlot(int id, int min, int q1, int q2, int q3, int max) {

@@ -93,7 +93,9 @@ public class AlgorithmInterface implements Runnable {
         if(runAlgoLocally){
             System.out.println("Running algorithm locally... Python output...");
             String localPath = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
-            ProcessBuilder pb = new ProcessBuilder("python3", localPath);
+            //TODO:CHANGE THE LINE BELOW TO REFLECT InputAlgorithm.json
+            String arg = "src/main/resources/python/algorithm/algorithm_test.json";
+            ProcessBuilder pb = new ProcessBuilder("python3", localPath, arg);
             pb.redirectErrorStream(true);
             Process process = pb.start();
             printProcessOutput(process);
@@ -124,4 +126,5 @@ public class AlgorithmInterface implements Runnable {
             e.printStackTrace();
         }
     }
+
 }

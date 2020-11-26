@@ -37,20 +37,10 @@ graph_main = {}
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
 def getData(file):
-
-    print("Retrieving data. . .")
-
     try:
-        # Opening JSON file 
-
-
-        f = open('./backend/src/main/resources/python/algorithm/algorithm_test_medium.json')
-        # f = file
-
-        # returns JSON object as  
-        # a dictionary 
-        data = json.load(f) 
-
+        print("Retrieving data. . .")
+        # Opening JSON file
+        data = json.load(file)
         global state
         state = data['data']['state']
         global job
@@ -62,7 +52,7 @@ def getData(file):
         print("Data retrieval complete.")
 
         # Closing file 
-        f.close() 
+        file.close()
     except:
         print("ERROR: File not found!")
         sys.exit()
@@ -550,17 +540,17 @@ def findCombine(graph, subgraph):
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
 
-def main():     
-    # parser = argparse.ArgumentParser(prog="algorithm",
-    #                                  description='Algorithm')
-    # parser.add_argument('infile', help='Algo-output file', type=argparse.FileType('r'), nargs=1,
-    #                     default=sys.stdin)
+def parser():
+    parser = argparse.ArgumentParser(prog="algorithm",description='Algorithm')
+    parser.add_argument('infile', help='Algo-output file', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
+    return parser
 
-    # getData(parser.parse_args().infile[0])
-
-    getData("")
-    removeGhostPrecincts()
-    # algorithmDriver(graph_main)
+def main():
+    parse = parser()
+    infile = parse.parse_args().infile[0]
+    getData(infile)
+    # removeGhostPrecincts()
+    algorithmDriver(graph_main)
 
     global num_of_cut_edges
     print(num_of_cut_edges)

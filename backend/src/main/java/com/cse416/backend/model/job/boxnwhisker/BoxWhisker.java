@@ -1,5 +1,7 @@
 package com.cse416.backend.model.job.boxnwhisker;
 
+import com.cse416.backend.model.job.Job;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Map;
 public class BoxWhisker {
     //[min,  q1, q2, q3, max]
     private List<BoxWhiskerPlot> boxWhisker;
+    private Job job;
 
     public BoxWhisker(){
         boxWhisker = new ArrayList<>();

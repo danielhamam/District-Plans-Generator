@@ -6,6 +6,7 @@ import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.county.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.cse416.backend.model.Boundary;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.lang.*;
 import java.util.*;
@@ -13,7 +14,7 @@ import java.util.*;
 import javax.persistence.*;
 
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name="Districts")
 public class District{
@@ -45,6 +46,9 @@ public class District{
     cascade = CascadeType.ALL)
     private Demographic demographic;
 
+    @Transient
+    private double compactness;
+
     @JsonIgnore
     @OneToMany(mappedBy = "district", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL)
@@ -67,9 +71,6 @@ public class District{
     @JsonIgnore
     private double area;
 
-    @Transient
-    @JsonIgnore
-    private double compactness;
    
     //Neccessary for JPA
     protected District (){}
