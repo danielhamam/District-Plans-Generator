@@ -10,7 +10,7 @@ import BoxWhiskerModal from './GraphDisplay/BoxWhiskerModal'
 
 class Sidebar extends Component {
     constructor () {
-        super();
+        super()
         this.state = { 
             currentState : "Select a state",
             statusCollapsed : false,
@@ -19,67 +19,19 @@ class Sidebar extends Component {
             collapsedIconRight : false,
             selectedFilters : null,
             modalOpen : false,
-            graphOptions : {
-                animationEnabled: true,
-                theme: "light2",
-                title:{
-                    text: "VAP Filter vs. Indexed Districts" // Existing plan "overlaps"/compared alongside with these district plans.
-                },
-                legend:{
-                    horizontalAlign: "right",
-                    verticalAlign: "top",
-                },
-                axisY: {
-                    title: "Voting Age Population (VAP) by Demographic Filter",
-                },
-                axisX: {
-                    title: "Indexed Districts"
-                },
-                
-                data: [{
-                    type: "boxAndWhisker",
-                    legendText: "Generated",
-                    showInLegend: true,
-                    color: "red",
-                    upperBoxColor: "#A72A17",
-                    lowerBoxColor: "#A3A3A3",
-                    yValueFormatString: "###.0# ",
-                    dataPoints: [
-                        { label: "1", y: [61, 65, 63.5, 70, 68] },
-                        { label: "2", y: [63, 68, 66.5, 76, 72] },
-                        { label: "3", y: [65, 71, 69.5, 78, 75] },
-                        { label: "4", y: [67, 73, 72, 80, 78] },
-                        { label: "5", y: [69, 76, 75, 83, 80] },
-                        { label: "6", y: [71, 78, 78,  85, 83] },
-                        { label: "7", y: [74, 81, 81, 87, 86] },
-                        
-                    ]
-                },
-                {
-                    type: "scatter",
-                    legendText: "Enacted",
-                    showInLegend: true,
-                    markerSize: 8,
-                    color: "#007BFF",
-                    toolTipContent: "District Percentage: {y}",
-                    dataPoints: [
-                        { x: 0, y: 68},
-                        { x: 1, y: 71},
-                        { x: 2, y: 73},
-                        { x: 3, y: 74},
-                        { x: 4, y: 77},
-                        { x: 5, y: 80},
-                        { x: 6, y: 83},
-                    ]
-                }]
-            },
+
+            // Minorities
+            minoritiesAnalyzed : ""
+
         }
+
+        this.graphOptions = {}
     }
 
     toggleCollapse = () => {
         if (this.state.statusCollapsed == false) {
             document.getElementById("sidebarHeader").style.visibility = "hidden";
-            this.setState({hideSidebarHeader : true});
+            // this.setState({hideSidebarHeader : true});
             this.setState({statusCollapsed: true})
             document.getElementById("collapseButtonRight").style.visibility = "visible";
             document.getElementById("collapseButtonLeft").style.visibility = "hidden";
@@ -87,7 +39,7 @@ class Sidebar extends Component {
         }
         else {
             document.getElementById("sidebarHeader").style.visibility = "visible";
-            this.setState({hideSidebarHeader : false})
+            // this.setState({hideSidebarHeader : false})
             this.setState({statusCollapsed : false})
             document.getElementById("collapseButtonRight").style.visibility = "hidden";
             document.getElementById("collapseButtonLeft").style.visibility = "visible";
@@ -103,17 +55,76 @@ class Sidebar extends Component {
         else this.setState({modalOpen : false});
     }
 
+    createGraphOptions = () => {
+        this.graphOptions = {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "VAP Filter vs. Indexed Districts" // Existing plan "overlaps"/compared alongside with these district plans.
+            },
+            legend:{
+                horizontalAlign: "right",
+                verticalAlign: "top",
+            },
+            axisY: {
+                // title: "Voting Age Population (VAP) by Demographic Filter",
+                title: "Voting Age Population (VAP) by Demographic(s) Filter",
+            },
+            axisX: {
+                title: "Indexed Districts"
+            },
+            
+            data: [{
+                type: "boxAndWhisker",
+                legendText: "Generated",
+                showInLegend: true,
+                color: "red",
+                upperBoxColor: "#A72A17",
+                lowerBoxColor: "#A3A3A3",
+                yValueFormatString: "###.0# ",
+                dataPoints: [
+                    { label: "1", y: [61, 65, 63.5, 70, 68] },
+                    { label: "2", y: [63, 68, 66.5, 76, 72] },
+                    { label: "3", y: [65, 71, 69.5, 78, 75] },
+                    { label: "4", y: [67, 73, 72, 80, 78] },
+                    { label: "5", y: [69, 76, 75, 83, 80] },
+                    { label: "6", y: [71, 78, 78,  85, 83] },
+                    { label: "7", y: [74, 81, 81, 87, 86] },
+                    
+                ]
+            },
+            {
+                type: "scatter",
+                legendText: "Enacted",
+                showInLegend: true,
+                markerSize: 8,
+                color: "#007BFF",
+                toolTipContent: "District Percentage: {y}",
+                dataPoints: [
+                    { x: 0, y: 68},
+                    { x: 1, y: 71},
+                    { x: 2, y: 73},
+                    { x: 3, y: 74},
+                    { x: 4, y: 77},
+                    { x: 5, y: 80},
+                    { x: 6, y: 83},
+                ]
+            }]
+        }
+    }
+
     render() {
 
         if (this.state.selectedFilters != this.props.selectedFilters) this.setState({selectedFilters : this.props.selectedFilters});
         if (this.state.currentState != this.props.currentState) this.setState({currentState : this.props.currentState});
 
+        this.createGraphOptions()
+
         return (
                 <div id="mainSidebar" >
-                    <ProSidebar image={blackBackground} collapsed={this.state.statusCollapsed} >
+                    <ProSidebar image={blackBackground} >
                         <SidebarHeader id="sidebarHeader"> 
-                            <i id="collapseButtonLeft" className="fa fa-angle-double-left" onClick={this.toggleCollapse}> </i>
-                            <i id="collapseButtonRight" className="fa fa-angle-double-right" onClick={this.toggleCollapse}> </i>
+                            <br />
                             <div className="row col-md-12">  {/* Holds Flag, "Current State", and Selection of State */}
                                 <br />
                                     <div className="col-md-4"> 
@@ -136,7 +147,7 @@ class Sidebar extends Component {
                             </div>
                         </SidebarHeader>
 
-                        <Menu id="menuofCategories" iconShape="square" >
+                        <Menu id="menuofCategories" iconShape="square"  >
 
                             {/* -------------------------- */}
                             {/* -------------------------- */}
@@ -157,7 +168,6 @@ class Sidebar extends Component {
                             {/* -------------------------- */}
 
                                 <SubMenu icon={<div> <i className="fa fa-briefcase" > </i> </div>} title={<b> Your Jobs</b>} >
-                                    
                                     <div id="yourJobsWrapper">
                                         <YourJobs 
                                         selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
@@ -201,7 +211,8 @@ class Sidebar extends Component {
                                         <i id="displayGraph_icon" className="fa fa-external-link"> </i> 
                                     </div>
                                     <BoxWhiskerModal 
-                                        graphOptions={this.state.graphOptions} 
+                                        currentJob = {this.props.currentJob}
+                                        graphOptions={this.graphOptions} 
                                         handleBoxWhiskerModal ={this.handleBoxWhiskerModal} 
                                         showModal={this.state.modalOpen} > 
                                     </BoxWhiskerModal >
