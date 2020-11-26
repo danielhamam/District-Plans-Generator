@@ -11,39 +11,7 @@ class BoxWhiskerModal extends Component {
         super();
         this.state = {
             title : ""
-            // title2: "'s Box and Whisker Comparison"
         }
-    }
-
-
-    minorityAnalyzedList = (minorityAnalyzed) => {
-        let labelsMinorities = [];
-        minorityAnalyzed.forEach(element => { // values --> keys
-            switch (element) {
-              case "WHITE_AMERICAN": 
-                labelsMinorities.push("White");
-                break;
-              case "AFRICAN_AMERICAN": 
-                labelsMinorities.push("African American");
-                break;
-              case "LATINO_AMERICAN": 
-                labelsMinorities.push("Latino");
-                break;
-              case "ASIAN_AMERICAN": 
-                labelsMinorities.push("Asian");
-                break;
-              case "AMERICAN_INDIAN": 
-                labelsMinorities.push("American Indian");
-                break;
-              case "HAWAIIAN_AMERICAN": 
-                labelsMinorities.push("Hawaiian");
-                break;
-              case "OTHER_AMERICAN": 
-                labelsMinorities.push("Other");
-                break;
-            }
-        })
-        return labelsMinorities
     }
 
     receiveModal = () => {
