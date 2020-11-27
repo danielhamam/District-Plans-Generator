@@ -28,10 +28,9 @@ import javax.persistence.*;
 public class State {
 
     @Id
-    @Column(name="stateId", nullable=false, length=2)
+    @Column(name="stateId", nullable = false, unique = true)
     private String stateAbbreviation;
 
-    @Column(length=25)
     private String stateName;
 
     private int stateFIPSCode;
@@ -51,26 +50,25 @@ public class State {
     @Column(name="numberOfDistricts")
     private int numOfDistricts;
 
+    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
     private List<Precinct> statePrecincts;
 
-
+    @OneToMany(targetEntity=County.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
     private List<County> stateCounties;
 
 
+    @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
     private List<District> stateDistricts;
 
+    @OneToMany(targetEntity=Job.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
     private List<Job> stateJobs;
 
     @Transient
@@ -81,6 +79,7 @@ public class State {
     @JsonIgnore
     private File algorithmPrecinctsFile;
 
+    @Transient
     @JsonIgnore
     private String algorithmPrecinctsJson;
 
@@ -92,13 +91,9 @@ public class State {
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
-    private Demographic demographic;
-
     //Neccessary for JPA
-    protected State (){}
+    protected State (){
+    }
 
     public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
         this.stateName = stateName;
@@ -131,6 +126,26 @@ public class State {
 
     private String createAlgorithmPrecinctsString()throws IOException {
         return "";
+    }
+
+    public void setInitialGeojsonFiles(){
+        if(stateAbbreviation == null){
+            throw new NullPointerException("State Abbreivation doesn't exist ");
+        }
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        String precinctFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/Precincts.json";
+        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+        this.precinctsFile = new File(precinctFilePathAbsolutePath);
+        try{
+            this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
+            // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
+            this.precinctsGeoJson = createPrecinctsFeatureCollection();
+        }
+        catch(IOException error){
+            error.printStackTrace();
+        }
+
     }
     
     public String getStateName() {

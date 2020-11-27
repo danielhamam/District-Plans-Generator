@@ -21,39 +21,49 @@ import java.util.*;
 @Service
 public class ServerService {
 
-    private final FakeDataAccessObject fake;
+//    private final FakeDataAccessObject fake;
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
     private boolean runAlgoLocally  = true;
 
     //DAO Servicers
+    @Autowired
     private JobDAOService jobDAO;
+
+    @Autowired
     private CountyDAOService countyDAO;
+
+    @Autowired
     private DemographicDAOService demographicDAO;
+
+    @Autowired
     private CensusEthnicityDAOService censusEthnicityDAO;
+
+    @Autowired
     private DistrictDAOService districtDAO;
+
+    @Autowired
     private PlanDAOService planDAO;
+
+    @Autowired
     private PrecinctDAOService precinctDAO;
+
+    @Autowired
     private StateDAOService stateDAO;
 
     @Autowired
+    private BoxWhiskerDAOService boxWhiskerDAO;
+
+    @Autowired
+    private BoxWhiskerPlotDAOService boxWhiskerPlotDAO;
+
+    @Autowired
     public ServerService() {
-        this.fake = new FakeDataAccessObject();
+//        this.fake = new FakeDataAccessObject();
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
-
-        //DAO SERVICES
-        this.jobDAO = new JobDAOService();
-        this.countyDAO = new CountyDAOService();
-        this.demographicDAO = new DemographicDAOService();
-        this.censusEthnicityDAO = new CensusEthnicityDAOService();
-        this.districtDAO = new DistrictDAOService();
-        this.planDAO = new PlanDAOService();
-        this.precinctDAO = new PrecinctDAOService();
-        this.stateDAO = new StateDAOService();
-
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -65,7 +75,7 @@ public class ServerService {
         List<Object> clientJob = new ArrayList<>();
         jobs.forEach(job -> clientJob.add(job));
         clientData.put("state", state);
-        clientData.put("system/jobs", clientJob);
+        clientData.put("jobs", clientJob);
         return  mapper.writeValueAsString(clientData);
     }
 
@@ -107,15 +117,15 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
         //      Mutation function to update job status of a job on the remote database.
-        State state = fake.queryGetStateInformation(stateAbbrevation);
-        System.out.print(state);
-        List <Job> jobs = null;
-        System.out.println(jobs);
-        this.session.setState(state);
-        this.session.addJobs(jobs);
-        this.jobHistory.addJobs(jobs);
         String clientData = "{serverError:null}";
         try{
+            State state = stateDAO.getStateById(stateAbbrevation);
+            List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
+            System.out.println(state.getStateAbbreviation());
+            state.setInitialGeojsonFiles();
+            this.session.setState(state);
+            this.session.addJobs(jobs);
+            this.jobHistory.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -124,7 +134,7 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
-        //return "OKAY";
+//        return "OKAY";
     }
 
     public String getJob(String jobID){
@@ -200,7 +210,7 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         //fake.mutationGenerateJob(job);
-        // this.jobService.addJob(job);
+        
         
 
         try{

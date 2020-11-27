@@ -21,10 +21,6 @@ public class PlanDAOService{
        return planRepository.findById(Id);
    }
 
-   public List<Plan> getPlansByStateId(String stateAbbrevation){
-        return planRepository.findByStateId(stateAbbrevation);
-   }
-
    public List<Plan> getPlansByJobId(Integer jobId){
         return planRepository.findByJobId(jobId);
     }

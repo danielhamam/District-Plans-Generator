@@ -12,9 +12,12 @@ import java.util.*;
 @Repository
 public interface StateRepository extends JpaRepository<State, String>{
 
-    @Query(value = "SELECT * FROM States s WHERE s.stateName = :name", nativeQuery=true)
-    State findByName(@Param("name") String name);
+    @Query("SELECT s FROM State s WHERE s.stateAbbreviation = ?1")
+    State findByStateId(String id);
 
-    @Query(value = "SELECT * FROM States s WHERE s.stateFIPSCode = :stateFIPSCode", nativeQuery=true)
-    State findByFIPSCode(@Param("stateFIPSCode") Integer stateFIPSCode);
+    @Query("SELECT s FROM State s WHERE s.stateName = ?1")
+    State findBystateName(String name);
+
+    @Query("SELECT s FROM State s WHERE s.stateFIPSCode = ?1")
+    State findBystateFIPSCode(Integer stateFIPSCode);
 }

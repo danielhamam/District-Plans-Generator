@@ -12,16 +12,16 @@ import java.util.*;
 @Repository
 public interface DemographicRepository extends JpaRepository<Demographic, Integer>{
 
-    @Query(value = "SELECT * FROM Demographics d WHERE d.precinctId = :precinctId", nativeQuery=true)
-    Demographic findByPrecinctId(@Param("precinctId") String precinctId);
+    @Query("SELECT d FROM Demographic d WHERE d.precinct.precinctId = ?1")
+    Demographic findByPrecinctId(Integer precinctId);
 
-    @Query(value = "SELECT * FROM Demographics d WHERE d.districtId = :districtId", nativeQuery=true)
-    Demographic findByDistrictId(@Param("districtId") Integer districtId);
+    @Query("SELECT d FROM Demographic d WHERE d.district.districtId = ?1")
+    Demographic findByDistrictId(Integer districtId);
 
-    @Query(value = "SELECT * FROM Demographics d WHERE d.stateId = :stateId", nativeQuery=true)
-    Demographic findByStateId(@Param("stateId") String stateId);
+    @Query("SELECT d FROM Demographic d WHERE d.state.stateAbbreviation = ?1")
+    Demographic findByStateId(String stateId);
 
-    @Query(value = "SELECT * FROM Demographics d WHERE d.countyId = :countyId", nativeQuery=true)
-    Demographic findByCountyId(@Param("countyId") Integer countyId);
+    @Query("SELECT d FROM Demographic d WHERE d.county.countyId = ?1")
+    Demographic findByCountyId(Integer countyId);
 
 } 

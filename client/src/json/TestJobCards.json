@@ -115,7 +115,7 @@
             "jobName": "High Comp.",
             "jobID" : "5",
             "state" : "NY",
-            "status" : "Pending",
+            "status" : "Completed",
             "minorityAnalyzed": ["Asian", "Hawaiian", "American Indian", "White"],
             "populationLimit": "0.8%",
             "compactness": "HIGH",

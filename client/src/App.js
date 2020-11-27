@@ -2,8 +2,6 @@ import HomeScreen from "./components/homePage/HomeScreen";
 import DeveloperScreen from "./components/developerscreen/Developer"
 
 import React, { Component } from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import Switch from "react-bootstrap/esm/Switch";
 import * as endpoint from './endpoint/Client';
 import testJobCards from './json/TestJobCards.json'
 import './css/project_styles.css';

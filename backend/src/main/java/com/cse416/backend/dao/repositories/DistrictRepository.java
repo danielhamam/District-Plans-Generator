@@ -12,9 +12,9 @@ import java.util.*;
 @Repository
 public interface DistrictRepository extends JpaRepository<District, Integer>{
 
-    @Query(value = "SELECT * FROM Districts d WHERE d.stateId = :stateId", nativeQuery=true)
-    List<District> findByStateId(@Param("stateId") String stateId);
+    @Query("SELECT d FROM District d WHERE d.state.stateAbbreviation = ?1")
+    List<District> findByStateId(String stateId);
 
-    @Query(value = "SELECT * FROM Districts d WHERE d.stateId = :stateId and d.districtNumber = :districtNumber", nativeQuery=true)
-    District findByStateIdAndDistrictNumber(@Param("stateId") String stateId, @Param("districtNumber") Integer districtNumber);
+    @Query("SELECT d FROM District d WHERE d.state.stateAbbreviation = ?1 and d.districtNumber = ?2")
+    District findByStateIdAndDistrictNumber(String stateId, Integer districtNumber);
 }

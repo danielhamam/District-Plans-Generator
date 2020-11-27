@@ -30,27 +30,26 @@ public class County {
     @Transient
     private Boundary boundary;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "districtId")
+    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="districtId")
     private District district;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stateId")
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="stateId")
     private State state;
 
     @Column(name = "numberOfPrecincts")
     private int numOfPrecincts;
 
-    @OneToMany(mappedBy = "county", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
     @JsonIgnore 
+    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true,  mappedBy ="county")
     private List<Precinct> precincts;
 
-    @OneToOne(mappedBy = "county", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @Transient
     private Demographic demographic;
 
- 
+
     //Neccessary for JPA
     protected County (){}
 
@@ -74,6 +73,8 @@ public class County {
     //     this.precincts = precincts;
     // }
 
+    public int getId(){ return countyId;}
+
     public String getName() {
         return countyName;
     }
@@ -94,20 +95,24 @@ public class County {
         return numOfPrecincts;
     }
 
-    public String getStateName() {
-        return state.getStateName();
-    }
+    // public String getStateName() {
+    //     return state.getStateName();
+    // }
 
-    public int getStateFIPSCode() {
-        return state.getStateFIPSCode();
-    }
+    // public int getStateFIPSCode() {
+    //     return state.getStateFIPSCode();
+    // }
 
-    public String getDistrictName() {
-        return district.getDistrictName();
-    }
+    // public String getDistrictName() {
+    //     return district.getDistrictName();
+    // }
 
-    public int getDistrictFIPSCode() {
-        return district.getDistrictNumber();
+    // public int getDistrictFIPSCode() {
+    //     return district.getDistrictNumber();
+    // }
+
+    public String toString(){
+        return "County Name " + getName() + " FIPSCode : " + getFIPSCode();
     }
 
 }

@@ -12,7 +12,6 @@ import java.util.*;
 @Repository
 public interface JobRepository extends JpaRepository<Job, Integer>{
 
-    @Query(value = "SELECT * FROM Jobs j WHERE j.stateID = :stateId", nativeQuery=true)
-    List<Job> findByStateId(@Param("stateId") String stateId);
-
+    @Query("SELECT j FROM Job j WHERE j.state.stateAbbreviation = ?1")
+    List<Job> findByStateId(String stateId);
 }

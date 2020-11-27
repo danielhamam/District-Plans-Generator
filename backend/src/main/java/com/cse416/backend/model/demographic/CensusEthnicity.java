@@ -29,7 +29,7 @@ public class CensusEthnicity {
     public String getCensusEthnicityName(){return this.censusName;}
 
     public String toString(){
-        return "Ethnicity Name: " + this.shortenName + " Census Ethnicity Name : " + this.censusName;
+        return "Shorten Name: " + this.shortenName + ", Census Ethnicity Name : " + this.censusName + "\n";
     }
 
 }

@@ -26,11 +26,10 @@ public class District{
     @Transient
     private String districtName;
 
-    @Transient
     private int districtNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stateId")
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="stateId")
     private State state;
 
     @Transient
@@ -42,21 +41,20 @@ public class District{
     @Column(name = "numberOfPrecincts")
     private String numofPrecincts;
 
-    @OneToOne(mappedBy = "district", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @Transient
     private Demographic demographic;
 
     @Transient
     private double compactness;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="district")
     private List<Precinct> precincts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=County.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true,  mappedBy ="district")
     private List<County> counties;
 
     @Transient
@@ -78,20 +76,17 @@ public class District{
     public District(String districtName, int districtNumber, int districtFIPSCode) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        // this.districtFIPSCode = districtFIPSCode;
     }
 
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        // this.districtFIPSCode = districtFIPSCode;
         this.demographic = demographic;
     }
 
     public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
         this.districtName = districtName;
         this.districtNumber = districtNumber;
-        // this.districtFIPSCode = districtFIPSCode;
         this.demographic = demographic;
     }
 
@@ -111,14 +106,6 @@ public class District{
     public void setDistrictNumber(int districtNumber) {
         this.districtNumber = districtNumber;
     }
-
-    // public int getDistrictFIPSCode() {
-    //     return districtFIPSCode;
-    // }
-
-    // public void setDistrictFIPSCode(int districtFIPSCode) {
-    //     this.districtFIPSCode = districtFIPSCode;
-    // }
 
     public String getStateAbbrev() {
         return stateAbbrev;
@@ -198,8 +185,8 @@ public class District{
                 ", stateAbbrev='" + stateAbbrev + '\'' +
                 ", numofCounties='" + numofCounties + '\'' +
                 ", numofPrecincts='" + numofPrecincts + '\'' +
-                ", precincts=" + precincts +
-                ", neighbors=" + neighbors +
+                // ", precincts=" + precincts +
+                // ", neighbors=" + neighbors +
                 ", perimeter=" + perimeter +
                 ", area=" + area +
                 ", demographic=" + demographic +
