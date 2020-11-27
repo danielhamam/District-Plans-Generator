@@ -13,7 +13,7 @@ export class HomeScreen extends Component {
           // State-Related Content
           currentState={this.props.currentState} changeCurrentState={this.props.changeCurrentState}
           jobCards={this.props.jobCards} enactedPlan = {this.props.enactedPlan} totalPopulation={this.props.totalPopulation}
-          numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
+          numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties} numOfDistricts = {this.props.numOfDistricts}
 
           // Job-Related Content
           currentJob ={this.props.currentJob} updateCurrentJob={this.props.updateCurrentJob}

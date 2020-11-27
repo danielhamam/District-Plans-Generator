@@ -57,6 +57,7 @@ class MainPanel extends Component {
                     // State-related content
                     currentState={this.props.currentState} enactedPlan = {this.props.enactedPlan} changeCurrentState={this.props.changeCurrentState}
                     jobCards={this.props.jobCards} totalPopulation={this.props.totalPopulation} numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
+                    numOfDistricts={this.props.numOfDistricts}
 
                     // Job-related content
                     currentJob = {this.props.currentJob} minoritiesAnalyzed = {this.props.currentJob.minorityAnalyzed} updateCurrentJob={this.props.updateCurrentJob}
