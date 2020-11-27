@@ -22,7 +22,7 @@ public class DemographicDAOService{
        return demographicRepository.findById(Id);
    }
 
-   public Demographic getDemographicByPrecinctId(String precinctId){
+   public Demographic getDemographicByPrecinctId(Integer precinctId){
        return demographicRepository.findByPrecinctId(precinctId);
    }
 

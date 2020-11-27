@@ -59,81 +59,6 @@ plans = '''
     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
   )'''
 
-# jobGraphs = '''
-#   CREATE TABLE IF NOT EXISTS JobGraphs(
-#     jobId INT,
-#     planGraphId INT,
-#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId),
-#     FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
-#   )'''
-
-# planGraphs = '''
-#   CREATE TABLE IF NOT EXISTS JobPlanGraphs(
-#     planGraphId INT AUTO_INCREMENT PRIMARY KEY,
-#     planId INT,
-#     lowerExtreme INT DEFAULT 0,
-#     upperExtreme INT DEFAULT 0,
-#     lowerQuartile INT DEFAULT 0,
-#     upperQuartile INT DEFAULT 0,
-#     median INT DEFAULT 0,
-#     FOREIGN KEY (planId) REFERENCES Plans(planId) 
-#   )'''
-
-# graphDistricts = '''
-#   CREATE TABLE IF NOT EXISTS GraphDistricts(
-#     planGraphId INT,
-#     districtId INT,
-#     districtValue INT DEFAULT 0,
-#     FOREIGN KEY (districtId) REFERENCES Districts(districtId),
-#     FOREIGN KEY (planGraphId) REFERENCES JobPlanGraphs(planGraphId)
-#   )'''
-
-# planDistricts = '''
-#   CREATE TABLE IF NOT EXISTS JobPlanDistricts(
-#     districtId INT,
-#     planId INT,
-#     FOREIGN KEY (districtId) REFERENCES Districts(districtId),
-#     FOREIGN KEY (planId) REFERENCES Plans(planId)
-#   )'''
-
-# planPrecincts = '''
-#   CREATE TABLE IF NOT EXISTS JobPlanPrecincts(
-#     precinctId INT,
-#     planId INT,
-#     FOREIGN KEY (precinctID) REFERENCES Precincts(precinctId),
-#     FOREIGN KEY (planId) REFERENCES Plans(planId)
-# )'''
-
-
-# extremePlans = '''
-#   CREATE TABLE IF NOT EXISTS ExtremePlans(
-#     planId INT,
-#     jobId INT,
-#     FOREIGN KEY (planId) REFERENCES Plans(planId),
-#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
-#   )'''
-
-# averagePlans = '''
-#     CREATE TABLE IF NOT EXISTS AveragePlans(
-#     planId INT,
-#     jobId INT,
-#     FOREIGN KEY (planId) REFERENCES Plans(planId),
-#     FOREIGN KEY (jobId) REFERENCES Jobs(jobId) 
-# )'''
-
-# planFiles = '''
-#   CREATE TABLE IF NOT EXISTS PlanFiles(
-#     planFileId INT AUTO_INCREMENT PRIMARY KEY,
-#     planId INT,
-#     stateId VARCHAR(2),
-#     stateFileId INT,
-#     precinctFileId INT, 
-#     districtFileId INT, 
-#     FOREIGN KEY (planId) REFERENCES Plans(planId),
-#     FOREIGN KEY (stateFileId) REFERENCES Files(fileId),
-#     FOREIGN KEY (precinctFileId) REFERENCES Files(fileId),
-#     FOREIGN KEY (districtFileId) REFERENCES Files(fileId)
-#   )'''
 
 #Create Tables related to States
 states = '''
@@ -143,23 +68,6 @@ states = '''
     stateFIPSCode INT NOT NULL
   )'''
 
-# enactedPlanFiles = '''
-#   CREATE TABLE IF NOT EXISTS EnactedPlanFiles(
-#     enactedPlanId INT,
-#     enactedPlanFilesId INT,
-#     FOREIGN KEY (enactedPlanId) REFERENCES EnactedPlans(enactedPlanId),
-#     FOREIGN KEY (enactedPlanFilesId) REFERENCES PlanFiles(planFileId)
-# )'''
-
-# enactedPlan = '''
-#   CREATE TABLE IF NOT EXISTS EnactedPlans(
-#     enactedPlanId INT AUTO_INCREMENT PRIMARY KEY,
-#     stateId VARCHAR(2),
-#     planId INT,
-#     FOREIGN KEY (stateId) REFERENCES States(stateId),
-#     FOREIGN KEY (planId) REFERENCES Plans(planId)
-
-# )'''
 
 #Create Tables related to Districts
 districts = '''
@@ -248,15 +156,25 @@ censusEthnicities = '''
     censusName VARCHAR(255) NOT NULL
   )'''
 
+#Create Tables related to Box Whisker
+boxWhiskers = '''
+ CREATE TABLE IF NOT EXISTS BoxWhiskers(
+   boxWhiskerId INT AUTO_INCREMENT PRIMARY KEY,
+   jobId INT,
+   FOREIGN KEY (jobId) REFERENCES Jobs(jobId)
+ )'''
 
-# #Create Tables related to Files
-# files = '''
-#   CREATE TABLE IF NOT EXISTS Files(
-#     fileID INT AUTO_INCREMENT PRIMARY KEY,
-#     filePath VARCHAR(1000) NOT NULL
-#   )'''
-
-
+boxWhiskerPlots = '''
+ CREATE TABLE IF NOT EXISTS BoxWhiskerPlots(
+   boxWhiskerPlotId INT AUTO_INCREMENT PRIMARY KEY,
+   minimum INT DEFAULT 0,
+   lowerQuartile INT DEFAULT 0,
+   median INT DEFAULT 0,
+   upperQuartile INT DEFAULT 0,
+   maximum INT DEFAULT 0,
+   boxWhiskerId INT,
+   FOREIGN KEY (boxWhiskerId) REFERENCES BoxWhiskers(boxWhiskerId)
+ )'''
 
 
 #Create each table in the database
@@ -268,26 +186,12 @@ mycursor.execute(counties)
 mycursor.execute(precincts)
 mycursor.execute(jobs)
 mycursor.execute(plans)
-
-# mycursor.execute(files)
-# mycursor.execute(summaries)
-
 mycursor.execute(censusEthnicities)
 mycursor.execute(minorityGroups)
-# mycursor.execute(planGraphs)
-# mycursor.execute(graphDistricts)
-# mycursor.execute(jobGraphs)
-# mycursor.execute(jobPlans)
-# mycursor.execute(planDistricts)
-# mycursor.execute(planPrecincts)
-# mycursor.execute(extremePlans)
-# mycursor.execute(averagePlans)
-# mycursor.execute(planFiles)
-# mycursor.execute(enactedPlan)
-# mycursor.execute(enactedPlanFiles)
-
 mycursor.execute(precinctNeighbors)
 mycursor.execute(demographics)
+mycursor.execute(boxWhiskers)
+mycursor.execute(boxWhiskerPlots)
 
 
 

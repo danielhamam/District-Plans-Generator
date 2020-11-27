@@ -28,10 +28,9 @@ import javax.persistence.*;
 public class State {
 
     @Id
-    @Column(name="stateId", nullable=false, length=2)
+    @Column(name="stateId", nullable = false, unique = true)
     private String stateAbbreviation;
 
-    @Column(length=25)
     private String stateName;
 
     private int stateFIPSCode;
@@ -52,25 +51,25 @@ public class State {
     private int numOfDistricts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     private List<Precinct> statePrecincts;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=County.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     private List<County> stateCounties;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     private List<District> stateDistricts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=Job.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
     private List<Job> stateJobs;
 
     @Transient
@@ -89,6 +88,7 @@ public class State {
     @JsonIgnore
     private File algorithmPrecinctsFile;
 
+    @Transient
     @JsonIgnore
     private String algorithmPrecinctsJson;
 
@@ -101,8 +101,7 @@ public class State {
     private FeatureCollection stateGeoJson;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "state", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @Transient
     private Demographic demographic;
 
     //Neccessary for JPA
@@ -233,7 +232,7 @@ public class State {
                 ", stateAbbreviation='" + stateAbbreviation + '\'' +
                 ", stateFIPSCode=" + stateFIPSCode +
                 ", enactedPlan=" + enactedPlan +
-                ", statePrecincts=" + statePrecincts.toString() +
+                // ", statePrecincts=" + statePrecincts.toString() +
                 ", boundary=" + boundary +
                 '}';
     }

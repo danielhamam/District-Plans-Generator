@@ -8,7 +8,6 @@ import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
-import com.cse416.backend.model.job.minorityGroup.*;
 import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,7 +35,8 @@ public class Job{
     private String jobName;
 
     @JsonProperty
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY)
     @JoinTable(
         name = "JobMinorityGroups",
         joinColumns = @JoinColumn(name = "jobId"),
@@ -44,13 +44,9 @@ public class Job{
     )
     private List<CensusEthnicity> minorityAnalyzed;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stateId")
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="stateId")
     private State state;
-
-//    @JsonProperty("minorityAnalyzed")
-//    @Transient
-//    private List<String> clientMinorityAnalyzed;
 
     @JsonProperty("compactness")
     @Column(name = "compactness")
@@ -92,8 +88,8 @@ public class Job{
     private Plan randomDistrictPlan;
 
     @JsonProperty("districtPlans")
-    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
     private List<Plan> clientDistrictingPlans;
 
     @JsonIgnore
@@ -370,7 +366,7 @@ public class Job{
                 ", numDistrictingPlan=" + numDistrictingPlan +
                 ", clientCompactness=" + clientCompactness +
                 ", populationDifference=" + populationDifference +
-                // ", minorityAnalyzed=" + minorityAnalyzed +
+                ", minorityAnalyzed=" + minorityAnalyzed +
                 ", status=" + status +
                 ", jobSummary='" + jobSummary + '\'' +
                 ", allPlans=" + allPlans +

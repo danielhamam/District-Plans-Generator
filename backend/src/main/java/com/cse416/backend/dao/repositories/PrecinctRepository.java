@@ -12,19 +12,19 @@ import java.util.*;
 @Repository
 public interface PrecinctRepository extends JpaRepository<Precinct, Integer>{
 
-    @Query(value = "SELECT * FROM Precincts p WHERE p.stateID = :stateId", nativeQuery=true)
-    List<Precinct> findByStateId(@Param("stateId") String stateId);
+    @Query("SELECT p FROM Precinct p WHERE p.state.stateAbbreviation = ?1")
+    List<Precinct> findByStateId(String stateId);
 
-    @Query(value = "SELECT * FROM Precincts p WHERE p.precinctName = :name", nativeQuery=true)
-    Precinct findByName(@Param("name") String name);
+    @Query("SELECT p FROM Precinct p WHERE p.precinctName = ?1")
+    Precinct findByName(String name);
 
-    @Query(value = "SELECT * FROM Precincts p WHERE p.precinctFIPSCode = :precinctFIPSCode", nativeQuery=true)
-    Precinct findByFIPSCode(@Param("precinctFIPSCode") String precinctFIPSCode);
+    @Query("SELECT p FROM Precinct p WHERE p.precinctFIPSCode = ?1")
+    Precinct findByFIPSCode(String precinctFIPSCode);
 
-    @Query(value = "SELECT * FROM Precincts p WHERE p.countyId = :countyId", nativeQuery=true)
-    List<Precinct> findByCountyId(@Param("countyId") Integer countyId);
+    @Query("SELECT p FROM Precinct p WHERE p.county.countyId = ?1")
+    List<Precinct> findByCountyId(Integer countyId);
 
-    @Query(value = "SELECT * FROM Precincts p WHERE p.districtId = :districtId", nativeQuery=true)
-    List<Precinct> findByDistrictId(@Param("districtId") Integer districtId);
+    @Query("SELECT p FROM Precinct p WHERE p.district.districtId = ?1")
+    List<Precinct> findByDistrictId(Integer districtId);
 
 }

@@ -27,14 +27,35 @@ public class ServerService {
     private boolean runAlgoLocally  = true;
 
     //DAO Servicers
+    @Autowired
     private JobDAOService jobDAO;
+
+    @Autowired
     private CountyDAOService countyDAO;
+
+    @Autowired
     private DemographicDAOService demographicDAO;
+
+    @Autowired
     private CensusEthnicityDAOService censusEthnicityDAO;
+
+    @Autowired
     private DistrictDAOService districtDAO;
+
+    @Autowired
     private PlanDAOService planDAO;
+
+    @Autowired
     private PrecinctDAOService precinctDAO;
+
+    @Autowired
     private StateDAOService stateDAO;
+
+    @Autowired
+    private BoxWhiskerDAOService boxWhiskerDAO;
+
+    @Autowired
+    private BoxWhiskerPlotDAOService boxWhiskerPlotDAO;
 
     @Autowired
     public ServerService() {
@@ -42,17 +63,6 @@ public class ServerService {
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
-
-        //DAO SERVICES
-        this.jobDAO = new JobDAOService();
-        this.countyDAO = new CountyDAOService();
-        this.demographicDAO = new DemographicDAOService();
-        this.censusEthnicityDAO = new CensusEthnicityDAOService();
-        this.districtDAO = new DistrictDAOService();
-        this.planDAO = new PlanDAOService();
-        this.precinctDAO = new PrecinctDAOService();
-        this.stateDAO = new StateDAOService();
-
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -106,8 +116,10 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
         //      Mutation function to update job status of a job on the remote database.
-        State state = stateDAO.getStateByName("Georgia");
-        System.out.print(state);
+        List<State> states = stateDAO.getAllStates();
+        System.out.println(states);
+
+          
 //        List <Job> jobs = null;
 //        System.out.println(jobs);
 //        this.session.setState(state);
@@ -199,7 +211,7 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         //fake.mutationGenerateJob(job);
-        // this.jobService.addJob(job);
+        
         
 
         try{
