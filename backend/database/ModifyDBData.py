@@ -17,7 +17,7 @@ def main():
 
     mycursor = mydb.cursor()
 
-    f = open('backend/database/sqlFormat.json')
+    f = open('backend/database/PrecinctsNeigbor.json')
     data = json.load(f)
 
     # deleteTableRows(mycursor)

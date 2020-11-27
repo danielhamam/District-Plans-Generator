@@ -17,18 +17,21 @@ import java.util.*;
 import java.lang.*;
 
 
-@Repository("fakeDao")
 public class FakeDataAccessObject{
-    private static List<State> stateDB = new  ArrayList<>();
-    private static List<Job> jobDB = new ArrayList<>();
+    private static List<State> stateDB;
+    private static List<Job> jobDB;
 
     public FakeDataAccessObject(){
-        State PA = new State("Pennsylvania", "PA", 1, 1000000000, 40, 10,100);
+        stateDB = new  ArrayList<>();
+        jobDB = new ArrayList<>();
+//        State PA = new State("Pennsylvania", "PA", 1, 1000000000, 40, 10,100);
 //        State MD = new State("Maryland", "MD", 1, 1000000000, 10, 24,1999);
-//        State GA = new State("Georgia", "GA", 1, 1000000000, 10, 24,1999);
-        stateDB.add(PA);
+        State GA = new State("Georgia", "GA", 1, 1000000000, 10, 24,1999);
+//        stateDB.add(PA);
 //        stateDB.add(MD);
-//        stateDB.add(GA);
+        stateDB.add(GA);
+        System.out.println("FakeDataAccessObject()");
+        System.out.println(stateDB);
 //        for(State state: stateDB){
 //            System.out.println(state);
 //        }

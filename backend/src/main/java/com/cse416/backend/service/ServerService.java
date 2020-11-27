@@ -1,5 +1,6 @@
 package com.cse416.backend.service;
 
+import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.livememory.GlobalHistory;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.job.*;
@@ -20,7 +21,7 @@ import java.util.*;
 @Service
 public class ServerService {
 
-//    private final FakeDataAccessObject fake;
+    private final FakeDataAccessObject fake;
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
@@ -38,7 +39,7 @@ public class ServerService {
 
     @Autowired
     public ServerService() {
-//        this.fake = fake;
+        this.fake = new FakeDataAccessObject();
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
@@ -106,24 +107,24 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
         //      Mutation function to update job status of a job on the remote database.
-        State state = stateDAO.getStateByName("Georgia");
+        State state = fake.queryGetStateInformation(stateAbbrevation);
         System.out.print(state);
-//        List <Job> jobs = null;
-//        System.out.println(jobs);
-//        this.session.setState(state);
-//        this.session.addJobs(jobs);
-//        this.jobHistory.addJobs(jobs);
-//        String clientData = "{serverError:null}";
-//        try{
-//            clientData = createClientStateData(state, jobs);
-//        }catch(JsonProcessingException error){
-//            clientData = "{serverError:\"" + error.getMessage() + "\"}";
-//        }
-//        catch(Exception error){
-//            error.printStackTrace();
-//        }
-//        return clientData;
-        return "OKAY";
+        List <Job> jobs = null;
+        System.out.println(jobs);
+        this.session.setState(state);
+        this.session.addJobs(jobs);
+        this.jobHistory.addJobs(jobs);
+        String clientData = "{serverError:null}";
+        try{
+            clientData = createClientStateData(state, jobs);
+        }catch(JsonProcessingException error){
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+        //return "OKAY";
     }
 
     public String getJob(String jobID){

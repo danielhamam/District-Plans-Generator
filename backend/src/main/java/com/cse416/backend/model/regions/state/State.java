@@ -75,14 +75,6 @@ public class State {
 
     @Transient
     @JsonIgnore
-    private Boundary boundary;
-
-    @Transient
-    @JsonIgnore
-    private File stateFile;
-
-    @Transient
-    @JsonIgnore
     private File precinctsFile;
 
     @Transient
@@ -119,10 +111,8 @@ public class State {
         this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
-        String boundaryFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/StateBoundaries.json";
-        this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
-        this.stateFile = new File(new File(boundaryFilePath).getAbsolutePath());
+        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+        this.precinctsFile = new File(precinctFilePathAbsolutePath);
         this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
         
         try{
@@ -183,13 +173,6 @@ public class State {
         this.statePrecincts = statePrecincts;
     }
 
-    public Boundary getBoundary() {
-        return boundary;
-    }
-
-    public void setBoundary(Boundary boundary) {
-        this.boundary = boundary;
-    }
 
     public int getTotalPopulation() {
         return totalPopulation;
@@ -234,7 +217,6 @@ public class State {
                 ", stateFIPSCode=" + stateFIPSCode +
                 ", enactedPlan=" + enactedPlan +
                 ", statePrecincts=" + statePrecincts.toString() +
-                ", boundary=" + boundary +
                 '}';
     }
 }
