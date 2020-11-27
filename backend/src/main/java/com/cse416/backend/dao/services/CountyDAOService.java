@@ -25,6 +25,10 @@ public class CountyDAOService{
         return countyRepository.findByStateId(stateAbbrevation);
     }
 
+    public List<County> getCountiesByStateIdAndDistrictNumber(String stateAbbrevation, Integer districtNumber){
+        return countyRepository.findByStateIdAndDistrictNumber(stateAbbrevation, districtNumber);
+    }
+
     public County getCountyByFIPSCode(Integer id){
         return countyRepository.findByCountyFIPSCode(id);
     }

@@ -16,6 +16,7 @@ public class StateDAOService{
 
    @Autowired
    private StateRepository stateRepository;
+   
 
    public List<State> getAllStates(){
 
@@ -26,16 +27,16 @@ public class StateDAOService{
       return states;
    }
 
-   public Optional<State> getStateById(String Id){
-       return stateRepository.findById(Id);
+   public State getStateById(String Id){
+       return stateRepository.findByStateId(Id);
    }
 
    public State getStateByName(String name){
-        return stateRepository.findByName(name);
+        return stateRepository.findBystateName(name);
     }
 
     public State getStateByFIPSCode(Integer stateFIPSCode){
-        return stateRepository.findByFIPSCode(stateFIPSCode);
+        return stateRepository.findBystateFIPSCode(stateFIPSCode);
     }
 
    public void addState(State state){
@@ -48,10 +49,6 @@ public class StateDAOService{
 
    public void deleteState(State state){
        stateRepository.delete(state);
-   }
-
-   public void deleteStateById(String Id){
-       stateRepository.deleteById(Id);
    }
 
    public Long numberStateEntities(){

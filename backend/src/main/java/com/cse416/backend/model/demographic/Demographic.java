@@ -20,40 +20,58 @@ public class Demographic {
     @GeneratedValue
     private Integer demographicId;
 
+    @Column(name="total")
     private Long totalPopulation;
 
+    @Column(name="white")
     private Long whitePopulation;
 
+    @Column(name="hispanic")
     private Long hispanicPopulation;
 
+    @Column(name="americanIndian")
     private Long americanIndianPopulation;
 
+    @Column(name="nativeHawaiian")
     private Long nativeHawaiianPopulation;
 
+    @Column(name="black")
     private Long africanAmericanPopulation;
 
+    @Column(name="asian")
     private Long asianPopulation;
 
+    @Column(name="otherRace")
     private Long otherRacePopulation;
 
+    @Column(name="multipleRace")
     private Long multipleRacePopulation;
 
+    @Column(name="totalVAP")
     private Long totalVAPPopulation;
 
+    @Column(name="whiteVAP")
     private Long whiteVAPPopulation;
 
+    @Column(name="hispanicVAP")
     private Long hispanicVAPPopulation;
 
+    @Column(name="americanIndianVAP")
     private Long americanIndianVAPPopulation;
 
+    @Column(name="nativeHawaiianVAP")
     private Long nativeHawaiianVAPPopulation;
 
+    @Column(name="blackVAP")
     private Long africanAmericanVAPPopulation;
 
+    @Column(name="asianVAP")
     private Long asianVAPPopulation;
 
+    @Column(name="otherRaceVAP")
     private Long otherRaceVAPPopulation;
 
+    @Column(name="multipleRaceVAP")
     private Long multipleRaceVAPPopulation;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -158,5 +176,16 @@ public class Demographic {
 
     public Long getMultipleRaceVAPPopulation(){return this.multipleRaceVAPPopulation;}
 
+    public String toString(){
+        String generalDem = "Total: " + getTotalPopulation() + ", White : " + getWhitePopulation() + ", Black : " + getAfricanAmericanPopulation() + 
+        ", Hispanic : " + getHispanicPopulation() + ", American Indian : " + getAmericanIndianPopulation() + ", Native Hawaiian :  " + getNativeHawaiianPopulation() +
+        ", Asian : "  + getAsianPopulation() + ", Other : " + getOtherRacePopulation() + ", Multiple : " + getMultipleRacePopulation() + "\n";
+
+        String votingAgeDem = "Total VAP: " + getVAPTotalPopulation() + ", White VAP: " + getWhiteVAPPopulation() + ", Black VAP: " + getAfricanAmericanVAPPopulation() + 
+        ", Hispanic VAP: " + getHispanicVAPPopulation() + ", American Indian VAP: " + getAmericanIndianVAPPopulation() + ", Native Hawaiian VAP:  " + getNativeHawaiianVAPPopulation() +
+        ", Asian VAP: "  + getAsianVAPPopulation() + ", Other VAP: " + getOtherRaceVAPPopulation() + ", Multiple VAP: " + getMultipleRaceVAPPopulation() + "\n";
+
+        return generalDem + votingAgeDem;
+    }
 
 }

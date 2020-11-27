@@ -12,9 +12,6 @@ import java.util.*;
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Integer>{
 
-    @Query(value = "SELECT * FROM Plans p WHERE p.stateID = :stateId", nativeQuery=true)
-    List<Plan> findByStateId(@Param("stateId") String stateId);
-
-    @Query(value = "SELECT * FROM Plans p WHERE p.jobId = :jobId", nativeQuery=true)
-    List<Plan> findByJobId(@Param("jobId") Integer jobId);
+    @Query("SELECT p FROM Plan p WHERE p.job.generatedId = ?1")
+    List<Plan> findByJobId(Integer jobId);
 }

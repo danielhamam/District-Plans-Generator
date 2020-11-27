@@ -21,47 +21,46 @@ public class Precinct {
     
     private String precinctName;
 
-    private int precinctFIPSCode;
+    private String precinctFIPSCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "countyId")
+    @ManyToOne(targetEntity=County.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="countyId")
     private County county;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "districtId")
+    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="districtId")
     private District district;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stateId")
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="stateId")
     private State state;
 
     @Transient
     private Boundary boundary;
 
-    @OneToOne(mappedBy = "precinct", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @Transient
     private Demographic demographic;
 
-    @Transient
-    @ManyToMany
+    @ManyToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY)
     @JoinTable(
         name = "PrecinctNeighbors",
         joinColumns = @JoinColumn(name = "precinctID", referencedColumnName = "precinctId"),
-        inverseJoinColumns = @JoinColumn(name = "neighborPrecinctID", referencedColumnName = "precinctId")
+        inverseJoinColumns = @JoinColumn(name = "precinctNeighborID", referencedColumnName = "precinctId")
     )
     private List<Precinct> neighbors;
 
     //Neccessary for JPA
     protected Precinct (){}
 
-    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic) {
+    public Precinct(String precinctName, String precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
         this.demographic = demographic;
 
     }
 
-    public Precinct(String precinctName, int precinctFIPSCode, Demographic demographic, List<Precinct> neighbors) {
+    public Precinct(String precinctName, String precinctFIPSCode, Demographic demographic, List<Precinct> neighbors) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
         this.demographic = demographic;
@@ -76,11 +75,11 @@ public class Precinct {
         this.precinctName = precinctName;
     }
 
-    public int getPrecinctFIPSCode() {
+    public String getPrecinctFIPSCode() {
         return precinctFIPSCode;
     }
 
-    public void setPrecinctFIPSCode(int precinctFIPSCode) {
+    public void setPrecinctFIPSCode(String precinctFIPSCode) {
         this.precinctFIPSCode = precinctFIPSCode;
     }
 
@@ -108,14 +107,19 @@ public class Precinct {
         this.neighbors = neighbors;
     }
 
+    
     @Override
     public String toString() {
-        return "Precinct{" +
+        String s = "Precinct{" +
                 "precinctName='" + precinctName + '\'' +
                 ", precinctFIPSCode=" + precinctFIPSCode +
                 ", boundary=" + boundary +
-                ", demographic=" + demographic +
-                ", neighbors=" + neighbors +
-                '}';
+                ", demographic=" + demographic + 
+                ", neighbors = [" ;
+
+        for(int i = 0; i < neighbors.size(); i++)
+            s  += neighbors.get(i).getPrecinctFIPSCode() + ",";
+        
+        return s + "]}";
     }
 }

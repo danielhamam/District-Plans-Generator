@@ -34,8 +34,9 @@ States = {
 }
 
 def main():
-    getDict = computePrecinctNeighbors(States["GA"])
-    writeToFile(getDict, 'backend/database/sqlFormat.json')
+    # getDict = computePrecinctNeighbors(States["GA"])
+    # writeToFile(getDict, 'backend/database/sqlFormat.json')
+
 
 def formatDistrictData(state):
     newDict = {}
@@ -400,6 +401,107 @@ def createPrecinctDictionary(file):
         precinct_dict[precinctFIPSCode] = temp
       
     return precinct_dict
+
+# def createNewPrecinctFile(state):
+
+#     #Create the file to dictionary
+#     newDict = extractFileGeometryAttribute(state['PrecinctFile'])
+
+#     # writeToFile(newDict, '/Users/kadiatoudiallo/Documents/GitHub/CSE-416-Project/client/src/json/testPrecinct.json')
+    
+#     f = open(state['PrecinctDemographicFile'])
+#     data = json.load(f)
+
+#     for feature in data['features']:
+
+#         precinctFIPS = ''
+
+#         if state['Abbrev'] == 'MD': 
+#             precinctFIPS = feature['properties']['VTD_1']
+#         elif state['Abbrev'] == 'GA': 
+#             precinctFIPS = feature['properties']['PRECINCT_I']
+#         else: 
+#             precinctFIPS = feature['properties']['VTDST10']
+
+#         if precinctFIPS not in newDict: continue
+
+#         properties = feature['properties']
+
+#         newDict[precinctFIPS]['properties']['TOTPOP'] = properties['TOTPOP']
+#         newDict[precinctFIPS]['properties']['NH_WHITE'] = properties['NH_WHITE']
+#         newDict[precinctFIPS]['properties']['NH_BLACK'] = properties['NH_BLACK']
+#         newDict[precinctFIPS]['properties']['NH_AMIN'] = properties['NH_AMIN']
+#         newDict[precinctFIPS]['properties']['NH_ASIAN'] = properties['NH_ASIAN']
+#         newDict[precinctFIPS]['properties']['NH_NHPI'] = properties['NH_NHPI']
+#         newDict[precinctFIPS]['properties']['NH_OTHER'] = properties['NH_OTHER']
+#         newDict[precinctFIPS]['properties']['NH_2MORE'] = properties['NH_2MORE']
+#         newDict[precinctFIPS]['properties']['HISP'] = properties['HISP']
+#         newDict[precinctFIPS]['properties']['VAP'] = properties['VAP']
+#         newDict[precinctFIPS]['properties']['HVAP'] = properties['HVAP']
+#         newDict[precinctFIPS]['properties']['WVAP'] = properties['WVAP']
+#         newDict[precinctFIPS]['properties']['BVAP'] = properties['BVAP']
+#         newDict[precinctFIPS]['properties']['AMINVAP'] = properties['AMINVAP']
+#         newDict[precinctFIPS]['properties']['ASIANVAP'] = properties['ASIANVAP']
+#         newDict[precinctFIPS]['properties']['NHPIVAP'] = properties['NHPIVAP']
+#         newDict[precinctFIPS]['properties']['OTHERVAP'] = properties['OTHERVAP']
+#         newDict[precinctFIPS]['properties']['2MOREVAP'] = properties['2MOREVAP']
+
+#     featureCollection = {
+#         'type': 'FeatureCollection',
+#         'features': []
+#     }
+
+#     for feature in newDict:
+#         featureCollection['features'].append(newDict[feature])
+    
+#     with open('client/src/json/testPrecinct.json', 'w') as jsonfile:
+#         jsonfile.write(json.dumps(featureCollection))
+       
+
+
+
+# def extractFileGeometryAttribute(file):
+#     f = open(file)
+#     data = json.load(f)
+
+#     dictionary = {}
+
+#     for feature in data['features']:
+        
+#         temp = {
+#             "type": feature['type'],
+#             "geometry": feature['geometry'],
+#             "properties" : feature['properties']
+#         }
+#         #Add new Attributes
+#         properties = feature['properties']
+
+#         properties['TOTPOP'] = 0
+#         properties['NH_WHITE'] = 0
+#         properties['NH_BLACK'] = 0
+#         properties['NH_AMIN'] = 0
+#         properties['NH_ASIAN'] = 0
+#         properties['NH_NHPI'] = 0
+#         properties['NH_OTHER'] = 0
+#         properties['NH_2MORE'] = 0
+#         properties['HISP'] = 0
+#         properties['VAP'] = 0
+#         properties['HVAP'] = 0
+#         properties['WVAP'] = 0
+#         properties['BVAP'] = 0
+#         properties['AMINVAP'] = 0
+#         properties['ASIANVAP'] = 0
+#         properties['NHPIVAP'] = 0
+#         properties['OTHERVAP'] = 0
+#         properties['2MOREVAP'] = 0
+
+
+#         dictionary[feature['properties']['VTD']] = temp
+
+#     return dictionary
+
+
+
 
 
 if __name__ == '__main__':

@@ -1,16 +1,37 @@
 package com.cse416.backend.model.job.boxnwhisker;
+import javax.persistence.*;
 
 
-
+@Entity
+@Table(name = "BoxWhiskerPlots")
 public class BoxWhiskerPlot{
 
+    @Id
+    @GeneratedValue
+    @Column(name = "boxWhiskerPlotId")
     private int id;
+
+    @Column(name = "mininum")
     private int min;
+
+    @Column(name = "lowerQuartile")
     private int q1;
+
+    @Column(name = "median")
     private int q2;
+
+    @Column(name = "upperQuartile")
     private int q3;
+
+    @Column(name = "maximum")
     private int max;
+
+    @Transient
     private int [] enactedPlan;
+
+    @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="boxwhiskerId")
+    private BoxWhisker boxWhisker;
 
 
     public BoxWhiskerPlot(int id, int min, int q1, int q2, int q3, int max) {

@@ -29,12 +29,8 @@ public class Plan{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String planID;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stateId")
-    private State state;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "jobId")
+    @ManyToOne(targetEntity=Job.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="jobId")
     private Job job;
 
     @JsonProperty
@@ -42,6 +38,7 @@ public class Plan{
     private String type;
 
     @JsonProperty
+    @Transient
     private String stateAbbreviation;
 
     @JsonProperty
@@ -71,9 +68,11 @@ public class Plan{
     // // //https://github.com/opendatalab-de/geojson-jackson
 
     @JsonIgnore
+    @Transient
     private int x;
 
     @JsonIgnore
+    @Transient
     private int y;
 
 

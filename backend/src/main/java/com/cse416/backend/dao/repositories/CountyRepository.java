@@ -14,16 +14,19 @@ import java.util.*;
 @Repository
 public interface CountyRepository extends JpaRepository<County, Integer>{
 
-    @Query(value = "SELECT * FROM Counties c WHERE c.districtId = :districtId", nativeQuery=true)
-    List<County> findByDistrictId(@Param("districtId") Integer districtId);
+    @Query( "SELECT c FROM County c WHERE c.district.districtId = ?1")
+    List<County> findByDistrictId(Integer districtId);
 
-    @Query(value = "SELECT * FROM Counties c WHERE c.stateId = :stateId", nativeQuery=true)
-    List<County> findByStateId(@Param("stateId") String stateId);
+    @Query( "SELECT c FROM County c WHERE c.state.stateAbbreviation = ?1")
+    List<County> findByStateId(String stateId);
 
-    @Query(value = "SELECT * FROM Counties c WHERE c.countyFIPSCode = :countyFIPSCode", nativeQuery=true)
-    County findByCountyFIPSCode(@Param("countyFIPSCode") Integer countyFIPSCode);
+    @Query( "SELECT c FROM County c WHERE c.state.stateAbbreviation = ?1 and c.district.districtNumber = ?2")
+    List<County> findByStateIdAndDistrictNumber(String stateId, Integer districtId);
 
-    @Query(value = "SELECT * FROM Counties c WHERE c.countyName = :name", nativeQuery=true)
-    County findByCountyName(@Param("name") String name);
+    @Query( "SELECT c FROM County c WHERE c.countyFIPSCode = ?1")
+    County findByCountyFIPSCode(Integer countyFIPSCode);
+
+    @Query( "SELECT c FROM County c WHERE c.countyName = ?1")
+    County findByCountyName(String name);
 
 }

@@ -59,7 +59,7 @@ class MainPanel extends Component {
                     jobCards={this.props.jobCards} totalPopulation={this.props.totalPopulation} numOfPrecincts={this.props.numOfPrecincts} numOfCounties={this.props.numOfCounties}
 
                     // Job-related content
-                    currentJob = {this.props.currentJob} updateCurrentJob={this.props.updateCurrentJob}
+                    currentJob = {this.props.currentJob} minoritiesAnalyzed = {this.props.currentJob.minorityAnalyzed} updateCurrentJob={this.props.updateCurrentJob}
                     updateCurrentJobName={this.props.updateCurrentJobName} toggleSelectedCard={this.props.toggleSelectedCard}
                     createJob={this.props.createJob} cancelJob = {this.props.cancelJob} deleteJob={this.props.deleteJob} 
                     selectedJobCheck={this.props.selectedJobCheck} generateBoxWhiskerValues={this.props.generateBoxWhiskerValues}

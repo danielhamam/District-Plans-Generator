@@ -1,23 +1,37 @@
 package com.cse416.backend.model.job.boxnwhisker;
 
-import com.cse416.backend.model.job.Job;
-
 import java.lang.reflect.Array;
+import com.cse416.backend.model.job.boxnwhisker.BoxWhiskerPlot;
+import com.cse416.backend.model.job.Job;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "BoxWhiskers")
 public class BoxWhisker {
     //[min,  q1, q2, q3, max]
+
+    @Id
+    @GeneratedValue
+    @Column(name = "boxWhiskerId")
+    private Integer id;
+
+    @OneToMany(targetEntity=BoxWhiskerPlot.class,cascade = CascadeType.ALL, 
+    fetch = FetchType.LAZY, orphanRemoval = true)
     private List<BoxWhiskerPlot> boxWhisker;
+    
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "jobId")
     private Job job;
 
     public BoxWhisker(){
         boxWhisker = new ArrayList<>();
     }
 
-
+   
 
 //    public BoxWhisker(Integer[] district, Integer[] values) {
 //        List<Map<Integer, Integer[]>>  newBoxWhisker = new ArrayList<>();
