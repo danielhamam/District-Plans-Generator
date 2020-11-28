@@ -34,8 +34,44 @@ States = {
 }
 
 def main():
-    # getDict = computePrecinctNeighbors(States["GA"])
-    # writeToFile(getDict, 'backend/database/sqlFormat.json')
+    state = 'MD'
+    path = 'backend/src/main/java/resourses/state/' + state.lower() + '/PrecinctsNeighbors.json'
+    neighbor = computePrecinctNeighbors(States[state])
+    demographic = formatPrecinctDemographicData(States[state])
+    getDict = formatAlgoritm(neighbor, demographic)
+    writeToFile(getDict, 'backend/database/PrecinctsNeighbors.json')
+
+def formatAlgoritm(dictPrecinctNeighbors, dictPrecinctDemographicData):
+    algorithmDict = {}
+    included = []
+    # a = list(dictPrecinctNeighbors.keys())[0]
+    # print(a)
+    # print(dictPrecinctNeighbors[a])
+    # a = list(dictPrecinctNeighbors.keys())[0]
+    # print(a)
+    # print(dictPrecinctNeighbors[a])
+    for precinctKey in dictPrecinctDemographicData:
+        try:
+            p_neighbors = dictPrecinctNeighbors[precinctKey]
+        except Exception as e:
+            print(str(e) + " ERROR: p_neighbors") 
+            p_neighbors = {}
+    
+        try:
+            p_demographic = dictPrecinctDemographicData[precinctKey]
+        except Exception as e:
+            print(str(e) + " ERROR: p_demographic")
+            p_demographic = {}
+
+        
+        struct = dict(neighbors=p_neighbors, demographic=p_demographic)
+        algorithmDict.setdefault(precinctKey,struct)
+
+    #print(included)
+    return algorithmDict
+
+
+    
 
 
 def formatDistrictData(state):
@@ -258,7 +294,7 @@ def formatPrecinctDemographicData(state):
 
 
         temp = {
-             "total": properties['TOTPOP'],
+            "total": properties['TOTPOP'],
             "white": properties['NH_WHITE'],
             "black": properties['NH_BLACK'],
             "american_indian": properties['NH_AMIN'],
@@ -286,7 +322,7 @@ def formatPrecinctDemographicData(state):
 
         newDict[precinct] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 

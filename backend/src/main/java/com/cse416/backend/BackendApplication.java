@@ -1,6 +1,8 @@
 package com.cse416.backend;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,7 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		SpringApplication.run(BackendApplication.class, args);
 	}
 

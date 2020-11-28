@@ -21,6 +21,7 @@ import java.lang.*;
 import java.util.*;
 import java.io.File;
 import javax.persistence.*;
+import javax.swing.plaf.synth.SynthTextAreaUI;
 
 
 @Entity
@@ -91,6 +92,10 @@ public class State {
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 
+    @Transient
+    @JsonIgnore
+    private Map algorithmPrecinctsMap;
+
     //Neccessary for JPA
     protected State (){
     }
@@ -128,25 +133,64 @@ public class State {
         return "";
     }
 
-    public void setInitialGeojsonFiles(){
+    public void setInitialFiles(){
         if(stateAbbreviation == null){
-            throw new NullPointerException("State Abbreivation doesn't exist ");
+            throw new NullPointerException("State abbreviation doesn't exist ");
         }
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
-        String precinctFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/Precincts.json";
-        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
-        this.precinctsFile = new File(precinctFilePathAbsolutePath);
         try{
-            this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
-            // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
-            this.precinctsGeoJson = createPrecinctsFeatureCollection();
+            enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+            String precinctFilePath = "src/main/resources/system/states/" +
+                    stateAbbreviation.toLowerCase() + "/Precincts.json";
+            String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+            precinctsFile = new File(precinctFilePathAbsolutePath);
+            precinctsGeoJson = createPrecinctsFeatureCollection();
+
         }
         catch(IOException error){
             error.printStackTrace();
         }
-
     }
+
+    public void setAlgorithmPrecinctMap(){
+        if(statePrecincts == null){
+            throw new NullPointerException("State abbreviation doesn't exist ");
+        }
+        if(algorithmPrecinctsMap != null){
+           return;
+        }
+        System.out.println("setAlgorithmPrecinctMap");
+        Map <String,Object> precinctsMap = new HashMap<>();
+        Map <String,Object> temp=null;
+//        for(Precinct precinct: statePrecincts){
+//            Map <String,Object> precinctMap = new HashMap<>();
+//            precinctMap.put("neighbors", precinct.getNeighbors());
+//            precinctsMap.put(precinct.getPrecinctFIPSCode(),precinctMap);
+//        }
+        Precinct precinct =  statePrecincts.get(0);
+//        System.out.println(precinct);
+//        List <Precinct> neigbors =  precinct.getNeighbors();
+//        Precinct castedPrecintct = precinct;
+//        System.out.println("========");
+//        System.out.println("========");
+//        System.out.println("========");
+//        System.out.println("========");
+//        System.out.println("========");
+//        System.out.println(neigbors);
+//        System.out.println(precinct.getClass());
+//        System.out.println(precinct);
+//        System.out.println(castedPrecintct);
+//        System.out.println(castedPrecintct.getNeighbors().get(0));
+//
+        System.out.println(precinct.getNeighbors().get(0));
+
+
+
+//        List ne = (List)statePrecincts.get(0).getNeighbors();
+//        System.out.println(ne);
+//        algorithmPrecinctsMap = precinctsMap;
+//        System.out.println(algorithmPrecinctsMap.get(temp));
+    }
+
     
     public String getStateName() {
         return stateName;
@@ -219,7 +263,7 @@ public class State {
         map.put("nameAbbrev", stateAbbreviation);
         map.put("stateFIPSCode", stateFIPSCode);
         map.put("totalPopulation", totalPopulation);
-        map.put("precincts", algorithmPrecinctsJson);
+        map.put("precincts", algorithmPrecinctsMap);
         return map;
     }
 
