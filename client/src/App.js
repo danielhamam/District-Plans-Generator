@@ -52,7 +52,7 @@ class App extends Component {
 
     if (stateName == this.state.currentState) return;
     
-    this.setState({currentJob : ""}) 
+    this.setState({currentJob : ""})
     this.setState({currentState : stateName});
     let stateObject =  {
       state: stateAbrev

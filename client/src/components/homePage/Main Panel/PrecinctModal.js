@@ -14,9 +14,12 @@ class PrecinctModal extends Component {
         
         return (
             <div id="precinctModalWrapper" style={this.props.togglePrecinctModal ? { display : 'block' } : { display: 'none' }} >
+               <div id="precinctName">
+                    <b> Precinct Name: </b>
+                    Example
+                </div>
                <Table striped bordered hover id="precinctModal" className="table">
                     <thead>
-                        {/* <tr id="precinctName"> Precinct Name: {} </tr> */}
                         <tr>
                             <th scope="col">Demographic Category</th>
                             <th scope="col">Overall Population </th>

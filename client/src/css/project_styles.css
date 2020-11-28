@@ -106,10 +106,13 @@ html, body {
 
 #precinctName {
   margin-left: 2px;
-  font-weight: bold;
+  /* border: 1px solid gray; */
+  text-align: center;
+  font-size: 11pt;
+  /* font-weight: bold; */
 }
 
-#precinctModal {
+#precinctModalWrapper {
   position : relative;
   background-color: white;
   height: 250px;
@@ -118,6 +121,12 @@ html, body {
   margin-top: 73px;
   margin-right: 14px;
   z-index: 5;
+}
+
+#precinctModal {
+  font-size: 11pt;
+  border: 1px solid gray;
+  background-color: white;
 }
 
 

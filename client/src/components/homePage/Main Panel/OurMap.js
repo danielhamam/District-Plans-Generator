@@ -17,7 +17,13 @@ class OurMap extends Component {
         this.precinctView = false;
         this.districtView = false;
         this.stateView = true;
+        this.gradient = {
+            0.0: 'green',
+            0.5: 'yellow',
+            1.0: 'red'
+        }
     }
+  
 
     handleZoomChange = (e) => { 
 
@@ -48,11 +54,11 @@ class OurMap extends Component {
             this.mapZoom = 7;
         }
         else if (this.props.currentState == "Maryland") {
-            this.mapCenter = [38.5, -76.417931];
+            this.mapCenter = [38.5, -78.417931];
             this.mapZoom = 7.2;
         }
         else if (this.props.currentState == "Pennsylvania") {
-            this.mapCenter = [40.712776, -77.005974];
+            this.mapCenter = [40.712776, -79.005974];
             this.mapZoom = 7;
         }
         else {
@@ -65,10 +71,15 @@ class OurMap extends Component {
                     <HeatmapLayer
                                 // fitBoundsOnLoad
                                 // fitBoundsOnUpdate
+                                // radius={2}
+                                blur = {10}
+                                // maxOpacity={0.8}
+                                // gradient={this.gradient}
                                 points={heatPoints}
                                 longitudeExtractor={m => m[1]}
                                 latitudeExtractor={m => m[0]}
                                 intensityExtractor={m => parseFloat(m[2])} 
+                                // max={3}
                     />
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
