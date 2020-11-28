@@ -16,6 +16,7 @@ class App extends Component {
       currentState : "Select a state",
       enactedPlan : testJobCards.enactedPlan, 
       totalPopulation : 0,
+      numOfDistricts : 0,
       numOfPrecincts : 0,
       numOfCounties : 0,
 
@@ -48,6 +49,9 @@ class App extends Component {
     }
 
   changeCurrentState = async (stateAbrev, stateName) => {
+
+    if (stateName == this.state.currentState) return;
+    
     this.setState({currentJob : ""}) 
     this.setState({currentState : stateName});
     let stateObject =  {
@@ -69,14 +73,17 @@ class App extends Component {
       // Clear any selected job/plan
       this.setState({currentJob : ""})
       this.setState({selectedPlanCheck: false})
-      this.setState({selectedJobCheck : false})
-      this.state.planState.setState({selected : false})
-      this.state.planState.districtPlanClassStyle = "";
-      this.state.planState.goTop = ""
+      
+      if (this.state.planState != null ) {
+        this.state.planState.setState({selected : false});
+        this.state.planState.districtPlanClassStyle = "";
+        this.state.planState.goTop = "";
+      }
 
       // Initialize state object
       this.setState({ enactedPlan : res.state.enactedPlan}); 
       this.setState({ totalPopulation : res.state.totalPopulation});
+      this.setState({ numOfDistricts : res.state.numOfDistricts});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
       this.setState({ numOfCounties : res.state.numOfCounties}); 
 
@@ -296,6 +303,7 @@ class App extends Component {
 
             // State-related data
             currentState={this.state.currentState} jobCards={this.state.jobCards}
+            numOfDistricts={this.state.numOfDistricts}
             numOfPrecincts={this.state.numOfPrecincts} numOfCounties={this.state.numOfCounties}
             totalPopulation={this.state.totalPopulation} enactedPlan = {this.state.enactedPlan}
             currentJob ={this.state.currentJob} changeCurrentState={this.changeCurrentState} 
