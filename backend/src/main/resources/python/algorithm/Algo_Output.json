@@ -1,12 +1,26 @@
 {
-  "districtings": [
+  "plans": [
     {
-      "districtId": "one",
-      "districtName": 1,
-      "districtNumber": 1,
-      "state": "New York",
+      "planId": "one",
+      "type": "",
       "stateAbbrev": "NY",
-      "numofPrecincts": 10,
+      "numOfDistricts": 2,
+      "isPlanEnacted": true,
+      "graph_districts":{
+        "1": {
+          "compactness": 0.2,
+          "precincts": ["020001", "020002","020003","020004", "020005"]
+        },
+        "2": {
+          "precincts": ["020006", "020007","020008","020009", "0200010"]
+        }
+      }
+    },
+    {
+      "planId": "two",
+      "type": "",
+      "stateAbbrev": "NY",
+      "numOfDistricts": 2,
       "graph_districts":{
         "1": {
           "compactness": 0.2,
