@@ -34,23 +34,21 @@ States = {
 }
 
 def main():
-    state = 'MD'
-    path = 'backend/src/main/java/resourses/state/' + state.lower() + '/PrecinctsNeighbors.json'
-    neighbor = computePrecinctNeighbors(States[state])
-    demographic = formatPrecinctDemographicData(States[state])
-    getDict = formatAlgoritm(neighbor, demographic)
-    writeToFile(getDict, 'backend/database/PrecinctsNeighbors.json')
+    writeAlgorithmFormatToStatesDir()
+    
 
-def formatAlgoritm(dictPrecinctNeighbors, dictPrecinctDemographicData):
+def writeAlgorithmFormatToStatesDir():
+    for state in States:
+        backendpath = 'backend/src/main/resources/system/states/' + state.lower() + '/AlgorithmPrecincts.json'
+        neighbor = computePrecinctNeighbors(States[state])
+        demographic = formatPrecinctDemographicData(States[state])
+        formatFile = formatAlgoritmFile(neighbor, demographic)
+        writeToFile(formatFile, backendpath)
+
+def formatAlgoritmFile(dictPrecinctNeighbors, dictPrecinctDemographicData):
     algorithmDict = {}
     included = []
-    # a = list(dictPrecinctNeighbors.keys())[0]
-    # print(a)
-    # print(dictPrecinctNeighbors[a])
-    # a = list(dictPrecinctNeighbors.keys())[0]
-    # print(a)
-    # print(dictPrecinctNeighbors[a])
-    for precinctKey in dictPrecinctDemographicData:
+    for precinctKey in dictPrecinctNeighbors:
         try:
             p_neighbors = dictPrecinctNeighbors[precinctKey]
         except Exception as e:

@@ -40,6 +40,8 @@ def getData(file):
     try:
         print("Retrieving data. . .")
         # Opening JSON file
+        print(file)
+        file = open("~/Users/carloslopez/Desktop/SCHOOL/ComputerScience/CSE416/CSE-416-Project/backend/src/main/resources/system/states/md/AlgorithmPrecincts.json",'r')
         data = json.load(file)
         global state
         state = data['data']['state']
@@ -586,6 +588,7 @@ def convertToOutput():
 
 
 def main():
+    infile = 0
     parse = parser() # Initiates parser
     infile = parse.parse_args().infile[0] # Sets up parser
     getData(infile) # Retrieves data from JSON

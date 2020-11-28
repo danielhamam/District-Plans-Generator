@@ -120,8 +120,7 @@ public class ServerService {
             State state = stateDAO.getStateById(stateAbbrevation);
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             System.out.println(state.getStateAbbreviation());
-            state.setInitialFiles();
-            state.setAlgorithmPrecinctMap();
+            state.initializeSystemFiles();
             this.session.setState(state);
             this.session.addJobs(jobs);
             this.jobHistory.addJobs(jobs);
@@ -211,7 +210,7 @@ public class ServerService {
             //TODO: [SERVER] Implement USECASE 21
             String algorithmInputContents = createAlgorithmData(currentState, job);
             createJobDirectory(job.getJobName(), algorithmInputContents);
-//            initiateAlgorithm(job);
+            initiateAlgorithm(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -226,7 +225,7 @@ public class ServerService {
 
     private void initiateAlgorithm(Job job){
         System.out.println("Initiating Algorithm... Creating Thread");
-        AlgorithmInterface algorithmInterface = new AlgorithmInterface(job, null, runAlgoLocally);
+        AlgorithmInterface algorithmInterface = new AlgorithmInterface(job, session.getState(), runAlgoLocally);
         algorithmInterface.start();
     }
 

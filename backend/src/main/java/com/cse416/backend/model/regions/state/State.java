@@ -7,21 +7,21 @@ import com.cse416.backend.model.regions.district.*;
 import com.cse416.backend.model.job.*;
 
 
-import com.cse416.backend.model.Boundary;
-import com.cse416.backend.model.demographic.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.geojson.FeatureCollection;
 
 import java.io.IOException;
 
 import java.lang.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.File;
 import javax.persistence.*;
-import javax.swing.plaf.synth.SynthTextAreaUI;
 
 
 @Entity
@@ -82,7 +82,7 @@ public class State {
 
     @Transient
     @JsonIgnore
-    private String algorithmPrecinctsJson;
+    private JsonNode algorithmPrecinctsJson;
 
     @Transient
     @JsonIgnore
@@ -92,9 +92,6 @@ public class State {
     @JsonIgnore
     private FeatureCollection stateGeoJson;
 
-    @Transient
-    @JsonIgnore
-    private Map algorithmPrecinctsMap;
 
     //Neccessary for JPA
     protected State (){
@@ -118,77 +115,44 @@ public class State {
         try{
             this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
             // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
-            this.precinctsGeoJson = createPrecinctsFeatureCollection();
+            this.precinctsGeoJson = new ObjectMapper().readValue(this.precinctsFile, FeatureCollection.class);
         }
         catch(IOException error){
             error.printStackTrace();
         }
     }
 
-    private FeatureCollection createPrecinctsFeatureCollection()throws IOException {
-        return new ObjectMapper().readValue(this.precinctsFile, FeatureCollection.class);
+    private void createPrecinctFile(){
+        String precinctFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/Precincts.json";
+        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+        precinctsFile = new File(precinctFilePathAbsolutePath);
     }
 
-    private String createAlgorithmPrecinctsString()throws IOException {
-        return "";
+    private void createAlgorithmPrecinctFile(){
+        String algoPrecinctFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/AlgorithmPrecincts.json";
+        String algoPrecinctFilePathAbsolutePath = new File(algoPrecinctFilePath).getAbsolutePath();
+        algorithmPrecinctsFile = new File(algoPrecinctFilePathAbsolutePath);
     }
 
-    public void setInitialFiles(){
+
+    public void initializeSystemFiles(){
         if(stateAbbreviation == null){
             throw new NullPointerException("State abbreviation doesn't exist ");
         }
         try{
             enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
-            String precinctFilePath = "src/main/resources/system/states/" +
-                    stateAbbreviation.toLowerCase() + "/Precincts.json";
-            String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
-            precinctsFile = new File(precinctFilePathAbsolutePath);
-            precinctsGeoJson = createPrecinctsFeatureCollection();
+            createPrecinctFile();
+            createAlgorithmPrecinctFile();
+            precinctsGeoJson = new ObjectMapper().readValue(precinctsFile, FeatureCollection.class);
+            algorithmPrecinctsJson = new ObjectMapper().readTree(algorithmPrecinctsFile);
+            //algorithmPrecinctsJson = FileUtils.readFileToString(algorithmPrecinctsFile, StandardCharsets.UTF_8);
 
         }
         catch(IOException error){
             error.printStackTrace();
         }
-    }
-
-    public void setAlgorithmPrecinctMap(){
-        if(statePrecincts == null){
-            throw new NullPointerException("State abbreviation doesn't exist ");
-        }
-        if(algorithmPrecinctsMap != null){
-           return;
-        }
-        System.out.println("setAlgorithmPrecinctMap");
-        Map <String,Object> precinctsMap = new HashMap<>();
-        Map <String,Object> temp=null;
-//        for(Precinct precinct: statePrecincts){
-//            Map <String,Object> precinctMap = new HashMap<>();
-//            precinctMap.put("neighbors", precinct.getNeighbors());
-//            precinctsMap.put(precinct.getPrecinctFIPSCode(),precinctMap);
-//        }
-        Precinct precinct =  statePrecincts.get(0);
-//        System.out.println(precinct);
-//        List <Precinct> neigbors =  precinct.getNeighbors();
-//        Precinct castedPrecintct = precinct;
-//        System.out.println("========");
-//        System.out.println("========");
-//        System.out.println("========");
-//        System.out.println("========");
-//        System.out.println("========");
-//        System.out.println(neigbors);
-//        System.out.println(precinct.getClass());
-//        System.out.println(precinct);
-//        System.out.println(castedPrecintct);
-//        System.out.println(castedPrecintct.getNeighbors().get(0));
-//
-        System.out.println(precinct.getNeighbors().get(0));
-
-
-
-//        List ne = (List)statePrecincts.get(0).getNeighbors();
-//        System.out.println(ne);
-//        algorithmPrecinctsMap = precinctsMap;
-//        System.out.println(algorithmPrecinctsMap.get(temp));
     }
 
     
@@ -256,6 +220,10 @@ public class State {
         return map;
     }
 
+    public File getAlgorithmPrecinctsFile() {
+        return algorithmPrecinctsFile;
+    }
+
     @JsonIgnore
     public Map getAlgorithmJson() {
         Map <String, Object> map = new HashMap<>();
@@ -263,7 +231,7 @@ public class State {
         map.put("nameAbbrev", stateAbbreviation);
         map.put("stateFIPSCode", stateFIPSCode);
         map.put("totalPopulation", totalPopulation);
-        map.put("precincts", algorithmPrecinctsMap);
+        map.put("precincts", algorithmPrecinctsJson);
         return map;
     }
 
