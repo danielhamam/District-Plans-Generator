@@ -79,13 +79,13 @@ public class ServerService {
         return  mapper.writeValueAsString(clientData);
     }
 
-    private String createAlgorithmData(Object stateObj, Job job)throws JsonProcessingException{
+    private String createAlgorithmData(State state, Job job)throws JsonProcessingException{
         Map <String,Object> AlgorithmData = new HashMap<>();
         Map <String,Object> insideOfAlgorithmData = new HashMap<>();
-        insideOfAlgorithmData.put("state", stateObj);
+        insideOfAlgorithmData.put("state", state.getAlgorithmJson());
         insideOfAlgorithmData.put("job", job);
         AlgorithmData.put("data",insideOfAlgorithmData);
-        return  mapper.writeValueAsString(insideOfAlgorithmData);
+        return  mapper.writeValueAsString(AlgorithmData);
     }
 
     private void createJobDirectory(String jobDirectoryName, String algorithmContents)throws IOException{
@@ -115,14 +115,13 @@ public class ServerService {
     }
     
     public String getState(String stateAbbrevation){
-        //TODO: [DATABASE] Replace the line below to fetch the state from the remote database.
-        //      Mutation function to update job status of a job on the remote database.
         String clientData = "{serverError:null}";
         try{
             State state = stateDAO.getStateById(stateAbbrevation);
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             System.out.println(state.getStateAbbreviation());
-            state.setInitialGeojsonFiles();
+            state.setInitialFiles();
+            state.setAlgorithmPrecinctMap();
             this.session.setState(state);
             this.session.addJobs(jobs);
             this.jobHistory.addJobs(jobs);
@@ -134,7 +133,6 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
-//        return "OKAY";
     }
 
     public String getJob(String jobID){
@@ -205,24 +203,19 @@ public class ServerService {
     }
 
     public String generateJob(Job job){
-//        State currentState = session.getState();
-        //job.setStateAbbrev(currentState.getStateAbbreviation());
+        State currentState = session.getState();
+        job.setStateAbbrev(currentState.getStateAbbreviation());
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
-        //fake.mutationGenerateJob(job);
-        
-        
-
         try{
             //TODO: [SERVER] Implement USECASE 21
-//            String algorithmInputContents = createAlgorithmData(currentState.getAlgorithmJson(), job);
-            String algorithmInputContents = "Hello";
+            String algorithmInputContents = createAlgorithmData(currentState, job);
             createJobDirectory(job.getJobName(), algorithmInputContents);
-            initiateAlgorithm(job);
+//            initiateAlgorithm(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
-            error.getMessage();
-            clientData = "{serverError:\"" + error.getMessage() + "\"}"; 
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+            error.printStackTrace();
         }
         catch(Exception error){
             error.printStackTrace();

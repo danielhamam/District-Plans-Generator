@@ -35,12 +35,6 @@ public class Precinct {
     @JoinColumn(name="stateId")
     private State state;
 
-    @Transient
-    private Boundary boundary;
-
-    @Transient
-    private Demographic demographic;
-
     @ManyToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
     fetch = FetchType.LAZY)
     @JoinTable(
@@ -56,14 +50,12 @@ public class Precinct {
     public Precinct(String precinctName, String precinctFIPSCode, Demographic demographic) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
-        this.demographic = demographic;
 
     }
 
     public Precinct(String precinctName, String precinctFIPSCode, Demographic demographic, List<Precinct> neighbors) {
         this.precinctName = precinctName;
         this.precinctFIPSCode = precinctFIPSCode;
-        this.demographic = demographic;
         this.neighbors = neighbors;
     }
 
@@ -83,21 +75,7 @@ public class Precinct {
         this.precinctFIPSCode = precinctFIPSCode;
     }
 
-    public Boundary getBoundary() {
-        return boundary;
-    }
 
-    public void setBoundary(Boundary boundary) {
-        this.boundary = boundary;
-    }
-
-    public Demographic getDemographic() {
-        return this.demographic;
-    }
-
-    public void setDemographic(Demographic demographic) {
-        this.demographic = demographic;
-    }
 
     public List<Precinct>  getNeighbors() {
         return this.neighbors;
@@ -113,8 +91,6 @@ public class Precinct {
         String s = "Precinct{" +
                 "precinctName='" + precinctName + '\'' +
                 ", precinctFIPSCode=" + precinctFIPSCode +
-                ", boundary=" + boundary +
-                ", demographic=" + demographic + 
                 ", neighbors = [" ;
 
         for(int i = 0; i < neighbors.size(); i++)
