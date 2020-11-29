@@ -94,7 +94,8 @@ public class AlgorithmInterface implements Runnable {
             System.out.println("Running algorithm locally... Python output...");
             String localPath = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
             //TODO:CHANGE THE LINE BELOW TO REFLECT InputAlgorithm.json
-            String filepathArg = state.getAlgorithmPrecinctsFile().getPath();
+            String filepathArg = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase()
+                    + "/AlgorithmInput.json";
             System.out.println(state.getAlgorithmPrecinctsFile());
             ProcessBuilder pb = new ProcessBuilder("python3", localPath, filepathArg);
             pb.redirectErrorStream(true);
