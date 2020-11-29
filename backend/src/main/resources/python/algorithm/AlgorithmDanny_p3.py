@@ -8,7 +8,7 @@ import argparse
 num_districts = 3
 num_precincts = 30
 compactness_measure = ''
-population_variance = 0.017
+population_variance = 0
 termination_limit = 5
 ideal_population = 15
 compactness_lower_bound = 0.1
@@ -30,6 +30,7 @@ precincts = [] # initial list of precinct neighbors for use later.
 precinct_neighbors = {} 
 subgraphs_combined = []
 graph_main = {}
+minorities_analyzed = []
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
@@ -51,6 +52,12 @@ def getData(file):
 
         global graph_main
         graph_main = data['data']['state']['precincts']
+
+        global population_variance
+        population_variance = job["populationDifference"]
+
+        global minorities_analyzed
+        minorities_analyzed = job["minorityAnalyzed"]
 
         print("Data retrieval complete.")
 
@@ -265,68 +272,6 @@ def algorithm(graph):
 
     return cutAcceptable(acceptable_edges, target_cut)
 
-# def generateSpanningTreeDFS():
-#     global subgraphs, neighbors, precincts, precinct_neighbors, subgraphs_combined
-#     # DFS for combined subgraph (spanning tree)
-#     random_start = random.choice(subgraphs_combined) # randomly select a start
-#     print("------------- subgraphs_combined:")
-#     print(subgraphs_combined)
-#     visited = [random_start]
-#     print("------------- visited:")
-#     print(visited)
-#     stack = [random_start]
-#     print("------------- stack:")
-#     print(stack)
-#     edges = []
-#     current_node = random_start
-#     print("------------- current_node:")
-#     print(current_node)
-#     # while len(visited) < len(precincts):
-#     while stack:
-#         pop_stack = True
-#         neighbors_precinct = precinct_neighbors.get(str(current_node.split(', '))) # get neighbors of currently selected precinct
-#         print("------------- neighbors_precinct: ")
-#         print(neighbors_precinct)
-#         # current_node_neighbors = neighbors.get(str(current_node))
-
-#         for node in subgraphs_combined:
-#             print("-------------  node:")
-#             print(node)
-#             if node not in visited and node in neighbors_precinct:
-#                 visited.append(node)
-#                 stack.append(node)
-#                 # Create the edge and add it 
-#                 new_list = []
-#                 vertex_one = current_node
-#                 print("------------- vertex_one:")
-#                 print(current_node)
-#                 vertex_two = node
-#                 print("------------- vertex_two:")
-#                 print(vertex_two)
-#                 if (type(vertex_one) == str):
-#                     vertex_one = vertex_one.split(', ')
-#                 if (type(vertex_two) == str):
-#                     vertex_two = vertex_two.split(', ')
-#                 new_list = vertex_one + vertex_two
-#                 print("------------- new_list:")
-#                 print(new_list)
-#                 edges.append(new_list) # assume creates edge
-#                 print("------------- edges")
-#                 print(edges)
-#                 current_node = node
-#                 pop_stack = False
-#                 break
-#         if pop_stack: # go back
-#             if stack:
-#                 print("------------- stack")
-#                 print(stack)
-#                 current_node = stack[-1]
-#                 stack.pop()
-#     spanning_tree = { "visited": visited, "edges": edges}
-#     print("------------- spanning_tree")
-#     print(spanning_tree)
-#     # print("\n" + str(spanning_tree))
-#     return spanning_tree
 
 def generateSpanningTreeBFS():
     global subgraphs, neighbors, precincts, precinct_neighbors, subgraphs_combined
@@ -459,6 +404,7 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
     global ideal_population
     global population_variance
     global compactness_lower_bound, compactness_upper_bound
+    global minorities_analyzed
 
     upper_bound = ideal_population * (1 + (population_variance * 0.5)) # Population upper bound
     lower_bound = ideal_population * (1 - (population_variance * 0.5)) # Population lower bound
@@ -473,7 +419,8 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
         total_population_two = 0 # Total population of new subgraph 2
         compactness_one = 0.4 # Compactness of new subgraph 1
         compactness_two = 0.4 # Compactness of new subgraph 2
-        cut_edges = 0 # Used for compactness
+        cut_edges_one = 0 # Used for compactness
+        cut_edges_two = 0 # Used for compactness
 
         # print("Edge 0 --> " + str(edge[0]))
         # print("Edge 1 --> " + str(edge[1]))
@@ -493,28 +440,44 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
             if i != edge[0] and i not in precinct_neighbors[str(precinct_one.split(', '))]:
                 subgraph_two.append(i)
 
-        for precinct in subgraph_one: # Calculates total population & compactness of subgraph 1
-            total_population_one = total_population_one + graph.get(precinct)["population"]
-        for precinct in subgraph_two: # Calculates total population & compactness of subgraph 2
-            total_population_two = total_population_two + graph.get(precinct)["population"]
-
-
-        # print("SUPGRAPH ONE-----------------")
-        # print(subgraph_one)
         
-        # for i in subgraph_one:
-        #     print("HERE---------------------------------")
-        #     print()
 
+        for p in subgraph_one: # Calculates total population of analyzed minorities of subgraph 1
+            precinct = graph.get(p)
+            if precinct["demographic"] != {}:
+                for minority in minorities_analyzed:
+                    total_population_one = total_population_one + precinct["demographic"][minority]
+        for p in subgraph_two: # Calculates total population of analyzed minorities of subgraph 2
+            precinct = graph.get(p)
+            if precinct["demographic"] != {}:
+                for minority in minorities_analyzed:
+                    total_population_two = total_population_two + precinct["demographic"][minority]
 
-        # print("Total population one --> " + str(total_population_one))
-        # print("Total population two --> " + str(total_population_two))
+        
+        for i in subgraph_one: # Calculates compactness of subgraph 1
+            for neighbor in precinct_neighbors[str(i.split(', '))]:
+                if neighbor not in subgraph_one:
+                    cut_edges_one = cut_edges_one + 1
+        compactness_one = len(list_edges) / cut_edges_one
+
+        for i in subgraph_two: # Calculates compactness of subgraph 2
+            for neighbor in precinct_neighbors[str(i.split(', '))]:
+                if neighbor not in subgraph_two:
+                    cut_edges_two = cut_edges_two + 1
+        compactness_two = len(list_edges) / cut_edges_two
+
+        print("Total population one --> " + str(total_population_one))
+        print("Total population two --> " + str(total_population_two))
+        print("Compactness one --> " + str(compactness_one))
+        print("Compactness two --> " + str(compactness_two))
 
         # Checks if population lands within specified population difference & compactness boundaries
-        # if (total_population_one <= upper_bound) and (total_population_one >= lower_bound):
-            # if (total_population_two <= upper_bound) and (total_population_two >= lower_bound):
-                # if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
-                #     if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
+        if (total_population_one <= upper_bound) and (total_population_one >= lower_bound):
+            if (total_population_two <= upper_bound) and (total_population_two >= lower_bound):
+                if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
+                    if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
+                        print()
+                        # DO NOTHING - IN PROGRESS
         acceptable_edges.append(edge)
     
     # print("Acceptable edges --> " + str(acceptable_edges))
