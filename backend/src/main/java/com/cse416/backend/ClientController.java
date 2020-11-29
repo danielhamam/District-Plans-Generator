@@ -96,7 +96,7 @@ public class ClientController {
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")
-   public void deleteStateJob(@PathVariable String jobID){
+   public void deleteStateJob(@PathVariable Integer jobID){
        service.deleteJob(jobID);
    }
 

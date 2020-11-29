@@ -39,19 +39,7 @@ public class Session{
         this.jobs.addAll(jobs);
     }
 
-    public boolean cancelJob(String jobID){
-        boolean isDeletionSuccesful = false;
-        for(Job job : this.jobs){
-            if(jobID.equals(job.getJobID()) && job.getStatus() != JobStatus.COMPLETED){
-                job.setStatus(JobStatus.CANCELED);
-                isDeletionSuccesful = true;
-                break;
-            }
-        }
-        return isDeletionSuccesful;
-    }
-
-    public boolean deleteJob(String jobID){
+    public boolean deleteJob(Integer jobID){
         boolean isDeletionSuccesful = false;
         for(Job job : this.jobs){
             if(jobID.equals(job.getJobID())){

@@ -119,9 +119,10 @@ public class ServerService {
         String clientData = "{serverError:null}";
         try{
             State state = stateDAO.getStateById(stateAbbrevation);
+            //System.out.println(state);
             Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
-            state.setDemographic(stateDemographic);
-            state.setTotalPopulation(stateDemographic.getTotalPopulation());
+            //state.setDemographic(stateDemographic);
+            //state.setTotalPopulation(stateDemographic.getTotalPopulation());
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             System.out.println(state.getStateAbbreviation());
             state.initializeSystemFiles();
@@ -272,7 +273,7 @@ public class ServerService {
         jobDAO.updateJob(job);
     }
 
-    public void deleteJob(String jobID){
+    public void deleteJob(Integer jobID){
         session.deleteJob(jobID);
         jobHistory.deleteJob(jobID);
         //fake.deleteJob(jobID);
