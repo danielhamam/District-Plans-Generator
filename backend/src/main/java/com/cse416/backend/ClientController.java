@@ -49,7 +49,7 @@ public class ClientController {
 
 
    @GetMapping(path = "/job/{jobID}", produces = "application/json")
-   public String getJob(@PathVariable String jobID){
+   public String getJob(@PathVariable Integer jobID){
        System.out.println("Sending jobID " + jobID + " to Client");
        return service.getJob(jobID);
    }
@@ -68,20 +68,20 @@ public class ClientController {
 
 
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
-    public String getDemographicFilter(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
+    public String getDemographicFilter(@PathVariable Integer jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
         List censusCatagories = Arrays.asList(demographicFilter.get("demographicFilter"));
         service.getDemographicFilter(jobID, planID, censusCatagories);
         return "getDemographicFilter";
     }
 
    @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")
-   public String getPlan(@PathVariable String jobID, @PathVariable String planID){
+   public String getPlan(@PathVariable Integer jobID, @PathVariable String planID){
 
         return "getPlan";
    }
 
    @GetMapping(path = "/boxwhisker/{jobID}/{planID}", produces = "application/json")
-   public String getBoxwhisker(@PathVariable String jobID, @PathVariable String planID, @RequestBody String catagory){
+   public String getBoxwhisker(@PathVariable Integer jobID, @PathVariable String planID, @RequestBody String catagory){
 
         return "getPlanGraph";
    }

@@ -138,7 +138,7 @@ public class ServerService {
         return clientData;
     }
 
-    public String getJob(String jobID){
+    public String getJob(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             //TODO: [DECISION] Since the job object will not have a reference to the geoJSON for each plan a decision
@@ -161,8 +161,8 @@ public class ServerService {
         return "getBoundries";
     }
 
-    public String getDemographicFilter(String jobID, String planID, List <CensusCatagories> censusCategory){
-        Job currentJob = this.session.getJobByID(jobID);
+    public String getDemographicFilter(Integer jobID, String planID, List <CensusCatagories> censusCategory){
+        Job currentJob = session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);
         System.out.println(censusCategory);
         return "getBoundries";
@@ -205,8 +205,8 @@ public class ServerService {
 
 
 
-    public String getPlan(String jobID, String planID){
-        Job currentJob = this.session.getJobByID(jobID);
+    public String getPlan(Integer jobID, String planID){
+        Job currentJob = session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
