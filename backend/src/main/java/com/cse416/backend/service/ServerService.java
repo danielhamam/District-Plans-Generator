@@ -120,7 +120,7 @@ public class ServerService {
         try{
             State state = stateDAO.getStateById(stateAbbrevation);
             //System.out.println(state);
-            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
+            //Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
             //state.setDemographic(stateDemographic);
             //state.setTotalPopulation(stateDemographic.getTotalPopulation());
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
