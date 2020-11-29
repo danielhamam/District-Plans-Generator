@@ -2,6 +2,8 @@ package com.cse416.backend.service;
 
 import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.livememory.GlobalHistory;
+import com.cse416.backend.model.demographic.Demographic;
+import com.cse416.backend.model.regions.precinct.Precinct;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.cse416.backend.dao.services.*;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.io.*;
@@ -118,6 +121,9 @@ public class ServerService {
         String clientData = "{serverError:null}";
         try{
             State state = stateDAO.getStateById(stateAbbrevation);
+            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
+            state.setDemographic(stateDemographic);
+            state.setTotalPopulation(stateDemographic.getTotalPopulation());
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             System.out.println(state.getStateAbbreviation());
             state.initializeSystemFiles();
@@ -164,7 +170,7 @@ public class ServerService {
         return "getBoundries";
     }
 
-    public String getPrecinct(){
+    public String getPrecincts(){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Object precinctsGeoJson = this.session.getState().getClientPrecinctsGeoJson();
@@ -178,8 +184,29 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
-
     }
+
+
+    public String getPrecinctDemographic(String name){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            Precinct precinct =  precinctDAO.getPrecinctByName(name);
+            Demographic demographic =  demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());
+            System.out.println(demographic);
+            clientData = this.createClient_Data(demographic);
+
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+    }
+
+
+
     public String getPlan(String jobID, String planID){
         Job currentJob = this.session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);

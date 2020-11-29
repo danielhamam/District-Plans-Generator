@@ -1,5 +1,6 @@
 package com.cse416.backend.model.regions.state;
 
+import com.cse416.backend.model.demographic.Demographic;
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.county.*;
@@ -37,7 +38,7 @@ public class State {
     private int stateFIPSCode;
 
     @Transient
-    private int totalPopulation;
+    private long totalPopulation;
 
     @Transient
     private Plan enactedPlan;
@@ -50,6 +51,9 @@ public class State {
 
     @Column(name="numberOfDistricts")
     private int numOfDistricts;
+
+    @Transient
+    private Demographic demographic;
 
     @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
     fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
@@ -196,8 +200,9 @@ public class State {
         this.statePrecincts = statePrecincts;
     }
 
+    public void setTotalPopulation(long totalPopulation){ this.totalPopulation = totalPopulation; }
 
-    public int getTotalPopulation() {
+    public long getTotalPopulation() {
         return totalPopulation;
     }
 
@@ -211,6 +216,18 @@ public class State {
 
     public int getNumOfPrecincts() {
         return numOfPrecincts;
+    }
+
+    public Demographic getDemographic() {
+        return demographic;
+    }
+
+    public void setDemographic(Demographic demographic) {
+        this.demographic = demographic;
+    }
+
+    public void setTotalPopulation(int totalPopulation) {
+        this.totalPopulation = totalPopulation;
     }
 
     @JsonIgnore

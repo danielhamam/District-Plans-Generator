@@ -55,10 +55,17 @@ public class ClientController {
    }
 
     @GetMapping(path = "/precincts", produces = "application/json")
-    public String getPrecinct(){
+    public String getPrecincts(){
         System.out.println("Sending precincts");
-        return service.getPrecinct();
+        return service.getPrecincts();
     }
+
+    @GetMapping(path = "/precinct/demographic/{precinctName}", produces = "application/json")
+    public String getPrecinctDemoggraphic(@PathVariable String precinctName){
+        System.out.println("Sending precincts demographic");
+        return service.getPrecinctDemographic(precinctName);
+    }
+
 
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
     public String getDemographicFilter(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){

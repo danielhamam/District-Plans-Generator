@@ -16,6 +16,7 @@ public class AlgorithmInterface implements Runnable {
     private boolean runAlgoLocally;
     private boolean determinedAlgoComputeLocation;
     private String jobDirectoryRelativePath;
+    private Process process;
 
     public AlgorithmInterface(Job job, State state, boolean runAlgoLocally) {
         this.job = job;
@@ -33,7 +34,11 @@ public class AlgorithmInterface implements Runnable {
     public void run() {
         while (!die)
         {
+
             System.out.println(this + " thread is still running");
+            //TODO: If the algo is ran locally check to see if the script crashed to kill the thread.
+            // The thread becomes useless if the python crashed
+            System.out.println(process.exitValue());
             if(!determinedAlgoComputeLocation){
                 try{
                     determineAlgorithmComputeLocation();
@@ -82,6 +87,7 @@ public class AlgorithmInterface implements Runnable {
         return doesFileExist;
     }
 
+
     private void initiateServerProcessing(){
         String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
         File algorithmOutputFile = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
@@ -90,23 +96,25 @@ public class AlgorithmInterface implements Runnable {
     }
 
     private void determineAlgorithmComputeLocation()throws IOException {
+        String algorithmInputPath = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase()
+                + "/AlgorithmInput.json";
         if(runAlgoLocally){
             System.out.println("Running algorithm locally... Python output...");
-            String localPath = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
-            //TODO:CHANGE THE LINE BELOW TO REFLECT InputAlgorithm.json
-            String filepathArg = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase()
-                    + "/AlgorithmInput.json";
+            String localPythonScript = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
             System.out.println(state.getAlgorithmPrecinctsFile());
-            ProcessBuilder pb = new ProcessBuilder("python3", localPath, filepathArg);
+            ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript, algorithmInputPath);
             pb.redirectErrorStream(true);
-            Process process = pb.start();
+            process = pb.start();
+
             printProcessOutput(process);
         }
         else{
             System.out.println("Running algorithm remotely...  Bash output...");
-            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/ConnectSeawulf.sh");
+            //TODO: Change the input below to correspond to you netid login. set up ssh key if you haven't
+            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/ConnectSeawulf.sh",
+                    "carlopez", algorithmInputPath);
             pb.redirectErrorStream(true);
-            Process process = pb.start();
+            process = pb.start();
             printProcessOutput(process);
         }
         determinedAlgoComputeLocation = true;
