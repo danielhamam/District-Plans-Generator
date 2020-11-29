@@ -22,7 +22,6 @@ import java.util.*;
 @Service
 public class ServerService {
 
-//    private final FakeDataAccessObject fake;
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
@@ -61,7 +60,6 @@ public class ServerService {
 
     @Autowired
     public ServerService() {
-//        this.fake = new FakeDataAccessObject();
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
@@ -120,9 +118,9 @@ public class ServerService {
         try{
             State state = stateDAO.getStateById(stateAbbrevation);
             //System.out.println(state);
-            //Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
-            //state.setDemographic(stateDemographic);
-            //state.setTotalPopulation(stateDemographic.getTotalPopulation());
+            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
+            state.setDemographic(stateDemographic);
+            state.setTotalPopulation(stateDemographic.getTotalPopulation());
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             System.out.println(state.getStateAbbreviation());
             state.initializeSystemFiles();
@@ -145,8 +143,12 @@ public class ServerService {
             //TODO: [DECISION] Since the job object will not have a reference to the geoJSON for each plan a decision
             //                 needs to be made on how it is going to acquire the random, average, extreme plan data.
             //                 Would it look in the in seawulf? would it query to the database?
-            Job requestedJob = this.session.getJobByID(jobID);
-            Map<String, Object> dataObject = requestedJob.getClientPlans();
+            Job serverJob = session.getJobByID(jobID);
+            Optional databaseJob = jobDAO.getJobById(serverJob.getJobID());
+            //TODO: Figure out what jobDAO.getJobById() does. Does it updated the existing live memory job or is it a
+            // whole other job
+            System.out.println(databaseJob);
+            Map<String, Object> dataObject = serverJob.getClientPlans();
             clientData = this.createClient_Data(dataObject);
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
@@ -156,10 +158,6 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
-    }
-
-    public String getBoundries(String boundryType){
-        return "getBoundries";
     }
 
     public String getDemographicFilter(Integer jobID, String planID, List <CensusCatagories> censusCategory){
@@ -261,29 +259,18 @@ public class ServerService {
 
     }
 
-    public int saveJob(Job job){
-        //TODO: [DATABASE] This could help communicate to the database. Helper function. Determine usage & importance
-        return 0;
-    }
-
     public void cancelJob(Integer jobID){
-        //TODO: [DATABASE] Figure out which is the primary id
         Job job = session.getJobByID(jobID);
         job.setStatus(JobStatus.CANCELED);
         jobDAO.updateJob(job);
     }
 
     public void deleteJob(Integer jobID){
-        session.deleteJob(jobID);
         jobHistory.deleteJob(jobID);
-        //fake.deleteJob(jobID);
-        //TODO: [DATABASE] implement delete job functionality.
-        //                 mutation function to delete the job on the remote database.
+        Job job = session.deleteJob(jobID);
+        jobDAO.deleteJob(job);
     }
 
-    public void updateJob(String jobID){
-        //TODO: [SERVER] implement server functionality for updating attribution for job
-    }
 
 //    public List <Job> getStateJobsInformation(String stateAbbrev){
 //        List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);

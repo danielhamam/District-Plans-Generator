@@ -41,12 +41,6 @@ public class ClientController {
         return clientData;
     }
 
-    // @GetMapping(path = "/boundaries/{jobID}/{planID}", produces = "application/json")
-    // public String getBoundries(@PathVariable String jobID, String boundaryType){
-    //     return "getBoundries";
-
-    // }
-
 
    @GetMapping(path = "/job/{jobID}", produces = "application/json")
    public String getJob(@PathVariable Integer jobID){
@@ -61,7 +55,7 @@ public class ClientController {
     }
 
     @GetMapping(path = "/precinct/demographic/{precinctName}", produces = "application/json")
-    public String getPrecinctDemoggraphic(@PathVariable String precinctName){
+    public String getPrecinctDemographic(@PathVariable String precinctName){
         System.out.println("Sending precincts demographic");
         return service.getPrecinctDemographic(precinctName);
     }
@@ -76,7 +70,6 @@ public class ClientController {
 
    @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")
    public String getPlan(@PathVariable Integer jobID, @PathVariable String planID){
-
         return "getPlan";
    }
 
@@ -85,14 +78,10 @@ public class ClientController {
 
         return "getPlanGraph";
    }
-//
-//    public String getGlobalHistory(){
-//
-//    }
 
    @PutMapping(path = "/cancel/{jobID}", produces = "application/json")
-   public void putCancelStateJob(@PathVariable String jobID){
-       //service.cancelJob(jobID);
+   public void putCancelStateJob(@PathVariable Integer jobID){
+       service.cancelJob(jobID);
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")
@@ -105,25 +94,6 @@ public class ClientController {
         String clientData = service.generateJob(job);
         return clientData;
    }
-
-
-    // private Job createJobFromMap(Map<String, Object> mapping){
-    //     String JobName = (String)mapping.get("name");
-    //     boolean isAvailable = (boolean) mapping.get("isAvailable");
-    //     int numberOfDistricting = (int) mapping.get("numberOfDistricting");
-    //     double populationDifference = (double) mapping.get("populationDifference");
-    //     double compactness = (double) mapping.get("compactness");
-    //     return new Job(numberOfDistricting, JobName, isAvailable,
-    //             populationDifference, compactness);
-    // }
-
-    // private List<Object> createListFromState(State state){
-    //     return Arrays.asList(
-    //             state.getName(),
-    //             state.getPopulation(),
-    //             state.getVotingAgePopulation());
-    // }
-
 
 
 }
