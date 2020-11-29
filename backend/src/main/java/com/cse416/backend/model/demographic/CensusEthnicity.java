@@ -1,5 +1,7 @@
 package com.cse416.backend.model.demographic;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.lang.Integer;
 
@@ -17,9 +19,10 @@ public class CensusEthnicity {
     //Necessary for JPA
     protected CensusEthnicity(){}
 
-    public CensusEthnicity(String shortenEthnicityName, String censusEthnicityName){
-        this.shortenName = shortenEthnicityName;
-        this.censusName = censusEthnicityName;
+    public CensusEthnicity(@JsonProperty("shortenName")String shortenName,
+                           @JsonProperty("censusName")String censusName){
+        this.shortenName = shortenName;
+        this.censusName = censusName;
     }
 
     public String getId(){return this.shortenName;}

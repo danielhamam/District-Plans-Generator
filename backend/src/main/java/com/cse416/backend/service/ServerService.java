@@ -1,6 +1,5 @@
 package com.cse416.backend.service;
 
-import com.cse416.backend.dao.FakeDataAccessObject;
 import com.cse416.backend.livememory.GlobalHistory;
 import com.cse416.backend.model.demographic.Demographic;
 import com.cse416.backend.model.regions.precinct.Precinct;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.cse416.backend.dao.services.*;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import java.io.*;
@@ -229,15 +227,16 @@ public class ServerService {
     }
 
     public String generateJob(Job job){
-        State currentState = session.getState();
-        job.setStateAbbrev(currentState.getStateAbbreviation());
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
-            //TODO: [SERVER] Implement USECASE 21
-            String algorithmInputContents = createAlgorithmData(currentState, job);
-            createJobDirectory(job.getJobName(), algorithmInputContents);
-            initiateAlgorithm(job);
+            State currentState = session.getState();
+            job.setStateAbbrev(currentState.getStateAbbreviation());
+            jobDAO.addJob(job);
+//            String algorithmInputContents = createAlgorithmData(currentState, job);
+//            createJobDirectory(job.getJobName(), algorithmInputContents);
+//            initiateAlgorithm(job);
+
             clientData = createClient_Data(job);
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -266,12 +265,11 @@ public class ServerService {
         return 0;
     }
 
-    public void cancelJob(String jobID){
-        this.session.cancelJob(jobID);
-        //TODO: [DATABASE] implement cancel job functionality.
-        //                 mutation function to update job status of a job on the remote database.
-        //
-
+    public void cancelJob(Integer jobID){
+        //TODO: [DATABASE] Figure out which is the primary id
+        Job job = session.getJobByID(jobID);
+        job.setStatus(JobStatus.CANCELED);
+        jobDAO.updateJob(job);
     }
 
     public void deleteJob(String jobID){

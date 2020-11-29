@@ -28,7 +28,7 @@ public class Session{
         return this.state;
     }
 
-    public Job getJobByID(String jobID)throws NoSuchElementException{
+    public Job getJobByID(Integer jobID)throws NoSuchElementException{
         return this.jobs.stream()
                 .filter(job -> jobID.equals(job.getJobID()))
                 .findFirst()
