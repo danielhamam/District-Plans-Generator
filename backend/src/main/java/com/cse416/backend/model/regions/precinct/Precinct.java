@@ -5,6 +5,8 @@ import com.cse416.backend.model.regions.county.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.district.*;
 import com.cse416.backend.model.Boundary;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 import java.lang.*;
@@ -43,6 +45,10 @@ public class Precinct {
         inverseJoinColumns = @JoinColumn(name = "precinctNeighborID", referencedColumnName = "precinctId")
     )
     private List<Precinct> neighbors;
+
+    @Transient
+    @JsonIgnore
+    private Demographic demographic;
 
     //Neccessary for JPA
     protected Precinct (){}
@@ -89,12 +95,20 @@ public class Precinct {
         this.neighbors = neighbors;
     }
 
-    
+    public Demographic getDemographic() {
+        return demographic;
+    }
+
+    public void setDemographic(Demographic demographic) {
+        this.demographic = demographic;
+    }
+
     @Override
     public String toString() {
         String s = "Precinct{" +
                 "precinctName='" + precinctName + '\'' +
                 ", precinctFIPSCode=" + precinctFIPSCode +
+                ", demographic=" + demographic +
                 ", neighbors = [" ;
 
         for(int i = 0; i < neighbors.size(); i++)

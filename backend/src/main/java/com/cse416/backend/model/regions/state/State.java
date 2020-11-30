@@ -90,6 +90,14 @@ public class State {
 
     @Transient
     @JsonIgnore
+    private File precinctsCoordinatesFile;
+
+    @Transient
+    @JsonIgnore
+    private JsonNode precinctsCoordinatesJson;
+
+    @Transient
+    @JsonIgnore
     private FeatureCollection precinctsGeoJson;
 
     @Transient
@@ -140,6 +148,13 @@ public class State {
         algorithmPrecinctsFile = new File(algoPrecinctFilePathAbsolutePath);
     }
 
+    private void createPrecinctsCoordinateFile(){
+        String precinctsCoordinatesPath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/PrecinctsCoordinates.json";
+        String precinctsCoordinatesAbsolutePath = new File(precinctsCoordinatesPath).getAbsolutePath();
+        precinctsCoordinatesFile = new File(precinctsCoordinatesAbsolutePath);
+    }
+
 
     public void initializeSystemFiles(){
         if(stateAbbreviation == null){
@@ -149,10 +164,11 @@ public class State {
             enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
             createPrecinctFile();
             createAlgorithmPrecinctFile();
-            precinctsGeoJson = new ObjectMapper().readValue(precinctsFile, FeatureCollection.class);
-            algorithmPrecinctsJson = new ObjectMapper().readTree(algorithmPrecinctsFile);
-            //algorithmPrecinctsJson = FileUtils.readFileToString(algorithmPrecinctsFile, StandardCharsets.UTF_8);
-
+            createPrecinctsCoordinateFile();
+            ObjectMapper mapper = new ObjectMapper();
+            precinctsGeoJson = mapper.readValue(precinctsFile, FeatureCollection.class);
+            algorithmPrecinctsJson = mapper.readTree(algorithmPrecinctsFile);
+            precinctsCoordinatesJson = mapper.readTree(precinctsCoordinatesFile);
         }
         catch(IOException error){
             error.printStackTrace();
@@ -228,6 +244,10 @@ public class State {
 
     public void setTotalPopulation(int totalPopulation) {
         this.totalPopulation = totalPopulation;
+    }
+
+    public JsonNode getPrecinctsCoordinatesJson() {
+        return precinctsCoordinatesJson;
     }
 
     @JsonIgnore

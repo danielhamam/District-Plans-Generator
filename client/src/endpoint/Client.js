@@ -6,7 +6,7 @@ const SERVER_PATHS = {
     BOUNDARIES: "/boundaries",
     PRECINCTS: "/precincts",
     PRECINCT_DEMOGRAPHIC: "/precinct/demographic",	
-    DEMOGRAPHIC_FILTER: "/demographicfilter",
+    DEMOGRAPHIC_FILTER: "/demographic-heatmap",
     JOB: "/job",
     PLAN: "/plan",
     BOXWHISKER: "/boxwhisker",

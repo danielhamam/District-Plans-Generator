@@ -27,7 +27,7 @@ States = {
         "Name": "Georgia",
         "Abbrev": "GA",
         "DistrictFile": "client/src/json/GEORGIA/ga_congressionalDistrict.json",
-        "PrecinctFile": "client/src/json/GEORGIA/ga_precincts.json",
+        "PrecinctFile": "client/src/json/GEORGIA/Precincts.json",
         "CountyFile": "client/src/json/GEORGIA/ga_county.json",
         "PrecinctDemographicFile": "client/src/json/GEORGIA/ga_precincts_dem.json"
     }

@@ -8,6 +8,10 @@ import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.hibernate.engine.query.ParameterRecognitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +29,9 @@ public class ServerService {
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
-    private boolean runAlgoLocally  = true;
+    private boolean isStatePrecinctsLoaded;
+    private boolean runAlgoLocally = false;
+
 
     //DAO Servicers
     @Autowired
@@ -63,6 +69,7 @@ public class ServerService {
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
+        this.isStatePrecinctsLoaded = false;
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -127,6 +134,7 @@ public class ServerService {
             this.session.setState(state);
             this.session.addJobs(jobs);
             this.jobHistory.addJobs(jobs);
+            //getPrecinctAsync(stateAbbrevation);
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -135,6 +143,25 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
+    }
+
+    private void getPrecinctAsync(String stateAbbrevation){
+        new Thread(new Runnable() {
+            public void run() {
+                isStatePrecinctsLoaded = false;
+                State state = session.getState();
+                System.out.println("Getting " + stateAbbrevation + " precincts");
+                List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(stateAbbrevation);
+                state.setStatePrecincts(precincts);
+                for(Precinct p: precincts){
+                    Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
+                    p.setDemographic(precinctDemographic);
+                    System.out.println(p);
+                }
+                System.out.println("Finished getting " + stateAbbrevation + " precincts");
+                isStatePrecinctsLoaded = true;
+            }
+        }).start();
     }
 
     public String getJob(Integer jobID){
@@ -160,12 +187,80 @@ public class ServerService {
         return clientData;
     }
 
-    public String getDemographicFilter(Integer jobID, String planID, List <CensusCatagories> censusCategory){
-        Job currentJob = session.getJobByID(jobID);
-        Plan plan = currentJob.getPlanByID(planID);
-        System.out.println(censusCategory);
-        return "getBoundries";
+
+    public String getDemographicHeatmap(List <String> censusEthnicity){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+
+        try{
+            State state = session.getState();
+            JsonNode precinctCoordinateNode = state.getPrecinctsCoordinatesJson();
+            List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(state.getStateAbbreviation());
+            ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+            for(Precinct p: precincts){
+                Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
+                precinctCoordinateNode.get(p.getPrecinctFIPSCode());
+                ArrayNode coordinatesNode = (ArrayNode) precinctCoordinateNode.get(p.getPrecinctFIPSCode());
+                long sum = 0;
+                for(String ethnicity:censusEthnicity){
+                    sum += precinctDemographic.getPopulationFromString(ethnicity);
+                    sum += precinctDemographic.getPopulationFromString(ethnicity);
+                }
+
+                for(JsonNode node: coordinatesNode){
+                    ArrayNode coordinateNode = (ArrayNode) node;
+                    coordinateNode.add(""+sum);
+                }
+                arrayNode.addAll(coordinatesNode);
+
+                for(String ethnicity:censusEthnicity){
+                    sum += precinctDemographic.getPopulationFromString(ethnicity);
+                    sum += precinctDemographic.getPopulationFromString(ethnicity);
+                }
+
+            }
+            System.out.println(arrayNode.size());
+            clientData = createClient_Data(arrayNode);
+
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+
+        return clientData;
     }
+
+
+
+    private void getDemographicHeatmapHelper(){
+//        State state = session.getState();
+//        System.out.println("Getting " + state.getStateAbbreviation() + " precincts");
+//        List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(state.getStateAbbreviation());
+//        for(Precinct p: precincts){
+//            Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
+//            p.setDemographic(precinctDemographic);
+//            long sum = 0;
+//            for(String ethnicity:censusEthnicity){
+//                System.out.print(p.getDemographic());
+//                sum += p.getDemographic().getPopulationFromString(ethnicity);
+//                sum += p.getDemographic().getPopulationFromString(ethnicity);
+//            }
+//            System.out.println(p);
+//        }
+//        System.out.println("Finished getting " + state.getStateAbbreviation() + " precincts");
+//        isStatePrecinctsLoaded = true;
+
+    }
+
+    private void waitForLoadedPrecincts(){
+        while(!isStatePrecinctsLoaded){
+            System.out.println("Waiting For Precincts");
+        }
+        System.out.println("Precincts Loaded");
+
+    }
+
+
+
+
 
     public String getPrecincts(){
         String clientData = "{serverError:\"Unknown Server Error\"}";
@@ -201,6 +296,8 @@ public class ServerService {
         }
         return clientData;
     }
+
+
 
 
 
@@ -260,6 +357,8 @@ public class ServerService {
     }
 
     public void cancelJob(Integer jobID){
+        //TODO: Confirm if we are deleting a job if we cancel it. TBD...
+        // Leaning towards deleting it. Check up Danny
         Job job = session.getJobByID(jobID);
         job.setStatus(JobStatus.CANCELED);
         jobDAO.updateJob(job);
