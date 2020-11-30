@@ -68,7 +68,7 @@ html, body {
 
 #mapFilters {
   position:absolute;
-  z-index: 2;
+  z-index: 10;
   right : 0;
   margin-right: 2%;
   margin-top: 0.5%;

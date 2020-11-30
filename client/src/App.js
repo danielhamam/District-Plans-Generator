@@ -241,9 +241,10 @@ class App extends Component {
     }
   }
 
-  changeSelectedFilters = (mapFilters) => {
+  changeSelectedFilters = async (mapFilters) => {
     let foundDistrictsView = false
     let foundPrecinctsView = false
+    let foundOtherFilter = false
     this.setState({selectedFilters : mapFilters});
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
@@ -254,6 +255,10 @@ class App extends Component {
       this.setState({precinctsContent : null })
       return;
     }
+
+    // If not null
+    let revisedMapFilters = JSON.parse(JSON.stringify(mapFilters));
+
     for (var i = 0; i < mapFilters.length; i++) {
       if (mapFilters[i].label == "Precincts")  { // precinct view
         this.setState({precinctsView : true})
@@ -261,12 +266,18 @@ class App extends Component {
         // this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
         foundPrecinctsView = true;
         this.setState({ filterPrecinctsView : true })
+        delete revisedMapFilters[i]
       }
       else if (mapFilters[i].label == "Districts") {  // district view
         console.log("DISTRICTS VIEW ON")
         this.setState({districtsView : true})
         foundDistrictsView = true;
         this.setState({filterDistrictsView : true})
+        delete revisedMapFilters[i]
+      }
+      else { 
+        // Found filter that's not districtView or precinctView
+        foundOtherFilter = true;
       }
     }
       if (foundPrecinctsView == false) { // if not selected
@@ -278,6 +289,15 @@ class App extends Component {
       if (foundDistrictsView == false) {
         this.setState({districtsView : false})
         this.setState({filterDistrictsView : false})
+      }
+      // if filters isn't null, and it's not district or precinct view
+      if (foundOtherFilter == true) {
+        try {
+          let res = await endpoint.generateHeatMap(revisedMapFilters);
+          console.log(res)
+        } catch (exception) {
+          console.error(exception);
+        }
       }
   }
 
