@@ -71,14 +71,30 @@ def removeGhostPrecincts():
     global graph_main
 
     ghost_precincts = []
+    counter = 0
+    ghost_precincts_2 = []
 
 
     for precinct in graph_main:
         if graph_main[precinct]["neighbors"] == []:
             ghost_precincts.append(precinct)
     
-    for precinct in ghost_precincts:
+    for precinct in ghost_precincts: # For each ghost precinct recorded
         del graph_main[precinct]
+        counter = counter + 1
+
+    for precinct in ghost_precincts:
+        for i in graph_main:
+            if precinct in graph_main[i]["neighbors"]: # If reference to this ghost precinct found
+                graph_main[i]["neighbors"].remove(precinct)
+                if graph_main[i]["neighbors"] == []: # Recheck if it is empty
+                    ghost_precincts_2.append(i)
+    
+    for precinct in ghost_precincts_2:
+        del graph_main[precinct]
+        counter = counter + 1
+
+    print("GHOST PRECINCTS REMOVED: " + str(counter))
         
 
 def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
@@ -551,6 +567,7 @@ def convertToOutput():
 
 
 def main():
+    global graph_main
     infile = 0
     parse = parser() # Initiates parser
     infile = parse.parse_args().infile[0] # Sets up parser
@@ -558,7 +575,6 @@ def main():
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
     algorithmDriver(graph_main) # Main function
     # convertToOutput() # Converts to output format 
-    
 
     global num_of_cut_edges
     print(num_of_cut_edges)
