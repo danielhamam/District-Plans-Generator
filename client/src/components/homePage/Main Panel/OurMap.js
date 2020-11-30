@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
-import { heatPoints } from './HeatPoints.js';
+// import { heatPoints } from '../../../json/HeatPoints.js';
 
 import MarylandStateBoundary from '../../../json/MARYLAND/md_state.json';
 import GeorgiaStateBoundary from '../../../json/GEORGIA/ga_state.json';
@@ -75,7 +75,7 @@ class OurMap extends Component {
                                 blur = {10}
                                 // maxOpacity={0.8}
                                 // gradient={this.gradient}
-                                points={heatPoints}
+                                points={this.props.demographicJSON}
                                 longitudeExtractor={m => m[1]}
                                 latitudeExtractor={m => m[0]}
                                 intensityExtractor={m => parseFloat(m[2])} 

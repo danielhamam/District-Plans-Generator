@@ -4,6 +4,7 @@ import DeveloperScreen from "./components/developerscreen/Developer"
 import React, { Component } from "react";
 import * as endpoint from './endpoint/Client';
 import testJobCards from './json/TestJobCards.json'
+import demographicTest from './json/HeatPoints.json'
 import './css/project_styles.css';
 
 import {GeoJSON} from 'react-leaflet';
@@ -33,6 +34,7 @@ class App extends Component {
       filterDistrictsView : false, 
       filterPrecinctsView : false, 
       stateView : true,
+      demographicJSON : demographicTest.heatPoints,
 
       // Map View Content
       districtsContent : null,
@@ -245,6 +247,8 @@ class App extends Component {
     let foundDistrictsView = false
     let foundPrecinctsView = false
     let foundOtherFilter = false
+    let demographicList = []
+
     this.setState({selectedFilters : mapFilters});
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
@@ -256,9 +260,6 @@ class App extends Component {
       return;
     }
 
-    // If not null
-    let revisedMapFilters = JSON.parse(JSON.stringify(mapFilters));
-
     for (var i = 0; i < mapFilters.length; i++) {
       if (mapFilters[i].label == "Precincts")  { // precinct view
         this.setState({precinctsView : true})
@@ -266,17 +267,16 @@ class App extends Component {
         // this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
         foundPrecinctsView = true;
         this.setState({ filterPrecinctsView : true })
-        delete revisedMapFilters[i]
       }
       else if (mapFilters[i].label == "Districts") {  // district view
         console.log("DISTRICTS VIEW ON")
         this.setState({districtsView : true})
         foundDistrictsView = true;
         this.setState({filterDistrictsView : true})
-        delete revisedMapFilters[i]
       }
       else { 
         // Found filter that's not districtView or precinctView
+        demographicList.push(mapFilters[i].label);
         foundOtherFilter = true;
       }
     }
@@ -291,10 +291,14 @@ class App extends Component {
         this.setState({filterDistrictsView : false})
       }
       // if filters isn't null, and it's not district or precinct view
+      let demographicObject = {
+        names : demographicList
+      }
       if (foundOtherFilter == true) {
         try {
-          let res = await endpoint.generateHeatMap(revisedMapFilters);
+          let res = await endpoint.generateHeatMap(demographicObject);
           console.log(res)
+          this.setState({demographicJSON : res})
         } catch (exception) {
           console.error(exception);
         }
@@ -374,7 +378,8 @@ class App extends Component {
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}
 
             // Handling use cases for precinct and district views
-            changeSelectedFilters={this.changeSelectedFilters} changeViewFromZoom={this.changeViewFromZoom}
+            changeSelectedFilters={this.changeSelectedFilters} demographicJSON = {this.state.demographicJSON} 
+            changeViewFromZoom={this.changeViewFromZoom}
             selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck}
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}
