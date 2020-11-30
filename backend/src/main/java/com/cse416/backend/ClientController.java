@@ -41,55 +41,51 @@ public class ClientController {
         return clientData;
     }
 
-    // @GetMapping(path = "/boundaries/{jobID}/{planID}", produces = "application/json")
-    // public String getBoundries(@PathVariable String jobID, String boundaryType){
-    //     return "getBoundries";
-
-    // }
-
 
    @GetMapping(path = "/job/{jobID}", produces = "application/json")
-   public String getJob(@PathVariable String jobID){
+   public String getJob(@PathVariable Integer jobID){
        System.out.println("Sending jobID " + jobID + " to Client");
        return service.getJob(jobID);
    }
 
     @GetMapping(path = "/precincts", produces = "application/json")
-    public String getPrecinct(){
+    public String getPrecincts(){
         System.out.println("Sending precincts");
-        return service.getPrecinct();
+        return service.getPrecincts();
     }
 
+    @GetMapping(path = "/precinct/demographic/{precinctName}", produces = "application/json")
+    public String getPrecinctDemographic(@PathVariable String precinctName){
+        System.out.println("Sending precincts demographic");
+        return service.getPrecinctDemographic(precinctName);
+    }
+
+
     @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
-    public String getDemographicFilter(@PathVariable String jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
+    public String getDemographicFilter(@PathVariable Integer jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
         List censusCatagories = Arrays.asList(demographicFilter.get("demographicFilter"));
         service.getDemographicFilter(jobID, planID, censusCatagories);
         return "getDemographicFilter";
     }
 
    @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")
-   public String getPlan(@PathVariable String jobID, @PathVariable String planID){
-
+   public String getPlan(@PathVariable Integer jobID, @PathVariable String planID){
         return "getPlan";
    }
 
    @GetMapping(path = "/boxwhisker/{jobID}/{planID}", produces = "application/json")
-   public String getBoxwhisker(@PathVariable String jobID, @PathVariable String planID, @RequestBody String catagory){
+   public String getBoxwhisker(@PathVariable Integer jobID, @PathVariable String planID, @RequestBody String catagory){
 
         return "getPlanGraph";
    }
-//
-//    public String getGlobalHistory(){
-//
-//    }
 
    @PutMapping(path = "/cancel/{jobID}", produces = "application/json")
-   public void putCancelStateJob(@PathVariable String jobID){
+   public void putCancelStateJob(@PathVariable Integer jobID){
        service.cancelJob(jobID);
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")
-   public void deleteStateJob(@PathVariable String jobID){
+   public void deleteStateJob(@PathVariable Integer jobID){
        service.deleteJob(jobID);
    }
 
@@ -98,25 +94,6 @@ public class ClientController {
         String clientData = service.generateJob(job);
         return clientData;
    }
-
-
-    // private Job createJobFromMap(Map<String, Object> mapping){
-    //     String JobName = (String)mapping.get("name");
-    //     boolean isAvailable = (boolean) mapping.get("isAvailable");
-    //     int numberOfDistricting = (int) mapping.get("numberOfDistricting");
-    //     double populationDifference = (double) mapping.get("populationDifference");
-    //     double compactness = (double) mapping.get("compactness");
-    //     return new Job(numberOfDistricting, JobName, isAvailable,
-    //             populationDifference, compactness);
-    // }
-
-    // private List<Object> createListFromState(State state){
-    //     return Arrays.asList(
-    //             state.getName(),
-    //             state.getPopulation(),
-    //             state.getVotingAgePopulation());
-    // }
-
 
 
 }

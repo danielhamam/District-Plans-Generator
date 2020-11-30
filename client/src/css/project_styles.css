@@ -113,13 +113,14 @@ html, body {
 }
 
 #precinctModalWrapper {
-  position : relative;
+  position : fixed;
   background-color: white;
   height: 250px;
   width: 350px;
   float : right;
+  margin-left: 1070px;
   margin-top: 73px;
-  margin-right: 14px;
+  /* margin-right: 14px; */
   z-index: 5;
 }
 

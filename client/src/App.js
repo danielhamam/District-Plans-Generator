@@ -43,9 +43,29 @@ class App extends Component {
       selectedJobCheck: false,
 
       // Modals
+      featureObject : {
+        totalPopulation : "",
+        vaptotalPopulation : "",
+        whitePopulation : "",
+        whiteVAPPopulation : "",
+        africanAmericanPopulation : "",
+        africanAmericanVAPPopulation : "",
+        hispanicPopulation : "",
+        hispanicVAPPopulation : "",
+        asianPopulation : "",
+        asianVAPPopulation : "",
+        americanIndianPopulation : "",
+        americanIndianVAPPopulation : "",
+        nativeHawaiianPopulation : "",
+        nativeHawaiianVAPPopulation : "",
+        multipleRacePopulation : "",
+        multipleRaceVAPPopulation : "",
+        otherRacePopulation : "",
+        otherRaceVAPPopulation : ""
+      },
       togglePrecinctModal : false,
-      selectedFeature : null
-
+      precinctName : "",
+      selectedFeature : {}
     }
 
   changeCurrentState = async (stateAbrev, stateName) => {
@@ -153,21 +173,35 @@ class App extends Component {
     this.setState({ jobCards : this.state.jobCards})
   }
 
-  togglePrecinctModal = (e) => {
+  togglePrecinctModal = async () => {
     if (this.state.togglePrecinctModal == false) this.setState({togglePrecinctModal : true})
     else this.setState({togglePrecinctModal : false})
   }
 
+  getPrecinctDemographic = async (feature) => {
+    this.setState({selectedFeature : feature})
+    try {
+      let nameObject = {
+        name : feature.properties.NAME
+      }
+      this.setState({precinctName : feature.properties.NAME})
+      let res = await endpoint.getPrecinctDemographic(nameObject);
+      this.setState({featureObject : res})
+    } catch (exception) {
+      console.error(exception);
+    }
+  }
+
   onEachFeature = (feature, layer) => {
     console.log('onEachFeature fired: ');
-        this.setState({selectedFeature : feature})
         layer.on({
-            mouseover: (e) => this.togglePrecinctModal(e),
-            mouseout: (e) => this.togglePrecinctModal(e)
+            mouseover: (e) => this.getPrecinctDemographic(feature),
+            // mouseout: (e) => this.togglePrecinctModal(feature)
         });
   }
   
   getPrecincts = async () => {
+    this.setState({togglePrecinctModal : true})
     try {
       let res = await endpoint.getStatePrecincts();
       this.setState({precinctsContent : 
@@ -214,6 +248,7 @@ class App extends Component {
     if (mapFilters == null) { // reset
       this.setState({districtsView : false}) 
       this.setState({precinctsView : false})
+      this.setState({togglePrecinctModal : false})
       this.setState({filterDistrictsView : false})
       this.setState({filterPrecinctsView : false })
       this.setState({precinctsContent : null })
@@ -236,6 +271,7 @@ class App extends Component {
     }
       if (foundPrecinctsView == false) { // if not selected
         this.setState({precinctsView : false})
+        this.setState({togglePrecinctModal : false})
         this.setState({precinctsContent : null })
         this.setState({filterPrecinctsView : false })
       }
@@ -262,6 +298,7 @@ class App extends Component {
       }
       else if (this.state.filterPrecinctsView == false && actionType == 0) { 
         this.setState({precinctsView : false})
+        this.setState({togglePrecinctModal : false})
         this.setState({precinctsContent : null })
       }
     }
@@ -324,6 +361,8 @@ class App extends Component {
             selectedFilters = {this.state.selectedFilters}
 
             // For Precinct Modal
+            precinctName = {this.state.precinctName}
+            featureObject = {this.state.featureObject}
             selectedFeature = {this.state.selectedFeature} 
             togglePrecinctModal = {this.state.togglePrecinctModal}
             />

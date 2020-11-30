@@ -31,7 +31,9 @@ export class HomeScreen extends Component {
           changeSelectedFilters={this.props.changeSelectedFilters} selectedFilters={this.props.selectedFilters}
 
           // For Precinct Modal
+          precinctName = {this.props.precinctName}
           selectedFeature = {this.props.selectedFeature} 
+          featureObject = {this.props.featureObject}
           togglePrecinctModal = {this.props.togglePrecinctModal}
 
           />

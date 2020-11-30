@@ -5,6 +5,7 @@ const SERVER_PATHS = {
     STATE: "/state",
     BOUNDARIES: "/boundaries",
     PRECINCTS: "/precincts",
+    PRECINCT_DEMOGRAPHIC: "/precinct/demographic",	
     DEMOGRAPHIC_FILTER: "/demographicfilter",
     JOB: "/job",
     PLAN: "/plan",
@@ -72,6 +73,14 @@ export async function getStatePrecincts(){
 	    const response = await fetch(NEW_URL, requestOptions).catch(error => error); 
 	    return await response.json() 
 } 
+
+export async function getPrecinctDemographic(precinctObj){
+	    console.log("Gettting Precinct's Demographic"); 
+	    const requestOptions = createFetchOptions('GET'); 
+	    const NEW_URL = URL + SERVER_PATHS.PRECINCT_DEMOGRAPHIC + "/" + precinctObj.name; 
+	    const response = await fetch(NEW_URL, requestOptions).catch(error => error); 
+	    return await response.json() 
+}
 
 
 export async function getBoundaries(path){

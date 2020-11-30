@@ -28,40 +28,48 @@ public class Job{
     @Id
     @GeneratedValue
     @Column(name = "jobId")
+    @JsonProperty("jobId")
     private Integer generatedId;
 
-    @JsonProperty("jobName")
     @Column(nullable=true)
+    @JsonProperty("jobName")
     private String jobName;
 
-    @JsonProperty
-    @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "JobMinorityGroups",
-        joinColumns = @JoinColumn(name = "jobId"),
-        inverseJoinColumns = @JoinColumn(name = "censusEthnicityId")
-    )
-    private List<CensusEthnicity> minorityAnalyzed;
+//    @JsonProperty("minorityAnalyzed")
+//    @Transient
+//    private List<CensusCatagories> minorityAnalyzedEnum;
 
     @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
     @JoinColumn(name="stateId")
+    @JsonIgnore
     private State state;
 
-    @JsonProperty("compactness")
+
     @Column(name = "compactness")
+    @JsonProperty("compactness")
     private ClientCompactness clientCompactness;
 
     @JsonProperty("populationDifference")
     private double populationDifference;
 
-    @JsonProperty("plansAmount")
+
     @Column(name = "numberOfPlans")
+    @JsonProperty("plansAmount")
     private int numDistrictingPlan;
 
     @JsonProperty("districtsAmount")
     @Column(name = "numberOfDistricts")
     private int numOfDistricts;
+
+    @JsonProperty
+    @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "JobMinorityGroups",
+            joinColumns = @JoinColumn(name = "jobId"),
+            inverseJoinColumns = @JoinColumn(name = "censusEthnicityId")
+    )
+    private List<CensusEthnicity> minorityAnalyzed;
 
     @JsonIgnore
     @Column(name = "jobStatus")
@@ -70,10 +78,6 @@ public class Job{
     @JsonProperty("status")
     @Transient
     private String clientStatus;
-
-    @JsonProperty
-    @Transient
-    private String jobID;
 
     @JsonIgnore
     @Transient
@@ -116,15 +120,14 @@ public class Job{
     @Transient
     private String jobSummary;
 
-
     @JsonIgnore
     @Transient
     private List <Plan> allPlans;
 
-
     @JsonIgnore
     @Transient
     private BoxWhisker boxWhisker;
+
     
     protected Job (){}
 
@@ -134,6 +137,7 @@ public class Job{
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
                 @JsonProperty("minorityAnalyzed") List<CensusEthnicity> minorityAnalyzed){
+        //TODO: Format the information to be consistant with frontend and database
         this.jobName = jobName;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
@@ -147,12 +151,11 @@ public class Job{
 //        }
     }
     
-    public Job(String stateAbbrev, String jobName, String jobID, int seawulfJobID, int numOfDistricts,
+    public Job(String stateAbbrev, String jobName, int seawulfJobID, int numOfDistricts,
                int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness,
                List<CensusCatagories> minorityAnalyzed, JobStatus status, BoxWhisker boxWhisker){
         this.stateAbbrev = stateAbbrev;
         this.jobName = jobName;
-        this.jobID = jobID;
         this.seawulfJobID = seawulfJobID;
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
@@ -172,12 +175,12 @@ public class Job{
         this.stateAbbrev = stateAbbrev;
     }
 
-    public String getJobID() {
-        return jobID;
+    public Integer getJobID() {
+        return generatedId;
     }
 
-    public void setJobID(String jobID) {
-        this.jobID = jobID;
+    public void setJobID(Integer jobID) {
+        this.generatedId = jobID;
     }
 
     public JobStatus getStatus() {
@@ -359,7 +362,6 @@ public class Job{
     public String toString() {
         return "Job{" +
                 "stateAbbrev='" + stateAbbrev + '\'' +
-                ", jobID='" + jobID + '\'' +
                 ", seawulfJobID=" + seawulfJobID +
                 ", jobName='" + jobName + '\'' +
                 ", numOfDistricts=" + numOfDistricts +

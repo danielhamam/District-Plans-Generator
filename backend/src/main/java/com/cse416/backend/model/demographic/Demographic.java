@@ -4,6 +4,8 @@ import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.district.*;
 import com.cse416.backend.model.regions.county.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 import javax.persistence.*;
@@ -18,6 +20,7 @@ public class Demographic {
 
     @Id
     @GeneratedValue
+    @JsonProperty("demographicId")
     private Integer demographicId;
 
     @Column(name="total")
@@ -76,18 +79,22 @@ public class Demographic {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "districtId")
+    @JsonIgnore
     private District district;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "stateId")
+    @JsonIgnore
     private State state;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "countyId")
+    @JsonIgnore
     private County county;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "precinctId")
+    @JsonIgnore
     private Precinct precinct;
 
     public Demographic(){}

@@ -59,6 +59,10 @@ public class Precinct {
         this.neighbors = neighbors;
     }
 
+    public Integer getPrecinctId() {
+        return precinctId;
+    }
+
     public String getPrecinctName() {
         return precinctName;
     }

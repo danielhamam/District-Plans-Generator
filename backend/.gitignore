@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Backend ###
-./src/main/resources/system/jobs/
+src/main/resources/system/jobs/

@@ -28,7 +28,7 @@ public class Session{
         return this.state;
     }
 
-    public Job getJobByID(String jobID)throws NoSuchElementException{
+    public Job getJobByID(Integer jobID)throws NoSuchElementException{
         return this.jobs.stream()
                 .filter(job -> jobID.equals(job.getJobID()))
                 .findFirst()
@@ -39,28 +39,15 @@ public class Session{
         this.jobs.addAll(jobs);
     }
 
-    public boolean cancelJob(String jobID){
-        boolean isDeletionSuccesful = false;
-        for(Job job : this.jobs){
-            if(jobID.equals(job.getJobID()) && job.getStatus() != JobStatus.COMPLETED){
-                job.setStatus(JobStatus.CANCELED);
-                isDeletionSuccesful = true;
-                break;
-            }
-        }
-        return isDeletionSuccesful;
-    }
-
-    public boolean deleteJob(String jobID){
-        boolean isDeletionSuccesful = false;
+    public Job deleteJob(Integer jobID){
+        Job deletedJob = null;
         for(Job job : this.jobs){
             if(jobID.equals(job.getJobID())){
-                this.jobs.remove(job);
-                isDeletionSuccesful = true;
-                break;
+                jobs.remove(job);
+                deletedJob = job;
             }
         }
-        return isDeletionSuccesful;
+        return deletedJob;
     }
 
 

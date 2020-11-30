@@ -17,7 +17,7 @@ public class GlobalHistory {
         this.jobs.add(job);
     }
 
-    public Job getJobByID(String jobID)throws NoSuchElementException {
+    public Job getJobByID(Integer jobID)throws NoSuchElementException {
         return this.jobs.stream()
                 .filter(job -> jobID.equals(job.getJobID()))
                 .findFirst()
@@ -28,7 +28,7 @@ public class GlobalHistory {
         this.jobs.addAll(jobs);
     }
 
-    public boolean deleteJob(String jobID){
+    public boolean deleteJob(Integer jobID){
         boolean isDeletionSuccesful = false;
         for(Job job : this.jobs){
             if(jobID.equals(job.getJobID())){

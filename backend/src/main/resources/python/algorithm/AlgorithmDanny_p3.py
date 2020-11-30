@@ -41,8 +41,9 @@ def getData(file):
     try:
         print("Retrieving data. . .")
         # Opening JSON file
-        # print(file)
-        # file = open("~/Users/carloslopez/Desktop/SCHOOL/ComputerScience/CSE416/CSE-416-Project/backend/src/main/resources/system/states/md/AlgorithmPrecincts.json",'r')
+        print(file)
+        # path = '../../system/jobs/test1/AlgorithmInput.json'
+        # file = open(path,'r')
         data = json.load(file)
         global state
         state = data['data']['state']
