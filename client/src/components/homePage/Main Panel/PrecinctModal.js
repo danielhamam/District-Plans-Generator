@@ -16,7 +16,7 @@ class PrecinctModal extends Component {
             <div id="precinctModalWrapper" style={this.props.togglePrecinctModal ? { display : 'block' } : { display: 'none' }} >
                <div id="precinctName">
                     <b> Precinct Name: </b>
-                    Example
+                    <b>{this.props.precinctName} </b>
                 </div>
                <Table striped bordered hover id="precinctModal" className="table">
                     <thead>
@@ -29,38 +29,43 @@ class PrecinctModal extends Component {
                     <tbody>
                         <tr>
                             <th scope="row">Total</th>
-                            <td>1,000,000</td>
-                            <td>400,000</td>
+                            <td>{this.props.featureObject.totalPopulation}</td>
+                            <td>{this.props.featureObject.vaptotalPopulation}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">White</th>
+                            <td>{this.props.featureObject.whitePopulation}</td>
+                            <td>{this.props.featureObject.whiteVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">African American</th>
-                            <td>1,000,000</td>
-                            <td>300,000</td>
+                            <td>{this.props.featureObject.africanAmericanPopulation}</td>
+                            <td>{this.props.featureObject.africanAmericanVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">Hispanic</th>
-                            <td>500,000</td>
-                            <td>300,000</td>
+                            <td>{this.props.featureObject.hispanicPopulation}</td>
+                            <td>{this.props.featureObject.hispanicVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">Asian</th>
-                            <td>500,000</td>
-                            <td>200,000</td>
+                            <td>{this.props.featureObject.asianPopulation}</td>
+                            <td>{this.props.featureObject.asianVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">American Indian</th>
-                            <td>500,000</td>
-                            <td>100,000</td>
+                            <td>{this.props.featureObject.americanIndianPopulation}</td>
+                            <td>{this.props.featureObject.americanIndianVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">Hawaiian</th>
-                            <td>500,000</td>
-                            <td>250,000</td>
+                            <td>{this.props.featureObject.nativeHawaiianPopulation}</td>
+                            <td>{this.props.featureObject.nativeHawaiianVAPPopulation}</td>
                         </tr>
                         <tr>
                             <th scope="row">Other</th>
-                            <td>500,000</td>
-                            <td>250,000</td>
+                            <td>{this.props.featureObject.otherRacePopulation + this.props.featureObject.multipleRacePopulation} </td>
+                            <td>{this.props.featureObject.otherRaceVAPPopulation + this.props.featureObject.multipleRaceVAPPopulation} </td>
                         </tr>
                     </tbody>
                 </Table>

@@ -92,7 +92,9 @@ class MainPanel extends Component {
 
                 {/* Precinct Modal */}
                 <PrecinctModal
+                precinctName = {this.props.precinctName}
                 selectedFeature = {this.props.selectedFeature} 
+                featureObject = {this.props.featureObject}
                 togglePrecinctModal = {this.props.togglePrecinctModal}
                 />
 
