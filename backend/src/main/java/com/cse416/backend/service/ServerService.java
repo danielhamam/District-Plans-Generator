@@ -219,7 +219,9 @@ public class ServerService {
 
             }
             System.out.println(arrayNode.size());
-            clientData = createClient_Data(arrayNode);
+            HashMap <String, Object> demographicHeatmap = new HashMap<>(1);
+            demographicHeatmap.put("demographicHeatmap", arrayNode);
+            clientData = createClient_Data(demographicHeatmap);
 
         }catch(Exception error){
             error.printStackTrace();
