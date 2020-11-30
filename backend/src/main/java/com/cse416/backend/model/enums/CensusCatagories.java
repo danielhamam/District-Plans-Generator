@@ -6,7 +6,7 @@ public enum CensusCatagories  {
     AMERICAN_INDIAN("American Indian"),
     ASIAN_AMERICAN("Asian"),
     HAWAIIAN_AMERICAN("Hawaiian"),
-    LATINO_AMERICAN("Latino"),
+    HISPANIC_AMERICAN("Hispanic"),
     OTHER_AMERICAN("Other");
 
     private final String representation;

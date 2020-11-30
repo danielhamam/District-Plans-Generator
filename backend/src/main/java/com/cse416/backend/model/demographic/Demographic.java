@@ -196,7 +196,7 @@ public class Demographic {
                 return asianPopulation;
             case "Hawaiian":
                 return nativeHawaiianPopulation;
-            case "Latino":
+            case "Hispanic":
                 return hispanicPopulation;
             case "Other":
                 return otherRacePopulation + multipleRacePopulation;
