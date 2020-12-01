@@ -246,6 +246,7 @@ public class Job{
             allPlans = mapper.readValue(plansNode.asText(),
                     mapper.getTypeFactory().constructCollectionType(List.class, Plan.class));
 
+
         }
         catch (IOException error){
 
@@ -268,6 +269,7 @@ public class Job{
     public String toString() {
         return "Job{" +
                 ", jobName='" + jobName + '\'' +
+                ", state='" + state.getStateAbbreviation() + " Object" + '\'' +
                 ", jobID=" + generatedId +
                 ", seawulfJobID=" + seawulfJobID +
                 ", status=" + status +
