@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 NETID=$1
 JOBNAME=$2
+JOBID=$3
+SEAWULF_JOBFILE=temp.txt
 
+echo ${JOBID} > ${SEAWULF_JOBFILE}
+scp ${SEAWULF_JOBFILE} ${NETID}@login.seawulf.stonybrook.edu:./
+rm -v ${SEAWULF_JOBFILE}
 ssh ${NETID}@login.seawulf.stonybrook.edu '
-echo Connected to remote server;
 pwd;
-cd ./jobs/${JOBNAME}
-pwd;
-find AlgorithmOutput.json
-echo \"#TODO: EXPAND ON THIS SCRIPT\";
+./servermonitorslurm.sh carlopez
 '
-#cat src/main/resources/seawulf.slurm | ssh <carlopez>@login.seawulf.stonybrook.edu
-#'source /etc/profile.d/modules.sh;
-#module load slurm;
-#module load anaconda/3;
-#cd <GO-TO-DIRECTORY-OF-CHOICE>;
-#sbatch'q
+scp ${NETID}@login.seawulf.stonybrook.edu:./${SEAWULF_JOBFILE} ./
+ssh ${NETID}@login.seawulf.stonybrook.edu '
+./rmtempfile.sh
+'
+cat ${SEAWULF_JOBFILE}
+rm -v ${SEAWULF_JOBFILE}
