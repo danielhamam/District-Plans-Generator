@@ -258,6 +258,8 @@ class App extends Component {
       this.setState({filterDistrictsView : false})
       this.setState({filterPrecinctsView : false })
       this.setState({precinctsContent : null })
+      this.setState({demographicJSON : ""});
+      this.setState({demographicMax : 0});
       return;
     }
 
@@ -296,7 +298,7 @@ class App extends Component {
         names : demographicList
       }
       // if (foundOtherFilter == true && demographicJSON != "") return
-      // if (foundOtherFilter == false) this.setState({demographicJSON : ""}); return;
+      if (foundOtherFilter == false) { this.setState({demographicJSON : ""}); return; }
       if (foundOtherFilter == true) {
         try {
           let res = await endpoint.generateHeatMap(demographicObject);
@@ -396,7 +398,7 @@ class App extends Component {
             togglePrecinctModal = {this.state.togglePrecinctModal}
             />
 
-            <DeveloperScreen/>            
+            {/* <DeveloperScreen/>             */}
 
       </div>
     );
