@@ -196,6 +196,7 @@ public class ServerService {
             JsonNode precinctCoordinateNode = state.getPrecinctsCoordinatesJson();
             List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(state.getStateAbbreviation());
             ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+            long maxDemographicPopulation = 0;
             for(Precinct p: precincts){
                 Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
                 precinctCoordinateNode.get(p.getPrecinctFIPSCode());
@@ -203,6 +204,9 @@ public class ServerService {
                 long sum = 0;
                 for(String ethnicity:censusEthnicity){
                     sum += precinctDemographic.getPopulationFromString(ethnicity);
+                }
+                if(maxDemographicPopulation < sum){
+                    maxDemographicPopulation = sum;
                 }
 
                 for(JsonNode node: coordinatesNode){
@@ -215,6 +219,7 @@ public class ServerService {
             System.out.println(arrayNode.size());
             HashMap <String, Object> demographicHeatmap = new HashMap<>(1);
             demographicHeatmap.put("demographicHeatmap", arrayNode);
+            demographicHeatmap.put("maxDemographicPopulatino", maxDemographicPopulation);
             clientData = createClient_Data(demographicHeatmap);
 
         }catch(Exception error){
