@@ -219,7 +219,7 @@ public class ServerService {
             System.out.println(arrayNode.size());
             HashMap <String, Object> demographicHeatmap = new HashMap<>(1);
             demographicHeatmap.put("demographicHeatmap", arrayNode);
-            demographicHeatmap.put("maxDemographicPopulatino", maxDemographicPopulation);
+            demographicHeatmap.put("maxDemographicPopulation", maxDemographicPopulation);
             clientData = createClient_Data(demographicHeatmap);
 
         }catch(Exception error){
