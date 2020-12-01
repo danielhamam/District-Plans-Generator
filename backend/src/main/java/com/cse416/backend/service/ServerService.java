@@ -190,7 +190,7 @@ public class ServerService {
 
     public String getDemographicHeatmap(List <String> censusEthnicity){
         String clientData = "{serverError:\"Unknown Server Error\"}";
-
+        System.out.println(censusEthnicity);
         try{
             State state = session.getState();
             JsonNode precinctCoordinateNode = state.getPrecinctsCoordinatesJson();
@@ -208,14 +208,9 @@ public class ServerService {
 
                 for(JsonNode node: coordinatesNode){
                     ArrayNode coordinateNode = (ArrayNode) node;
-                    coordinateNode.add(""+sum);
+                    coordinateNode.add(""+ (sum+1));
                 }
                 arrayNode.addAll(coordinatesNode);
-
-                for(String ethnicity:censusEthnicity){
-                    sum += precinctDemographic.getPopulationFromString(ethnicity);
-                    sum += precinctDemographic.getPopulationFromString(ethnicity);
-                }
 
             }
             System.out.println(arrayNode.size());
