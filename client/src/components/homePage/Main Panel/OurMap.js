@@ -71,13 +71,14 @@ class OurMap extends Component {
                     <HeatmapLayer
                                 // fitBoundsOnLoad
                                 // fitBoundsOnUpdate
-                                // radius={2}
-                                blur = {10}
+                                // radius={10}
+                                // blur = {10}
                                 // maxOpacity={0.8}
                                 // gradient={this.gradient}
+                                // max={this.props.demographicMax}
                                 points={this.props.demographicJSON}
-                                longitudeExtractor={m => m[1]}
-                                latitudeExtractor={m => m[0]}
+                                longitudeExtractor={m => m[0]}
+                                latitudeExtractor={m => m[1]}
                                 intensityExtractor={m => parseFloat(m[2])} 
                                 // max={3}
                     />

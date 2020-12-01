@@ -35,6 +35,7 @@ class App extends Component {
       filterPrecinctsView : false, 
       stateView : true,
       demographicJSON : demographicTest.heatPoints,
+      demographicMax : 3,
 
       // Map View Content
       districtsContent : null,
@@ -294,11 +295,14 @@ class App extends Component {
       let demographicObject = {
         names : demographicList
       }
+      // if (foundOtherFilter == true && demographicJSON != "") return
+      // if (foundOtherFilter == false) this.setState({demographicJSON : ""}); return;
       if (foundOtherFilter == true) {
         try {
           let res = await endpoint.generateHeatMap(demographicObject);
           console.log(res)
-          this.setState({demographicJSON : res})
+          this.setState({demographicJSON : res.demographicHeatmap})
+          this.setState({demographicMax : res.maxDemographicPopulation})
         } catch (exception) {
           console.error(exception);
         }
@@ -379,7 +383,7 @@ class App extends Component {
 
             // Handling use cases for precinct and district views
             changeSelectedFilters={this.changeSelectedFilters} demographicJSON = {this.state.demographicJSON} 
-            changeViewFromZoom={this.changeViewFromZoom}
+            changeViewFromZoom={this.changeViewFromZoom} demographicMax={this.state.demographicMax}
             selectedPlanCheck={this.state.selectedPlanCheck} toggleSelectedPlanCheck={this.toggleSelectedPlanCheck}
             districtsView = {this.state.districtsView} districtsContent = {this.state.districtsContent}
             precinctsView = {this.state.precinctsView} precinctsContent = {this.state.precinctsContent}

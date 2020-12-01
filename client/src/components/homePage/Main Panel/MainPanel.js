@@ -82,6 +82,7 @@ class MainPanel extends Component {
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
                     changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView} d
                     enableDistrictView={this.enableDistrictView} demographicJSON = {this.props.demographicJSON} 
+                    demographicMax={this.props.demographicMax}
                     />
                     <div id="mapFilters"> {/* Map Filters  */}
                         <Select isSearchable={true} value={this.props.selectedFilters} placeholder="Choose option(s) to filter map" components={componentsAnimation} 
