@@ -229,28 +229,6 @@ public class ServerService {
         return clientData;
     }
 
-
-
-    private void getDemographicHeatmapHelper(){
-//        State state = session.getState();
-//        System.out.println("Getting " + state.getStateAbbreviation() + " precincts");
-//        List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(state.getStateAbbreviation());
-//        for(Precinct p: precincts){
-//            Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
-//            p.setDemographic(precinctDemographic);
-//            long sum = 0;
-//            for(String ethnicity:censusEthnicity){
-//                System.out.print(p.getDemographic());
-//                sum += p.getDemographic().getPopulationFromString(ethnicity);
-//                sum += p.getDemographic().getPopulationFromString(ethnicity);
-//            }
-//            System.out.println(p);
-//        }
-//        System.out.println("Finished getting " + state.getStateAbbreviation() + " precincts");
-//        isStatePrecinctsLoaded = true;
-
-    }
-
     private void waitForLoadedPrecincts(){
         while(!isStatePrecinctsLoaded){
             System.out.println("Waiting For Precincts");
@@ -258,10 +236,6 @@ public class ServerService {
         System.out.println("Precincts Loaded");
 
     }
-
-
-
-
 
     public String getPrecincts(){
         String clientData = "{serverError:\"Unknown Server Error\"}";
@@ -299,9 +273,6 @@ public class ServerService {
     }
 
 
-
-
-
     public String getPlan(Integer jobID, String planID){
         Job currentJob = session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);
@@ -328,8 +299,9 @@ public class ServerService {
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
             State currentState = session.getState();
-            job.setStateAbbrev(currentState.getStateAbbreviation());
+            job.setState(currentState);
             jobDAO.addJob(job);
+
 //            String algorithmInputContents = createAlgorithmData(currentState, job);
 //            createJobDirectory(job.getJobName(), algorithmInputContents);
 //            initiateAlgorithm(job);
