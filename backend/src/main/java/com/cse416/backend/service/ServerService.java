@@ -203,7 +203,6 @@ public class ServerService {
                 long sum = 0;
                 for(String ethnicity:censusEthnicity){
                     sum += precinctDemographic.getPopulationFromString(ethnicity);
-                    sum += precinctDemographic.getPopulationFromString(ethnicity);
                 }
 
                 for(JsonNode node: coordinatesNode){

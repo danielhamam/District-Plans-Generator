@@ -209,15 +209,15 @@ public class Demographic {
         switch(censusCatagories) {
             case "White":
                 return this.whitePopulation;
-            case "African American":
+            case "Black or African American":
                 return this.africanAmericanPopulation;
-            case "American Indian":
+            case "American Indian or Alaska Native":
                 return americanIndianPopulation;
             case "Asian":
                 return asianPopulation;
-            case "Hawaiian":
+            case "Native Hawaiian or Other Pacific Islander":
                 return nativeHawaiianPopulation;
-            case "Latino":
+            case "Hispanic":
                 return hispanicPopulation;
             case "Other":
                 return otherRacePopulation + multipleRacePopulation;
