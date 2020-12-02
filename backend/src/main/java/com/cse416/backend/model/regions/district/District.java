@@ -77,19 +77,7 @@ public class District{
         this.districtName = districtName;
         this.districtNumber = districtNumber;
     }
-
-    public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic) {
-        this.districtName = districtName;
-        this.districtNumber = districtNumber;
-        this.demographic = demographic;
-    }
-
-    public District(String districtName, int districtNumber, int districtFIPSCode, Demographic demographic, Boundary boundaries) {
-        this.districtName = districtName;
-        this.districtNumber = districtNumber;
-        this.demographic = demographic;
-    }
-
+    
 
     public String getDistrictName() {
         return districtName;

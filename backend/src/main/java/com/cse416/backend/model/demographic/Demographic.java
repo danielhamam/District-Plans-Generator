@@ -184,26 +184,6 @@ public class Demographic {
 
     public Long getMultipleRaceVAPPopulation(){return this.multipleRaceVAPPopulation;}
 
-    public Long getPopulationFromEnum(CensusCatagories censusCatagories)throws Exception{
-        switch(censusCatagories.getStringRepresentation()) {
-            case "White":
-                return this.whitePopulation;
-            case "African American":
-                return this.africanAmericanPopulation;
-            case "American Indian":
-                return americanIndianPopulation;
-            case "Asian":
-                return asianPopulation;
-            case "Hawaiian":
-                return nativeHawaiianPopulation;
-            case "Hispanic":
-                return hispanicPopulation;
-            case "Other":
-                return otherRacePopulation + multipleRacePopulation;
-            default:
-                throw new Exception("Enum Does Not Exist");
-        }
-    }
 
     public Long getPopulationFromString(String censusCatagories)throws Exception{
         switch(censusCatagories) {
