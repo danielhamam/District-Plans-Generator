@@ -31,6 +31,15 @@ export class HomeScreen extends Component {
           changeSelectedFilters={this.props.changeSelectedFilters} selectedFilters={this.props.selectedFilters}
           demographicJSON = {this.props.demographicJSON} demographicMax={this.props.demographicMax}
 
+          // Map View Disables
+          disableWhite = {this.props.disableWhite}
+          disableBlack = {this.props.disableBlack} 
+          disableHispanic = {this.props.disableHispanic} 
+          disableAsian = {this.props.disableAsian} 
+          disableAmericanIndian = {this.props.disableAmericanIndian} 
+          disableHawaiian = {this.props.disableHawaiian} 
+          disableOther = {this.props.disableOther} 
+
           // For Precinct Modal
           precinctName = {this.props.precinctName}
           selectedFeature = {this.props.selectedFeature} 
