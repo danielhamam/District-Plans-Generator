@@ -223,15 +223,6 @@ class App extends Component {
       let nameObject = {
         name : feature.properties.NAME
       }
-      this.setState({precinctsContent : 
-      <GeoJSON 
-        weight={1} 
-        color="red" 
-        key='precincts' 
-        data={res.precinctsGeoJson} 
-        onEachFeature = {this.onEachFeature}
-        // onmouseover = {this.onEachFeature}
-      />})
       this.setState({precinctName : feature.properties.NAME})
       let res = await endpoint.getPrecinctDemographic(nameObject);
       this.setState({featureObject : res})
@@ -248,18 +239,27 @@ class App extends Component {
         });
   }
 
-  onEachFeatureHeatMap = (feature, layer) => {
+  onEachFeatureHeatMap = async (feature, layer, nameDem) => {
     console.log('onEachFeature fired: ');
-      // if (layer.feature.properties.NAME == 'feature 1') {    
-        layer.setStyle({fillColor :'blue'})
-      // }
+      // if (layer.feature.properties.NAME == 'feature 1') {
+        let nameObject = {
+          name : feature.properties.NAME
+        }
+
+        // let res = await endpoint.getPrecinctDemographic(nameObject);
+        // Now do the formula to compute fill Opacity
+        // let averagePopulation = (this.state.totalPopulation) /  (this.state.numOfPrecincts); // let's say it's 2,000
+        // let precinctDemographicPopulation = 5000;
+        // let precinct_fillOpacity = (precinctDemographicPopulation/averagePopulation) - 0.5;    
+
+        layer.setStyle({fillColor :'blue', fillOpacity: 5000})
         layer.on({
             mouseover: (e) => this.getPrecinctDemographic(feature),
             // mouseout: (e) => this.togglePrecinctModal(feature)
         });
   }
   
-  getPrecincts = async (type) => { // if type=0, regular precincts. if type=1, demographic heat map included
+  getPrecincts = async (type, name) => { // if type=0, regular precincts. if type=1, demographic heat map included
     this.setState({togglePrecinctModal : true})
     try {
       if (type == 0) {
@@ -275,6 +275,7 @@ class App extends Component {
         />});
       }
       if (type == 1) {
+        // name = demographic group
         let res = await endpoint.getStatePrecincts();
         this.setState({precinctsContent : 
           <GeoJSON 
@@ -282,7 +283,7 @@ class App extends Component {
             color="red" 
             key='precincts' 
             data={res.precinctsGeoJson} 
-            onEachFeature = {this.onEachFeatureHeatMap}
+            onEachFeature = {(feature, layer) => this.onEachFeatureHeatMap(feature, layer, name)}
             // onmouseover = {this.onEachFeature}
           />});
       }
@@ -326,7 +327,7 @@ class App extends Component {
       if (mapFilters[i].label != "Precincts" && mapFilters[i].label != "Districts") {
         // heat map
         this.setState({precinctsView : true})
-        this.getPrecincts(1);
+        this.getPrecincts(1, mapFilters[i].label);
         updatedPrecincts = 1;
         foundMapFilter = 1
         // Map View Disables
@@ -351,7 +352,7 @@ class App extends Component {
         this.setState({filterDistrictsView : true})
       }
     }
-      if (foundPrecinctsView == true && updatedPrecincts == 0) this.getPrecincts(0);
+      if (foundPrecinctsView == true && updatedPrecincts == 0) this.getPrecincts(0,"");
 
       else if (foundPrecinctsView == false && updatedPrecincts == 0) { // if not selected
         this.setState({precinctsView : false})
@@ -404,7 +405,7 @@ class App extends Component {
       if (this.state.filterPrecinctsView == true) return; 
       else if (this.state.filterPrecinctsView == false && actionType == 1) { 
         this.setState({precinctsView : true})
-        this.getPrecincts(0);
+        this.getPrecincts(0, "");
         // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
       }
       else if (this.state.filterPrecinctsView == false && actionType == 0) { 
