@@ -12,7 +12,9 @@ import GADistricts from './json/GEORGIA/ga_congressionalDistrict.json';
 import GAPrecincts from './json/GEORGIA/ga_precincts.json';
 
 class App extends Component {
-    state = {
+    constructor() {
+    super();
+    this.state = {
       // State:
       currentState : "Select a state",
       enactedPlan : testJobCards.enactedPlan, 
@@ -37,9 +39,19 @@ class App extends Component {
       demographicJSON : demographicTest.heatPoints,
       demographicMax : 3,
 
+      // Map Filter Demographic disables
+      disableWhite :  false,
+      disableBlack : false,
+      disableHispanic : false,
+      disableAsian : false,
+      disableAmericanIndian : false,
+      disableHawaiian : false,
+      disableOther : false,
+
       // Map View Content
       districtsContent : null,
       precinctsContent : null,
+      precinctsJSON : null,
 
       // Checks for Selection
       selectedPlanCheck: false,
@@ -70,6 +82,7 @@ class App extends Component {
       precinctName : "",
       selectedFeature : {}
     }
+  }
 
   changeCurrentState = async (stateAbrev, stateName) => {
 
@@ -176,6 +189,29 @@ class App extends Component {
     this.setState({ jobCards : this.state.jobCards})
   }
 
+
+  deletePlan = (plan) => {
+    if (this.state.currentJob != "" && plan.type != "Enacted Plan") {
+      let job = this.state.currentJob;
+      let indexOfJob = this.state.jobCards.indexOf(job);
+      let indexOfPlan = this.state.jobCards[indexOfJob].districtPlans.indexOf(plan);
+      if (indexOfPlan >= 0)
+        this.state.jobCards[indexOfJob].districtPlans.splice(indexOfPlan, 1);
+      this.setState({ jobCards : this.state.jobCards})
+    }
+    this.setState({ jobCards : this.state.jobCards })
+  }
+
+  generateBoxWhiskerValues = () => {
+    console.log(this.state.currentJob)
+    try {
+      // let res = await endpoint.generateBoxWhisker(currentJob);
+      // console.log(res)
+    } catch (exception) {
+      console.error(exception);
+    }
+  }
+
   togglePrecinctModal = async () => {
     if (this.state.togglePrecinctModal == false) this.setState({togglePrecinctModal : true})
     else this.setState({togglePrecinctModal : false})
@@ -202,53 +238,67 @@ class App extends Component {
             // mouseout: (e) => this.togglePrecinctModal(feature)
         });
   }
+
+  onEachFeatureHeatMap = async (feature, layer, nameDem) => {
+    console.log('onEachFeature fired: ');
+      // if (layer.feature.properties.NAME == 'feature 1') {
+        let nameObject = {
+          name : feature.properties.NAME
+        }
+
+        // let res = await endpoint.getPrecinctDemographic(nameObject);
+        // Now do the formula to compute fill Opacity
+        // let averagePopulation = (this.state.totalPopulation) /  (this.state.numOfPrecincts); // let's say it's 2,000
+        // let precinctDemographicPopulation = 5000;
+        // let precinct_fillOpacity = (precinctDemographicPopulation/averagePopulation) - 0.5;    
+
+        layer.setStyle({fillColor :'blue', fillOpacity: 5000})
+        layer.on({
+            mouseover: (e) => this.getPrecinctDemographic(feature),
+            // mouseout: (e) => this.togglePrecinctModal(feature)
+        });
+  }
   
-  getPrecincts = async () => {
+  getPrecincts = async (type, name) => { // if type=0, regular precincts. if type=1, demographic heat map included
     this.setState({togglePrecinctModal : true})
     try {
-      let res = await endpoint.getStatePrecincts();
-      this.setState({precinctsContent : 
-      <GeoJSON 
-        weight={1} 
-        color="red" 
-        key='precincts' 
-        data={res.precinctsGeoJson} 
-        onEachFeature = {this.onEachFeature}
-        // onmouseover = {this.onEachFeature}
-        
-      />});
+      if (type == 0) {
+        let res = await endpoint.getStatePrecincts();
+        this.setState({precinctsContent : 
+        <GeoJSON 
+          weight={1} 
+          color="red" 
+          key='precincts' 
+          data={res.precinctsGeoJson} 
+          onEachFeature = {this.onEachFeature}
+          // onmouseover = {this.onEachFeature}
+        />});
+      }
+      if (type == 1) {
+        // name = demographic group
+        let res = await endpoint.getStatePrecincts();
+        this.setState({precinctsContent : 
+          <GeoJSON 
+            weight={1} 
+            color="red" 
+            key='precincts' 
+            data={res.precinctsGeoJson} 
+            onEachFeature = {(feature, layer) => this.onEachFeatureHeatMap(feature, layer, name)}
+            // onmouseover = {this.onEachFeature}
+          />});
+      }
     } catch (exception) {
       console.error(exception);
     }
   }
-
-  deletePlan = (plan) => {
-    if (this.state.currentJob != "" && plan.type != "Enacted Plan") {
-      let job = this.state.currentJob;
-      let indexOfJob = this.state.jobCards.indexOf(job);
-      let indexOfPlan = this.state.jobCards[indexOfJob].districtPlans.indexOf(plan);
-      if (indexOfPlan >= 0)
-        this.state.jobCards[indexOfJob].districtPlans.splice(indexOfPlan, 1);
-      this.setState({ jobCards : this.state.jobCards})
-    }
-    this.setState({ jobCards : this.state.jobCards })
-  }
-
-  generateBoxWhiskerValues = () => {
-    console.log(this.state.currentJob)
-    try {
-      // let res = await endpoint.generateBoxWhisker(currentJob);
-      // console.log(res)
-    } catch (exception) {
-      console.error(exception);
-    }
-  }
-
+  
   changeSelectedFilters = async (mapFilters) => {
     let foundDistrictsView = false
     let foundPrecinctsView = false
     let foundOtherFilter = false
+    let foundMapFilter = 0;
     let demographicList = []
+    let updatedPrecincts = 0;
 
     this.setState({selectedFilters : mapFilters});
     if (mapFilters == null) { // reset
@@ -260,13 +310,37 @@ class App extends Component {
       this.setState({precinctsContent : null })
       this.setState({demographicJSON : ""});
       this.setState({demographicMax : 0});
+
+      // Enable all map filters
+      this.setState({disableWhite : false})
+      this.setState({disableBlack : false})
+      this.setState({disableHispanic : false})
+      this.setState({disableAsian : false})
+      this.setState({disableAmericanIndian : false})
+      this.setState({disableHawaiian : false})
+      this.setState({disableOther : false})
       return;
     }
 
     for (var i = 0; i < mapFilters.length; i++) {
-      if (mapFilters[i].label == "Precincts")  { // precinct view
+
+      if (mapFilters[i].label != "Precincts" && mapFilters[i].label != "Districts") {
+        // heat map
         this.setState({precinctsView : true})
-        this.getPrecincts();
+        this.getPrecincts(1, mapFilters[i].label);
+        updatedPrecincts = 1;
+        foundMapFilter = 1
+        // Map View Disables
+        if (mapFilters[i].label != "White") this.setState({disableWhite : true})
+        if (mapFilters[i].label != "Black or African American") this.setState({disableBlack : true})
+        if (mapFilters[i].label != "Hispanic") this.setState({disableHispanic : true})
+        if (mapFilters[i].label != "Asian") this.setState({disableAsian : true})
+        if (mapFilters[i].label != "American Indian or Alaska Native") this.setState({disableAmericanIndian : true})
+        if (mapFilters[i].label != "Native Hawaiian or Other Pacific Islander") this.setState({disableHawaiian : true})
+        if (mapFilters[i].label != "Other") this.setState({disableOther : true})
+      }
+      else if (mapFilters[i].label == "Precincts")  { // precinct view
+        this.setState({precinctsView : true})
         // this.setState({precinctsContent : <GeoJSON weight={1} color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
         foundPrecinctsView = true;
         this.setState({ filterPrecinctsView : true })
@@ -277,13 +351,10 @@ class App extends Component {
         foundDistrictsView = true;
         this.setState({filterDistrictsView : true})
       }
-      else { 
-        // Found filter that's not districtView or precinctView
-        demographicList.push(mapFilters[i].label);
-        foundOtherFilter = true;
-      }
     }
-      if (foundPrecinctsView == false) { // if not selected
+      if (foundPrecinctsView == true && updatedPrecincts == 0) this.getPrecincts(0,"");
+
+      else if (foundPrecinctsView == false && updatedPrecincts == 0) { // if not selected
         this.setState({precinctsView : false})
         this.setState({togglePrecinctModal : false})
         this.setState({precinctsContent : null })
@@ -293,22 +364,33 @@ class App extends Component {
         this.setState({districtsView : false})
         this.setState({filterDistrictsView : false})
       }
+      if (foundMapFilter == 0) {
+        this.setState({disableWhite : false})
+        this.setState({disableBlack : false})
+        this.setState({disableHispanic : false})
+        this.setState({disableAsian : false})
+        this.setState({disableAmericanIndian : false})
+        this.setState({disableHawaiian : false})
+        this.setState({disableOther : false})
+      }
+
+      // COORDINATES:
       // if filters isn't null, and it's not district or precinct view
-      let demographicObject = {
-        names : demographicList
-      }
-      // if (foundOtherFilter == true && demographicJSON != "") return
-      if (foundOtherFilter == false) { this.setState({demographicJSON : ""}); return; }
-      if (foundOtherFilter == true) {
-        try {
-          let res = await endpoint.generateHeatMap(demographicObject);
-          console.log(res)
-          this.setState({demographicJSON : res.demographicHeatmap})
-          this.setState({demographicMax : res.maxDemographicPopulation})
-        } catch (exception) {
-          console.error(exception);
-        }
-      }
+      // let demographicObject = {
+      //   names : demographicList
+      // }
+       // if (foundOtherFilter == true && demographicJSON != "") return
+      // if (foundOtherFilter == false) { this.setState({demographicJSON : ""}); return; }
+      // if (foundOtherFilter == true) {
+      //   try {
+      //     let res = await endpoint.generateHeatMap(demographicObject);
+      //     console.log(res)
+      //     this.setState({demographicJSON : res.demographicHeatmap})
+      //     this.setState({demographicMax : res.maxDemographicPopulation})
+      //   } catch (exception) {
+      //     console.error(exception);
+      //   }
+      // }
   }
 
   changeViewFromZoom = (viewType, actionType) => { // actionType = 0 (delete view) or 1 (insert view)
@@ -323,7 +405,7 @@ class App extends Component {
       if (this.state.filterPrecinctsView == true) return; 
       else if (this.state.filterPrecinctsView == false && actionType == 1) { 
         this.setState({precinctsView : true})
-        this.getPrecincts();
+        this.getPrecincts(0, "");
         // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
       }
       else if (this.state.filterPrecinctsView == false && actionType == 0) { 
@@ -396,6 +478,15 @@ class App extends Component {
             featureObject = {this.state.featureObject}
             selectedFeature = {this.state.selectedFeature} 
             togglePrecinctModal = {this.state.togglePrecinctModal}
+
+            // Map View Disables
+            disableWhite = {this.state.disableWhite}
+            disableBlack = {this.state.disableBlack} 
+            disableHispanic = {this.state.disableHispanic} 
+            disableAsian = {this.state.disableAsian} 
+            disableAmericanIndian = {this.state.disableAmericanIndian} 
+            disableHawaiian = {this.state.disableHawaiian} 
+            disableOther = {this.state.disableOther} 
             />
 
             {/* <DeveloperScreen/>             */}

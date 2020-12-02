@@ -68,7 +68,7 @@ class OurMap extends Component {
 
         return (
                 <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} onzoomend={(e) => this.handleZoomChange(e)} >
-                    <HeatmapLayer
+                    {/* <HeatmapLayer
                                 // fitBoundsOnLoad
                                 // fitBoundsOnUpdate
                                 // radius={10}
@@ -81,7 +81,7 @@ class OurMap extends Component {
                                 latitudeExtractor={m => m[1]}
                                 intensityExtractor={m => parseFloat(m[2])} 
                                 // max={3}
-                    />
+                    /> */}
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
