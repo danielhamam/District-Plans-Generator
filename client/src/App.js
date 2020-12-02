@@ -11,6 +11,9 @@ import {GeoJSON} from 'react-leaflet';
 import GADistricts from './json/GEORGIA/ga_congressionalDistrict.json';
 import GAPrecincts from './json/GEORGIA/ga_precincts.json';
 
+import WhitePrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/white.json'
+import BlackPrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/black.json'
+
 class App extends Component {
     constructor() {
     super();
@@ -239,27 +242,28 @@ class App extends Component {
         });
   }
 
-  onEachFeatureHeatMap = async (feature, layer, nameDem) => {
+  onEachFeatureHeatMap = async (feature, layer) => {
     console.log('onEachFeature fired: ');
       // if (layer.feature.properties.NAME == 'feature 1') {
-        let nameObject = {
-          name : feature.properties.NAME
-        }
-
+        // let nameObject = {
+        //   name : feature.properties.NAME
+        // }
         // let res = await endpoint.getPrecinctDemographic(nameObject);
         // Now do the formula to compute fill Opacity
         // let averagePopulation = (this.state.totalPopulation) /  (this.state.numOfPrecincts); // let's say it's 2,000
         // let precinctDemographicPopulation = 5000;
         // let precinct_fillOpacity = (precinctDemographicPopulation/averagePopulation) - 0.5;    
 
-        layer.setStyle({fillColor :'blue', fillOpacity: 5000})
-        layer.on({
-            mouseover: (e) => this.getPrecinctDemographic(feature),
-            // mouseout: (e) => this.togglePrecinctModal(feature)
-        });
+
+
+        layer.setStyle({fillColor : feature.properties.fillColor, fillOpacity: 1.0})
+        // layer.on({
+        //     mouseover: (e) => this.getPrecinctDemographic(feature),
+        //     // mouseout: (e) => this.togglePrecinctModal(feature)
+        // });
   }
   
-  getPrecincts = async (type, name) => { // if type=0, regular precincts. if type=1, demographic heat map included
+  getPrecincts = async (type) => { // if type=0, regular precincts. if type=1, demographic heat map included
     this.setState({togglePrecinctModal : true})
     try {
       if (type == 0) {
@@ -276,14 +280,15 @@ class App extends Component {
       }
       if (type == 1) {
         // name = demographic group
-        let res = await endpoint.getStatePrecincts();
+        // let res = await endpoint.getStatePrecincts();
         this.setState({precinctsContent : 
           <GeoJSON 
             weight={1} 
             color="red" 
             key='precincts' 
-            data={res.precinctsGeoJson} 
-            onEachFeature = {(feature, layer) => this.onEachFeatureHeatMap(feature, layer, name)}
+            // data={res.precinctsGeoJson} 
+            data={BlackPrecincts}
+            onEachFeature = {this.onEachFeatureHeatMap}
             // onmouseover = {this.onEachFeature}
           />});
       }
@@ -327,7 +332,8 @@ class App extends Component {
       if (mapFilters[i].label != "Precincts" && mapFilters[i].label != "Districts") {
         // heat map
         this.setState({precinctsView : true})
-        this.getPrecincts(1, mapFilters[i].label);
+        this.setState({ filterPrecinctsView : true })
+        this.getPrecincts(1);
         updatedPrecincts = 1;
         foundMapFilter = 1
         // Map View Disables
@@ -352,7 +358,7 @@ class App extends Component {
         this.setState({filterDistrictsView : true})
       }
     }
-      if (foundPrecinctsView == true && updatedPrecincts == 0) this.getPrecincts(0,"");
+      if (foundPrecinctsView == true && updatedPrecincts == 0) this.getPrecincts(0);
 
       else if (foundPrecinctsView == false && updatedPrecincts == 0) { // if not selected
         this.setState({precinctsView : false})
@@ -405,7 +411,7 @@ class App extends Component {
       if (this.state.filterPrecinctsView == true) return; 
       else if (this.state.filterPrecinctsView == false && actionType == 1) { 
         this.setState({precinctsView : true})
-        this.getPrecincts(0, "");
+        this.getPrecincts(0);
         // this.setState({precinctsContent : <GeoJSON weight="1" color="red" key='NewYorkPrecincts' data={NYPrecincts} /> })
       }
       else if (this.state.filterPrecinctsView == false && actionType == 0) { 
