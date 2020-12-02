@@ -27,15 +27,53 @@ States = {
         "Name": "Georgia",
         "Abbrev": "GA",
         "DistrictFile": "client/src/json/GEORGIA/ga_congressionalDistrict.json",
-        "PrecinctFile": "client/src/json/GEORGIA/Precincts.json",
+        "PrecinctFile": "client/src/json/GEORGIA/ga_precincts.json",
         "CountyFile": "client/src/json/GEORGIA/ga_county.json",
         "PrecinctDemographicFile": "client/src/json/GEORGIA/ga_precincts_dem.json"
     }
 }
 
 def main():
-    writeAlgorithmFormatToStatesDir()
-    
+    writeHeatMapFilesToStates()
+    pass
+
+
+def writeHeatMapFilesToStates():
+    ethnicity = ["white","black","american_indian","asian","hispanic","native_hawaiian","other"]
+    for state in States:
+        demographic = formatPrecinctDemographicData(States[state])
+        for e in ethnicity:
+            backendpath = 'backend/src/main/resources/system/states/' + state.lower() + '/heatmap/' + e + ".json"
+            total_ethincity_population = 0
+            total_state_population = 0
+            for d in demographic:
+                total_state_population = demographic[d]["total"] + total_state_population
+                if e == "other":
+                    total_ethincity_population = demographic[d]["other"] + total_ethincity_population
+                    total_ethincity_population = demographic[d]["multiple"] + total_ethincity_population
+                else:
+                    total_ethincity_population = demographic[d][e] + total_ethincity_population
+            print(state + ": " + e + " population: " + str(total_ethincity_population))
+            f = open(States[state]["PrecinctFile"])
+            data = json.load(f)
+            num_of_precinct = len(list(data['features']))
+            average_population = total_ethincity_population/num_of_precinct
+            for feature in data['features']:
+                properties = feature['properties']
+                try:
+                    fips = properties['STATE'] + properties['COUNTY'] + properties['VTD']
+                    precinct_demographic = demographic[fips][e]
+                    print(precinct_demographic)
+                    
+                except Exception:
+                    pprecinct_demographic = 1
+                fill_opacity = (precinct_demographic/average_population) - 0.5
+                properties.setdefault('fill', 'blue')
+                properties.setdefault('fill-opacity', fill_opacity)
+            writeToFile(data, backendpath)
+            
+
+
 
 def writeAlgorithmFormatToStatesDir():
     for state in States:
@@ -43,6 +81,7 @@ def writeAlgorithmFormatToStatesDir():
         neighbor = computePrecinctNeighbors(States[state])
         demographic = formatPrecinctDemographicData(States[state])
         formatFile = formatAlgoritmFile(neighbor, demographic)
+        
         writeToFile(formatFile, backendpath)
 
 def formatAlgoritmFile(dictPrecinctNeighbors, dictPrecinctDemographicData):
@@ -86,7 +125,8 @@ def formatDistrictData(state):
         }
 
         newDict[properties['CD']] = temp
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -108,7 +148,7 @@ def formatCountyData(state):
         }
 
         newDict[properties['NAME']] = temp
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
   
     return newDict
 
@@ -145,7 +185,7 @@ def formatPrecinctData(state):
 
         newDict[properties['NAME']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
   
@@ -170,7 +210,7 @@ def formatGACountyDistrictData(state):
 
         newDict[properties['FIPS1']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -211,7 +251,7 @@ def formatPACountyDistrictData(state):
 
         newDict[properties['STATEFP10'] + properties['COUNTYFP10']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -251,7 +291,7 @@ def formatMDCountyDistrictData(state):
 
         newDict[properties['COUNTY']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
