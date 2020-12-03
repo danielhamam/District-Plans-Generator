@@ -1,5 +1,6 @@
 package com.cse416.backend.model.demographic;
 import com.cse416.backend.model.demographic.CensusEthnicity;
+import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.district.*;
@@ -182,6 +183,28 @@ public class Demographic {
     public Long getOtherRaceVAPPopulation(){return this.otherRaceVAPPopulation;}
 
     public Long getMultipleRaceVAPPopulation(){return this.multipleRaceVAPPopulation;}
+
+
+    public Long getPopulationFromString(String censusCatagories)throws Exception{
+        switch(censusCatagories) {
+            case "White":
+                return this.whitePopulation;
+            case "Black or African American":
+                return this.africanAmericanPopulation;
+            case "American Indian or Alaska Native":
+                return americanIndianPopulation;
+            case "Asian":
+                return asianPopulation;
+            case "Native Hawaiian or Other Pacific Islander":
+                return nativeHawaiianPopulation;
+            case "Hispanic":
+                return hispanicPopulation;
+            case "Other":
+                return otherRacePopulation + multipleRacePopulation;
+            default:
+                throw new Exception("String Does Not Exist");
+        }
+    }
 
     public String toString(){
         String generalDem = "Total: " + getTotalPopulation() + ", White : " + getWhitePopulation() + ", Black : " + getAfricanAmericanPopulation() + 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, ZoomControl, GeoJSON} from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
-import { heatPoints } from './HeatPoints.js';
+// import { heatPoints } from '../../../json/HeatPoints.js';
 
 import MarylandStateBoundary from '../../../json/MARYLAND/md_state.json';
 import GeorgiaStateBoundary from '../../../json/GEORGIA/ga_state.json';
@@ -68,19 +68,20 @@ class OurMap extends Component {
 
         return (
                 <Map id="ourMap" center={this.mapCenter} zoom={this.mapZoom} onzoomend={(e) => this.handleZoomChange(e)} >
-                    <HeatmapLayer
+                    {/* <HeatmapLayer
                                 // fitBoundsOnLoad
                                 // fitBoundsOnUpdate
-                                // radius={2}
-                                blur = {10}
+                                // radius={10}
+                                // blur = {10}
                                 // maxOpacity={0.8}
                                 // gradient={this.gradient}
-                                points={heatPoints}
-                                longitudeExtractor={m => m[1]}
-                                latitudeExtractor={m => m[0]}
+                                // max={this.props.demographicMax}
+                                points={this.props.demographicJSON}
+                                longitudeExtractor={m => m[0]}
+                                latitudeExtractor={m => m[1]}
                                 intensityExtractor={m => parseFloat(m[2])} 
                                 // max={3}
-                    />
+                    /> */}
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

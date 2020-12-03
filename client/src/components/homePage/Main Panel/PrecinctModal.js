@@ -18,7 +18,7 @@ class PrecinctModal extends Component {
                     <b> Precinct Name: </b>
                     <b>{this.props.precinctName} </b>
                 </div>
-               <Table striped bordered hover id="precinctModal" className="table">
+               <Table striped bordered hover size="sm" id="precinctModal" className="table">
                     <thead>
                         <tr>
                             <th scope="col">Demographic Category</th>

@@ -61,11 +61,9 @@ public class ClientController {
     }
 
 
-    @GetMapping(path = "/demographicfilter/{jobID}/{planID}", produces = "application/json")
-    public String getDemographicFilter(@PathVariable Integer jobID, @PathVariable String planID, Map <String, Object> demographicFilter){
-        List censusCatagories = Arrays.asList(demographicFilter.get("demographicFilter"));
-        service.getDemographicFilter(jobID, planID, censusCatagories);
-        return "getDemographicFilter";
+    @PostMapping(path = "/heatmap/{censusEthnicity}", produces = "application/json")
+    public String getDemographicHeatmap(@PathVariable String censusEthnicity){
+        return service.getDemographicHeatmap(censusEthnicity);
     }
 
    @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")

@@ -6,7 +6,6 @@ const SERVER_PATHS = {
     BOUNDARIES: "/boundaries",
     PRECINCTS: "/precincts",
     PRECINCT_DEMOGRAPHIC: "/precinct/demographic",	
-    DEMOGRAPHIC_FILTER: "/demographicfilter",
     JOB: "/job",
     PLAN: "/plan",
     BOXWHISKER: "/boxwhisker",
@@ -136,8 +135,7 @@ export async function generateHeatMap(data){
     console.log("Generating Job");
     const requestOptions = createFetchOptions('POST', data);
     const NEW_URL = URL + SERVER_PATHS.GENERATE_HEATMAP;
-    return fetch(NEW_URL, requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error is:', error));
+    const response = await fetch(NEW_URL, requestOptions).catch(error => error);
+    return await response.json()
+
 }

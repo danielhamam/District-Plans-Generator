@@ -34,8 +34,69 @@ States = {
 }
 
 def main():
-    writeAlgorithmFormatToStatesDir()
-    
+    writeHeatMapFilesToStates()
+    pass
+
+
+def writeHeatMapFilesToStates():
+    ethnicity = ["white","black","american_indian","asian","hispanic","native_hawaiian","other"]
+    for state in States:
+        demographic = formatPrecinctDemographicData(States[state])
+        for e in ethnicity:
+            backendpath = 'backend/src/main/resources/system/states/' + state.lower() + '/heatmap/' + e + ".json"
+            total_ethincity_population = 0
+            total_state_population = 0
+            for d in demographic:
+                total_state_population = demographic[d]["total"] + total_state_population
+                if e == "other":
+                    total_ethincity_population = demographic[d]["other"] + total_ethincity_population
+                    total_ethincity_population = demographic[d]["multiple"] + total_ethincity_population
+                else:
+                    total_ethincity_population = demographic[d][e] + total_ethincity_population
+            print(state + ": " + e + " population: " + str(total_ethincity_population))
+            f = open(States[state]["PrecinctFile"])
+            data = json.load(f)
+            num_of_precinct = len(list(data['features']))
+            average_population = total_ethincity_population/num_of_precinct
+            for feature in data['features']:
+                properties = feature['properties']
+                try:
+                    fips = properties['STATE'] + properties['COUNTY'] + properties['VTD']
+                    precinct_demographic = demographic[fips][e]
+                    if(precinct_demographic == 0):
+                        precinct_demographic = precinct_demographic + 5
+                    print(precinct_demographic)
+                    
+                except Exception:
+                    precinct_demographic = 1
+                properties.setdefault('fillColor', fillcolor_heatmap(precinct_demographic, average_population)) 
+            writeToFile(data, backendpath)
+            
+def fillcolor_heatmap(precinct_demographic, average_population):
+    fillColor = "hsl(180, 5%, 64%)"  
+    if (precinct_demographic <= average_population * 0.09): fillColor = "hsl(180, 5%, 64%)"   
+    if (precinct_demographic >= average_population * 0.1 and precinct_demographic < average_population * 0.2): fillColor = "hsl(180, 10%, 64%)"
+    if (precinct_demographic >= average_population * 0.2 and precinct_demographic < average_population * 0.3): fillColor = "hsl(180, 16%, 64%)"
+    if (precinct_demographic >= average_population * 0.3 and precinct_demographic < average_population * 0.4): fillColor = "hsl(180, 22%, 64%)"
+    if (precinct_demographic >= average_population * 0.4 and precinct_demographic < average_population * 0.5): fillColor = "hsl(180, 27%, 64%)"
+    if (precinct_demographic >= average_population * 0.5 and precinct_demographic < average_population * 0.6): fillColor = "hsl(180, 32%, 64%)"
+    if (precinct_demographic >= average_population * 0.6 and precinct_demographic < average_population * 0.7): fillColor = "hsl(180, 38%, 64%)"
+    if (precinct_demographic >= average_population * 0.7 and precinct_demographic < average_population * 0.8): fillColor = "hsl(180, 43%, 64%)"
+    if (precinct_demographic >= average_population * 0.8 and precinct_demographic < average_population * 0.95): fillColor = "hsl(180, 49%, 64%)"
+    if (precinct_demographic >= average_population * 0.95 and precinct_demographic <= average_population * 1.05): fillColor ="hsl(180, 50%, 64%)"
+    if (precinct_demographic >= average_population * 1.06 and precinct_demographic < average_population * 1.1): fillColor = "hsl(180, 55%, 64%)"
+    if (precinct_demographic >= average_population * 1.1 and precinct_demographic < average_population * 1.2): fillColor = "hsl(180, 60%, 64%)"
+    if (precinct_demographic >= average_population * 1.2 and precinct_demographic < average_population * 1.3): fillColor = "hsl(180, 66%, 64%)"
+    if (precinct_demographic >= average_population * 1.3 and precinct_demographic < average_population * 1.4): fillColor = "hsl(180, 72%, 64%)"
+    if (precinct_demographic >= average_population * 1.4 and precinct_demographic < average_population * 1.5): fillColor = "hsl(180, 77%, 64%)"
+    if (precinct_demographic >= average_population * 1.5 and precinct_demographic < average_population * 1.6): fillColor = "hsl(180, 82%, 64%)"
+    if (precinct_demographic >= average_population * 1.6 and precinct_demographic < average_population * 1.7): fillColor = "hsl(180, 88%, 64%)"
+    if (precinct_demographic >= average_population * 1.7 and precinct_demographic < average_population * 1.8): fillColor = "hsl(180, 93%, 64%)"
+    if (precinct_demographic >= average_population * 1.8 and precinct_demographic < average_population * 1.9): fillColor = "hsl(180, 97%, 64%)"
+    if (precinct_demographic >= average_population * 1.9): fillColor = "hsl(180, 100%, 64%)" 
+    return fillColor
+
+
 
 def writeAlgorithmFormatToStatesDir():
     for state in States:
@@ -43,6 +104,7 @@ def writeAlgorithmFormatToStatesDir():
         neighbor = computePrecinctNeighbors(States[state])
         demographic = formatPrecinctDemographicData(States[state])
         formatFile = formatAlgoritmFile(neighbor, demographic)
+        
         writeToFile(formatFile, backendpath)
 
 def formatAlgoritmFile(dictPrecinctNeighbors, dictPrecinctDemographicData):
@@ -68,10 +130,6 @@ def formatAlgoritmFile(dictPrecinctNeighbors, dictPrecinctDemographicData):
     #print(included)
     return algorithmDict
 
-
-    
-
-
 def formatDistrictData(state):
     newDict = {}
 
@@ -90,7 +148,8 @@ def formatDistrictData(state):
         }
 
         newDict[properties['CD']] = temp
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -112,7 +171,7 @@ def formatCountyData(state):
         }
 
         newDict[properties['NAME']] = temp
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
   
     return newDict
 
@@ -149,7 +208,7 @@ def formatPrecinctData(state):
 
         newDict[properties['NAME']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
   
@@ -174,7 +233,7 @@ def formatGACountyDistrictData(state):
 
         newDict[properties['FIPS1']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -215,7 +274,7 @@ def formatPACountyDistrictData(state):
 
         newDict[properties['STATEFP10'] + properties['COUNTYFP10']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -255,7 +314,7 @@ def formatMDCountyDistrictData(state):
 
         newDict[properties['COUNTY']] = temp
       
-    newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -374,12 +433,23 @@ def computePrecinctNeighbors(state):
                     getPrecinctFIPS = precinct_identifier[id(o)]
                     getBufferPrecinctFIPS = precinct_identifier[bufferPrecinctId]
 
+                    
                     if getBufferPrecinctFIPS not in precinct_neighbors:
                         precinct_neighbors[getBufferPrecinctFIPS] = []
                     else:
-                        precinct_neighbors[getBufferPrecinctFIPS].append(getPrecinctFIPS)
+                        #Check if the precinct neighbor was already accounted and if not add to the
+                        #precincts neighbor array
+                        if not precinctNeighborAccountedFor(getPrecinctFIPS, precinct_neighbors[getBufferPrecinctFIPS]):
+                           precinct_neighbors[getBufferPrecinctFIPS].append(getPrecinctFIPS)
 
-                    
+                    if getPrecinctFIPS not in precinct_neighbors:
+                        precinct_neighbors[getPrecinctFIPS] = []
+                    else:
+                        #Check if the precinct neighbor was already accounted and if not add to the
+                        #precincts neighbor array
+                        if not precinctNeighborAccountedFor(getBufferPrecinctFIPS, precinct_neighbors[getPrecinctFIPS]):
+                           precinct_neighbors[getPrecinctFIPS].append(getBufferPrecinctFIPS)
+
     return precinct_neighbors
           
 def createPrecinctGeometryList(precinct_dict):
@@ -436,106 +506,12 @@ def createPrecinctDictionary(file):
       
     return precinct_dict
 
-# def createNewPrecinctFile(state):
+def precinctNeighborAccountedFor(precinct, precinctNeighbor_array):
 
-#     #Create the file to dictionary
-#     newDict = extractFileGeometryAttribute(state['PrecinctFile'])
-
-#     # writeToFile(newDict, '/Users/kadiatoudiallo/Documents/GitHub/CSE-416-Project/client/src/json/testPrecinct.json')
+    for neighbor in precinctNeighbor_array:
+        if precinct == neighbor: return True
     
-#     f = open(state['PrecinctDemographicFile'])
-#     data = json.load(f)
-
-#     for feature in data['features']:
-
-#         precinctFIPS = ''
-
-#         if state['Abbrev'] == 'MD': 
-#             precinctFIPS = feature['properties']['VTD_1']
-#         elif state['Abbrev'] == 'GA': 
-#             precinctFIPS = feature['properties']['PRECINCT_I']
-#         else: 
-#             precinctFIPS = feature['properties']['VTDST10']
-
-#         if precinctFIPS not in newDict: continue
-
-#         properties = feature['properties']
-
-#         newDict[precinctFIPS]['properties']['TOTPOP'] = properties['TOTPOP']
-#         newDict[precinctFIPS]['properties']['NH_WHITE'] = properties['NH_WHITE']
-#         newDict[precinctFIPS]['properties']['NH_BLACK'] = properties['NH_BLACK']
-#         newDict[precinctFIPS]['properties']['NH_AMIN'] = properties['NH_AMIN']
-#         newDict[precinctFIPS]['properties']['NH_ASIAN'] = properties['NH_ASIAN']
-#         newDict[precinctFIPS]['properties']['NH_NHPI'] = properties['NH_NHPI']
-#         newDict[precinctFIPS]['properties']['NH_OTHER'] = properties['NH_OTHER']
-#         newDict[precinctFIPS]['properties']['NH_2MORE'] = properties['NH_2MORE']
-#         newDict[precinctFIPS]['properties']['HISP'] = properties['HISP']
-#         newDict[precinctFIPS]['properties']['VAP'] = properties['VAP']
-#         newDict[precinctFIPS]['properties']['HVAP'] = properties['HVAP']
-#         newDict[precinctFIPS]['properties']['WVAP'] = properties['WVAP']
-#         newDict[precinctFIPS]['properties']['BVAP'] = properties['BVAP']
-#         newDict[precinctFIPS]['properties']['AMINVAP'] = properties['AMINVAP']
-#         newDict[precinctFIPS]['properties']['ASIANVAP'] = properties['ASIANVAP']
-#         newDict[precinctFIPS]['properties']['NHPIVAP'] = properties['NHPIVAP']
-#         newDict[precinctFIPS]['properties']['OTHERVAP'] = properties['OTHERVAP']
-#         newDict[precinctFIPS]['properties']['2MOREVAP'] = properties['2MOREVAP']
-
-#     featureCollection = {
-#         'type': 'FeatureCollection',
-#         'features': []
-#     }
-
-#     for feature in newDict:
-#         featureCollection['features'].append(newDict[feature])
-    
-#     with open('client/src/json/testPrecinct.json', 'w') as jsonfile:
-#         jsonfile.write(json.dumps(featureCollection))
-       
-
-
-
-# def extractFileGeometryAttribute(file):
-#     f = open(file)
-#     data = json.load(f)
-
-#     dictionary = {}
-
-#     for feature in data['features']:
-        
-#         temp = {
-#             "type": feature['type'],
-#             "geometry": feature['geometry'],
-#             "properties" : feature['properties']
-#         }
-#         #Add new Attributes
-#         properties = feature['properties']
-
-#         properties['TOTPOP'] = 0
-#         properties['NH_WHITE'] = 0
-#         properties['NH_BLACK'] = 0
-#         properties['NH_AMIN'] = 0
-#         properties['NH_ASIAN'] = 0
-#         properties['NH_NHPI'] = 0
-#         properties['NH_OTHER'] = 0
-#         properties['NH_2MORE'] = 0
-#         properties['HISP'] = 0
-#         properties['VAP'] = 0
-#         properties['HVAP'] = 0
-#         properties['WVAP'] = 0
-#         properties['BVAP'] = 0
-#         properties['AMINVAP'] = 0
-#         properties['ASIANVAP'] = 0
-#         properties['NHPIVAP'] = 0
-#         properties['OTHERVAP'] = 0
-#         properties['2MOREVAP'] = 0
-
-
-#         dictionary[feature['properties']['VTD']] = temp
-
-#     return dictionary
-
-
-
+    return False
 
 
 if __name__ == '__main__':

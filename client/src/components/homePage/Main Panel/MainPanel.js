@@ -32,13 +32,13 @@ class MainPanel extends Component {
         {
           label: "Demographic Heat Map",
           options: [
-            { label:"White", value: "white"},
-            { label:"Black or African American", value: "africanamerican"},
-            { label:"Hispanic", value: "latino"},
-            { label:"Asian", value: "asian"},
-            { label:"American Indian or Alaska Native", value: "americanindian"},
-            { label:"Native Hawaiian or Other Pacific Islander", value: "hawaiian"},
-            { label:"Other", value: "other"},
+            { label:"White", value: "white", isDisabled : (this.props.disableWhite || this.props.currentState == "Select a state") },
+            { label:"Black or African American", value: "africanamerican", isDisabled : (this.props.disableBlack || this.props.currentState == "Select a state") },
+            { label:"Hispanic", value: "latino", isDisabled : (this.props.disableHispanic || this.props.currentState == "Select a state") },
+            { label:"Asian", value: "asian", isDisabled : (this.props.disableAsian || this.props.currentState == "Select a state") },
+            { label:"American Indian or Alaska Native", value: "americanindian", isDisabled : (this.props.disableAmericanIndian || this.props.currentState == "Select a state") },
+            { label:"Native Hawaiian or Other Pacific Islander", value: "hawaiian", isDisabled : (this.props.disableHawaiian || this.props.currentState == "Select a state") },
+            { label:"Other", value: "other", isDisabled : (this.props.disableOther || this.props.currentState == "Select a state") },
           ]},
           {
           label: "Cluster",
@@ -81,7 +81,8 @@ class MainPanel extends Component {
                     districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent}
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
                     changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView} d
-                    enableDistrictView={this.enableDistrictView}
+                    enableDistrictView={this.enableDistrictView} demographicJSON = {this.props.demographicJSON} 
+                    demographicMax={this.props.demographicMax}
                     />
                     <div id="mapFilters"> {/* Map Filters  */}
                         <Select isSearchable={true} value={this.props.selectedFilters} placeholder="Choose option(s) to filter map" components={componentsAnimation} 

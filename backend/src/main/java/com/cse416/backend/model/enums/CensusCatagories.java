@@ -1,21 +1,30 @@
 package com.cse416.backend.model.enums;
 
 public enum CensusCatagories  {
-    WHITE_AMERICAN("White"),
-    AFRICAN_AMERICAN("African American"),
-    AMERICAN_INDIAN("American Indian"),
-    ASIAN_AMERICAN("Asian"),
-    HAWAIIAN_AMERICAN("Hawaiian"),
-    LATINO_AMERICAN("Latino"),
-    OTHER_AMERICAN("Other");
+    WHITE_AMERICAN("White", "White"),
+    AFRICAN_AMERICAN("Black","African American"),
+    AMERICAN_INDIAN("American Indian","American Indian or Alaska Native"),
+    ASIAN_AMERICAN("Asian","Asian"),
+    HAWAIIAN_AMERICAN("Native Hawaiian", "Native Hawaiian or Other Pacific Islander"),
+    HISPANIC_AMERICAN("Latino", "Hispanic or Latino"),
+    OTHER_AMERICAN("Other", "Other race, Non-Hispanic"),
+    MULTIPLE_AMERICAN("Multiple", "Two or more race, Non-Hispanic");
 
-    private final String representation;
+    private final String shortenName;
+    private final String fullName;
 
-    private CensusCatagories(String representation) {
-        this.representation = representation;
+    private CensusCatagories(String shortenName, String fullName) {
+        this.shortenName = shortenName;
+        this.fullName = fullName;
     }
 
-    public String getStringRepresentation(){
-        return representation;
+    public String getFullName(){
+        return fullName;
+    }
+
+    public String getShortenName(){
+        return shortenName;
     }
 }
+
+

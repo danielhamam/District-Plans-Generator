@@ -8,6 +8,10 @@ import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.hibernate.engine.query.ParameterRecognitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +29,9 @@ public class ServerService {
     private final ObjectMapper mapper;
     private Session session;
     private GlobalHistory jobHistory;
-    private boolean runAlgoLocally  = true;
+    private boolean isStatePrecinctsLoaded;
+    private boolean runAlgoLocally = false;
+
 
     //DAO Servicers
     @Autowired
@@ -63,6 +69,7 @@ public class ServerService {
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
+        this.isStatePrecinctsLoaded = false;
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -127,6 +134,7 @@ public class ServerService {
             this.session.setState(state);
             this.session.addJobs(jobs);
             this.jobHistory.addJobs(jobs);
+            //getPrecinctAsync(stateAbbrevation);
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -135,6 +143,25 @@ public class ServerService {
             error.printStackTrace();
         }
         return clientData;
+    }
+
+    private void getPrecinctAsync(String stateAbbrevation){
+        new Thread(new Runnable() {
+            public void run() {
+                isStatePrecinctsLoaded = false;
+                State state = session.getState();
+                System.out.println("Getting " + stateAbbrevation + " precincts");
+                List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(stateAbbrevation);
+                state.setStatePrecincts(precincts);
+                for(Precinct p: precincts){
+                    Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
+                    p.setDemographic(precinctDemographic);
+                    System.out.println(p);
+                }
+                System.out.println("Finished getting " + stateAbbrevation + " precincts");
+                isStatePrecinctsLoaded = true;
+            }
+        }).start();
     }
 
     public String getJob(Integer jobID){
@@ -160,11 +187,29 @@ public class ServerService {
         return clientData;
     }
 
-    public String getDemographicFilter(Integer jobID, String planID, List <CensusCatagories> censusCategory){
-        Job currentJob = session.getJobByID(jobID);
-        Plan plan = currentJob.getPlanByID(planID);
-        System.out.println(censusCategory);
-        return "getBoundries";
+
+    public String getDemographicHeatmap(String censusEthnicity){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        System.out.println(censusEthnicity);
+        try{
+            State state = session.getState();
+            File heatmapFile = state.getDemographicHeatMap(censusEthnicity);
+            JsonNode heatmapNode = mapper.readTree(heatmapFile);
+            clientData = createClient_Data(heatmapNode);
+
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+
+        return clientData;
+    }
+
+    private void waitForLoadedPrecincts(){
+        while(!isStatePrecinctsLoaded){
+            System.out.println("Waiting For Precincts");
+        }
+        System.out.println("Precincts Loaded");
+
     }
 
     public String getPrecincts(){
@@ -203,7 +248,6 @@ public class ServerService {
     }
 
 
-
     public String getPlan(Integer jobID, String planID){
         Job currentJob = session.getJobByID(jobID);
         Plan plan = currentJob.getPlanByID(planID);
@@ -230,8 +274,9 @@ public class ServerService {
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
             State currentState = session.getState();
-            job.setStateAbbrev(currentState.getStateAbbreviation());
+            job.setState(currentState);
             jobDAO.addJob(job);
+
 //            String algorithmInputContents = createAlgorithmData(currentState, job);
 //            createJobDirectory(job.getJobName(), algorithmInputContents);
 //            initiateAlgorithm(job);
@@ -250,7 +295,7 @@ public class ServerService {
 
     private void initiateAlgorithm(Job job){
         System.out.println("Initiating Algorithm... Creating Thread");
-        AlgorithmInterface algorithmInterface = new AlgorithmInterface(job, session.getState(), runAlgoLocally);
+        AlgorithmInterface algorithmInterface = new AlgorithmInterface("carlopez", job, runAlgoLocally);
         algorithmInterface.start();
     }
 
@@ -260,8 +305,10 @@ public class ServerService {
     }
 
     public void cancelJob(Integer jobID){
+        //TODO: Confirm if we are deleting a job if we cancel it. TBD...
+        // Leaning towards deleting it. Check up Danny
         Job job = session.getJobByID(jobID);
-        job.setStatus(JobStatus.CANCELED);
+        job.setStatus(JobStatus.CANCELLED);
         jobDAO.updateJob(job);
     }
 

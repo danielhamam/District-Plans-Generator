@@ -90,11 +90,23 @@ public class State {
 
     @Transient
     @JsonIgnore
+    private File precinctsCoordinatesFile;
+
+    @Transient
+    @JsonIgnore
+    private JsonNode precinctsCoordinatesJson;
+
+    @Transient
+    @JsonIgnore
     private FeatureCollection precinctsGeoJson;
 
     @Transient
     @JsonIgnore
     private FeatureCollection stateGeoJson;
+
+    @Transient
+    @JsonIgnore
+    private ObjectMapper mapper = new ObjectMapper();
 
 
     //Neccessary for JPA
@@ -126,18 +138,27 @@ public class State {
         }
     }
 
-    private void createPrecinctFile(){
+    private void createPrecinctFile()throws IOException{
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
         String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
         precinctsFile = new File(precinctFilePathAbsolutePath);
+        precinctsGeoJson = mapper.readValue(precinctsFile, FeatureCollection.class);
     }
 
-    private void createAlgorithmPrecinctFile(){
+    private void createAlgorithmPrecinctFile()throws IOException{
         String algoPrecinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/AlgorithmPrecincts.json";
         String algoPrecinctFilePathAbsolutePath = new File(algoPrecinctFilePath).getAbsolutePath();
         algorithmPrecinctsFile = new File(algoPrecinctFilePathAbsolutePath);
+        algorithmPrecinctsJson = mapper.readTree(algorithmPrecinctsFile);
+    }
+
+    private void createPrecinctsCoordinateFile()throws IOException{
+        String precinctsCoordinatesPath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/PrecinctsCoordinates.json";
+        String precinctsCoordinatesAbsolutePath = new File(precinctsCoordinatesPath).getAbsolutePath();
+        precinctsCoordinatesFile = new File(precinctsCoordinatesAbsolutePath);
     }
 
 
@@ -149,14 +170,38 @@ public class State {
             enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
             createPrecinctFile();
             createAlgorithmPrecinctFile();
-            precinctsGeoJson = new ObjectMapper().readValue(precinctsFile, FeatureCollection.class);
-            algorithmPrecinctsJson = new ObjectMapper().readTree(algorithmPrecinctsFile);
-            //algorithmPrecinctsJson = FileUtils.readFileToString(algorithmPrecinctsFile, StandardCharsets.UTF_8);
-
         }
         catch(IOException error){
             error.printStackTrace();
         }
+    }
+
+    public File getDemographicHeatMap(String censusEthnicity){
+        String filename = "other.json";
+        switch(censusEthnicity) {
+            case "White":
+                filename = "white.json";
+                break;
+            case "Black or African American":
+                filename = "black.json";
+                break;
+            case "American Indian or Alaska Native":
+                filename = "american_indian.json";
+                break;
+            case "Asian":
+                filename = "asian.json";
+                break;
+            case "Native Hawaiian or Other Pacific Islander":
+                filename = "native_hawaiian.json";
+                break;
+            case "Hispanic":
+                filename = "hispanic.json";
+                break;
+        }
+        String heatmapFilePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/heatmap/" + filename;
+        String heatmapFileAbsolutePath = new File(heatmapFilePath).getAbsolutePath();
+        return new File(heatmapFileAbsolutePath);
     }
 
     
@@ -228,6 +273,10 @@ public class State {
 
     public void setTotalPopulation(int totalPopulation) {
         this.totalPopulation = totalPopulation;
+    }
+
+    public JsonNode getPrecinctsCoordinatesJson() {
+        return precinctsCoordinatesJson;
     }
 
     @JsonIgnore

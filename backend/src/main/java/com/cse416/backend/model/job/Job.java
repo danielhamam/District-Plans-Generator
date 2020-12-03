@@ -28,22 +28,12 @@ public class Job{
     @Id
     @GeneratedValue
     @Column(name = "jobId")
-    @JsonProperty("jobId")
+    @JsonProperty("jobID")
     private Integer generatedId;
 
     @Column(nullable=true)
     @JsonProperty("jobName")
     private String jobName;
-
-//    @JsonProperty("minorityAnalyzed")
-//    @Transient
-//    private List<CensusCatagories> minorityAnalyzedEnum;
-
-    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="stateId")
-    @JsonIgnore
-    private State state;
-
 
     @Column(name = "compactness")
     @JsonProperty("compactness")
@@ -52,16 +42,27 @@ public class Job{
     @JsonProperty("populationDifference")
     private double populationDifference;
 
-
     @Column(name = "numberOfPlans")
     @JsonProperty("plansAmount")
     private int numDistrictingPlan;
 
-    @JsonProperty("districtsAmount")
     @Column(name = "numberOfDistricts")
+    @JsonProperty("districtsAmount")
     private int numOfDistricts;
 
-    @JsonProperty
+    @Column(name = "jobStatus")
+    @JsonProperty("status")
+    private JobStatus status;
+
+    @Transient
+    @JsonProperty("minorityAnalyzed")
+    private List<CensusCatagories> minorityAnalyzedEnumration;
+
+    @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
+    @JsonProperty("districtPlans")
+    private List<Plan> clientDistrictingPlans;
+
     @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @JoinTable(
@@ -69,63 +70,52 @@ public class Job{
             joinColumns = @JoinColumn(name = "jobId"),
             inverseJoinColumns = @JoinColumn(name = "censusEthnicityId")
     )
+    @JsonIgnore
     private List<CensusEthnicity> minorityAnalyzed;
 
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="stateId")
     @JsonIgnore
-    @Column(name = "jobStatus")
-    private JobStatus status;
+    private State state;
 
-    @JsonProperty("status")
     @Transient
-    private String clientStatus;
-
     @JsonIgnore
-    @Transient
     private Plan averageDistrictPlan;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private Plan extremeDistrictPlan;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private Plan randomDistrictPlan;
 
-    @JsonProperty("districtPlans")
-    @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
-    private List<Plan> clientDistrictingPlans;
-
-    @JsonIgnore
     @Transient
-    private String stateAbbrev;
-
     @JsonIgnore
-    @Transient
     private int stateFIPSCode;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private int averagePlanPopulation;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private int averagePlanCompactness;
 
-    @JsonIgnore
     @Transient
-    private int seawulfJobID;
+    @JsonIgnore
+    private String seawulfJobID;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private String jobSummary;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private List <Plan> allPlans;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private BoxWhisker boxWhisker;
 
     
@@ -136,43 +126,26 @@ public class Job{
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
-                @JsonProperty("minorityAnalyzed") List<CensusEthnicity> minorityAnalyzed){
+                @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzedEnumration){
         //TODO: Format the information to be consistant with frontend and database
+        System.out.println("Job spring");
         this.jobName = jobName;
+        this.seawulfJobID = "0";
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
-        this.minorityAnalyzed = minorityAnalyzed;
+        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
+        List <CensusEthnicity> censusEthnicities = new ArrayList<>();
+        minorityAnalyzedEnumration.forEach(
+                e -> censusEthnicities.add(new CensusEthnicity(e.getShortenName(), e.getFullName()))
+        );
+        this.minorityAnalyzed = censusEthnicities;
         this.status = JobStatus.PENDING;
-        this.clientStatus = status.getStringRepresentation();
+       // this.clientStatus = status.getStringRepresentation();
 //        for (CensusCatagories censusCatagories : minorityAnalyzed) {
 //            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
 //        }
-    }
-    
-    public Job(String stateAbbrev, String jobName, int seawulfJobID, int numOfDistricts,
-               int numDistrictingPlan, double populationDifference, ClientCompactness clientCompactness,
-               List<CensusCatagories> minorityAnalyzed, JobStatus status, BoxWhisker boxWhisker){
-        this.stateAbbrev = stateAbbrev;
-        this.jobName = jobName;
-        this.seawulfJobID = seawulfJobID;
-        this.numOfDistricts = numOfDistricts;
-        this.numDistrictingPlan = numDistrictingPlan;
-        this.clientCompactness = clientCompactness;
-        this.populationDifference = populationDifference;
-        // this.minorityAnalyzed = minorityAnalyzed;
-        this.status = status;
-        this.boxWhisker = boxWhisker;
-    }
-
-
-    public String getStateAbbrev() {
-        return stateAbbrev;
-    }
-
-    public void setStateAbbrev(String stateAbbrev) {
-        this.stateAbbrev = stateAbbrev;
     }
 
     public Integer getJobID() {
@@ -183,6 +156,14 @@ public class Job{
         this.generatedId = jobID;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public JobStatus getStatus() {
         return status;
     }
@@ -191,11 +172,11 @@ public class Job{
         this.status = status;
     }
 
-    public int getSeawulfJobID() {
+    public String getSeawulfJobID() {
         return seawulfJobID;
     }
 
-    public void setSeawulfJobID(int seawulfJobID) {
+    public void setSeawulfJobID(String seawulfJobID) {
         this.seawulfJobID = seawulfJobID;
     }
 
@@ -239,77 +220,7 @@ public class Job{
         this.populationDifference = populationDifference;
     }
 
-    // public List<CensusCatagories> getminorityAnalyzed() {
-    //     return minorityAnalyzed;
-    // }
-
-    // public void setminorityAnalyzed(List<CensusCatagories> minorityAnalyzed) {
-    //     this.minorityAnalyzed = minorityAnalyzed;
-    // }
-
-
-    public String getJobSummary() {
-        return jobSummary;
-    }
-
-    public void setJobSummary(String jobSummary) {
-        this.jobSummary = jobSummary;
-    }
-
-    public List<Plan> getAllPlans() {
-        return allPlans;
-    }
-
-    public void setAllPlans(List<Plan> allDistrictingPlan) {
-        this.allPlans = allDistrictingPlan;
-    }
-
-
-    public Plan getAverageDistrictPlan() {
-        return averageDistrictPlan;
-    }
-
-    public void setAverageDistrictPlan(Plan averageDistrictPlan) {
-        this.averageDistrictPlan = averageDistrictPlan;
-    }
-
-    public Plan getExtremeDistrictPlan() {
-        return extremeDistrictPlan;
-    }
-
-    public void setExtremeDistrictPlan(Plan extremeDistrictPlan) {
-        this.extremeDistrictPlan = extremeDistrictPlan;
-    }
-
-    public Plan getRandomDistrictPlan() {
-        return randomDistrictPlan;
-    }
-
-    public void setRandomDistrictPlan(Plan randomDistrictPlan) {
-        this.randomDistrictPlan = randomDistrictPlan;
-    }
-
-    public int getAveragePlanPopulation() {
-        return averagePlanPopulation;
-    }
-
-    public void setAveragePlanPopulation(int averagePlanPopulation) {
-        this.averagePlanPopulation = averagePlanPopulation;
-    }
-
-    public int getAveragePlanCompactness() {
-        return averagePlanCompactness;
-    }
-
-    public void setAveragePlanCompactness(int averagePlanCompactness) {
-        this.averagePlanCompactness = averagePlanCompactness;
-    }
-
-    public void setClientDistrictingPlans(List<Plan> plans){
-        this.clientDistrictingPlans = plans;
-
-    }
-
+    @JsonIgnore
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){
             return averageDistrictPlan;
@@ -327,10 +238,6 @@ public class Job{
 
     }
 
-    public String getClientStatus() {
-        return clientStatus;
-    }
-
     public void processAlgorithmOutput(File algorithmOutputFile){
         //Create ObjectMapper object
         try{
@@ -339,6 +246,7 @@ public class Job{
             JsonNode plansNode = rootNode.get("districtings");
             allPlans = mapper.readValue(plansNode.asText(),
                     mapper.getTypeFactory().constructCollectionType(List.class, Plan.class));
+
 
         }
         catch (IOException error){
@@ -361,23 +269,23 @@ public class Job{
     @Override
     public String toString() {
         return "Job{" +
-                "stateAbbrev='" + stateAbbrev + '\'' +
-                ", seawulfJobID=" + seawulfJobID +
                 ", jobName='" + jobName + '\'' +
-                ", numOfDistricts=" + numOfDistricts +
-                ", numDistrictingPlan=" + numDistrictingPlan +
+                ", state='" + state.getStateAbbreviation() + " Object" + '\'' +
+                ", jobID=" + generatedId +
+                ", seawulfJobID=" + seawulfJobID +
+                ", status=" + status +
                 ", clientCompactness=" + clientCompactness +
                 ", populationDifference=" + populationDifference +
-                ", minorityAnalyzed=" + minorityAnalyzed +
-                ", status=" + status +
+                ", numOfDistricts=" + numOfDistricts +
+                ", numDistrictingPlan=" + numDistrictingPlan +
                 ", jobSummary='" + jobSummary + '\'' +
                 ", allPlans=" + allPlans +
-
                 ", averageDistrictPlan=" + averageDistrictPlan +
                 ", extremeDistrictPlan=" + extremeDistrictPlan +
                 ", randomDistrictPlan=" + randomDistrictPlan +
                 ", averagePlanPopulation=" + averagePlanPopulation +
                 ", averagePlanCompactness=" + averagePlanCompactness +
+                ", minorityAnalyzed=" + minorityAnalyzed +
                 '}';
     }
 }
