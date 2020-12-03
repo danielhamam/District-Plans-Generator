@@ -34,11 +34,12 @@ public class AlgorithmInterface implements Runnable {
             StringBuilder builder = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
+                builder.append("\t\t");
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));
             }
             String result = builder.toString();
-            System.out.format("\t\t\t%s\n", result);
+            System.out.format("Process:\n%s\n", result);
         } catch (IOException e) {
             e.printStackTrace();
         }

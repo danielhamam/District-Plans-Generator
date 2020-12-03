@@ -275,11 +275,11 @@ public class ServerService {
         try{
             State currentState = session.getState();
             job.setState(currentState);
-//            jobDAO.addJob(job);
+            jobDAO.addJob(job);
 
-            String algorithmInputContents = createAlgorithmData(currentState, job);
-            createJobDirectory(job.getJobName(), algorithmInputContents);
-            initiateAlgorithm(job);
+//            String algorithmInputContents = createAlgorithmData(currentState, job);
+//            createJobDirectory(job.getJobName(), algorithmInputContents);
+//            initiateAlgorithm(job);
 
             clientData = createClient_Data(job);
         }catch(IOException error){
