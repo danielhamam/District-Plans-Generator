@@ -5,11 +5,11 @@ import json
 from copy import deepcopy
 import argparse
 
-num_districts = 3
+num_districts = 10
 num_precincts = 30
 compactness_measure = ''
 population_variance = 0
-termination_limit = 5
+termination_limit = 50
 ideal_population = 15
 compactness_lower_bound = 0.1
 compactness_upper_bound = 1.3
@@ -73,7 +73,17 @@ def removeGhostPrecincts():
 
     ghost_precincts = []
     counter = 0
-    ghost_precincts_2 = []
+    # ghost_precincts_2 = []
+
+    # list_empty = False
+
+    # while not list_empty:
+    # for precinct in graph_main:
+    #     if graph_main[precinct]["neighbors"] == []:
+    #         ghost_precincts.append(precinct)
+
+
+    #     if not ghost
 
 
     for precinct in graph_main:
@@ -84,16 +94,16 @@ def removeGhostPrecincts():
         del graph_main[precinct]
         counter = counter + 1
 
-    for precinct in ghost_precincts:
-        for i in graph_main:
-            if precinct in graph_main[i]["neighbors"]: # If reference to this ghost precinct found
-                graph_main[i]["neighbors"].remove(precinct)
-                if graph_main[i]["neighbors"] == []: # Recheck if it is empty
-                    ghost_precincts_2.append(i)
+    # for precinct in ghost_precincts:
+    #     for i in graph_main:
+    #         if precinct in graph_main[i]["neighbors"]: # If reference to this ghost precinct found
+    #             graph_main[i]["neighbors"].remove(precinct)
+    #             if graph_main[i]["neighbors"] == []: # Recheck if it is empty
+    #                 ghost_precincts_2.append(i)
     
-    for precinct in ghost_precincts_2:
-        del graph_main[precinct]
-        counter = counter + 1
+    # for precinct in ghost_precincts_2:
+    #     del graph_main[precinct]
+    #     counter = counter + 1
 
     print("GHOST PRECINCTS REMOVED: " + str(counter))
         
@@ -115,6 +125,7 @@ def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
     neighbor_neighbors = neighbors.get(str(found_neighbor))
     old_subgraph_neighbors = neighbors.get(str(old_subgraph))
     combined_neighbors = old_subgraph_neighbors + neighbor_neighbors
+    # combined_neighbors = list(set(combined_neighbors))
 
     # Remove themselves from combined neighbors
     delete_items = [] # to avoid skipping values
@@ -158,13 +169,57 @@ def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
         for item in delete_items: # do this after to avoid skipping in previous for loop
             values.remove(item)
     return
+
+
+def updateNeighbors2(found_neighbor, old_subgraph, new_subgraph):
+    global neighbors, subgraphs
+
+    if (type(found_neighbor) == str):
+        found_neighbor = found_neighbor.split(', ') # turn string into list (for first iteration)
+
+    neighbor_neighbors = neighbors.get(str(found_neighbor))
+    old_subgraph_neighbors = neighbors.get(str(old_subgraph))
+
+    # Combine the neighbors of both subgraphs
+    combined_neighbors = []
+    for neighbor in neighbor_neighbors:
+        if neighbor not in combined_neighbors and neighbor != found_neighbor and neighbor != old_subgraph and neighbor not in found_neighbor and neighbor not in old_subgraph:
+            combined_neighbors.append(neighbor)
+    for neighbor in old_subgraph_neighbors:
+        if neighbor not in combined_neighbors and neighbor != found_neighbor and neighbor != old_subgraph and neighbor not in found_neighbor and neighbor not in old_subgraph:
+            combined_neighbors.append(neighbor)
     
+    # Remove current subgraphs from list neighbors
+    neighbors.pop(str(found_neighbor))
+    neighbors.pop(str(old_subgraph))
+
+    # Add new subgraph to list neighbors
+    neighbors[str(new_subgraph)] = combined_neighbors
+    
+    for key in neighbors:
+        values = neighbors.get(key)
+        edited_value = 0 # 1 if we already edited
+        delete_items = [] # to NOT SKIP VALUES
+        for value in values: # note that it adds the value and is then forced to go into it
+            value_list = value
+            if (type(value) == str):
+                value_list = value_list.split(', ') # Convert it to list
+            if value_list == old_subgraph or value_list == found_neighbor:
+                delete_items.append(value)
+                if edited_value == 0: # if we haven't added it already
+                    values.append(new_subgraph)
+                    edited_value = 1
+        for item in delete_items: # do this after to avoid skipping in previous for loop
+            values.remove(item)
+
+    return
+
+
 # (1) Algorithm
 
 def algorithmDriver(graph):
     global neighbors, subgraphs, num_districts, termination_limit
     initial_subgraphs = list(graph.keys()) # takes precinct key
-
     # Convert into list of lists
     for sub in initial_subgraphs:
         sub = sub.split(', ')
@@ -173,6 +228,8 @@ def algorithmDriver(graph):
         precincts.append(sub2)
 
     # Initialize neighbors from graph
+    
+    # print(graph.values())
     for i in range(len(list(graph.values()))):
         key = subgraphs[i] # get key
         value = list(graph.values())[i]['neighbors'] # get value
@@ -190,6 +247,10 @@ def algorithmDriver(graph):
             findCombine(graph, subgraph)
             if len(subgraphs) == num_districts:
                 break
+    counter = 0
+    for i in subgraphs:
+        for j in i:
+            counter = counter + 1
 
     # Print the subgraphs out
     counter = 1
@@ -224,7 +285,7 @@ def algorithmDriver(graph):
 
 def algorithm(graph):
     print("---------------------------------")
-    print(graph)
+    # print(graph)
     global subgraphs, neighbors, precincts, precinct_neighbors, subgraphs_combined
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
@@ -250,7 +311,7 @@ def algorithm(graph):
             subgraphs_combined.append(j)
 
     # Let's also combine the neighbors of these subgraphs 
-    updateNeighbors(random_neighbor, random_subgraph, subgraphs_combined)
+    updateNeighbors2(random_neighbor, random_subgraph, subgraphs_combined)
 
     # DELETE THEM FROM THE SUBGRAPHS LIST
     if type(random_neighbor) == str:
@@ -286,12 +347,14 @@ def algorithm(graph):
 
     print(("Cutting at edge: " + str(target_cut)))
 
-    return cutAcceptable(acceptable_edges, target_cut)
+    cutAcceptable(acceptable_edges, target_cut)
+    return
+    # return cutAcceptable2(acceptable_edges, target_cut, acceptable_edges)
 
 
 def generateSpanningTreeBFS():
-    global subgraphs, neighbors, precincts, precinct_neighbors, subgraphs_combined
-    # DFS for combined subgraph (spanning tree)
+    global precinct_neighbors, subgraphs_combined
+    # BFS for combined subgraph (spanning tree)
     random_start = random.choice(subgraphs_combined) # randomly select a start
     visited = [random_start]
     queue = [random_start]
@@ -299,11 +362,10 @@ def generateSpanningTreeBFS():
     current_node = random_start
     # while len(visited) < len(precincts):
     while queue:
-        pop_queue = True
+        # pop_queue = True
+        current_node = queue.pop(0)
         neighbors_precinct = precinct_neighbors.get(str(current_node.split(', '))) # get neighbors of currently selected precinct
         # current_node_neighbors = neighbors.get(str(current_node))
-
-        # queue.pop(0)
 
         for node in subgraphs_combined:
             if node not in visited and node in neighbors_precinct:
@@ -319,26 +381,22 @@ def generateSpanningTreeBFS():
                     vertex_two = vertex_two.split(', ')
                 new_list = vertex_one + vertex_two
                 edges.append(new_list) # assume creates edge
-                current_node = node
-                pop_queue = False
-                break
-        if pop_queue: # go back
-            if queue:
-                current_node = queue.pop(0)
-                # stack.pop()
+
     spanning_tree = { "visited": visited, "edges": edges}
     # print("\n" + str(spanning_tree))
     return spanning_tree
 
+
 def cutAcceptable(acceptable_edges, target_cut):
     global subgraphs_combined, subgraphs, neighbors, num_of_cut_edges
-
+    
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
     total_population_one = 0 # Total population of new subgraph 1
     total_population_two = 0 # Total population of new subgraph 2
     compactness_one = 0.4 # Compactness of new subgraph 1
     compactness_two = 0.4 # Compactness of new subgraph 2
+
 
     precinct_one = target_cut[0]
     precinct_two = target_cut[1]
@@ -398,10 +456,15 @@ def cutAcceptable(acceptable_edges, target_cut):
 
     return subgraph_one, subgraph_two
 
+
 def reinitializeNeighbors():
     global subgraphs, neighbors, precinct_neighbors
     # print("subgraphs: " + str(subgraphs))
+
     neighbors = {}
+    for subgraph in subgraphs:
+        neighbors[str(subgraph)] = []
+
     for subgraph in subgraphs: # for every subgraph
         for node in subgraph: # for every node
             node_neighbors = precinct_neighbors.get(str(node.split(', '))) # node in list format
@@ -409,12 +472,13 @@ def reinitializeNeighbors():
                 if neighbor not in subgraph:
                     # find which subgraph the neighbor is in, and set neighbors
                     for subgraph2 in subgraphs:
+                        
                         if neighbor in subgraph2:
-                            if str(subgraph) in neighbors and subgraph2 not in neighbors[str(subgraph)]:
+                            if subgraph2 not in neighbors[str(subgraph)]:
                                 neighbors[str(subgraph)].append(subgraph2)
-                            else:
-                                neighbors[str(subgraph)] = []
-                                neighbors[str(subgraph)].append(subgraph2)
+                                if subgraph not in neighbors[str(subgraph2)]:
+                                    neighbors[str(subgraph2)].append(subgraph)
+
 
 def checkAcceptability(spanning_tree, subgraphs_combined, graph):
     global ideal_population
@@ -523,7 +587,7 @@ def findCombine(graph, subgraph):
     subgraphs.pop(neighbor_index) # delete it from subgraphs dictionary
 
     # UPDATE THE REFERENCES OF THIS NEIGHBOR
-    updateNeighbors(random_neighbor, old_subgraph, new_list) 
+    updateNeighbors2(random_neighbor, old_subgraph, new_list) 
     return
 
 def parser():
@@ -568,19 +632,20 @@ def convertToOutput():
 
 
 def main():
-    global graph_main
+    global graph_main, neighbors, subgraphs
     infile = 0
     parse = parser() # Initiates parser
     infile = parse.parse_args().infile[0] # Sets up parser
     getData(infile) # Retrieves data from JSON
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
+    
     algorithmDriver(graph_main) # Main function
     # convertToOutput() # Converts to output format 
 
     global num_of_cut_edges
     print(num_of_cut_edges)
-    global subgraphs
-    print(subgraphs)
+    # global subgraphs
+    # print(subgraphs)
     return
 
 if __name__ == "__main__":
