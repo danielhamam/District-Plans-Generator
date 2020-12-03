@@ -188,39 +188,14 @@ public class ServerService {
     }
 
 
-    public String getDemographicHeatmap(List <String> censusEthnicity){
+    public String getDemographicHeatmap(String censusEthnicity){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         System.out.println(censusEthnicity);
         try{
             State state = session.getState();
-            JsonNode precinctCoordinateNode = state.getPrecinctsCoordinatesJson();
-            List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(state.getStateAbbreviation());
-            ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
-            long maxDemographicPopulation = 0;
-            for(Precinct p: precincts){
-                Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
-                precinctCoordinateNode.get(p.getPrecinctFIPSCode());
-                ArrayNode coordinatesNode = (ArrayNode) precinctCoordinateNode.get(p.getPrecinctFIPSCode());
-                long sum = 0;
-                for(String ethnicity:censusEthnicity){
-                    sum += precinctDemographic.getPopulationFromString(ethnicity);
-                }
-                if(maxDemographicPopulation < sum){
-                    maxDemographicPopulation = sum;
-                }
-
-                for(JsonNode node: coordinatesNode){
-                    ArrayNode coordinateNode = (ArrayNode) node;
-                    coordinateNode.add(""+ (sum+1));
-                }
-                arrayNode.addAll(coordinatesNode);
-
-            }
-            System.out.println(arrayNode.size());
-            HashMap <String, Object> demographicHeatmap = new HashMap<>(1);
-            demographicHeatmap.put("demographicHeatmap", arrayNode);
-            demographicHeatmap.put("maxDemographicPopulation", maxDemographicPopulation);
-            clientData = createClient_Data(demographicHeatmap);
+            File heatmapFile = state.getDemographicHeatMap(censusEthnicity);
+            JsonNode heatmapNode = mapper.readTree(heatmapFile);
+            clientData = createClient_Data(heatmapNode);
 
         }catch(Exception error){
             error.printStackTrace();
@@ -300,11 +275,11 @@ public class ServerService {
         try{
             State currentState = session.getState();
             job.setState(currentState);
-            jobDAO.addJob(job);
+//            jobDAO.addJob(job);
 
-//            String algorithmInputContents = createAlgorithmData(currentState, job);
-//            createJobDirectory(job.getJobName(), algorithmInputContents);
-//            initiateAlgorithm(job);
+            String algorithmInputContents = createAlgorithmData(currentState, job);
+            createJobDirectory(job.getJobName(), algorithmInputContents);
+            initiateAlgorithm(job);
 
             clientData = createClient_Data(job);
         }catch(IOException error){
@@ -320,7 +295,7 @@ public class ServerService {
 
     private void initiateAlgorithm(Job job){
         System.out.println("Initiating Algorithm... Creating Thread");
-        AlgorithmInterface algorithmInterface = new AlgorithmInterface(job, session.getState(), runAlgoLocally);
+        AlgorithmInterface algorithmInterface = new AlgorithmInterface("carlopez", job, runAlgoLocally);
         algorithmInterface.start();
     }
 
@@ -333,7 +308,7 @@ public class ServerService {
         //TODO: Confirm if we are deleting a job if we cancel it. TBD...
         // Leaning towards deleting it. Check up Danny
         Job job = session.getJobByID(jobID);
-        job.setStatus(JobStatus.CANCELED);
+        job.setStatus(JobStatus.CANCELLED);
         jobDAO.updateJob(job);
     }
 

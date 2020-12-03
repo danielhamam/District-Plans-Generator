@@ -61,10 +61,8 @@ public class ClientController {
     }
 
 
-    @PostMapping(path = "/heatmap", produces = "application/json")
-    public String getDemographicHeatmap(@RequestBody Map <String,List> mapping){
-        String jsonKey = "names";
-        List censusEthnicity = (List)mapping.get(jsonKey);
+    @PostMapping(path = "/heatmap/{censusEthnicity}", produces = "application/json")
+    public String getDemographicHeatmap(@PathVariable String censusEthnicity){
         return service.getDemographicHeatmap(censusEthnicity);
     }
 

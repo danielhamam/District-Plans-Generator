@@ -69,11 +69,32 @@ def writeHeatMapFilesToStates():
                     
                 except Exception:
                     precinct_demographic = 1
-                fill_opacity = (precinct_demographic/average_population) - 0.5
-                properties.setdefault('fillColor', 'blue')
-                properties.setdefault('fillOpacity', fill_opacity)
+                properties.setdefault('fillColor', fillcolor_heatmap(precinct_demographic, average_population)) 
             writeToFile(data, backendpath)
             
+def fillcolor_heatmap(precinct_demographic, average_population):
+    fillColor = "hsl(180, 5%, 64%)"  
+    if (precinct_demographic <= average_population * 0.09): fillColor = "hsl(180, 5%, 64%)"   
+    if (precinct_demographic >= average_population * 0.1 and precinct_demographic < average_population * 0.2): fillColor = "hsl(180, 10%, 64%)"
+    if (precinct_demographic >= average_population * 0.2 and precinct_demographic < average_population * 0.3): fillColor = "hsl(180, 16%, 64%)"
+    if (precinct_demographic >= average_population * 0.3 and precinct_demographic < average_population * 0.4): fillColor = "hsl(180, 22%, 64%)"
+    if (precinct_demographic >= average_population * 0.4 and precinct_demographic < average_population * 0.5): fillColor = "hsl(180, 27%, 64%)"
+    if (precinct_demographic >= average_population * 0.5 and precinct_demographic < average_population * 0.6): fillColor = "hsl(180, 32%, 64%)"
+    if (precinct_demographic >= average_population * 0.6 and precinct_demographic < average_population * 0.7): fillColor = "hsl(180, 38%, 64%)"
+    if (precinct_demographic >= average_population * 0.7 and precinct_demographic < average_population * 0.8): fillColor = "hsl(180, 43%, 64%)"
+    if (precinct_demographic >= average_population * 0.8 and precinct_demographic < average_population * 0.95): fillColor = "hsl(180, 49%, 64%)"
+    if (precinct_demographic >= average_population * 0.95 and precinct_demographic <= average_population * 1.05): fillColor ="hsl(180, 50%, 64%)"
+    if (precinct_demographic >= average_population * 1.06 and precinct_demographic < average_population * 1.1): fillColor = "hsl(180, 55%, 64%)"
+    if (precinct_demographic >= average_population * 1.1 and precinct_demographic < average_population * 1.2): fillColor = "hsl(180, 60%, 64%)"
+    if (precinct_demographic >= average_population * 1.2 and precinct_demographic < average_population * 1.3): fillColor = "hsl(180, 66%, 64%)"
+    if (precinct_demographic >= average_population * 1.3 and precinct_demographic < average_population * 1.4): fillColor = "hsl(180, 72%, 64%)"
+    if (precinct_demographic >= average_population * 1.4 and precinct_demographic < average_population * 1.5): fillColor = "hsl(180, 77%, 64%)"
+    if (precinct_demographic >= average_population * 1.5 and precinct_demographic < average_population * 1.6): fillColor = "hsl(180, 82%, 64%)"
+    if (precinct_demographic >= average_population * 1.6 and precinct_demographic < average_population * 1.7): fillColor = "hsl(180, 88%, 64%)"
+    if (precinct_demographic >= average_population * 1.7 and precinct_demographic < average_population * 1.8): fillColor = "hsl(180, 93%, 64%)"
+    if (precinct_demographic >= average_population * 1.8 and precinct_demographic < average_population * 1.9): fillColor = "hsl(180, 97%, 64%)"
+    if (precinct_demographic >= average_population * 1.9): fillColor = "hsl(180, 100%, 64%)" 
+    return fillColor
 
 
 

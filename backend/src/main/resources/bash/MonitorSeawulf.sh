@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 NETID=$1
-JOBNAME=$2
-JOBID=$3
-SEAWULF_JOBFILE=temp.txt
+JOB_DIR_PATH=$2
+JOBNAME=$3
+JOB_SEAWULF_ID=$4
+FILE_TO_TRANSFER1=temp1.txt
+FILE_TO_TRANSFER2=temp2.txt
 
-echo ${JOBID} > ${SEAWULF_JOBFILE}
-scp ${SEAWULF_JOBFILE} ${NETID}@login.seawulf.stonybrook.edu:./
-rm -v ${SEAWULF_JOBFILE}
+#Create file, send file, remove file
+echo ${JOB_SEAWULF_ID} > ${FILE_TO_TRANSFER1}
+scp ${FILE_TO_TRANSFER1} ${NETID}@login.seawulf.stonybrook.edu:./
+rm -v ${FILE_TO_TRANSFER1}
+
+#Create file, send file, remove file
+echo ${JOBNAME} > ${FILE_TO_TRANSFER2}
+scp ${FILE_TO_TRANSFER2} ${NETID}@login.seawulf.stonybrook.edu:./
+rm -v ${FILE_TO_TRANSFER2}
+
+
 ssh ${NETID}@login.seawulf.stonybrook.edu '
 pwd;
-./servermonitorslurm.sh carlopez
+./monitorjob.sh
 '
-scp ${NETID}@login.seawulf.stonybrook.edu:./${SEAWULF_JOBFILE} ./
-ssh ${NETID}@login.seawulf.stonybrook.edu '
-./rmtempfile.sh
-'
-cat ${SEAWULF_JOBFILE}
-rm -v ${SEAWULF_JOBFILE}
+scp ${NETID}@login.seawulf.stonybrook.edu:./jobs/${JOBNAME}/monitor.txt ${JOB_DIR_PATH}/${JOBNAME}/

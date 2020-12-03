@@ -104,7 +104,7 @@ public class Job{
 
     @Transient
     @JsonIgnore
-    private int seawulfJobID;
+    private String seawulfJobID;
 
     @Transient
     @JsonIgnore
@@ -130,6 +130,7 @@ public class Job{
         //TODO: Format the information to be consistant with frontend and database
         System.out.println("Job spring");
         this.jobName = jobName;
+        this.seawulfJobID = "0";
         this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
@@ -171,11 +172,11 @@ public class Job{
         this.status = status;
     }
 
-    public int getSeawulfJobID() {
+    public String getSeawulfJobID() {
         return seawulfJobID;
     }
 
-    public void setSeawulfJobID(int seawulfJobID) {
+    public void setSeawulfJobID(String seawulfJobID) {
         this.seawulfJobID = seawulfJobID;
     }
 
