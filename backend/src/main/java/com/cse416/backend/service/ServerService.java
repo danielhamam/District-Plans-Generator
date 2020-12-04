@@ -231,12 +231,11 @@ public class ServerService {
     }
 
 
-    public String getPrecinctDemographic(String name){
+    public String getPrecinctDemographic(String fips){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Precinct precinct =  precinctDAO.getPrecinctByName(name);
+            Precinct precinct =  precinctDAO.getPrecinctByFIPSCode(fips);
             Demographic demographic =  demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());
-            System.out.println(demographic);
             clientData = this.createClient_Data(demographic);
 
         }catch(NoSuchElementException|JsonProcessingException error){
