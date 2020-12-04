@@ -19,211 +19,1020 @@
                             "population":10,
                             "neighbors": [
                                 "001", "002"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "000",
+                                "stateId": "MD"
+                              }
                         },
                         "001": {
                             "population":10,
                             "neighbors": [
                                 "000", "003"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "001",
+                                "stateId": "MD"
+                              }
                         },
                         "002":{
                             "population":10,
                             "neighbors": [
                                 "000", "003"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "002",
+                                "stateId": "MD"
+                              }
                         },
                         "003": {
                             "population":10,
                             "neighbors": [
                                 "001", "002", "004"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "003",
+                                "stateId": "MD"
+                              }
                         },
                         "004":{
                             "population":10,
                             "neighbors": [
                                "003", "005"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "004",
+                                "stateId": "MD"
+                              }
                         },
                          "005":{
                             "population":10,
                             "neighbors": [
-                               "004", "006", "007", "008"
-                            ]
+                               "004", "007", "008"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "005",
+                                "stateId": "MD"
+                              }
                         },
                         "006":{
                            "population":10,
                            "neighbors": [
-                              "005", "007"
-                           ]
+                              
+                           ],
+                           "demographic": {
+                            "total": 6519,
+                            "white": 5741,
+                            "black": 379,
+                            "american_indian": 20,
+                            "asian": 83,
+                            "hispanic": 189,
+                            "native_hawaiian": 0,
+                            "other": 7,
+                            "multiple": 100,
+                            "vap": 5103,
+                            "white_vap": 4556,
+                            "black_vap": 297,
+                            "hispanic_vap": 133,
+                            "american_indian_vap": 15,
+                            "asian_vap": 61,
+                            "native_hawaiian_vap": 0,
+                            "other_vap": 4,
+                            "multiple_vap": 37,
+                            "state": null,
+                            "district": null,
+                            "county": null,
+                            "precinct": "006",
+                            "stateId": "MD"
+                          }
                         },
                         "007":{
                             "population":10,
                             "neighbors": [
-                                "005", "006", "008"
-                            ]
+                                "005", "008"
+                            ],
+                            "demographic": {
+                                
+                              }
                         },
                         "008":{
                             "population":10,
                             "neighbors": [
                                 "005", "007", "009", "010"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "008",
+                                "stateId": "MD"
+                              }
                         },
                         "009":{
                             "population":10,
                             "neighbors": [
                                "008", "010", "011", "016"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "009",
+                                "stateId": "MD"
+                              }
                         },
                         "010":{
                             "population":10,
                             "neighbors": [
-                                "008", "009", "011", "012", "013"
-                            ]
+                                "008", "009", "011", "012"
+                            ],
+                            "demographic": {
+                                
+                              }
                         },
                         "011":{
                             "population":10,
                             "neighbors": [
-                               "009", "010", "012", "015", "016"
-                            ]
+                               "009", "010", "012", "016"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "011",
+                                "stateId": "MD"
+                              }
                         },
                         "012":{
                             "population":10,
                             "neighbors": [
-                               "010", "011", "013", "014" 
-                            ]
+                               "010", "011", "014" 
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "012",
+                                "stateId": "MD"
+                              }
                         },
                         "013":{
                             "population":10,
                             "neighbors": [
-                               "010", "012", "014", "022"
-                            ]
+                               
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "013",
+                                "stateId": "MD"
+                              }
                         },
                         "014":{
                             "population":10,
                             "neighbors": [
-                               "012", "013", "015", "018", "019", "022"
-                            ]
+                               "012", "018", "019", "022"
+                            ],
+                            "demographic": {
+                                
+                              }
                         },
                         "015":{
                             "population":10,
                             "neighbors": [
-                               "011", "014", "016", "017"
-                            ]
+                               
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "015",
+                                "stateId": "MD"
+                              }
                         },
                         "016":{
                             "population":10,
                             "neighbors": [
-                               "009", "011", "015", "017"
-                            ]
+                               "009", "011", "017"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "016",
+                                "stateId": "MD"
+                              }
                         },
                         "017":{
                             "population":10,
                             "neighbors": [
-                               "015", "016", "018"
-                            ]
+                               "016", "018"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "017",
+                                "stateId": "MD"
+                              }
                         },
                         "018":{
                             "population":10,
                             "neighbors": [
                                "014", "017", "019", "020"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "018",
+                                "stateId": "MD"
+                              }
                         },
                         "019":{
                             "population":10,
                             "neighbors": [
                                "014", "018", "020", "021"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "019",
+                                "stateId": "MD"
+                              }
                         },
                         "020":{
                             "population":10,
                             "neighbors": [
                                "018", "019", "021"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "020",
+                                "stateId": "MD"
+                              }
                         },
                         "021":{
                             "population":10,
                             "neighbors": [
                                "019", "020", "022", "023", "026"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "021",
+                                "stateId": "MD"
+                              }
                         },
                         "022":{
                             "population":10,
                             "neighbors": [
-                               "013", "014", "021", "024", "025", "034"
-                            ]
+                               "014", "021", "024", "025", "034"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "022",
+                                "stateId": "MD"
+                              }
                         },
                         "023":{
                             "population":10,
                             "neighbors": [
                                "021", "024", "026", "028"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "023",
+                                "stateId": "MD"
+                              }
                         },
                         "024":{
                             "population":10,
                             "neighbors": [
                                "022", "023", "025", "027"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "024",
+                                "stateId": "MD"
+                              }
                         },
                         "025":{
                             "population":10,
                             "neighbors": [
                                "022", "024", "027", "031"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "025",
+                                "stateId": "MD"
+                              }
                         },
                         "026":{
                             "population":10,
                             "neighbors": [
                                "021", "023", "029"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "026",
+                                "stateId": "MD"
+                              }
                         },
                         "027":{
                             "population":10,
                             "neighbors": [
                                "024", "025", "028", "030", "031"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "027",
+                                "stateId": "MD"
+                              }
                         },
                         "028":{
                             "population":10,
                             "neighbors": [
                                "023", "027", "029"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "028",
+                                "stateId": "MD"
+                              }
                         },
                         "029":{
                             "population":10,
                             "neighbors": [
                                "026", "028", "030"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "029",
+                                "stateId": "MD"
+                              }
                         },
                         "030":{
                             "population":10,
                             "neighbors": [
                                "027", "029", "031"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "030",
+                                "stateId": "MD"
+                              }
                         },
                         "031":{
                             "population":10,
                             "neighbors": [
                                "025", "027", "030", "032", "033", "034"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "031",
+                                "stateId": "MD"
+                              }
                         },
                         "032":{
                             "population":10,
                             "neighbors": [
                                "031", "033", "034"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "032",
+                                "stateId": "MD"
+                              }
                         },
                         "033":{
                             "population":10,
                             "neighbors": [
                                "031", "032", "034"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "033",
+                                "stateId": "MD"
+                              }
                         },
                         "034":{
                             "population":10,
                             "neighbors": [
                                "022", "031", "032", "033"
-                            ]
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "034",
+                                "stateId": "MD"
+                              }
                         }
                     }
                 
@@ -233,12 +1042,12 @@
                 "jobID": "1",
                 "seawulfJobID": 1,
                 "jobName": "Job 1",
-                "stateAbbrev": "NY",
+                "stateAbbrev": "MD",
                 "numOfDistrictingPlans": 10,
                 "populationDifference": 0.8,
                 "clientCompactness": 0.2,
                 "numOfDistricts": 3,
-                "focusedMinority": 2
+                "minorityAnalyzed": ["american_indian"]
             }
     }
 }
