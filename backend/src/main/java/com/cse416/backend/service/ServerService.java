@@ -195,7 +195,9 @@ public class ServerService {
             State state = session.getState();
             File heatmapFile = state.getDemographicHeatMap(censusEthnicity);
             JsonNode heatmapNode = mapper.readTree(heatmapFile);
-            clientData = createClient_Data(heatmapNode);
+            HashMap <String, Object> map = new HashMap<>();
+            map.put("precinctGeoJSON", heatmapNode);
+            clientData = createClient_Data(map);
 
         }catch(Exception error){
             error.printStackTrace();
