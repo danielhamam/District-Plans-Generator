@@ -63,10 +63,8 @@ def writeHeatMapFilesToStates():
                 try:
                     fips = properties['STATE'] + properties['COUNTY'] + properties['VTD']
                     precinct_demographic = demographic[fips][e]
-                    #print(precinct_demographic)
-                    
                 except Exception:
-                    precinct_demographic = 1
+                    precinct_demographic = 0
                 properties.setdefault('fillColor', fillcolor_heatmap(precinct_demographic, average_population)) 
             writeToFile(data, backendpath)
             
