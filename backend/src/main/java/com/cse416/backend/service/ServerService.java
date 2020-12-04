@@ -234,6 +234,7 @@ public class ServerService {
     public String getPrecinctDemographic(String fips){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
+            System.out.println(fips);
             Precinct precinct =  precinctDAO.getPrecinctByFIPSCode(fips);
             Demographic demographic =  demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());
             clientData = this.createClient_Data(demographic);
@@ -318,11 +319,5 @@ public class ServerService {
         Job job = session.deleteJob(jobID);
         jobDAO.deleteJob(job);
     }
-
-
-//    public List <Job> getStateJobsInformation(String stateAbbrev){
-//        List <Job> jobs = fake.queryGetStateJobsInformation(stateAbbrev);
-//        return jobs;
-//    }
     
 }
