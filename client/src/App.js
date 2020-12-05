@@ -11,8 +11,8 @@ import {GeoJSON} from 'react-leaflet';
 import GADistricts from './json/GEORGIA/ga_congressionalDistrict.json';
 import GAPrecincts from './json/GEORGIA/ga_precincts.json';
 
-import WhitePrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/white.json'
-import BlackPrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/black.json'
+// import WhitePrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/white.json'
+// import BlackPrecincts from './json/DEMOGRAPHIC HEAT MAP/MARYLAND/black.json'
 
 class App extends Component {
     constructor() {
@@ -287,7 +287,7 @@ class App extends Component {
             color="red" 
             key='precincts' 
             // data={res.precinctsGeoJson} 
-            data={BlackPrecincts}
+            // data={BlackPrecincts}
             onEachFeature = {this.onEachFeatureHeatMap}
             // onmouseover = {this.onEachFeature}
           />});

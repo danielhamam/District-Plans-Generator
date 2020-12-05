@@ -24,10 +24,12 @@ import javax.persistence.*;
 @Table(name="Plans")
 public class Plan{
     
-    @JsonProperty
+   
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String planID;
+    @Column(name="planId")
+    @JsonProperty
+    private Integer planID;
 
     @ManyToOne(targetEntity=Job.class, fetch = FetchType.LAZY)
     @JoinColumn(name="jobId")
@@ -49,7 +51,13 @@ public class Plan{
     private boolean isPlanEnacted;
 
     @JsonIgnore
-    @Transient
+    @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinTable(
+        name = "PlanDistricts",
+        joinColumns = @JoinColumn(name = "planId"),
+        inverseJoinColumns = @JoinColumn(name = "districtId")
+    )
     private List<District> districts;
 
     @JsonIgnore
@@ -79,7 +87,7 @@ public class Plan{
     //Neccessary for JPA
     protected Plan (){}
 
-    public Plan(String stateAbbreviation, String type, String planID, int numberOfDistricts,boolean isPlanEnacted) {
+    public Plan(String stateAbbreviation, String type, Integer planID, int numberOfDistricts,boolean isPlanEnacted) {
         this.stateAbbreviation = stateAbbreviation;
         this.type = type;
         this.planID = planID;
@@ -116,11 +124,11 @@ public class Plan{
         this.stateAbbreviation = stateAbbreviation;
     }
 
-    public String getPlanID() {
+    public Integer getPlanID() {
         return planID;
     }
 
-    public void setPlanID(String planID) {
+    public void setPlanID(Integer planID) {
         this.planID = planID;
     }
 

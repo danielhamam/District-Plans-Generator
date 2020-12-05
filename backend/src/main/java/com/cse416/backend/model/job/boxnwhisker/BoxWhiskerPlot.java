@@ -33,6 +33,8 @@ public class BoxWhiskerPlot{
     @JoinColumn(name="boxwhiskerId")
     private BoxWhisker boxWhisker;
 
+    //Necessary For JPA
+    protected BoxWhiskerPlot(){}
 
     public BoxWhiskerPlot(int id, int min, int q1, int q2, int q3, int max) {
         this.id = id;

@@ -13,7 +13,17 @@ States = {
         "DistrictFile": "client/src/json/MARYLAND/md_congressionalDistrict.json",
         "PrecinctFile": "client/src/json/MARYLAND/md_precincts.json",
         "CountyFile": "client/src/json/MARYLAND/md_county.json",
-        "PrecinctDemographicFile": "client/src/json/MARYLAND/md_precincts_dem.json"
+        "PrecinctDemographicFile": "client/src/json/MARYLAND/md_precincts_dem.json",
+        "DistrictCounties": {
+            "District 1":["Caroline", "Cecil", "Dorchester", "Kent", "Queen Anne's", "Somerset", "Talbot", "Wicomico", "Worcester"],
+            "District 2":["Anne Arundel", "Harford"],
+            "District 3":["Baltimore City"],
+            "District 4":["Prince George's"],
+            "District 5":["Calvert", "Charles", "St. Mary's"],
+            "District 6":["Allegany", "Frederick", "Garrett", "Washington", "Carroll"],
+            "District 7":["Howard", "Baltimore"],
+            "District 8":["Montgomery"],
+        }
     },
     "PA": {
         "Name": "Pennsylvania",
@@ -21,7 +31,28 @@ States = {
         "DistrictFile": "client/src/json/PENNSYLVANIA/pa_congressionalDistrict.json",
         "PrecinctFile": "client/src/json/PENNSYLVANIA/pa_precincts.json",
         "CountyFile": "client/src/json/PENNSYLVANIA/pa_county.json",
-        "PrecinctDemographicFile": "client/src/json/PENNSYLVANIA/pa_precincts_dem.json"
+        "PrecinctDemographicFile": "client/src/json/PENNSYLVANIA/pa_precincts_dem.json",
+         "DistrictCounties":{
+            "District 1":["Delaware"],
+            "District 2": ["Philadelphia"],
+            "District 3":["Butler", "Armstrong", "Mercer", "Crawford","Lawrence"],
+            "District 4":["Adams", "York"],
+            "District 5":["Erie","Bradford", "Potter", "McKean", "Warren", "Elk", "Forest", "Venango", "Cameron","Clinton","Clarion", "Jefferson", "Clearfield", "Centre","Huntingdon"],
+            "District 6":["Berks"],
+            "District 7":["Chester"],
+            "District 8":["Bucks"],
+            "District 9":["Indiana", "Blair","Bedford", "Franklin", "Fulton", "Fayette"],
+            "District 10":["Monroe", "Tioga", "Wayne", "Susquehanna", "Pike","Lycoming", "Sullivan", "Union", "Snyder", "Mifflin","Juniata","Perry"],
+            "District 11":["Montour","Cumberland", "Dauphin", "Wyoming", "Luzerne", "Columbia", "Northumberland"],
+            "District 12":["Beaver", "Cambria","Somerset"],
+            "District 13":["Montgomery"],
+            "District 14": ["Allegheny"],
+            "District 15": ["Lehigh", "Northampton", "Lebanon"],
+            "District 16":["Lancaster"],
+            "District 17":["Carbon", "Lackawanna", "Schuylkill"],
+            "District 18":["Westmoreland", "Washington", "Greene"],
+            "District 19": []
+        }
     },
     "GA" :{
         "Name": "Georgia",
@@ -29,7 +60,32 @@ States = {
         "DistrictFile": "client/src/json/GEORGIA/ga_congressionalDistrict.json",
         "PrecinctFile": "client/src/json/GEORGIA/ga_precincts.json",
         "CountyFile": "client/src/json/GEORGIA/ga_county.json",
-        "PrecinctDemographicFile": "client/src/json/GEORGIA/ga_precincts_dem.json"
+        "PrecinctDemographicFile": "client/src/json/GEORGIA/ga_precincts_dem.json",
+        "DistrictCounties":{
+            "District 1":["Bryan", "Chatham","Liberty", "Long", "McIntosh", "Wayne", "Bacon", "Pierce", "Glynn",
+                "Camden", "Charlton", "Brantley", "Ware", "Clinch", "Echols", "Appling", "Jeff Davis",
+                "Wheeler", "Telfair", "Coffee","Atkinson", "Berrien", "Cook", "Lanier", "Lowndes"],
+            "District 2":["Talbot", "Taylor", "Crawford", "Peach",  "Macon", "Dooly", "Crisp", "Marion",
+                "Chattahoochee", "Schley", "Stewart", "Webster", "Sumter", "Quitman", "Randolph", "Terrell", "Lee",
+                "Clay", "Calhoun", "Dougherty", "Early", "Baker", "Mitchell", "Miller", "Seminole", "Decatur", "Grady", "Muscogee",
+                "Worth", "Thomas", "Brooks"],
+            "District 3":["Carroll", "Heard", "Coweta", "Fayette", "Spalding","Troup", "Meriwether", "Pike", "Lamar", "Harris", "Upson"],
+            "District 4":["Newton", "Rockdale"],
+            "District 5":["Fulton", "DeKalb"],
+            "District 6":[],
+            "District 7":["Gwinnett", "Forsyth"],
+            "District 8":["Colquitt", "Tift", "Turner", "Irwin", "Ben Hill", "Wilcox", "Dodge", "Pulaski", "Bleckley", "Laurens", "Houston",
+                "Twiggs", "Wilkinson", "Bibb", "Jones", "Monroe", "Jasper", "Butts"],
+            "District 9":["Dade", "Walker", "Catoosa", "Whitfield", "Murray", "Pickens", "Gilmer",
+                "Union", "Fannin", "White", "Lumpkin", "Dawson", "Hall"],
+            "District 10":["Towns", "Rabun", "Habersham", "Stephens", "Banks", "Franklin", "Hart", "Jackson", "Madison", 
+                "Elbert", "Clarke", "Barrow", "Oglethorpe", "Wilkes", "Lincoln", "Oconee", "Morgan", "Walton", "Greene", "Putnam"],
+            "District 11":["Chattooga", "Gordon", "Floyd", "Bartow", "Cherokee", "Polk", "Paulding", 
+                "Haralson", "Cobb"],
+            "District 12":["Taliaferro", "Warren", "McDuffie", "Columbia", "Hancock","Baldwin", "Washington", "Glascock", "Richmond", "Jefferson",
+                "Johnson", "Burke", "Jenkins", "Emanuel", "Screven", "Treutlen", "Montgomery", "Tattnall", "Toombs", "Candler", "Evans", "Bulloch", "Effingham"],
+            "District 13":["Douglas", "Clayton", "Henry"],
+        }
     }
 }
 
@@ -168,7 +224,6 @@ def formatDistrictData(state):
 
         newDict[properties['CD']] = temp
     
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -177,8 +232,6 @@ def formatCountyData(state):
 
     f = open(state["CountyFile"])
     data = json.load(f)
-
-    # print(data['features'][0]['properties'])
 
     for feature in data['features']:
 
@@ -190,8 +243,7 @@ def formatCountyData(state):
         }
 
         newDict[properties['NAME']] = temp
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
-  
+   
     return newDict
 
 def formatPrecinctData(state):
@@ -231,6 +283,15 @@ def formatPrecinctData(state):
 
     return newDict
   
+def getCountyDistrict(dictionary, countyToFind):
+    
+    for district in dictionary:
+        for county in dictionary[district]:
+            if county.lower() == countyToFind.lower():
+                districtNum = district.split(' ')[1]
+                return districtNum
+    return None
+
 def formatGACountyDistrictData(state):
   
     newDict = {}
@@ -251,8 +312,6 @@ def formatGACountyDistrictData(state):
         }
 
         newDict[properties['FIPS1']] = temp
-      
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
@@ -292,8 +351,7 @@ def formatPACountyDistrictData(state):
         }
 
         newDict[properties['STATEFP10'] + properties['COUNTYFP10']] = temp
-      
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
+    
 
     return newDict
 
@@ -333,12 +391,11 @@ def formatMDCountyDistrictData(state):
 
         newDict[properties['COUNTY']] = temp
       
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
 
     return newDict
 
 def findCorrespondingKey(dictionary, value):
-
+    
     for key in dictionary:
         if(key[0] == value): return key[1]
     return None

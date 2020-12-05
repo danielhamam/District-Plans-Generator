@@ -2,7 +2,7 @@ package com.cse416.backend.model.enums;
 
 public enum CensusCatagories  {
     WHITE_AMERICAN("White", "White"),
-    AFRICAN_AMERICAN("Black","African American"),
+    AFRICAN_AMERICAN("Black","Black or African American"),
     AMERICAN_INDIAN("American Indian","American Indian or Alaska Native"),
     ASIAN_AMERICAN("Asian","Asian"),
     HAWAIIAN_AMERICAN("Native Hawaiian", "Native Hawaiian or Other Pacific Islander"),

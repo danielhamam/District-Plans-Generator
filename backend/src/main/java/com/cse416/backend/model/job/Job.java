@@ -20,7 +20,7 @@ import javax.persistence.*;
 
 import java.lang.*;
 import java.util.*;
- 
+
 @Entity
 @Table(name = "Jobs")
 public class Job{
@@ -58,8 +58,7 @@ public class Job{
     @JsonProperty("minorityAnalyzed")
     private List<CensusCatagories> minorityAnalyzedEnumration;
 
-    @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
+    @Transient
     @JsonProperty("districtPlans")
     private List<Plan> clientDistrictingPlans;
 
@@ -110,8 +109,10 @@ public class Job{
     @JsonIgnore
     private String jobSummary;
 
-    @Transient
+    
     @JsonIgnore
+    @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
     private List <Plan> allPlans;
 
     @Transient
@@ -136,11 +137,6 @@ public class Job{
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
         this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
-        List <CensusEthnicity> censusEthnicities = new ArrayList<>();
-        minorityAnalyzedEnumration.forEach(
-                e -> censusEthnicities.add(new CensusEthnicity(e.getShortenName(), e.getFullName()))
-        );
-        this.minorityAnalyzed = censusEthnicities;
         this.status = JobStatus.PENDING;
        // this.clientStatus = status.getStringRepresentation();
 //        for (CensusCatagories censusCatagories : minorityAnalyzed) {
@@ -202,6 +198,14 @@ public class Job{
 
     public void setNumDistrictingPlan(int numDistrictingPlan) {
         this.numDistrictingPlan = numDistrictingPlan;
+    }
+
+    public List<CensusCatagories> getMinorityAnalyzedEnumration(){
+        return this.minorityAnalyzedEnumration;
+    }
+
+    public void setMinorityAnalyzed(List<CensusEthnicity> minorityAnalyzed){
+        this.minorityAnalyzed = minorityAnalyzed;
     }
 
     public ClientCompactness getClientCompactness() {

@@ -1,6 +1,7 @@
 package com.cse416.backend.service;
 
 import com.cse416.backend.livememory.GlobalHistory;
+import com.cse416.backend.model.demographic.CensusEthnicity;
 import com.cse416.backend.model.demographic.Demographic;
 import com.cse416.backend.model.regions.precinct.Precinct;
 import com.cse416.backend.model.regions.state.*;
@@ -275,8 +276,26 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
-            State currentState = session.getState();
+            // State currentState = session.getState();
+
+            //Testing Purpose ***CAN DELETE***
+            State currentState = stateDAO.getStateById("MD");
+
             job.setState(currentState);
+
+            //Retrieve the minority group to analyze provide the client
+            List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
+            
+            List <CensusEthnicity> censusEthnicities = new ArrayList<>();
+
+            //Retrieve their corresponding CensusEthnicity object and
+            //set the job's censusEthnicities list
+            getMinorityAnalyzedEnumration.forEach(
+                e -> censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get())
+            );
+        
+            job.setMinorityAnalyzed(censusEthnicities);
+          
             jobDAO.addJob(job);
 
 //            String algorithmInputContents = createAlgorithmData(currentState, job);
