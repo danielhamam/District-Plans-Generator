@@ -7,13 +7,16 @@ import argparse
 
 num_districts = 10
 num_precincts = 30
-compactness_measure = ''
-population_variance = 0
-termination_limit = 50
+termination_limit = 5
 ideal_population = 15
+population_variance = 0
+population_lower_bound = 0
+population_upper_bound = 0
+compactness = ""
 compactness_lower_bound = 0.1
-compactness_upper_bound = 1.3
+compactness_upper_bound = 99.9
 num_of_cut_edges = 0
+state_abbreviation = ""
 
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
@@ -30,7 +33,6 @@ precincts = [] # initial list of precinct neighbors for use later.
 precinct_neighbors = {} 
 subgraphs_combined = []
 graph_main = {}
-minorities_analyzed = []
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
@@ -45,19 +47,46 @@ def getData(file):
         # path = '../../system/jobs/test1/AlgorithmInput.json'
         # file = open(path,'r')
         data = json.load(file)
+        # print("File Loaded. . .")
+
         global state
         state = data['data']['state']
+        # print("State Data loaded: " + str(state) + "\n")
+
+        global state_abbreviation
+        state_abbreviation = state["nameAbbrev"]
+        # print("State Abbreviation Data Loaded: " + str(state_abbreviation) + "\n")
+
         global job
         job = data['data']['job']
+        # print("Job Data Loaded: " + str(job) + "\n")
 
         global graph_main
         graph_main = data['data']['state']['precincts']
+        # print("Graph Data Loaded: " + str(graph_main) + "\n")
 
-        global population_variance
+        global num_districts
+        num_districts = job["districtsAmount"]
+        # print("Number of Districts Data Loaded: " + str(num_districts) + "\n")
+
+        global population_variance, population_lower_bound, population_upper_bound, ideal_population
         population_variance = job["populationDifference"]
+        population_lower_bound = ideal_population * (1 - (population_variance * 0.5)) # Population lower bound
+        population_upper_bound = ideal_population * (1 + (population_variance * 0.5)) # Population upper bound
+        # print("Population Variance Data Loaded: "  + str(population_variance) + "\n")
 
-        global minorities_analyzed
-        minorities_analyzed = job["minorityAnalyzed"]
+        global compactness, compactness_lower_bound, compactness_upper_bound
+        compactness = job["compactness"]
+        if compactness == "LOW":
+            compactness_lower_bound = 0.1
+            compactness_upper_bound = 1.3
+        if compactness == "MEDIUM":
+            compactness_lower_bound = 1.3
+            compactness_upper_bound = 2.6
+        if compactness == "HIGH":
+            compactness_lower_bound = 2.6
+            compactness_upper_bound = 3.0
+        # print("Compactness Data Loaded: " + compactness + "\n")
 
         print("Data retrieval complete.")
 
@@ -73,17 +102,7 @@ def removeGhostPrecincts():
 
     ghost_precincts = []
     counter = 0
-    # ghost_precincts_2 = []
-
-    # list_empty = False
-
-    # while not list_empty:
-    # for precinct in graph_main:
-    #     if graph_main[precinct]["neighbors"] == []:
-    #         ghost_precincts.append(precinct)
-
-
-    #     if not ghost
+    ghost_precincts_2 = []
 
 
     for precinct in graph_main:
@@ -94,16 +113,19 @@ def removeGhostPrecincts():
         del graph_main[precinct]
         counter = counter + 1
 
-    # for precinct in ghost_precincts:
-    #     for i in graph_main:
-    #         if precinct in graph_main[i]["neighbors"]: # If reference to this ghost precinct found
-    #             graph_main[i]["neighbors"].remove(precinct)
-    #             if graph_main[i]["neighbors"] == []: # Recheck if it is empty
-    #                 ghost_precincts_2.append(i)
+    for precinct in ghost_precincts:
+        for i in graph_main:
+            if precinct in graph_main[i]["neighbors"]: # If reference to this ghost precinct found
+                graph_main[i]["neighbors"].remove(precinct)
+                if graph_main[i]["neighbors"] == []: # Recheck if it is empty
+                    ghost_precincts_2.append(i)
     
-    # for precinct in ghost_precincts_2:
-    #     del graph_main[precinct]
-    #     counter = counter + 1
+    for precinct in ghost_precincts_2:
+        del graph_main[precinct]
+        counter = counter + 1
+
+    # for i in graph_main:
+    #     print(i)
 
     print("GHOST PRECINCTS REMOVED: " + str(counter))
         
@@ -269,10 +291,10 @@ def algorithmDriver(graph):
     counter = 1
     for i in range(termination_limit):
         print(("\nBeginning iteration " + str(counter) + ":"))
-        print(("Initial subgraphs: " + str(subgraphs)))
+        # print(("Initial subgraphs: " + str(subgraphs)))
         algorithm(graph)
         counter = counter + 1
-        print(("Revised Subgraphs: " + str(subgraphs)))
+        # print(("Revised Subgraphs: " + str(subgraphs)))
 
     # When we're done, let's print the subgraphs:
     counter = 1
@@ -284,8 +306,6 @@ def algorithmDriver(graph):
     return
 
 def algorithm(graph):
-    print("---------------------------------")
-    # print(graph)
     global subgraphs, neighbors, precincts, precinct_neighbors, subgraphs_combined
 
     # USE CASE #30 --> Generate a random districting satisfying constraints (required)
@@ -327,25 +347,25 @@ def algorithm(graph):
     # ADD COMBINED SUBGRAPHS TO THE SUBGRAPHS LIST
     subgraphs.append(subgraphs_combined)
 
-    print(("Random Subgraph: " + str(random_subgraph)))
-    print(("Random Neighbor: " + str(random_neighbor)))
-    print(("Combined Subgraph: " + str(subgraphs_combined)))
+    # print(("Random Subgraph: " + str(random_subgraph)))
+    # print(("Random Neighbor: " + str(random_neighbor)))
+    # print(("Combined Subgraph: " + str(subgraphs_combined)))
 
     # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
     spanning_tree = generateSpanningTreeBFS()
 
-    print(("Spanning tree edges: " + str(spanning_tree["edges"])))
+    # print(("Spanning tree edges: " + str(spanning_tree["edges"])))
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required) 
     # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
     acceptable_edges = checkAcceptability(spanning_tree, subgraphs_combined, graph)
 
-    print(("Acceptable Edges List: " + str(acceptable_edges)))
+    # print(("Acceptable Edges List: " + str(acceptable_edges)))
 
     # USE CASE #34 --> Cut the edge in the combined sub-graph (required)
     target_cut = random.choice(acceptable_edges) # choose random edge to cut
 
-    print(("Cutting at edge: " + str(target_cut)))
+    # print(("Cutting at edge: " + str(target_cut)))
 
     cutAcceptable(acceptable_edges, target_cut)
     return
@@ -481,13 +501,8 @@ def reinitializeNeighbors():
 
 
 def checkAcceptability(spanning_tree, subgraphs_combined, graph):
-    global ideal_population
-    global population_variance
+    global population_lower_bound, population_upper_bound
     global compactness_lower_bound, compactness_upper_bound
-    global minorities_analyzed
-
-    upper_bound = ideal_population * (1 + (population_variance * 0.5)) # Population upper bound
-    lower_bound = ideal_population * (1 - (population_variance * 0.5)) # Population lower bound
 
     list_edges = spanning_tree["edges"] # Current list of edges
     acceptable_edges = [] # Acceptable list of edges
@@ -520,19 +535,14 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
             if i != edge[0] and i not in precinct_neighbors[str(precinct_one.split(', '))]:
                 subgraph_two.append(i)
 
-        
-
         for p in subgraph_one: # Calculates total population of analyzed minorities of subgraph 1
             precinct = graph.get(p)
             if precinct["demographic"] != {}:
-                for minority in minorities_analyzed:
-                    total_population_one = total_population_one + precinct["demographic"][minority]
+                total_population_one = total_population_one + precinct["demographic"]["total"]
         for p in subgraph_two: # Calculates total population of analyzed minorities of subgraph 2
             precinct = graph.get(p)
             if precinct["demographic"] != {}:
-                for minority in minorities_analyzed:
-                    total_population_two = total_population_two + precinct["demographic"][minority]
-
+                total_population_two = total_population_two + precinct["demographic"]["total"]
         
         for i in subgraph_one: # Calculates compactness of subgraph 1
             for neighbor in precinct_neighbors[str(i.split(', '))]:
@@ -552,8 +562,8 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
         print("Compactness two --> " + str(compactness_two))
 
         # Checks if population lands within specified population difference & compactness boundaries
-        if (total_population_one <= upper_bound) and (total_population_one >= lower_bound):
-            if (total_population_two <= upper_bound) and (total_population_two >= lower_bound):
+        if (total_population_one <= population_upper_bound) and (total_population_one >= population_lower_bound):
+            if (total_population_two <= population_upper_bound) and (total_population_two >= population_lower_bound):
                 if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
                     if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
                         print()
@@ -566,6 +576,9 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
 def findCombine(graph, subgraph):
     global subgraphs, neighbors
     subgraph_neighbors = neighbors.get(str(subgraph))
+    # print("DEBUG SUBGRAPH------------" + str(subgraph))
+    if len(subgraph_neighbors) == 0:
+        return
     random_neighbor = random.choice(subgraph_neighbors) # get random neighbor
 
     # ADD (COMBINE) NEIGHBOR TO THE CURRENT SUBGRAPH
@@ -596,16 +609,17 @@ def parser():
     return parser
 
 def convertToOutput():
-    global subgraphs
+    global subgraphs, state_abbreviation, num_districts
 
     plan = {
-        "planId": "",
-        "type": "",
-        "stateAbbrev": "",
-        "numOfDistricts": 0,
-        "graph_districts":{
+        "stateAbbreviation": state_abbreviation,
+        "numberOfDistricts": num_districts,
+        "isPlanEnacted": False,
+        "averageDistrictPopulation": 10,
+        "averageDistrictCompactness": 20,
+        "algorithmData": {
             
-      }
+        }
     }
 
     counter = 0
@@ -616,9 +630,9 @@ def convertToOutput():
         "precincts": []
         }
         district.update({"precincts": i})
-        plan["graph_districts"].update({str(counter): district})
+        plan["algorithmData"].update({str(counter): district})
 
-    plan.update({"numOfDistricts": counter})
+    plan.update({"numberOfDistricts": counter})
     print(plan)
     return plan
 
@@ -640,6 +654,7 @@ def main():
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
     
     algorithmDriver(graph_main) # Main function
+
     # convertToOutput() # Converts to output format 
 
     global num_of_cut_edges

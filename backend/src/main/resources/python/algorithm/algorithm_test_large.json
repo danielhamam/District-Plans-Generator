@@ -2,8 +2,8 @@
     "data": { 
         "state": 
             {
-                "stateName": "New York",
-                "nameAbbrev" : "NY",
+                "stateName": "Maryland",
+                "nameAbbrev" : "MD",
                 "stateFIPSCode" : "12345",
                 "demographic": 
                     {
@@ -1042,11 +1042,11 @@
                 "jobID": "1",
                 "seawulfJobID": 1,
                 "jobName": "Job 1",
-                "stateAbbrev": "MD",
+                "nameAbbrev": "MD",
                 "numOfDistrictingPlans": 10,
                 "populationDifference": 0.8,
                 "clientCompactness": 0.2,
-                "numOfDistricts": 3,
+                "districtsAmount": 3,
                 "minorityAnalyzed": ["american_indian"]
             }
     }

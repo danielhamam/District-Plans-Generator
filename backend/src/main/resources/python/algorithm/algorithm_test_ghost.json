@@ -2,8 +2,8 @@
     "data": { 
         "state": 
             {
-                "stateName": "New York",
-                "nameAbbrev" : "NY",
+                "stateName": "Maryland",
+                "nameAbbrev" : "MD",
                 "stateFIPSCode" : "12345",
                 "demographic": 
                     {
@@ -475,6 +475,37 @@
                                 "precinct": "016",
                                 "stateId": "MD"
                               }
+                        },
+                        "017":{
+                            "population":10,
+                            "neighbors": [
+                               "006"
+                            ],
+                            "demographic": {
+                                "total": 6519,
+                                "white": 5741,
+                                "black": 379,
+                                "american_indian": 20,
+                                "asian": 83,
+                                "hispanic": 189,
+                                "native_hawaiian": 0,
+                                "other": 7,
+                                "multiple": 100,
+                                "vap": 5103,
+                                "white_vap": 4556,
+                                "black_vap": 297,
+                                "hispanic_vap": 133,
+                                "american_indian_vap": 15,
+                                "asian_vap": 61,
+                                "native_hawaiian_vap": 0,
+                                "other_vap": 4,
+                                "multiple_vap": 37,
+                                "state": null,
+                                "district": null,
+                                "county": null,
+                                "precinct": "017",
+                                "stateId": "MD"
+                              }
                         }
                     }
                 
@@ -484,11 +515,11 @@
                 "jobID": "1",
                 "seawulfJobID": 1,
                 "jobName": "Job 1",
-                "stateAbbrev": "NY",
+                "nameAbbrev": "MD",
                 "numOfDistrictingPlans": 10,
                 "populationDifference": 0.8,
-                "clientCompactness": 0.2,
-                "numOfDistricts": 3,
+                "compactness": "MEDIUM",
+                "districtsAmount": 3,
                 "minorityAnalyzed": ["american_indian"]
             }
     }
