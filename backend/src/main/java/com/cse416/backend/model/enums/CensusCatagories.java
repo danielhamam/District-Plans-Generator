@@ -2,11 +2,11 @@ package com.cse416.backend.model.enums;
 
 public enum CensusCatagories  {
     WHITE_AMERICAN("White", "White"),
-    AFRICAN_AMERICAN("Black","African American"),
+    AFRICAN_AMERICAN("Black","Black or African American"),
     AMERICAN_INDIAN("American Indian","American Indian or Alaska Native"),
     ASIAN_AMERICAN("Asian","Asian"),
     HAWAIIAN_AMERICAN("Native Hawaiian", "Native Hawaiian or Other Pacific Islander"),
-    HISPANIC_AMERICAN("Latino", "Hispanic or Latino"),
+    LATINO_AMERICAN("Latino", "Hispanic or Latino"),
     OTHER_AMERICAN("Other", "Other race, Non-Hispanic"),
     MULTIPLE_AMERICAN("Multiple", "Two or more race, Non-Hispanic");
 

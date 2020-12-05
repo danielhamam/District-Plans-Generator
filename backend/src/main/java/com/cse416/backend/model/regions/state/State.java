@@ -121,12 +121,12 @@ public class State {
         this.numOfPrecincts = numOfPrecincts;
         this.numOfCounties = numOfCounties;
         this.numOfDistricts = numOfDistricts;
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
         String precinctFilePath = "src/main/resources/system/states/" +
                 stateAbbreviation.toLowerCase() + "/Precincts.json";
         String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
         this.precinctsFile = new File(precinctFilePathAbsolutePath);
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
         
         try{
             this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
@@ -167,7 +167,7 @@ public class State {
             throw new NullPointerException("State abbreviation doesn't exist ");
         }
         try{
-            enactedPlan = new Plan(stateAbbreviation,"Enacted","0",57,true);
+            enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
             createPrecinctFile();
             createAlgorithmPrecinctFile();
         }
