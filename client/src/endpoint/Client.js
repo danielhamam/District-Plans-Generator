@@ -76,11 +76,10 @@ export async function getStatePrecincts(){
 export async function getPrecinctDemographic(precinctObj){
 	    console.log("Gettting Precinct's Demographic"); 
 	    const requestOptions = createFetchOptions('GET'); 
-	    const NEW_URL = URL + SERVER_PATHS.PRECINCT_DEMOGRAPHIC + "/" + precinctObj.name; 
+	    const NEW_URL = URL + SERVER_PATHS.PRECINCT_DEMOGRAPHIC + "/" + precinctObj.fips; 
 	    const response = await fetch(NEW_URL, requestOptions).catch(error => error); 
 	    return await response.json() 
 }
-
 
 export async function getBoundaries(path){
 
@@ -131,11 +130,10 @@ export async function generateJob(data){
     return await response.json()
 }
 
-export async function generateHeatMap(data){
-    console.log("Generating Job");
-    const requestOptions = createFetchOptions('POST', data);
-    const NEW_URL = URL + SERVER_PATHS.GENERATE_HEATMAP;
+export async function generateHeatMap(data) {
+    console.log("Getting heat map");
+    const requestOptions = createFetchOptions('GET');
+    const NEW_URL = URL + SERVER_PATHS.GENERATE_HEATMAP + "/" + data.name;
     const response = await fetch(NEW_URL, requestOptions).catch(error => error);
     return await response.json()
-
 }
