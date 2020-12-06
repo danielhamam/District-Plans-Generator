@@ -8,24 +8,30 @@ import java.io.*;
 
 public class AlgorithmInterface implements Runnable {
     private Thread proxyThread = null;
-    private boolean die = false;
     private String netid;
     private Job job;
-    private boolean runAlgorithmLocally;
-    private boolean determinedAlgoComputeLocation;
+    private boolean die = false;
+    private boolean isAlgorithmLocal;
+    private boolean isComputeLocationDetermined;
+    private boolean isJobCancelled;
     private String jobDirectoryRelativePath;
-    private Process process;
+    private Process localAlgorithmProcess;
     private String jobDirectory;
     private JobDAOService jobDAO;
 
     public AlgorithmInterface(String netid, Job job, boolean runAlgoLocally) {
         this.netid = netid;
         this.job = job;
-        this.runAlgorithmLocally = runAlgoLocally;
-        this.determinedAlgoComputeLocation = false;
+        this.isAlgorithmLocal = runAlgoLocally;
+        this.isComputeLocationDetermined = false;
+        this.isJobCancelled = false;
         this.jobDirectory = "src/main/resources/system/jobs/";
         this.jobDirectoryRelativePath = "../system/jobs/";
         this.jobDAO = new JobDAOService();
+    }
+
+    public Job getJob(){
+        return job;
     }
 
     private void printProcessOutput(Process process) {
@@ -63,7 +69,7 @@ public class AlgorithmInterface implements Runnable {
                 System.out.println(this + " thread is still running. Job's status: " + job.getStatus());
                 //TODO: If the algo is ran locally check to see if the script crashed to kill the thread.
                 // The thread becomes useless if the python crashed
-                if (!determinedAlgoComputeLocation) {
+                if (!isComputeLocationDetermined) {
                     determineAlgorithmComputeLocation();
                     sleepThread();
                 }
@@ -72,6 +78,11 @@ public class AlgorithmInterface implements Runnable {
                 if(status.equals(JobStatus.COMPLETED)){
                     //TODO: THIS IS WHERE YOU EXTRACT INFORMATION. SIGNIGIES JOB IS COMPLETE.
                     kill();
+                }
+
+                if(isJobCancelled){
+                    cancelJob();
+
                 }
                 sleepThread();
             }
@@ -90,12 +101,32 @@ public class AlgorithmInterface implements Runnable {
         }
     }
 
+    public void cancelJobDriver() {
+        this.isJobCancelled = true;
+    }
+
+    public void cancelJob()throws IOException{
+        if(isAlgorithmLocal){
+            if(localAlgorithmProcess.isAlive()){
+                localAlgorithmProcess.destroy();
+            }
+            kill();
+        }else{
+            System.out.println("Canceling job remotely...  Bash output...");
+            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/CancelAlgorithm.sh",
+                    netid, job.getSeawulfJobID());
+            pb.redirectErrorStream(true);
+            Process tempProcess = pb.start();
+            printProcessOutput(tempProcess);
+        }
+    }
+
     private void sleepThread() throws InterruptedException{
         Thread.sleep(3000);
     }
 
     private void extractDataFromCompleteJob(){
-        if(runAlgorithmLocally) {
+        if(isAlgorithmLocal) {
 //            String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
 //            File file = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
 //            doesFileExist = file.exists();
@@ -108,8 +139,8 @@ public class AlgorithmInterface implements Runnable {
 
     private void monitorAlgorithm()throws IOException, InterruptedException{
         boolean doesFileExist = false;
-        if(runAlgorithmLocally) {
-            doesFileExist = !process.isAlive();
+        if(isAlgorithmLocal) {
+            doesFileExist = !localAlgorithmProcess.isAlive();
             if(doesFileExist){
                 job.setStatus(JobStatus.COMPLETED);
                 jobDAO.updateJob(job);
@@ -140,13 +171,13 @@ public class AlgorithmInterface implements Runnable {
     private void determineAlgorithmComputeLocation()throws IOException {
         String algorithmInputFileName = "AlgorithmInput.json";
         String algorithmInputPath = jobDirectory + algorithmInputFileName;
-        if(runAlgorithmLocally){
+        if(isAlgorithmLocal){
             System.out.println("Running algorithm locally... Python output...");
             String localPythonScript = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
             ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript, algorithmInputPath);
             pb.redirectErrorStream(true);
-            process = pb.start();
-            printProcessOutput(process);
+            localAlgorithmProcess = pb.start();
+            printProcessOutput(localAlgorithmProcess);
         }
         else{
             System.out.println("Running algorithm remotely...  Bash output...");
@@ -156,7 +187,7 @@ public class AlgorithmInterface implements Runnable {
             Process tempProcess = pb.start();
             printProcessOutput(tempProcess);
         }
-        determinedAlgoComputeLocation = true;
+        isComputeLocationDetermined = true;
     }
 
     private void initiateServerProcessing(){

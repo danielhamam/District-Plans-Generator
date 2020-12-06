@@ -31,7 +31,8 @@ public class ServerService {
     private Session session;
     private GlobalHistory jobHistory;
     private boolean isStatePrecinctsLoaded;
-    private boolean runAlgoLocally = false;
+    private boolean runAlgoLocally;
+    private List<AlgorithmInterface> algorithmInterfaceThreads;
 
 
     //DAO Servicers
@@ -71,6 +72,8 @@ public class ServerService {
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
         this.isStatePrecinctsLoaded = false;
+        this.runAlgoLocally = false;
+        this.algorithmInterfaceThreads = new ArrayList<>();
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -95,8 +98,11 @@ public class ServerService {
         return  mapper.writeValueAsString(AlgorithmData);
     }
 
-    private void createJobDirectory(String jobDirectoryName, String algorithmContents)throws IOException{
-        jobDirectoryName = jobDirectoryName.toLowerCase();
+
+    private void createJobDirectory(Job job)throws IOException{
+        State currentState = session.getState();
+        String algorithmContents = createAlgorithmData(currentState, job);
+        String jobDirectoryName = job.getJobName().toLowerCase();
         String jobDirectoryRelativePath = "src/main/resources/system/jobs";
         String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
         String newDirectoryAbsolutePath =  jobDirectoryAbsolutePath+"/"+jobDirectoryName;
@@ -124,18 +130,23 @@ public class ServerService {
     public String getState(String stateAbbrevation){
         String clientData = "{serverError:null}";
         try{
+            //State logic
             State state = stateDAO.getStateById(stateAbbrevation);
-            //System.out.println(state);
+            state.initializeSystemFiles();
             Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
             state.setDemographic(stateDemographic);
             state.setTotalPopulation(stateDemographic.getTotalPopulation());
+            session.setState(state);
+
+            //Job logic
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
-            System.out.println(state.getStateAbbreviation());
-            state.initializeSystemFiles();
-            this.session.setState(state);
-            this.session.addJobs(jobs);
-            this.jobHistory.addJobs(jobs);
-            //getPrecinctAsync(stateAbbrevation);
+            for(Job j: jobs){
+                createJobDirectory(j);
+            }
+            session.addJobs(jobs);
+            jobHistory.addJobs(jobs);
+
+            //format it for that client
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -207,14 +218,6 @@ public class ServerService {
         return clientData;
     }
 
-    private void waitForLoadedPrecincts(){
-        while(!isStatePrecinctsLoaded){
-            System.out.println("Waiting For Precincts");
-        }
-        System.out.println("Precincts Loaded");
-
-    }
-
     public String getPrecincts(){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
@@ -278,21 +281,9 @@ public class ServerService {
         try{
             State currentState = session.getState();
             job.setState(currentState);
-            //Retrieve the minority group to analyze provide the client
-            List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
-            List <CensusEthnicity> censusEthnicities = new ArrayList<>();
-            //Retrieve their corresponding CensusEthnicity object and
-            //set the job's censusEthnicities list
-            getMinorityAnalyzedEnumration.forEach(
-                e -> censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get())
-            );
-        
-            job.setMinorityAnalyzed(censusEthnicities);
-          
+            job.setMinorityAnalyzed(covertClientCensusToDatabaseCensus(job));
             jobDAO.addJob(job);
-
-//            String algorithmInputContents = createAlgorithmData(currentState, job);
-//            createJobDirectory(job.getJobName(), algorithmInputContents);
+//            createJobDirectory(job);
 //            initiateAlgorithm(job);
 
             clientData = createClient_Data(job);
@@ -307,29 +298,55 @@ public class ServerService {
         return clientData;
     }
 
+    private List <CensusEthnicity> covertClientCensusToDatabaseCensus(Job job){
+        //Retrieve the minority group to analyze provide the client
+        List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
+        List <CensusEthnicity> censusEthnicities = new ArrayList<>();
+        getMinorityAnalyzedEnumration.forEach(
+                e -> censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get())
+        );
+        return censusEthnicities;
+    }
+
     private void initiateAlgorithm(Job job){
         System.out.println("Initiating Algorithm... Creating Thread");
         AlgorithmInterface algorithmInterface = new AlgorithmInterface("carlopez", job, runAlgoLocally);
         algorithmInterface.start();
     }
 
-    public String generateHeatMap(){
-        return "generateHeatMap";
-
-    }
-
     public void cancelJob(Integer jobID){
-        //TODO: Confirm if we are deleting a job if we cancel it. TBD...
-        // Leaning towards deleting it. Check up Danny
-        Job job = session.getJobByID(jobID);
-        job.setStatus(JobStatus.CANCELLED);
-        jobDAO.updateJob(job);
+        //TODO: Hook it up so that the job will cancel and delete
+        System.out.println("Attempting to cancel a job");
+        try{
+            Job job = session.getJobByID(jobID);
+            if(!job.getStatus().equals(JobStatus.COMPLETED)){
+                AlgorithmInterface currentThread =  algorithmInterfaceThreads.stream()
+                        .filter(thread -> job.equals(thread.getJob()))
+                        .findFirst()
+                        .orElseThrow(Exception::new);
+                currentThread.cancelJobDriver();
+                jobDAO.deleteJob(job);
+                System.out.println(job.toString() + " has been removed");
+            }
+
+        }catch(Exception error){
+            error.printStackTrace();
+        }
+
     }
 
     public void deleteJob(Integer jobID){
-        jobHistory.deleteJob(jobID);
-        Job job = session.deleteJob(jobID);
-        jobDAO.deleteJob(job);
+        //TODO: Ask if we delete from the database does it get refelected in the server-side thru JPA
+        System.out.println("Attempting to remove a job");
+//        jobHistory.deleteJob(jobID);
+        Job job = session.getJobByID(jobID);
+        if(job.getStatus().equals(JobStatus.COMPLETED)){
+            //        System.out.println("Successfully deleted the job for the server");
+            jobDAO.deleteJob(job);
+            System.out.println("Successfully deleted the job for the database");
+            System.out.println(job.toString() + " has been removed");
+        }
+
     }
     
 }

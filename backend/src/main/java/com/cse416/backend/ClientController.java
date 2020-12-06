@@ -73,7 +73,6 @@ public class ClientController {
 
    @GetMapping(path = "/boxwhisker/{jobID}/{planID}", produces = "application/json")
    public String getBoxwhisker(@PathVariable Integer jobID, @PathVariable String planID, @RequestBody String catagory){
-
         return "getPlanGraph";
    }
 
