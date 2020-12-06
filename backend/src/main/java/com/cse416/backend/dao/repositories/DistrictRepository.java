@@ -17,4 +17,7 @@ public interface DistrictRepository extends JpaRepository<District, Integer>{
 
     @Query("SELECT d FROM District d WHERE d.state.stateAbbreviation = ?1 and d.districtNumber = ?2")
     District findByStateIdAndDistrictNumber(String stateId, Integer districtNumber);
+
+    @Query("SELECT d FROM District d WHERE d.plan.planID = ?1 ")
+    List<District> findByPlanId(Integer planId);
 }

@@ -31,6 +31,10 @@ public class DistrictDAOService{
        return districtRepository.findByStateId(stateAbbrevation);
    }
 
+   public List<District> getDistrictsByPlanId(Integer planId){
+       return districtRepository.findByPlanId(planId);
+   }
+
    public void addDistrict(District district){
        districtRepository.save(district);
    }

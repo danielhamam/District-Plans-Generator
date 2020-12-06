@@ -7,6 +7,7 @@ import com.cse416.backend.model.regions.county.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.cse416.backend.model.Boundary;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.cse416.backend.model.plan.*;
 
 import java.lang.*;
 import java.util.*;
@@ -68,6 +69,12 @@ public class District{
     @Transient
     @JsonIgnore
     private double area;
+
+    
+    @JsonIgnore
+    @ManyToOne(targetEntity=Plan.class, fetch = FetchType.LAZY)
+    private Plan plan;
+
 
    
     //Neccessary for JPA
