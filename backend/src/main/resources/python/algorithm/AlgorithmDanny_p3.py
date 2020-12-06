@@ -4,6 +4,8 @@ import sys
 import json
 from copy import deepcopy
 import argparse
+import cProfile
+import re
 
 num_districts = 10
 num_precincts = 30
@@ -14,8 +16,9 @@ population_lower_bound = 0
 population_upper_bound = 0
 compactness = ""
 compactness_lower_bound = 0.1
-compactness_upper_bound = 99.9
+compactness_upper_bound = 0.9
 num_of_cut_edges = 0
+num_of_border_edges = 0
 state_abbreviation = ""
 
 # (1) combine subgraph with random one of its neighbors 
@@ -78,14 +81,14 @@ def getData(file):
         global compactness, compactness_lower_bound, compactness_upper_bound
         compactness = job["compactness"]
         if compactness == "LOW":
-            compactness_lower_bound = 0.1
-            compactness_upper_bound = 1.3
+            compactness_lower_bound = 0.10
+            compactness_upper_bound = 0.33
         if compactness == "MEDIUM":
-            compactness_lower_bound = 1.3
-            compactness_upper_bound = 2.6
+            compactness_lower_bound = 0.34
+            compactness_upper_bound = 0.66
         if compactness == "HIGH":
-            compactness_lower_bound = 2.6
-            compactness_upper_bound = 3.0
+            compactness_lower_bound = 0.67
+            compactness_upper_bound = 0.90
         # print("Compactness Data Loaded: " + compactness + "\n")
 
         print("Data retrieval complete.")
@@ -365,9 +368,11 @@ def algorithm(graph):
     # USE CASE #34 --> Cut the edge in the combined sub-graph (required)
     target_cut = random.choice(acceptable_edges) # choose random edge to cut
 
-    # print(("Cutting at edge: " + str(target_cut)))
+    print(("Cutting at edge: " + str(target_cut)))
 
     cutAcceptable(acceptable_edges, target_cut)
+
+    print(("Edge cut completed. Total number of cut edges: " + str(num_of_cut_edges)))
     return
     # return cutAcceptable2(acceptable_edges, target_cut, acceptable_edges)
 
@@ -408,15 +413,10 @@ def generateSpanningTreeBFS():
 
 
 def cutAcceptable(acceptable_edges, target_cut):
-    global subgraphs_combined, subgraphs, neighbors, num_of_cut_edges
+    global subgraphs_combined, subgraphs, neighbors, num_of_cut_edges, num_of_border_edges
     
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
-    total_population_one = 0 # Total population of new subgraph 1
-    total_population_two = 0 # Total population of new subgraph 2
-    compactness_one = 0.4 # Compactness of new subgraph 1
-    compactness_two = 0.4 # Compactness of new subgraph 2
-
 
     precinct_one = target_cut[0]
     precinct_two = target_cut[1]
@@ -505,6 +505,7 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
     global compactness_lower_bound, compactness_upper_bound
 
     list_edges = spanning_tree["edges"] # Current list of edges
+    total_edges = len(list_edges)
     acceptable_edges = [] # Acceptable list of edges
     
     for edge in list_edges: # go through every edge, see if it's acceptable (cut)
@@ -514,8 +515,8 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
         total_population_two = 0 # Total population of new subgraph 2
         compactness_one = 0.4 # Compactness of new subgraph 1
         compactness_two = 0.4 # Compactness of new subgraph 2
-        cut_edges_one = 0 # Used for compactness
-        cut_edges_two = 0 # Used for compactness
+        border_nodes_one = 0 # Used for compactness
+        border_nodes_two = 0 # Used for compactness
 
         # print("Edge 0 --> " + str(edge[0]))
         # print("Edge 1 --> " + str(edge[1]))
@@ -535,31 +536,33 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
             if i != edge[0] and i not in precinct_neighbors[str(precinct_one.split(', '))]:
                 subgraph_two.append(i)
 
-        for p in subgraph_one: # Calculates total population of analyzed minorities of subgraph 1
+        for p in subgraph_one: # Calculates total population of subgraph 1
             precinct = graph.get(p)
             if precinct["demographic"] != {}:
                 total_population_one = total_population_one + precinct["demographic"]["total"]
-        for p in subgraph_two: # Calculates total population of analyzed minorities of subgraph 2
+        for p in subgraph_two: # Calculates total population of subgraph 2
             precinct = graph.get(p)
             if precinct["demographic"] != {}:
                 total_population_two = total_population_two + precinct["demographic"]["total"]
         
-        for i in subgraph_one: # Calculates compactness of subgraph 1
+        for i in subgraph_one: # Calculates compactness of subgraph 1 using Border-Node Compactness
             for neighbor in precinct_neighbors[str(i.split(', '))]:
                 if neighbor not in subgraph_one:
-                    cut_edges_one = cut_edges_one + 1
-        compactness_one = len(list_edges) / cut_edges_one
+                    border_nodes_one = border_nodes_one + 1
+        compactness_one = 1 - (border_nodes_one/total_edges)
+        # compactness_one = len(list_edges) / border_nodes_one
 
-        for i in subgraph_two: # Calculates compactness of subgraph 2
+        for i in subgraph_two: # Calculates compactness of subgraph 2 using Border-Node Compactness
             for neighbor in precinct_neighbors[str(i.split(', '))]:
                 if neighbor not in subgraph_two:
-                    cut_edges_two = cut_edges_two + 1
-        compactness_two = len(list_edges) / cut_edges_two
+                    border_nodes_two = border_nodes_two + 1
+        compactness_two = 1 - (border_nodes_two/total_edges)
+        # compactness_two = len(list_edges) / border_nodes_two
 
-        print("Total population one --> " + str(total_population_one))
-        print("Total population two --> " + str(total_population_two))
-        print("Compactness one --> " + str(compactness_one))
-        print("Compactness two --> " + str(compactness_two))
+        # print("Total population one --> " + str(total_population_one))
+        # print("Total population two --> " + str(total_population_two))
+        # print("Compactness one --> " + str(compactness_one))
+        # print("Compactness two --> " + str(compactness_two))
 
         # Checks if population lands within specified population difference & compactness boundaries
         if (total_population_one <= population_upper_bound) and (total_population_one >= population_lower_bound):
@@ -569,7 +572,22 @@ def checkAcceptability(spanning_tree, subgraphs_combined, graph):
                         print()
                         # DO NOTHING - IN PROGRESS
         acceptable_edges.append(edge)
-    
+
+    # total_edges defined above
+    total_acceptable_edges = len(acceptable_edges)
+    total_improved_edges = 0
+    total_unacceptable_edges = total_edges - total_acceptable_edges
+    percent_of_acceptable_edges = round(100 * (total_acceptable_edges/total_edges), 2)
+    percent_of_improved_edges = round(100 * (total_improved_edges/total_edges), 2)
+
+    # USE CASE #47 - Calculate and display edge cut performance (optional) 
+    print("Acceptable edges found --> " + str(percent_of_acceptable_edges) + "%" + " of edges are acceptable (" +
+        str(total_acceptable_edges) + "/" + str(total_edges) + ")")
+    print("Improved edges found --> " + str(percent_of_improved_edges) + "%" + " of edges make an improved subgraph (" +
+        str(total_improved_edges) + "/" + str(total_edges) + ")")
+    print("Not acceptable edges found --> " + str(100 - percent_of_acceptable_edges) + "%" + " of edges are not acceptable (" +
+        str(total_unacceptable_edges) + "/" + str(total_edges) + ")")
+
     # print("Acceptable edges --> " + str(acceptable_edges))
     return acceptable_edges
 
@@ -647,18 +665,18 @@ def convertToOutput():
 
 def main():
     global graph_main, neighbors, subgraphs
+
     infile = 0
     parse = parser() # Initiates parser
     infile = parse.parse_args().infile[0] # Sets up parser
     getData(infile) # Retrieves data from JSON
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
-    
-    algorithmDriver(graph_main) # Main function
+
+    cProfile.run("algorithmDriver(graph_main)")
+    # algorithmDriver(graph_main) # Main function
 
     # convertToOutput() # Converts to output format 
 
-    global num_of_cut_edges
-    print(num_of_cut_edges)
     # global subgraphs
     # print(subgraphs)
     return
