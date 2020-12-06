@@ -276,18 +276,11 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
-            // State currentState = session.getState();
-
-            //Testing Purpose ***CAN DELETE***
-            State currentState = stateDAO.getStateById("MD");
-
+            State currentState = session.getState();
             job.setState(currentState);
-
             //Retrieve the minority group to analyze provide the client
             List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
-            
             List <CensusEthnicity> censusEthnicities = new ArrayList<>();
-
             //Retrieve their corresponding CensusEthnicity object and
             //set the job's censusEthnicities list
             getMinorityAnalyzedEnumration.forEach(
