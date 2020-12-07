@@ -9,7 +9,7 @@ import re
 
 num_districts = 10
 num_precincts = 30
-termination_limit = 5
+termination_limit = 100
 ideal_population = 15
 population_variance = 0
 population_lower_bound = 0
@@ -623,7 +623,7 @@ def findCombine(graph, subgraph):
 
 def parser():
     parser = argparse.ArgumentParser(prog="algorithm",description='Algorithm')
-    parser.add_argument('infile', help='Algo-output file', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
+    parser.add_argument('infile', help='The input json file to make the python code run', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
     return parser
 
 def convertToOutput():
@@ -651,7 +651,9 @@ def convertToOutput():
         plan["algorithmData"].update({str(counter): district})
 
     plan.update({"numberOfDistricts": counter})
-    print(plan)
+    newjsonfile = json.dumps(plan, indent=4)
+    outfile = open("./jobs/AlgoOut.json", 'w')
+    outfile.write(newjsonfile)
     return plan
 
 
@@ -671,11 +673,10 @@ def main():
     infile = parse.parse_args().infile[0] # Sets up parser
     getData(infile) # Retrieves data from JSON
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
-
     cProfile.run("algorithmDriver(graph_main)")
-    # algorithmDriver(graph_main) # Main function
+    algorithmDriver(graph_main) # Main function
 
-    # convertToOutput() # Converts to output format 
+    convertToOutput() # Converts to output format
 
     # global subgraphs
     # print(subgraphs)
