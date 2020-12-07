@@ -3,20 +3,24 @@ package com.cse416.backend.service;
 import com.cse416.backend.dao.services.JobDAOService;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.Job;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 
 public class AlgorithmInterface implements Runnable {
     private Thread proxyThread = null;
+    private String jobDirectoryRelativePath;
     private String netid;
-    private Job job;
+    private String jobDirectory;
     private boolean die = false;
     private boolean isAlgorithmLocal;
     private boolean isComputeLocationDetermined;
     private boolean isJobCancelled;
-    private String jobDirectoryRelativePath;
     private Process localAlgorithmProcess;
-    private String jobDirectory;
+    private Job job;
+
+
+    @Autowired
     private JobDAOService jobDAO;
 
     public AlgorithmInterface(String netid, Job job, boolean runAlgoLocally) {
@@ -66,12 +70,13 @@ public class AlgorithmInterface implements Runnable {
     public void run() {
         while (!die) {
             try {
-                System.out.println(this + " thread is still running. Job's status: " + job.getStatus());
-                //TODO: If the algo is ran locally check to see if the script crashed to kill the thread.
-                // The thread becomes useless if the python crashed
+                System.out.println(this + " thread is still running." +
+                        "Job's status: " + job.getStatus() + "\t" +
+                        "Job's seawulfJobID: " + job.getSeawulfJobID());
+
                 if (!isComputeLocationDetermined) {
                     determineAlgorithmComputeLocation();
-                    sleepThread();
+                    longSleepThread();
                 }
                 monitorAlgorithm();
                 JobStatus status = job.getStatus();
@@ -82,9 +87,8 @@ public class AlgorithmInterface implements Runnable {
 
                 if(isJobCancelled){
                     cancelJob();
-
                 }
-                sleepThread();
+                longSleepThread();
             }
             catch(InterruptedException ie){
                 System.out.println(this + "Interrupted thread..");
@@ -105,7 +109,7 @@ public class AlgorithmInterface implements Runnable {
         this.isJobCancelled = true;
     }
 
-    public void cancelJob()throws IOException{
+    private void cancelJob()throws IOException{
         if(isAlgorithmLocal){
             if(localAlgorithmProcess.isAlive()){
                 localAlgorithmProcess.destroy();
@@ -121,8 +125,12 @@ public class AlgorithmInterface implements Runnable {
         }
     }
 
-    private void sleepThread() throws InterruptedException{
+    private void longSleepThread() throws InterruptedException{
         Thread.sleep(3000);
+    }
+
+    private void shortSleepThread() throws InterruptedException{
+        Thread.sleep(10000);
     }
 
     private void extractDataFromCompleteJob(){
@@ -135,6 +143,14 @@ public class AlgorithmInterface implements Runnable {
             //TODO: SCRIPT GOES HERE
         }
 
+    }
+
+    private String getContentsFile(String filename)throws IOException{
+        String filepath = jobDirectory + job.getJobName().toLowerCase() + "/" + filename;
+        String absoluteFilePath = new File(filepath).getAbsolutePath();
+        String response = new BufferedReader(new FileReader(absoluteFilePath)).readLine();
+        response = response.trim();
+        return response;
     }
 
     private void monitorAlgorithm()throws IOException, InterruptedException{
@@ -153,22 +169,17 @@ public class AlgorithmInterface implements Runnable {
             pb.redirectErrorStream(true);
             Process tempProcess = pb.start();
             printProcessOutput(tempProcess);
-            Thread.sleep(5000);
-            String monitorFilePath = jobDirectory + job.getJobName().toLowerCase() + "/monitor.txt";
-            String monitorAbsoluteFilePath = new File(monitorFilePath).getAbsolutePath();
-            System.out.println(monitorAbsoluteFilePath);
-            String seawulfResponse = new BufferedReader(new FileReader(monitorAbsoluteFilePath)).readLine();
-            System.out.println(seawulfResponse);
-            String jobStatus = seawulfResponse.substring(seawulfResponse.indexOf(" ")).trim();
+            shortSleepThread();
+            String jobStatus = getContentsFile("monitor.txt");
             JobStatus status =  JobStatus.getEnumFromString(jobStatus);
             if(!job.getStatus().equals(status)){
                 job.setStatus(status);
-//                jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
             }
         }
     }
 
-    private void determineAlgorithmComputeLocation()throws IOException {
+    private void determineAlgorithmComputeLocation()throws IOException, InterruptedException{
         String algorithmInputFileName = "AlgorithmInput.json";
         String algorithmInputPath = jobDirectory + algorithmInputFileName;
         if(isAlgorithmLocal){
@@ -186,6 +197,10 @@ public class AlgorithmInterface implements Runnable {
             pb.redirectErrorStream(true);
             Process tempProcess = pb.start();
             printProcessOutput(tempProcess);
+            shortSleepThread();
+            String seawulfJobID = getContentsFile("seawulfjobid.txt");
+            job.setSeawulfJobID(seawulfJobID);
+            jobDAO.updateJob(job);
         }
         isComputeLocationDetermined = true;
     }
