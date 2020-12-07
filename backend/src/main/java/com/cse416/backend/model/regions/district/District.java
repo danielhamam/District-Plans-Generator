@@ -29,7 +29,7 @@ public class District{
 
     private int districtNumber;
 
-    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="stateId")
     private State state;
 
@@ -72,7 +72,7 @@ public class District{
 
     
     @JsonIgnore
-    @ManyToOne(targetEntity=Plan.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=Plan.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Plan plan;
 
 

@@ -63,7 +63,7 @@ public class Job{
     private List<Plan> clientDistrictingPlans;
 
     @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY, mappedBy="job")
     @JoinTable(
             name = "JobMinorityGroups",
             joinColumns = @JoinColumn(name = "jobId"),
@@ -72,7 +72,7 @@ public class Job{
     @JsonIgnore
     private List<CensusEthnicity> minorityAnalyzed;
 
-    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="stateId")
     @JsonIgnore
     private State state;

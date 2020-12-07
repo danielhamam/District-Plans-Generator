@@ -337,3 +337,10 @@ client/node_modules/.cache/eslint-loader/5e8c3e27d66fa23f2d331f36d70281f37f4a253
 client/node_modules/.cache/eslint-loader/72efdc59a335efd4a067ac89e42c32faded8a176.json.gz
 client/node_modules/.cache/eslint-loader/ec8d0bb8ea8e8268ef5ca9573da36db9bf15453b.json.gz
 client/node_modules/.cache/eslint-loader/f8eafa6e0a92cee5ee5d3a564b8fb3646ad55c8e.json.gz
+*.json
+client/node_modules/.cache/eslint-loader/1fc9f66aa55741c622f8ab24b377c69213854bc0.json.gz
+client/node_modules/.cache/eslint-loader/3cd4057fd638569fde22f786c7e8bd908f7f621f.json.gz
+client/node_modules/.cache/eslint-loader/b567825d0cc7f5134aa31082f5f89ee3aceb0dbf.json.gz
+client/node_modules/.cache/eslint-loader/c38b029a6f3f03533419aecd8448fd8823d9401c.json.gz
+client/node_modules/.cache/eslint-loader/e31e1780ce9f4eab10c727a3a54395fd6fb4dc6f.json.gz
+client/node_modules/.cache/eslint-loader/fae9519b8db08a81cc4d5f1317e27b03da046c44.json.gz

@@ -30,11 +30,11 @@ public class County {
     @Transient
     private Boundary boundary;
 
-    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="districtId")
     private District district;
 
-    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="stateId")
     private State state;
 
