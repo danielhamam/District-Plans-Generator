@@ -674,7 +674,7 @@ def main():
     getData(infile) # Retrieves data from JSON
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
     cProfile.run("algorithmDriver(graph_main)")
-    algorithmDriver(graph_main) # Main function
+    # algorithmDriver(graph_main) # Main function
 
     convertToOutput() # Converts to output format
 
