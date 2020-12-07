@@ -173,7 +173,7 @@ public class AlgorithmInterface implements Runnable {
         String algorithmInputPath = jobDirectory + algorithmInputFileName;
         if(isAlgorithmLocal){
             System.out.println("Running algorithm locally... Python output...");
-            String localPythonScript = "src/main/resources/python/algorithm/AlgorithmDanny_p3.py";
+            String localPythonScript = "src/main/resources/python/algorithm/Algorithm.py";
             ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript, algorithmInputPath);
             pb.redirectErrorStream(true);
             localAlgorithmProcess = pb.start();
