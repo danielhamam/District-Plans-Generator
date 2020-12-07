@@ -29,7 +29,7 @@ public class BoxWhiskerPlot{
     @Transient
     private int [] enactedPlan;
 
-    @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="boxwhiskerId")
     private BoxWhisker boxWhisker;
 

@@ -25,20 +25,20 @@ public class Precinct {
 
     private String precinctFIPSCode;
 
-    @ManyToOne(targetEntity=County.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=County.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="countyId")
     private County county;
 
-    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=District.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="districtId")
     private District district;
 
-    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="stateId")
     private State state;
 
     @ManyToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY)
+    fetch = FetchType.LAZY, mappedBy="precinct")
     @JoinTable(
         name = "PrecinctNeighbors",
         joinColumns = @JoinColumn(name = "precinctID", referencedColumnName = "precinctId"),
