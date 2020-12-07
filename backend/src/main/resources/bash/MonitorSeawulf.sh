@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+
+#input variables
 NETID=$1
 JOB_DIR_PATH=$2
 JOBNAME=$3
 JOB_SEAWULF_ID=$4
+
+#bash script variables
 FILE_TO_TRANSFER1=temp1.txt
 FILE_TO_TRANSFER2=temp2.txt
 
@@ -21,4 +25,7 @@ ssh ${NETID}@login.seawulf.stonybrook.edu '
 pwd;
 ./monitorjob.sh
 '
+
+#get file from seawulf
 scp ${NETID}@login.seawulf.stonybrook.edu:./jobs/${JOBNAME}/monitor.txt ${JOB_DIR_PATH}/${JOBNAME}/
+echo monitor.txt has be received from The Seawulf

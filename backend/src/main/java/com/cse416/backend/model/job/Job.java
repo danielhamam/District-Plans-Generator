@@ -289,6 +289,7 @@ public class Job{
                 ", randomDistrictPlan=" + randomDistrictPlan +
                 ", averagePlanPopulation=" + averagePlanPopulation +
                 ", averagePlanCompactness=" + averagePlanCompactness +
+                ", minorityAnalyzedEnumaration=" + minorityAnalyzedEnumration +
                 ", minorityAnalyzed=" + minorityAnalyzed +
                 '}';
     }

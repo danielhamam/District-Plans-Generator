@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+echo Moving Directory... Using movedir.sh...
 JOBDIR=$(cat temp.txt)
-mv -v ${JOBDIR} ./jobs
+mv ${JOBDIR} ./jobs
+echo ${JOBDIR} moved into /job directory
 

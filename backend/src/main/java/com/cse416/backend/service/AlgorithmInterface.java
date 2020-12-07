@@ -4,6 +4,7 @@ import com.cse416.backend.dao.services.JobDAOService;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 
@@ -31,7 +32,6 @@ public class AlgorithmInterface implements Runnable {
         this.isJobCancelled = false;
         this.jobDirectory = "src/main/resources/system/jobs/";
         this.jobDirectoryRelativePath = "../system/jobs/";
-        this.jobDAO = new JobDAOService();
     }
 
     public Job getJob(){
@@ -103,6 +103,7 @@ public class AlgorithmInterface implements Runnable {
                 kill();
             }
         }
+        System.out.println("Killed thread: " + this);
     }
 
     public void cancelJobDriver() {
@@ -126,7 +127,7 @@ public class AlgorithmInterface implements Runnable {
     }
 
     private void longSleepThread() throws InterruptedException{
-        Thread.sleep(3000);
+        Thread.sleep(20000);
     }
 
     private void shortSleepThread() throws InterruptedException{
@@ -159,7 +160,7 @@ public class AlgorithmInterface implements Runnable {
             doesFileExist = !localAlgorithmProcess.isAlive();
             if(doesFileExist){
                 job.setStatus(JobStatus.COMPLETED);
-                jobDAO.updateJob(job);
+                //jobDAO.updateJob(job);
             }
         }
         else{
@@ -171,10 +172,11 @@ public class AlgorithmInterface implements Runnable {
             printProcessOutput(tempProcess);
             shortSleepThread();
             String jobStatus = getContentsFile("monitor.txt");
+            System.out.println("Status recieved from the seawulf: " + jobStatus);
             JobStatus status =  JobStatus.getEnumFromString(jobStatus);
             if(!job.getStatus().equals(status)){
                 job.setStatus(status);
-                jobDAO.updateJob(job);
+                //jobDAO.updateJob(job);
             }
         }
     }
@@ -200,7 +202,7 @@ public class AlgorithmInterface implements Runnable {
             shortSleepThread();
             String seawulfJobID = getContentsFile("seawulfjobid.txt");
             job.setSeawulfJobID(seawulfJobID);
-            jobDAO.updateJob(job);
+            //jobDAO.updateJob(job);
         }
         isComputeLocationDetermined = true;
     }
