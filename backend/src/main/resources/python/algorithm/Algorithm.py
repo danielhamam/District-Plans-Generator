@@ -624,11 +624,13 @@ def findCombine(graph, subgraph):
 def parser():
     parser = argparse.ArgumentParser(prog="algorithm",description='Algorithm')
     parser.add_argument('infile', help='The input json file to make the python code run', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
+    parser.add_argument('output_directory', help='This is the path for the output directory', type=str, nargs=1)
+    parser.add_argument('output_file_name', help='This is the name of output file', type=str, nargs=1)
+
     return parser
 
-def convertToOutput():
+def convertToOutput(directory_path:str, filename:str):
     global subgraphs, state_abbreviation, num_districts
-
     plan = {
         "stateAbbreviation": state_abbreviation,
         "numberOfDistricts": num_districts,
@@ -652,7 +654,7 @@ def convertToOutput():
 
     plan.update({"numberOfDistricts": counter})
     newjsonfile = json.dumps(plan, indent=4)
-    outfile = open("./jobs/AlgoOut.json", 'w')
+    outfile = open(directory_path + "output" + filename + ".json", 'w')
     outfile.write(newjsonfile)
     return plan
 
@@ -674,9 +676,9 @@ def main():
     getData(infile) # Retrieves data from JSON
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
     cProfile.run("algorithmDriver(graph_main)")
-    algorithmDriver(graph_main) # Main function
+    #algorithmDriver(graph_main) # Main function
 
-    convertToOutput() # Converts to output format
+    convertToOutput(parse.parse_args().output_directory[0], parse.parse_args().output_file_name[0]) # Converts to output format
 
     # global subgraphs
     # print(subgraphs)

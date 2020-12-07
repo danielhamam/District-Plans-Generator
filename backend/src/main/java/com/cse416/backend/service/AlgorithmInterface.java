@@ -74,20 +74,24 @@ public class AlgorithmInterface implements Runnable {
                         "Job's status: " + job.getStatus() + "\t" +
                         "Job's seawulfJobID: " + job.getSeawulfJobID());
 
+                if(isJobCancelled){
+                    cancelJob();
+                    break;
+                }
+
                 if (!isComputeLocationDetermined) {
                     determineAlgorithmComputeLocation();
-                    longSleepThread();
                 }
+
                 monitorAlgorithm();
+
                 JobStatus status = job.getStatus();
                 if(status.equals(JobStatus.COMPLETED)){
-                    //TODO: THIS IS WHERE YOU EXTRACT INFORMATION. SIGNIGIES JOB IS COMPLETE.
+                    extractDataFromJob();
+                    initiateServerProcessing();
                     kill();
                 }
 
-                if(isJobCancelled){
-                    cancelJob();
-                }
                 longSleepThread();
             }
             catch(InterruptedException ie){
@@ -134,14 +138,24 @@ public class AlgorithmInterface implements Runnable {
         Thread.sleep(10000);
     }
 
-    private void extractDataFromCompleteJob(){
+    private void initiateServerProcessing(){
+        String jobDirectoryPath = jobDirectory + job.getJobName().toLowerCase() + "/";
+
+
+    }
+
+    private void extractDataFromJob()throws IOException, InterruptedException{
         if(isAlgorithmLocal) {
-//            String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
-//            File file = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
-//            doesFileExist = file.exists();
+            //TODO: For local algorithm run
         }
         else{
-            //TODO: SCRIPT GOES HERE
+            String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
+            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
+                    netid, jobDirectory, seawulfDirectory);
+            pb.redirectErrorStream(true);
+            Process tempProcess = pb.start();
+            printProcessOutput(tempProcess);
+            shortSleepThread();
         }
 
     }
@@ -207,10 +221,4 @@ public class AlgorithmInterface implements Runnable {
         isComputeLocationDetermined = true;
     }
 
-    private void initiateServerProcessing(){
-        String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
-        File algorithmOutputFile = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
-        job.processAlgorithmOutput(algorithmOutputFile);
-
-    }
 }
