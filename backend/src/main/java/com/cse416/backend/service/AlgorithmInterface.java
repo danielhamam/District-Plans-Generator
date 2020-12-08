@@ -139,9 +139,9 @@ public class AlgorithmInterface implements Runnable {
     }
 
     private void initiateServerProcessing(){
-        String jobDirectoryPath = jobDirectory + job.getJobName().toLowerCase() + "/";
-
-
+        System.out.println("Starting Processing...");
+        String algorithmOutputPath = jobDirectory + job.getJobName().toLowerCase() + "/AlgorithmOutput.json";
+        //job.processAlgorithmOutput(algorithmOutputPath);
     }
 
     private void extractDataFromJob()throws IOException, InterruptedException{
@@ -149,6 +149,7 @@ public class AlgorithmInterface implements Runnable {
             //TODO: For local algorithm run
         }
         else{
+            System.out.println("Extract Data from Seawulf");
             String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
             ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
                     netid, jobDirectory, seawulfDirectory);
@@ -156,6 +157,13 @@ public class AlgorithmInterface implements Runnable {
             Process tempProcess = pb.start();
             printProcessOutput(tempProcess);
             shortSleepThread();
+            //TODO: CALL PYTHON TO MERGE JSON FILES
+//            String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
+//            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
+//                    netid, jobDirectory, seawulfDirectory);
+//            pb.redirectErrorStream(true);
+//            Process tempProcess = pb.start();
+//            printProcessOutput(tempProcess);
         }
 
     }
@@ -209,7 +217,7 @@ public class AlgorithmInterface implements Runnable {
         else{
             System.out.println("Running algorithm remotely...  Bash output...");
             ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/InitiateAlgorithm.sh",
-                    netid, jobDirectory, job.getJobName());
+                    netid, jobDirectory, job.getJobName(), ""+job.getNumOfDistricts());
             pb.redirectErrorStream(true);
             Process tempProcess = pb.start();
             printProcessOutput(tempProcess);

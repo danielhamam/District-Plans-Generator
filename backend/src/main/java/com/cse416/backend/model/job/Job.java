@@ -8,12 +8,14 @@ import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
+import com.cse416.backend.model.regions.district.District;
 import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cse416.backend.model.plan.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 
 import javax.persistence.*;
@@ -247,16 +249,41 @@ public class Job{
         try{
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(algorithmOutputFile);
-            JsonNode plansNode = rootNode.get("districtings");
-            allPlans = mapper.readValue(plansNode.asText(),
-                    mapper.getTypeFactory().constructCollectionType(List.class, Plan.class));
+            JsonNode plansNode = rootNode.get("plans");
+            for(JsonNode node : plansNode){
+
+                //Create plan
+                int averageDistrictPopulation = node.get("averageDistrictPopulation").asInt();
+                int averageDistrictCompactness = node.get("averageDistrictPopulation").asInt();
+                Plan plan = new Plan(this, numOfDistricts,
+                        averageDistrictPopulation, averageDistrictCompactness);
 
 
+                //Create districts for the plan
+                List <District> districts = new ArrayList<>();
+                JsonNode algorithmNode = plansNode.get("algorithmData");
+                int districtElement = 0;
+                for(JsonNode nodeE : algorithmNode){
+                    //TODO: Figure out find counties and precints. How would you do that?
+                    // How would the Job object access the database?
+                    District tempDistricts =  new District(districtElement, state, plan, null, null);
+                    districts.add(tempDistricts);
+                    districtElement++;
+                }
+                plan.setDistricts(districts);
+
+
+
+
+
+
+
+
+            }
         }
         catch (IOException error){
 
         }
-
 
         //TODO:39 Generate a summary file of each job (required)
     }

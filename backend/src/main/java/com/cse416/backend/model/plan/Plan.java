@@ -36,19 +36,7 @@ public class Plan{
     private Job job;
 
     @JsonProperty
-    @Transient
-    private String type;
-
-    @JsonProperty
-    @Transient
-    private String stateAbbreviation;
-
-    @JsonProperty
     private int numberOfDistricts;
-
-    @JsonProperty
-    @Transient
-    private boolean isPlanEnacted;
 
     @JsonIgnore
     @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL,
@@ -65,6 +53,18 @@ public class Plan{
 
     @JsonIgnore
     private int averageDistrictCompactness;
+
+    @JsonProperty
+    @Transient
+    private boolean isPlanEnacted;
+
+    @JsonProperty
+    @Transient
+    private String type;
+
+    @JsonProperty
+    @Transient
+    private String stateAbbreviation;
 
     @JsonIgnore
     @Transient
@@ -102,6 +102,15 @@ public class Plan{
         catch(IOException error){
             error.printStackTrace();
         }
+    }
+
+
+    public Plan(Job job, int numberOfDistricts, int averageDistrictPopulation,
+                int averageDistrictCompactness) {
+        this.job = job;
+        this.numberOfDistricts = numberOfDistricts;
+        this.averageDistrictPopulation = averageDistrictPopulation;
+        this.averageDistrictCompactness = averageDistrictCompactness;
     }
 
     public FeatureCollection createDistrictFeatureCollection()throws IOException{

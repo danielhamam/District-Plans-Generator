@@ -4,11 +4,13 @@
 NETID=$1
 JOB_DIR_NAME=$2
 JOB_NAME=$3
+NUM_OF_JOBS=$3
 
 #bash script variables
 JOB_DIR_PATH=${JOB_DIR_NAME}${JOB_NAME}/
 ALGO_FILE_PATH=${JOB_DIR_PATH}AlgorithmInput.json
-FILE_TO_TRANSFER=temp.txt
+FILE_TO_TRANSFER1=temp1.txt
+FILE_TO_TRANSFER2=temp2.txt
 
 #conditional: if the file does not exist exit script
 echo ${ALGO_FILE_PATH}
@@ -19,9 +21,14 @@ then
 fi
 
 #Create file, send file, remove file
-echo ${JOB_NAME} > ${FILE_TO_TRANSFER}
-scp ${FILE_TO_TRANSFER} ${NETID}@login.seawulf.stonybrook.edu:./
+echo ${JOB_NAME} > ${FILE_TO_TRANSFER1}
+scp ${FILE_TO_TRANSFER1} ${NETID}@login.seawulf.stonybrook.edu:./
 rm -v ${FILE_TO_TRANSFER1}
+
+#Create file, send file, remove file
+echo ${NUM_OF_JOBS} > ${FILE_TO_TRANSFER2}
+scp ${FILE_TO_TRANSFER2} ${NETID}@login.seawulf.stonybrook.edu:./
+rm -v ${FILE_TO_TRANSFER2}
 
 #send dir, remove file
 scp -r ${JOB_DIR_PATH} ${NETID}@login.seawulf.stonybrook.edu:./

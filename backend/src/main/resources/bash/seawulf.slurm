@@ -46,3 +46,6 @@ print("Completed in {:.2f}s for rank {}:".format(time.time() - start_time, rank)
 EOF
 
 mpirun -np 2 python py_mpi_hello.py
+
+# 411477 testtest
+# 411484 bractiel

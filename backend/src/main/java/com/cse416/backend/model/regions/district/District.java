@@ -24,43 +24,44 @@ public class District{
     @GeneratedValue
     private Integer districtId;
 
-    @Transient
-    private String districtName;
-
     private int districtNumber;
 
     @ManyToOne(targetEntity=State.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="stateId")
     private State state;
 
-    @Transient
-    private String stateAbbrev;
-
-    @Column(name = "numberOfCounties")
-    private String numofCounties;
-
-    @Column(name = "numberOfPrecincts")
-    private String numofPrecincts;
-
-    @Transient
-    private Demographic demographic;
-
-    @Transient
-    private double compactness;
-
+    @ManyToOne(targetEntity=Plan.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="district")
-    private List<Precinct> precincts;
+    private Plan plan;
 
     @JsonIgnore
     @OneToMany(targetEntity=County.class,cascade = CascadeType.ALL, 
     fetch = FetchType.LAZY, orphanRemoval = true,  mappedBy ="district")
     private List<County> counties;
 
+    @Column(name = "numberOfCounties")
+    private String numofCounties;
+
+    @JsonIgnore
+    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="district")
+    private List<Precinct> precincts;
+
+    @Column(name = "numberOfPrecincts")
+    private String numofPrecincts;
+
+    @Transient
+    private String stateAbbrev;
+
     @Transient
     @JsonIgnore
     private List <District> neighbors;
+
+    @Transient
+    private Demographic demographic;
+
+    @Transient
+    private double compactness;
 
     @Transient
     @JsonIgnore
@@ -70,29 +71,20 @@ public class District{
     @JsonIgnore
     private double area;
 
-    
-    @JsonIgnore
-    @ManyToOne(targetEntity=Plan.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Plan plan;
 
-
-   
     //Neccessary for JPA
     protected District (){}
 
-    public District(String districtName, int districtNumber, int districtFIPSCode) {
-        this.districtName = districtName;
+    public District(int districtNumber, State state, Plan plan, List<County> counties, List<Precinct> precincts){
         this.districtNumber = districtNumber;
+        this.state = state;
+        this.plan  = plan;
+        this.counties = counties;
+        this.numofCounties = "" + counties.size();
+        this.precincts = precincts;
+        this.numofCounties = "" + precincts.size();
     }
-    
 
-    public String getDistrictName() {
-        return districtName;
-    }
-
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
-    }
 
     public int getDistrictNumber() {
         return districtNumber;
@@ -174,7 +166,6 @@ public class District{
     @Override
     public String toString() {
         return "District{" +
-                "districtName='" + districtName + '\'' +
                 ", districtNumber=" + districtNumber +
                 // ", districtFIPSCode=" + districtFIPSCode +
                 ", stateAbbrev='" + stateAbbrev + '\'' +
