@@ -2,14 +2,15 @@ from json import load, dumps
 import json
 import argparse
 import sys
+import os
 
-state_abbrev = ""
+state_abbreviation = ""
 num_of_districts = 0
 is_plan_enacted = False
 average_district_population = 0.0
 average_district_compactness = 0.0
 algorithm_data = None
-plan = {}
+list_of_plans = []
 
 
 def getData(file):
@@ -54,18 +55,20 @@ def getData(file):
         sys.exit()
 
 def produceOutput(number):
-    global state_abbrev, num_of_districts, is_plan_enacted, average_district_population, average_district_compactness, algorithm_data
+    global state_abbreviation, num_of_districts, is_plan_enacted, average_district_population, average_district_compactness, algorithm_data
 
     plan = {
-      "planId": number,
+      "planId": str(number),
       "type": "",
-      "stateAbbrev": state_abbrev,
+      "stateAbbrev": state_abbreviation,
       "numOfDistricts": num_of_districts,
       "isPlanEnacted": is_plan_enacted,
       "averageDistrictPopulation": average_district_population,
       "averageDistrictCompactness": average_district_compactness,
       "graph_districts": algorithm_data
     }
+
+    return plan
 
 
 def parser():
@@ -75,10 +78,24 @@ def parser():
 
 
 def main(args):
+    global list_of_plans
+
     directory_path = args.directory[0]
-    #TODO: CREATE
+    directory = os.fsencode(directory_path)
+    
+    counter = 0
+    for file in os.listdir(directory): # Iterate through each file in directory
+        filename = os.fsdecode(file)
+        if filename.endswith(".json"): 
+            counter = counter + 1 # Plan number
+            getData(filename) # Extracts data from file
+            list_of_plans.append(produceOutput(counter)) # Formats data into plan and adds it to list of plans
+            continue
 
-
+    # Write list of plans to file
+    newjsonfile = json.dumps(list_of_plans, indent=4)
+    outfile = open(directory_path + "AlgorithmOutput.json", 'w')
+    outfile.write(newjsonfile)
 
 
 if __name__ == "__main__":
