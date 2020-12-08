@@ -65,7 +65,7 @@ public class Job{
     private List<Plan> clientDistrictingPlans;
 
     @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, mappedBy="job")
+            fetch = FetchType.LAZY)
     @JoinTable(
             name = "JobMinorityGroups",
             joinColumns = @JoinColumn(name = "jobId"),

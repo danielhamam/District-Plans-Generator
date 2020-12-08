@@ -657,7 +657,6 @@ def convertToOutput(directory_path:str, filename:str):
     for i in subgraphs:
         counter = counter + 1
         district = {
-        "compactness": 0.0,
         "precincts": []
         }
         district.update({"precincts": i})
