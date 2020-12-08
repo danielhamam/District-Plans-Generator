@@ -4,6 +4,7 @@ import com.cse416.backend.dao.services.JobDAOService;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 
@@ -31,7 +32,6 @@ public class AlgorithmInterface implements Runnable {
         this.isJobCancelled = false;
         this.jobDirectory = "src/main/resources/system/jobs/";
         this.jobDirectoryRelativePath = "../system/jobs/";
-        this.jobDAO = new JobDAOService();
     }
 
     public Job getJob(){
@@ -74,20 +74,24 @@ public class AlgorithmInterface implements Runnable {
                         "Job's status: " + job.getStatus() + "\t" +
                         "Job's seawulfJobID: " + job.getSeawulfJobID());
 
+                if(isJobCancelled){
+                    cancelJob();
+                    break;
+                }
+
                 if (!isComputeLocationDetermined) {
                     determineAlgorithmComputeLocation();
-                    longSleepThread();
                 }
+
                 monitorAlgorithm();
+
                 JobStatus status = job.getStatus();
                 if(status.equals(JobStatus.COMPLETED)){
-                    //TODO: THIS IS WHERE YOU EXTRACT INFORMATION. SIGNIGIES JOB IS COMPLETE.
+                    extractDataFromJob();
+                    initiateServerProcessing();
                     kill();
                 }
 
-                if(isJobCancelled){
-                    cancelJob();
-                }
                 longSleepThread();
             }
             catch(InterruptedException ie){
@@ -103,6 +107,7 @@ public class AlgorithmInterface implements Runnable {
                 kill();
             }
         }
+        System.out.println("Killed thread: " + this);
     }
 
     public void cancelJobDriver() {
@@ -126,21 +131,31 @@ public class AlgorithmInterface implements Runnable {
     }
 
     private void longSleepThread() throws InterruptedException{
-        Thread.sleep(3000);
+        Thread.sleep(20000);
     }
 
     private void shortSleepThread() throws InterruptedException{
         Thread.sleep(10000);
     }
 
-    private void extractDataFromCompleteJob(){
+    private void initiateServerProcessing(){
+        String jobDirectoryPath = jobDirectory + job.getJobName().toLowerCase() + "/";
+
+
+    }
+
+    private void extractDataFromJob()throws IOException, InterruptedException{
         if(isAlgorithmLocal) {
-//            String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
-//            File file = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
-//            doesFileExist = file.exists();
+            //TODO: For local algorithm run
         }
         else{
-            //TODO: SCRIPT GOES HERE
+            String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
+            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
+                    netid, jobDirectory, seawulfDirectory);
+            pb.redirectErrorStream(true);
+            Process tempProcess = pb.start();
+            printProcessOutput(tempProcess);
+            shortSleepThread();
         }
 
     }
@@ -159,7 +174,7 @@ public class AlgorithmInterface implements Runnable {
             doesFileExist = !localAlgorithmProcess.isAlive();
             if(doesFileExist){
                 job.setStatus(JobStatus.COMPLETED);
-                jobDAO.updateJob(job);
+                //jobDAO.updateJob(job);
             }
         }
         else{
@@ -171,10 +186,11 @@ public class AlgorithmInterface implements Runnable {
             printProcessOutput(tempProcess);
             shortSleepThread();
             String jobStatus = getContentsFile("monitor.txt");
+            System.out.println("Status recieved from the seawulf: " + jobStatus);
             JobStatus status =  JobStatus.getEnumFromString(jobStatus);
             if(!job.getStatus().equals(status)){
                 job.setStatus(status);
-                jobDAO.updateJob(job);
+                //jobDAO.updateJob(job);
             }
         }
     }
@@ -200,15 +216,9 @@ public class AlgorithmInterface implements Runnable {
             shortSleepThread();
             String seawulfJobID = getContentsFile("seawulfjobid.txt");
             job.setSeawulfJobID(seawulfJobID);
-            jobDAO.updateJob(job);
+            //jobDAO.updateJob(job);
         }
         isComputeLocationDetermined = true;
     }
 
-    private void initiateServerProcessing(){
-        String jobDirectoryAbsolutePath =  new File(jobDirectoryRelativePath).getAbsolutePath();
-        File algorithmOutputFile = new File(jobDirectoryAbsolutePath + "/AlgorithmOutput.json");
-        job.processAlgorithmOutput(algorithmOutputFile);
-
-    }
 }

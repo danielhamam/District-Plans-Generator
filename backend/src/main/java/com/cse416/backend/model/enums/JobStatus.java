@@ -3,6 +3,7 @@ package com.cse416.backend.model.enums;
 
 public enum JobStatus {
     CANCELLED("CA", "CANCELLED"),
+    COMPLETING("-", "COMPLETING"),
     COMPLETED("CD", "COMPLETED"),
     PENDING("PD", "PENDING"),
     RUNNING("R", "RUNNING"),
@@ -28,7 +29,7 @@ public enum JobStatus {
     }
 
     public String getLongName() {
-        return codeName;
+        return longName;
     }
 
 
@@ -38,12 +39,15 @@ public enum JobStatus {
         for (JobStatus enumaration : JobStatus.values()) {
             if (enumaration.getCodeName().equals(str)) {
                 seawulfJobStateCode = enumaration;
+                break;
             }
         }
 
         for (JobStatus enumaration : JobStatus.values()) {
             if (enumaration.getLongName().equals(str)) {
+                System.out.println(enumaration);
                 seawulfJobStateCode = enumaration;
+                break;
             }
         }
         return seawulfJobStateCode;

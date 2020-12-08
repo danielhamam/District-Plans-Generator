@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
+
+#input variables
 NETID=$1
 JOB_DIR_NAME=$2
 JOB_NAME=$3
 
+#bash script variables
 JOB_DIR_PATH=${JOB_DIR_NAME}${JOB_NAME}/
 ALGO_FILE_PATH=${JOB_DIR_PATH}AlgorithmInput.json
 FILE_TO_TRANSFER=temp.txt
 
+#conditional: if the file does not exist exit script
 echo ${ALGO_FILE_PATH}
-if [[ ! -f ${ALGO_FILE_PATH} ]] #if the file does not exist exit script
+if [[ ! -f ${ALGO_FILE_PATH} ]]
 then
     echo 'Error Occurred. Exiting program...'
     exit
@@ -28,21 +32,6 @@ pwd;
 ./runalgorithm.sh
 '
 
-#get job id from seawulf
-scp -r ${NETID}@login.seawulf.stonybrook.edu:./jobs/${JOB_NAME}/temp-seawulfjobid.txt ${JOB_DIR_PATH}
-
-
-
-
-
-
-
-
-
-
-#cat src/main/resources/seawulf.slurm | ssh <carlopez>@login.seawulf.stonybrook.edu
-#'source /etc/profile.d/modules.sh;
-#module load slurm;
-#module load anaconda/3;
-#cd <GO-TO-DIRECTORY-OF-CHOICE>;
-#sbatch'q
+#get file from seawulf
+scp -r ${NETID}@login.seawulf.stonybrook.edu:./jobs/${JOB_NAME}/seawulfjobid.txt ${JOB_DIR_PATH}
+echo seawulfjobid.txt has be received from The Seawulf

@@ -281,11 +281,11 @@ public class ServerService {
         try{
             State currentState = session.getState();
             job.setState(currentState);
-            job.setMinorityAnalyzed(covertClientCensusToDatabaseCensus(job));
+            List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
+            job.setMinorityAnalyzed(censusEthnicities);
             jobDAO.addJob(job);
-//            createJobDirectory(job);
-//            initiateAlgorithm(job);
-
+            createJobDirectory(job);
+            initiateAlgorithm(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -345,6 +345,8 @@ public class ServerService {
             jobDAO.deleteJob(job);
             System.out.println("Successfully deleted the job for the database");
             System.out.println(job.toString() + " has been removed");
+        }else{
+            jobDAO.deleteJob(job);
         }
 
     }
