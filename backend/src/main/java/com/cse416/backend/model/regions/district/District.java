@@ -191,3 +191,4 @@ class CompactnessCompare implements Comparator<District>
         else return 0;
     }
 }
+
