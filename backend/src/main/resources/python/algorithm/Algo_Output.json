@@ -6,9 +6,10 @@
       "stateAbbrev": "NY",
       "numOfDistricts": 2,
       "isPlanEnacted": true,
+      "averageDistrictPopulation": 0,
+      "averageDistrictCompactness": 0,
       "graph_districts":{
         "1": {
-          "compactness": 0.2,
           "precincts": ["020001", "020002","020003","020004", "020005"]
         },
         "2": {
