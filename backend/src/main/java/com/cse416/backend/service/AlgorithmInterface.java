@@ -1,9 +1,10 @@
 package com.cse416.backend.service;
 
-import com.cse416.backend.dao.services.JobDAOService;
+import com.cse416.backend.dao.services.*;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,8 +22,17 @@ public class AlgorithmInterface implements Runnable {
     private Job job;
 
 
-    @Autowired
+    //DAO Servicers
+    @Autowired(required = false)
     private JobDAOService jobDAO;
+
+    @Autowired(required = false)
+    private CountyDAOService countyDAO;
+
+    @Autowired(required = false)
+    private DemographicDAOService demographicDAO;
+
+
 
     public AlgorithmInterface(String netid, Job job, boolean runAlgoLocally) {
         this.netid = netid;
@@ -57,9 +67,14 @@ public class AlgorithmInterface implements Runnable {
 
     public void start() {
         if (proxyThread == null) {
-            System.out.println("Starting Thread...");
-            proxyThread = new Thread(this);
-            proxyThread.start();
+            System.out.println(jobDAO == null);
+            System.out.println(countyDAO == null);
+            System.out.println(demographicDAO == null);
+
+//
+//            System.out.println("Starting Thread...");
+//            proxyThread = new Thread(this);
+//            proxyThread.start();
         }
     }
 
@@ -148,7 +163,7 @@ public class AlgorithmInterface implements Runnable {
         File algorithmOutput = new File(algorithmOutputAbsolutePath);
         if(algorithmOutput.exists()){
             System.out.println("AlgorithmOutput.json exists...\nStarting Processing...");
-            job.processAlgorithmOutput(algorithmOutput);
+
         }else{
             System.out.println("Error -> AlgorithmOutput.json does not exists...");
         }

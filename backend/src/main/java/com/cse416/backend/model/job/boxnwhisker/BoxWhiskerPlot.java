@@ -1,4 +1,7 @@
 package com.cse416.backend.model.job.boxnwhisker;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 
@@ -9,25 +12,36 @@ public class BoxWhiskerPlot{
     @Id
     @GeneratedValue
     @Column(name = "boxWhiskerPlotId")
-    private int id;
+    @JsonIgnore
+    private long id;
 
     @Column(name = "mininum")
-    private int min;
+    @JsonIgnore
+    private long min;
 
     @Column(name = "lowerQuartile")
-    private int q1;
+    @JsonIgnore
+    private long q1;
 
     @Column(name = "median")
-    private int q2;
+    @JsonIgnore
+    private long q2;
 
     @Column(name = "upperQuartile")
-    private int q3;
+    @JsonIgnore
+    private long q3;
 
     @Column(name = "maximum")
-    private int max;
+    @JsonIgnore
+    private long max;
 
     @Transient
-    private int [] enactedPlan;
+    @JsonProperty
+    private int indexedDistrict;
+
+    @Transient
+    @JsonProperty
+    private long [] values;
 
     @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="boxwhiskerId")
@@ -36,37 +50,13 @@ public class BoxWhiskerPlot{
     //Necessary For JPA
     protected BoxWhiskerPlot(){}
 
-    public BoxWhiskerPlot(int id, int min, int q1, int q2, int q3, int max) {
-        this.id = id;
+    public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max) {
+        this.indexedDistrict = indexedDistrict;
         this.min = min;
         this.q1 = q1;
         this.q2 = q2;
         this.q3 = q3;
         this.max = max;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public int getQ1() {
-        return q1;
-    }
-
-    public int getQ2() {
-        return q2;
-    }
-
-    public int getQ3() {
-        return q3;
-    }
-
-    public int getMax() {
-        return max;
     }
 
     @Override

@@ -31,9 +31,20 @@ public class BoxWhisker {
         boxWhisker = new ArrayList<>();
     }
 
-   
+    public BoxWhisker(List<BoxWhiskerPlot> boxWhisker) {
+        this.boxWhisker = boxWhisker;
+    }
 
-//    public BoxWhisker(Integer[] district, Integer[] values) {
+    @Override
+    public String toString() {
+        return "BoxWhisker{" +
+                "id=" + id +
+                ", boxWhisker=" + boxWhisker +
+                ", job=" + job +
+                '}';
+    }
+
+    //    public BoxWhisker(Integer[] district, Integer[] values) {
 //        List<Map<Integer, Integer[]>>  newBoxWhisker = new ArrayList<>();
 //        for(int i =0; i < district.length; i++){
 //            Map <Integer, Integer[]> map = new HashMap<>(district[i],values[i]);

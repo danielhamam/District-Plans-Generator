@@ -12,6 +12,7 @@ import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
+import com.cse416.backend.model.job.boxnwhisker.BoxWhiskerPlot;
 import com.cse416.backend.model.regions.district.District;
 import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.cse416.backend.model.regions.district.comparators.*;
+
 
 
 import javax.persistence.*;
@@ -125,19 +128,6 @@ public class Job{
     @Transient
     @JsonIgnore
     private BoxWhisker boxWhisker;
-
-
-    @Autowired
-    private JobDAOService jobDAO;
-
-    @Autowired
-    private CountyDAOService countyDAO;
-
-    @Autowired
-    private PrecinctDAOService precinctDAO;
-
-    @Autowired
-    private DemographicDAOService demographicDAO;
 
     
     protected Job (){}
@@ -244,6 +234,22 @@ public class Job{
         this.populationDifference = populationDifference;
     }
 
+    public List<Plan> getAllPlans() {
+        return allPlans;
+    }
+
+    public void setAllPlans(List<Plan> allPlans) {
+        this.allPlans = allPlans;
+    }
+
+    public BoxWhisker getBoxWhisker() {
+        return boxWhisker;
+    }
+
+    public void setBoxWhisker(BoxWhisker boxWhisker) {
+        this.boxWhisker = boxWhisker;
+    }
+
     @JsonIgnore
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){
@@ -260,58 +266,6 @@ public class Job{
         }
         return null;
 
-    }
-
-    public void processAlgorithmOutput(File algorithmOutputFile){
-        //Create ObjectMapper object
-        try{
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readTree(algorithmOutputFile);
-            JsonNode plansNode = rootNode.get("plans");
-            for(JsonNode node : plansNode){
-
-                //Create plan
-                double averageDistrictPopulation = node.get("averageDistrictPopulation").asDouble();
-                double averageDistrictCompactness = node.get("averageDistrictPopulation").asDouble();
-                Plan plan = new Plan(this, numOfDistricts,
-                        averageDistrictPopulation, averageDistrictCompactness);
-
-
-                //Create districts for the plan
-                List <District> districts = new ArrayList<>();
-                JsonNode graphDistricts = node.get("graph_districts");
-                int districtElement = 0;
-                for(JsonNode nodeE : graphDistricts){
-                    //TODO: Figure out find counties and precints. How would you do that?
-                    // How would the Job object access the database?
-                    District tempDistricts =  new District(districtElement, state, plan);
-//                    District tempDistricts =  new District(districtElement, state, plan, null, null);
-                    districts.add(tempDistricts);
-                    districtElement++;
-                }
-                plan.setDistricts(districts);
-
-                //System.out.println(plan.toString());
-                System.out.println(jobDAO);
-                System.out.println(precinctDAO);
-
-
-                //
-
-
-
-
-
-
-
-
-            }
-        }
-        catch (IOException error){
-
-        }
-
-        //TODO:39 Generate a summary file of each job (required)
     }
 
     @JsonIgnore
@@ -344,6 +298,7 @@ public class Job{
                 ", averagePlanCompactness=" + averagePlanCompactness +
                 ", minorityAnalyzedEnumaration=" + minorityAnalyzedEnumration +
                 ", minorityAnalyzed=" + minorityAnalyzed +
+                ", boxWhisker=" + boxWhisker +
                 '}';
     }
 }

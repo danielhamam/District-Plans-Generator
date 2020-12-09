@@ -99,7 +99,29 @@ public class Demographic {
     private Precinct precinct;
 
     public Demographic(){}
-    
+
+    public Demographic(Long totalPopulation, Long whitePopulation, Long hispanicPopulation, Long americanIndianPopulation, Long nativeHawaiianPopulation, Long africanAmericanPopulation, Long asianPopulation, Long otherRacePopulation, Long multipleRacePopulation, Long totalVAPPopulation, Long whiteVAPPopulation, Long hispanicVAPPopulation, Long americanIndianVAPPopulation, Long nativeHawaiianVAPPopulation, Long africanAmericanVAPPopulation, Long asianVAPPopulation, Long otherRaceVAPPopulation, Long multipleRaceVAPPopulation) {
+        this.totalPopulation = totalPopulation;
+        this.whitePopulation = whitePopulation;
+        this.hispanicPopulation = hispanicPopulation;
+        this.americanIndianPopulation = americanIndianPopulation;
+        this.nativeHawaiianPopulation = nativeHawaiianPopulation;
+        this.africanAmericanPopulation = africanAmericanPopulation;
+        this.asianPopulation = asianPopulation;
+        this.otherRacePopulation = otherRacePopulation;
+        this.multipleRacePopulation = multipleRacePopulation;
+        this.totalVAPPopulation = totalVAPPopulation;
+        this.whiteVAPPopulation = whiteVAPPopulation;
+        this.hispanicVAPPopulation = hispanicVAPPopulation;
+        this.americanIndianVAPPopulation = americanIndianVAPPopulation;
+        this.nativeHawaiianVAPPopulation = nativeHawaiianVAPPopulation;
+        this.africanAmericanVAPPopulation = africanAmericanVAPPopulation;
+        this.asianVAPPopulation = asianVAPPopulation;
+        this.otherRaceVAPPopulation = otherRaceVAPPopulation;
+        this.multipleRaceVAPPopulation = multipleRaceVAPPopulation;
+
+    }
+
     //Voting Age Demographic Setter
     public void setVotingAgeDemographic(Long totalVAPPopulation, Long whiteVAPPopulation, Long hispanicVAPPopulation,  Long americanIndianVAPPopulation, Long nativeHawaiianVAPPopulation, Long africanAmericanVAPPopulation, Long asianVAPPopulation, Long otherRaceVAPPopulation, Long multipleRaceVAPPopulation){
         this.totalVAPPopulation = totalVAPPopulation;
@@ -203,6 +225,27 @@ public class Demographic {
                 return otherRacePopulation + multipleRacePopulation;
             default:
                 throw new Exception("String Does Not Exist");
+        }
+    }
+
+    public Long getVAPByCensusCatagories(CensusCatagories censusCatagories)throws Exception{
+        switch(censusCatagories) {
+            case AFRICAN_AMERICAN:
+                return africanAmericanVAPPopulation;
+            case AMERICAN_INDIAN:
+                return americanIndianVAPPopulation;
+            case ASIAN_AMERICAN:
+                return asianVAPPopulation;
+            case HAWAIIAN_AMERICAN:
+                return nativeHawaiianVAPPopulation;
+            case OTHER_AMERICAN:
+                return otherRaceVAPPopulation + multipleRaceVAPPopulation;
+            case LATINO_AMERICAN:
+               return hispanicVAPPopulation;
+            case WHITE_AMERICAN:
+                return whiteVAPPopulation;
+            default:
+                throw new Exception("CensusCatagories Enum Does Not Exist");
         }
     }
 

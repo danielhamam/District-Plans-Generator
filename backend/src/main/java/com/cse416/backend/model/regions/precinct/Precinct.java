@@ -116,4 +116,11 @@ public class Precinct {
         
         return s + "]}";
     }
+
+    public String printPrecintNameFIPS() {
+        String s = "Precinct{" +
+                "precinctName='" + precinctName + '\'' +
+                ", precinctFIPSCode=" + precinctFIPSCode + "]}\n";
+        return s;
+    }
 }

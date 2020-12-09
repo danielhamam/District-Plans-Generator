@@ -1,6 +1,8 @@
 package com.cse416.backend.model.regions.district;
 
 import com.cse416.backend.model.demographic.*;
+import com.cse416.backend.model.enums.CensusCatagories;
+import com.cse416.backend.model.regions.district.comparators.*;
 import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.county.*;
@@ -80,6 +82,14 @@ public class District{
         this.districtNumber = districtNumber;
         this.state = state;
         this.plan  = plan;
+    }
+
+    public District(int districtNumber, State state, Plan plan, List<Precinct> precincts){
+        this.districtNumber = districtNumber;
+        this.state = state;
+        this.plan  = plan;
+        this.precincts = precincts;
+        this.numofCounties = "" + precincts.size();
     }
 
     public District(int districtNumber, State state, Plan plan, List<County> counties, List<Precinct> precincts){
@@ -169,6 +179,27 @@ public class District{
         return compactness;
     }
 
+    public static Comparator getComparatorByCensusCatagories(CensusCatagories censusCatagories)throws Exception{
+        switch(censusCatagories) {
+            case AFRICAN_AMERICAN:
+                return new AfricanAmericanPopulationCompare();
+            case AMERICAN_INDIAN:
+                return new AmericanIndianPopulationCompare();
+            case ASIAN_AMERICAN:
+                return new AsianPopulationCompare();
+            case HAWAIIAN_AMERICAN:
+                return new NativeHawaiianPopulationCompare();
+            case OTHER_AMERICAN:
+                return new OtherPopulationCompare();
+            case LATINO_AMERICAN:
+                return new LatinoPopulationCompare();
+            case WHITE_AMERICAN:
+                return new WhitePopulationCompare();
+            default:
+                throw new Exception("CensusCatagories Enum Does Not Exist");
+        }
+    }
+
 
     @Override
     public String toString() {
@@ -188,14 +219,4 @@ public class District{
 
 }
 
-// Class to compare Movies by ratings
-class CompactnessCompare implements Comparator<District>
-{
-    public int compare(District m1, District m2)
-    {
-        if (m1.getCompactness() < m2.getCompactness()) return -1;
-        if (m1.getCompactness() > m2.getCompactness()) return 1;
-        else return 0;
-    }
-}
 
