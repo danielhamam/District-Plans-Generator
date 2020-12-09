@@ -37,8 +37,7 @@ public class Precinct {
     @JoinColumn(name="stateId")
     private State state;
 
-    @ManyToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity=Precinct.class,fetch = FetchType.LAZY)
     @JoinTable(
         name = "PrecinctNeighbors",
         joinColumns = @JoinColumn(name = "precinctID", referencedColumnName = "precinctId"),

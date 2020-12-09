@@ -69,8 +69,7 @@ public class Job{
     @JsonProperty("districtPlans")
     private List<Plan> clientDistrictingPlans;
 
-    @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity=CensusEthnicity.class, fetch = FetchType.LAZY)
     @JoinTable(
             name = "JobMinorityGroups",
             joinColumns = @JoinColumn(name = "jobId"),
@@ -126,16 +125,19 @@ public class Job{
     @JsonIgnore
     private BoxWhisker boxWhisker;
 
-
+    @Transient
     @Autowired
     private JobDAOService jobDAO;
 
+    @Transient
     @Autowired
     private CountyDAOService countyDAO;
 
+    @Transient
     @Autowired
     private PrecinctDAOService precinctDAO;
 
+    @Transient
     @Autowired
     private DemographicDAOService demographicDAO;
 
