@@ -72,8 +72,7 @@ public class Job{
     @JsonProperty("districtPlans")
     private List<Plan> clientDistrictingPlans;
 
-    @ManyToMany(targetEntity=CensusEthnicity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity=CensusEthnicity.class, fetch = FetchType.LAZY)
     @JoinTable(
             name = "JobMinorityGroups",
             joinColumns = @JoinColumn(name = "jobId"),
@@ -129,7 +128,6 @@ public class Job{
     @JsonIgnore
     private BoxWhisker boxWhisker;
 
-    
     protected Job (){}
 
     public Job (@JsonProperty("jobName")String jobName, 
