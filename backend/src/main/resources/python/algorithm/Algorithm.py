@@ -272,8 +272,9 @@ def algorithmDriver(graph):
     for i in range(termination_limit):
         print(("\nBeginning iteration " + str(counter) + ":"))
         # print(("Initial subgraphs: " + str(subgraphs)))
-        algorithm(graph)
-        counter = counter + 1
+        value = algorithm(graph)
+        if value:
+            counter = counter + 1
         # print(("Revised Subgraphs: " + str(subgraphs)))
 
     # Re-insert ghost districts
@@ -298,6 +299,9 @@ def algorithm(graph):
     # Random Subgraph, Random neighbor
     random_subgraph = random.choice(subgraphs)
     subgraph_neighbors = neighbors.get(str(random_subgraph))
+
+    if subgraph_neighbors == []:
+        return False
 
     random_neighbor = random.choice(subgraph_neighbors) # get random neighbor
 
@@ -357,7 +361,7 @@ def algorithm(graph):
 
     print(("Edge cut completed. Total number of cut edges: " + str(num_of_cut_edges)))
 
-    return
+    return True
 
 
 def generateSpanningTreeBFS():
