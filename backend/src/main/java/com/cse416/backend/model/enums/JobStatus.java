@@ -45,7 +45,6 @@ public enum JobStatus {
 
         for (JobStatus enumaration : JobStatus.values()) {
             if (enumaration.getLongName().equals(str)) {
-                System.out.println(enumaration);
                 seawulfJobStateCode = enumaration;
                 break;
             }

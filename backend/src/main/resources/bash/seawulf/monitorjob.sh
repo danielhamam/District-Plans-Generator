@@ -9,3 +9,4 @@ CONTENTS=$(scontrol show job ${JOBID} | grep JobState | cut  -d " " -f 4 | cut -
 echo ${CONTENTS} > ./jobs/${JOBNAME}/${SERVER_JOBFILE}
 ls ./jobs/${JOBNAME}/${SERVER_JOBFILE}
 echo Monitoring Seawulf complete
+echo

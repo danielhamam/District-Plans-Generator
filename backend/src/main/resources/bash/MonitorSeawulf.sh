@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo MonitorSeawulf.sh...
 #input variables
 NETID=$1
 JOB_DIR_PATH=$2

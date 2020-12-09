@@ -275,6 +275,19 @@ public class ServerService {
         return "BoxWhisker";
     }
 
+    private void temp(Job job){
+        String algorithmOutputPath = "src/main/resources/system/jobs/AlgorithmOutput.json";
+        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
+        File algorithmOutput = new File(algorithmOutputAbsolutePath);
+        if(algorithmOutput.exists()){
+            System.out.println("AlgorithmOutput.json exists...\nStarting Processing...");
+            job.processAlgorithmOutput(algorithmOutput);
+        }else{
+            System.out.println("Error -> AlgorithmOutput.json does not exists...");
+        }
+
+    }
+
     public String generateJob(Job job){
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
@@ -283,9 +296,11 @@ public class ServerService {
             job.setState(currentState);
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
-            jobDAO.addJob(job);
-            createJobDirectory(job);
-            initiateAlgorithm(job);
+            temp(job);
+
+//            createJobDirectory(job);
+//            initiateAlgorithm(job);
+            //jobDAO.addJob(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";

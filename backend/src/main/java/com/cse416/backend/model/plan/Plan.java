@@ -49,10 +49,10 @@ public class Plan{
     private List<District> districts;
 
     @JsonIgnore
-    private int averageDistrictPopulation;
+    private double averageDistrictPopulation;
 
     @JsonIgnore
-    private int averageDistrictCompactness;
+    private double averageDistrictCompactness;
 
     @JsonProperty
     @Transient
@@ -105,8 +105,7 @@ public class Plan{
     }
 
 
-    public Plan(Job job, int numberOfDistricts, int averageDistrictPopulation,
-                int averageDistrictCompactness) {
+    public Plan(Job job, int numberOfDistricts, double averageDistrictPopulation, double averageDistrictCompactness){
         this.job = job;
         this.numberOfDistricts = numberOfDistricts;
         this.averageDistrictPopulation = averageDistrictPopulation;
@@ -157,7 +156,7 @@ public class Plan{
         this.districts = districts;
     }
 
-    public int getAverageDistrictPopulation() {
+    public double getAverageDistrictPopulation() {
         return averageDistrictPopulation;
     }
 
@@ -165,7 +164,7 @@ public class Plan{
         this.averageDistrictPopulation = averageDistrictPopulation;
     }
 
-    public int getAverageDistrictCompactness() {
+    public double getAverageDistrictCompactness() {
         return averageDistrictCompactness;
     }
 

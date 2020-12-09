@@ -75,6 +75,13 @@ public class District{
     //Neccessary for JPA
     protected District (){}
 
+
+    public District(int districtNumber, State state, Plan plan){
+        this.districtNumber = districtNumber;
+        this.state = state;
+        this.plan  = plan;
+    }
+
     public District(int districtNumber, State state, Plan plan, List<County> counties, List<Precinct> precincts){
         this.districtNumber = districtNumber;
         this.state = state;

@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.cse416.backend.dao.services.CountyDAOService;
+import com.cse416.backend.dao.services.DemographicDAOService;
+import com.cse416.backend.dao.services.JobDAOService;
+import com.cse416.backend.dao.services.PrecinctDAOService;
 import com.cse416.backend.model.demographic.CensusEthnicity;
 import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.model.enums.ClientCompactness;
@@ -16,6 +20,7 @@ import com.cse416.backend.model.plan.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.persistence.*;
@@ -120,6 +125,19 @@ public class Job{
     @Transient
     @JsonIgnore
     private BoxWhisker boxWhisker;
+
+
+    @Autowired
+    private JobDAOService jobDAO;
+
+    @Autowired
+    private CountyDAOService countyDAO;
+
+    @Autowired
+    private PrecinctDAOService precinctDAO;
+
+    @Autowired
+    private DemographicDAOService demographicDAO;
 
     
     protected Job (){}
@@ -253,24 +271,30 @@ public class Job{
             for(JsonNode node : plansNode){
 
                 //Create plan
-                int averageDistrictPopulation = node.get("averageDistrictPopulation").asInt();
-                int averageDistrictCompactness = node.get("averageDistrictPopulation").asInt();
+                double averageDistrictPopulation = node.get("averageDistrictPopulation").asDouble();
+                double averageDistrictCompactness = node.get("averageDistrictPopulation").asDouble();
                 Plan plan = new Plan(this, numOfDistricts,
                         averageDistrictPopulation, averageDistrictCompactness);
 
 
                 //Create districts for the plan
                 List <District> districts = new ArrayList<>();
-                JsonNode algorithmNode = plansNode.get("algorithmData");
+                JsonNode graphDistricts = node.get("graph_districts");
                 int districtElement = 0;
-                for(JsonNode nodeE : algorithmNode){
+                for(JsonNode nodeE : graphDistricts){
                     //TODO: Figure out find counties and precints. How would you do that?
                     // How would the Job object access the database?
-                    District tempDistricts =  new District(districtElement, state, plan, null, null);
+                    District tempDistricts =  new District(districtElement, state, plan);
+//                    District tempDistricts =  new District(districtElement, state, plan, null, null);
                     districts.add(tempDistricts);
                     districtElement++;
                 }
                 plan.setDistricts(districts);
+
+                //System.out.println(plan.toString());
+                System.out.println(jobDAO);
+                System.out.println(precinctDAO);
+
 
                 //
 

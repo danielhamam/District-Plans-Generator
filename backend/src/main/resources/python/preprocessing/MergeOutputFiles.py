@@ -18,6 +18,7 @@ def getData(file):
         print("Retrieving data. . .")
         # Opening JSON file
         print(file)
+        file = open(file, 'r')
         data = json.load(file)
         # print("File Loaded. . .")
 
@@ -50,8 +51,9 @@ def getData(file):
 
         # Closing file 
         file.close()
-    except:
+    except Exception as error:
         print("ERROR: File not found!")
+        print(error)
         sys.exit()
 
 def produceOutput(number):
@@ -82,18 +84,20 @@ def main(args):
 
     directory_path = args.directory[0]
     directory = os.fsencode(directory_path)
+    print(directory)
+    print(os.listdir(directory))
     
     counter = 0
     for file in os.listdir(directory): # Iterate through each file in directory
         filename = os.fsdecode(file)
-        if filename.endswith(".json"): 
+        if filename.endswith(".json"):
             counter = counter + 1 # Plan number
-            getData(filename) # Extracts data from file
+            getData(directory_path + filename) # Extracts data from file
             list_of_plans.append(produceOutput(counter)) # Formats data into plan and adds it to list of plans
             continue
 
     # Write list of plans to file
-    newjsonfile = json.dumps(list_of_plans, indent=4)
+    newjsonfile = json.dumps(dict(plans=list_of_plans), indent=4)
     outfile = open(directory_path + "AlgorithmOutput.json", 'w')
     outfile.write(newjsonfile)
 

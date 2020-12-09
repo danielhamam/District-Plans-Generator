@@ -81,6 +81,7 @@ public class AlgorithmInterface implements Runnable {
 
                 if (!isComputeLocationDetermined) {
                     determineAlgorithmComputeLocation();
+                    continue;
                 }
 
                 monitorAlgorithm();
@@ -131,17 +132,27 @@ public class AlgorithmInterface implements Runnable {
     }
 
     private void longSleepThread() throws InterruptedException{
+        System.out.println("Sleeping Thread " + this + " : Long Sleep");
         Thread.sleep(20000);
     }
 
     private void shortSleepThread() throws InterruptedException{
+        System.out.println("Sleeping Thread " + this + " : Short Sleep");
         Thread.sleep(10000);
     }
 
     private void initiateServerProcessing(){
-        System.out.println("Starting Processing...");
-        String algorithmOutputPath = jobDirectory + job.getJobName().toLowerCase() + "/AlgorithmOutput.json";
-        //job.processAlgorithmOutput(algorithmOutputPath);
+        String algorithmOutputPath = jobDirectory + job.getJobName().toLowerCase() +
+                "/algorithm-output/AlgorithmOutput.json";
+        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
+        File algorithmOutput = new File(algorithmOutputAbsolutePath);
+        if(algorithmOutput.exists()){
+            System.out.println("AlgorithmOutput.json exists...\nStarting Processing...");
+            job.processAlgorithmOutput(algorithmOutput);
+        }else{
+            System.out.println("Error -> AlgorithmOutput.json does not exists...");
+        }
+
     }
 
     private void extractDataFromJob()throws IOException, InterruptedException{
@@ -150,20 +161,21 @@ public class AlgorithmInterface implements Runnable {
         }
         else{
             System.out.println("Extract Data from Seawulf");
-            String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
-            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
-                    netid, jobDirectory, seawulfDirectory);
-            pb.redirectErrorStream(true);
-            Process tempProcess = pb.start();
+            String seawulfDirectory = "./jobs/" + job.getJobName().toLowerCase() + "/algorithm-output/";
+            ProcessBuilder pbOne = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
+                    netid, jobDirectory + job.getJobName().toLowerCase() + "/", seawulfDirectory);
+            pbOne.redirectErrorStream(true);
+            Process tempProcess = pbOne.start();
             printProcessOutput(tempProcess);
             shortSleepThread();
             //TODO: CALL PYTHON TO MERGE JSON FILES
-//            String seawulfDirectory = "./jobs/" + job.getJobName() + "algorithm-output/";
-//            ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
-//                    netid, jobDirectory, seawulfDirectory);
-//            pb.redirectErrorStream(true);
-//            Process tempProcess = pb.start();
-//            printProcessOutput(tempProcess);
+            String pythonArg = jobDirectory + job.getJobName().toLowerCase() + "/algorithm-output/";
+            ProcessBuilder pbTwo = new ProcessBuilder("python3",
+                    "src/main/resources/python/preprocessing/MergeOutputFiles.py", pythonArg);
+            pbTwo.redirectErrorStream(true);
+            tempProcess = pbTwo.start();
+            printProcessOutput(tempProcess);
+            shortSleepThread();
         }
 
     }
@@ -186,12 +198,12 @@ public class AlgorithmInterface implements Runnable {
             }
         }
         else{
-            System.out.println("Monitoring The Seawulf");
+            System.out.println("Monitoring The Seawulf...");
             ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/MonitorSeawulf.sh",
-                    netid, jobDirectory, job.getJobName(), job.getSeawulfJobID());
+                    netid, jobDirectory, job.getJobName().toLowerCase(), job.getSeawulfJobID());
             pb.redirectErrorStream(true);
             Process tempProcess = pb.start();
-            printProcessOutput(tempProcess);
+            //printProcessOutput(tempProcess);
             shortSleepThread();
             String jobStatus = getContentsFile("monitor.txt");
             System.out.println("Status recieved from the seawulf: " + jobStatus);
@@ -215,12 +227,12 @@ public class AlgorithmInterface implements Runnable {
             printProcessOutput(localAlgorithmProcess);
         }
         else{
-            System.out.println("Running algorithm remotely...  Bash output...");
+            System.out.println("Running algorithm remotely...");
             ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/InitiateAlgorithm.sh",
-                    netid, jobDirectory, job.getJobName(), ""+job.getNumOfDistricts());
+                    netid, jobDirectory, job.getJobName().toLowerCase(), ""+job.getNumDistrictingPlan());
             pb.redirectErrorStream(true);
             Process tempProcess = pb.start();
-            printProcessOutput(tempProcess);
+            //printProcessOutput(tempProcess);
             shortSleepThread();
             String seawulfJobID = getContentsFile("seawulfjobid.txt");
             job.setSeawulfJobID(seawulfJobID);
