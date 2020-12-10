@@ -9,6 +9,14 @@ class YourDistrictingPlans extends Component {
         }
     }
 
+    receiveEnacted = () => {
+        if (this.props.enactedPlan != "") {
+            return <DistrictPlan plan={this.props.enactedPlan} type={this.props.enactedPlan.type} currentJob={this.props.currentJob}
+            selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
+            firstLoadChange = {this.props.firstLoadChange} firstLoad = {this.props.firstLoad} />
+        }
+    }
+
     receivePlans = () => {
 
         if (this.props.currentJob != "") {
@@ -16,7 +24,7 @@ class YourDistrictingPlans extends Component {
                 <DistrictPlan 
                 // Attributes:
                 currentJob={this.props.currentJob} plan={districtPlan} 
-                type={districtPlan.type} 
+                type={districtPlan.type} firstLoadChange = {this.props.firstLoadChange} firstLoad = {this.props.firstLoad}
                 // Methods:
                 selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck}
                 deletePlan={this.props.deletePlan}
@@ -37,8 +45,7 @@ class YourDistrictingPlans extends Component {
                     <div> {this.state.title}: </div>
                     < br />
                     {/* Enacted Plan */}
-                    <DistrictPlan plan={this.props.enactedPlan} type={this.props.enactedPlan.type} currentJob={this.props.currentJob}
-                    selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} />
+                    {this.receiveEnacted()}
                     {/* Other Plans: */}
                     {this.receivePlans()}
 

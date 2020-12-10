@@ -15,14 +15,15 @@ class App extends Component {
     this.state = {
       // State:
       currentState : "Select a state",
-      enactedPlan : testJobCards.enactedPlan, 
+      enactedPlan : "", 
       totalPopulation : 0,
       numOfDistricts : 0,
       numOfPrecincts : 0,
       numOfCounties : 0,
+      firstLoad : 1, // To keep track of selecting enacted plan when first opening
 
       // Jobs:
-      jobCards : testJobCards.jobs,
+      jobCards : [],
       currentJob : "",
       currentPlan : "",
       planState : null,
@@ -31,6 +32,7 @@ class App extends Component {
       selectedFilters : null,
       precinctsView : false,
       districtsView : false, 
+      districtsViewSelect : false,
       filterDistrictsView : false, 
       filterPrecinctsView : false, 
       stateView : true,
@@ -96,7 +98,7 @@ class App extends Component {
       console.log(res)
       this.setState({ jobCards : res.jobs}); 
 
-      // Reset Views / Contents of Filters 
+      // Reset Views / Contents of Filters
       this.setState({ districtsContent : null})
       this.setState({ precinctsContent : null})
       this.setState({ districtsView : null})
@@ -115,16 +117,20 @@ class App extends Component {
       }
 
       // Initialize state object
+      // this.setState({ firstLoad : 0 }); // need the set state twice (just keep it like this)
       this.setState({ enactedPlan : res.state.enactedPlan}); 
+      this.setState({ firstLoad : 0 }); // need the set state twice (just keep it like this)
       this.setState({ totalPopulation : res.state.totalPopulation});
       this.setState({ numOfDistricts : res.state.numOfDistricts});
       this.setState({ numOfPrecincts : res.state.numOfPrecincts});
       this.setState({ numOfCounties : res.state.numOfCounties}); 
-
-
     } catch (exception) {
       console.error(exception);
     }
+  }
+
+  firstLoadChange = () => {
+    this.setState({firstLoad : 1})
   }
 
   createJob = async (userInputs) => {
@@ -250,6 +256,7 @@ class App extends Component {
     try {
       if (type == 0) {
         let res = await endpoint.getStatePrecincts();
+        this.setState({precinctsContent : null})
         this.setState({precinctsContent : 
         <GeoJSON 
           weight={1} 
@@ -265,6 +272,7 @@ class App extends Component {
           name : name
         }
         let res = await endpoint.generateHeatMap(nameObject)
+        this.setState({precinctsContent : null})
         this.setState({precinctsContent : 
           <GeoJSON 
             weight={1} 
@@ -361,24 +369,6 @@ class App extends Component {
         this.setState({disableHawaiian : false})
         this.setState({disableOther : false})
       }
-
-      // COORDINATES:
-      // if filters isn't null, and it's not district or precinct view
-      // let demographicObject = {
-      //   names : demographicList
-      // }
-       // if (foundOtherFilter == true && demographicJSON != "") return
-      // if (foundOtherFilter == false) { this.setState({demographicJSON : ""}); return; }
-      // if (foundOtherFilter == true) {
-      //   try {
-      //     let res = await endpoint.generateHeatMap(demographicObject);
-      //     console.log(res)
-      //     this.setState({demographicJSON : res.demographicHeatmap})
-      //     this.setState({demographicMax : res.maxDemographicPopulation})
-      //   } catch (exception) {
-      //     console.error(exception);
-      //   }
-      // }
   }
 
   changeViewFromZoom = (viewType, actionType) => { // actionType = 0 (delete view) or 1 (insert view)
@@ -387,7 +377,7 @@ class App extends Component {
       else if (this.state.filterDistrictsView == false && actionType == 1) {
         this.setState({districtsView : true})
       }
-      else if (this.state.filterDistrictsView == false && actionType == 0) this.setState({districtsView : false})
+      else if (this.state.filterDistrictsView == false && actionType == 0 ) this.setState({districtsView : false})
     }
     if (viewType == "Precincts") {
       if (this.state.filterPrecinctsView == true) return; 
@@ -424,12 +414,14 @@ class App extends Component {
     if (this.state.selectedPlanCheck == false) {
       this.setState({selectedPlanCheck: true});
       this.setState({currentPlan : districtPlan})
+      // this.setState({districtsViewSelect : true})
       this.setState({planState : state})
-      this.setState({districtsContent : <GeoJSON weight={1} color="red" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
+      this.setState({districtsContent : <GeoJSON weight={1.5} color="blue" key='GeorgiaDistricts' data={districtPlan.districtsGeoJson} /> })
     }
     else {
       this.setState({selectedPlanCheck : false});
       this.setState({districtsContent : null});
+      // this.setState({districtsView : false})
     }
   }
 
@@ -452,6 +444,8 @@ class App extends Component {
 
             // Plan-related methods
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}
+            firstLoadChange = {this.firstLoadChange} firstLoad = {this.state.firstLoad}
+            districtsViewSelect = {this.state.districtsViewSelect}
 
             // Handling use cases for precinct and district views
             changeSelectedFilters={this.changeSelectedFilters} demographicJSON = {this.state.demographicJSON} 

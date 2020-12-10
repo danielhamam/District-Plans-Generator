@@ -70,7 +70,8 @@ class MainPanel extends Component {
 
                     // Plan-related content
                     deletePlan={this.props.deletePlan} selectedPlanCheck={this.props.selectedPlanCheck} 
-                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
+                    toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} firstLoadChange = {this.props.firstLoadChange} 
+                    firstLoad = {this.props.firstLoad} 
                     
                     />
                 </div>
@@ -82,7 +83,7 @@ class MainPanel extends Component {
                     precinctsView = {this.props.precinctsView} precinctsContent = {this.props.precinctsContent}
                     changeViewFromZoom={this.props.changeViewFromZoom} disableDistrictView={this.disableDistrictView} d
                     enableDistrictView={this.enableDistrictView} demographicJSON = {this.props.demographicJSON} 
-                    demographicMax={this.props.demographicMax}
+                    demographicMax={this.props.demographicMax} districtsViewSelect = {this.props.districtsViewSelect}
                     />
                     <div id="mapFilters"> {/* Map Filters  */}
                         <Select isSearchable={true} value={this.props.selectedFilters} placeholder="Choose option(s) to filter map" components={componentsAnimation} 

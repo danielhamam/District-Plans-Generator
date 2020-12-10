@@ -45,6 +45,10 @@ class DistrictPlan extends Component {
 
         if (this.state.selected == true) this.districtPlanClassStyle = "districtPlan badge badge-pill badge-dark ";
         else this.districtPlanClassStyle = "districtPlan badge badge-pill badge-light ";
+        if (this.props.type == "Enacted" && this.props.firstLoad == 0) {
+            this.toggleSelectPlan();
+            this.props.firstLoadChange();
+        }
         
         return (
                 <div className={this.districtPlanClassStyle + this.goTop} >             

@@ -90,7 +90,6 @@ class Sidebar extends Component {
                     { label: "5", y: [69, 76, 75, 83, 80] },
                     { label: "6", y: [71, 78, 78,  85, 83] },
                     { label: "7", y: [74, 81, 81, 87, 86] },
-                    
                 ]
             },
             {
@@ -187,6 +186,7 @@ class Sidebar extends Component {
                                 <SubMenu icon={<div> <i className="fa fa-bars" > </i> </div>} title={<b> District Plans</b>} >
                                     <YourDistrictingPlans currentJob ={this.props.currentJob} selectedPlanCheck={this.props.selectedPlanCheck} 
                                     toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} enactedPlan = {this.props.enactedPlan} deletePlan={this.props.deletePlan}
+                                    firstLoadChange = {this.props.firstLoadChange} firstLoad = {this.props.firstLoad}
                                     />
                                 </SubMenu>
 
