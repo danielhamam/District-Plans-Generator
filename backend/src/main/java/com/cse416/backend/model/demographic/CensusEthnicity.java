@@ -31,8 +31,11 @@ public class CensusEthnicity {
 
     public String getCensusEthnicityName(){return this.censusName;}
 
-    public String toString(){
-        return "Shorten Name: " + this.shortenName + ", Census Ethnicity Name : " + this.censusName + "\n";
+    @Override
+    public String toString() {
+        return "CensusEthnicity{" +
+                "shortenName='" + shortenName + '\'' +
+                ", censusName='" + censusName + '\'' +
+                '}';
     }
-
 }

@@ -105,11 +105,12 @@ public class Plan{
     }
 
 
-    public Plan(Job job, int numberOfDistricts, double averageDistrictPopulation, double averageDistrictCompactness){
+    public Plan(Job job, int numberOfDistricts, double averageDistrictPopulation, double averageDistrictCompactness, String type){
         this.job = job;
         this.numberOfDistricts = numberOfDistricts;
         this.averageDistrictPopulation = averageDistrictPopulation;
         this.averageDistrictCompactness = averageDistrictCompactness;
+        this.type = type;
     }
 
     public FeatureCollection createDistrictFeatureCollection()throws IOException{
@@ -214,6 +215,7 @@ public class Plan{
     //     return clientPlan;
        
     // }
+
 
     @Override
     public String toString() {

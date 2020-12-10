@@ -73,13 +73,13 @@ public class County {
     //     this.precincts = precincts;
     // }
 
-    public int getId(){ return countyId;}
+    public Integer getId(){ return countyId;}
 
     public String getName() {
         return countyName;
     }
 
-    public int getFIPSCode() {
+    public Integer getFIPSCode() {
         return countyFIPSCode;
     }
 
@@ -111,6 +111,32 @@ public class County {
     //     return district.getDistrictNumber();
     // }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (! (obj instanceof County)) {
+            return false;
+        }
+        County county = ((County) obj);
+        Integer countyFIPS = county.getFIPSCode();
+        return countyFIPS.equals(countyFIPSCode);
+    }
+
+
+//    //Idea from effective Java : Item 9
+//    @Override
+//    public int hashCode() {
+//        int result = 17;
+//        result = 31 * result + countyFIPSCode.hashCode();
+//        result = 31 * result + countyId.hashCode();
+//        result = 31 * result + district.hashCode();
+//        result = 31 * result + state.hashCode();
+//        return result;
+//    }
+
+    @Override
     public String toString(){
         return "County Name " + getName() + " FIPSCode : " + getFIPSCode();
     }

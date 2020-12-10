@@ -5,6 +5,8 @@ import com.cse416.backend.model.demographic.CensusEthnicity;
 import com.cse416.backend.model.demographic.Demographic;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhiskerPlot;
+import com.cse416.backend.model.plan.comparators.CompactnessCompare;
+import com.cse416.backend.model.regions.county.County;
 import com.cse416.backend.model.regions.district.District;
 import com.cse416.backend.model.regions.district.comparators.AfricanAmericanPopulationCompare;
 import com.cse416.backend.model.regions.precinct.Precinct;
@@ -117,7 +119,7 @@ public class ServerService {
             algorithmInputFileWriter.write(algorithmContents);
             algorithmInputFileWriter.close();
         }else{
-            System.err.println(jobDirectoryName + " has not been created some error has occured with");
+            System.err.println(jobDirectoryName + " directory are already exists");
         }
 
     }
@@ -146,7 +148,6 @@ public class ServerService {
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             for(Job j: jobs){
                 List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
-                System.out.println(j.getMinorityAnalyzedCensusEthnicity());
                 for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
                     censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
                     j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
@@ -327,24 +328,9 @@ public class ServerService {
         algorithmInterface.start();
     }
 
-//    private void temp(String stateAbbrevation){
-//        new Thread(new Runnable() {
-//            public void run() {
-//                isStatePrecinctsLoaded = false;
-//                State state = session.getState();
-//                System.out.println("Getting " + stateAbbrevation + " precincts");
-//                List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(stateAbbrevation);
-//                state.setStatePrecincts(precincts);
-//                for(Precinct p: precincts){
-//                    Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
-//                    p.setDemographic(precinctDemographic);
-//                    System.out.println(p);
-//                }
-//                System.out.println("Finished getting " + stateAbbrevation + " precincts");
-//                isStatePrecinctsLoaded = true;
-//            }
-//        }).start();
-//    }
+    private void temp(String stateAbbrevation){
+
+    }
 
 
 
@@ -447,7 +433,7 @@ public class ServerService {
 
 //                System.out.println("Starting Thread...");
 //                proxyThread = new Thread(this);
-//                proxyThread.start();
+//                proxyThread9.start();
                 }
             }
 
@@ -536,6 +522,95 @@ public class ServerService {
                 Thread.sleep(sleep);
             }
 
+            private void determineAveragePlan(List <Plan> allPlans)throws Exception{
+                if(allPlans.size() == 0){
+                    throw new Exception("List size zero : allPlans.size() == 0");
+                }
+
+                double size = allPlans.size();
+                double compactnessListSum = allPlans.stream()
+                        .map(e -> e.getAverageDistrictCompactness())
+                        .reduce(0D, Double::sum);
+                double compactnessListMean = compactnessListSum/size;
+
+
+                Plan avgPlan = allPlans.get(0);
+                Plan extremeplan = allPlans.get(0);
+                //Plan randonPlan = allPlans.get((int)Math.random(size))
+                for(Plan plan : allPlans){
+                    double newValue = Math.abs(compactnessListMean - plan.getAverageDistrictCompactness());
+                    double oldValue = Math.abs(compactnessListMean - avgPlan.getAverageDistrictCompactness());
+                    if(newValue < oldValue){
+                        avgPlan = plan;
+                    }
+
+                    if(newValue > oldValue){
+                        extremeplan = plan;
+                    }
+                }
+                System.out.println("The Average Plan: " + avgPlan + "\n");
+                System.out.println("The Extreme Plan: " + extremeplan + "\n");
+
+
+
+//                double compactnessListSubvariance = allPlans.stream()
+//                        .map(e -> (e.getAverageDistrictCompactness() - compactnessListMean) * 2)
+//                        .reduce(0D, Double::sum);
+//                double compactnessListVariance = compactnessListSubvariance/(size-1);
+
+
+
+
+
+
+
+
+
+
+            }
+
+            private void createBoxWhisker(List <Plan> allPlans)throws Exception{
+                if(allPlans.size() == 0){
+                    throw new Exception("List size zero : allPlans.size() == 0");
+                }
+                System.out.println("Creating Box and Whisker Plot." + " Number of plans " + allPlans.size());
+
+                //Get ethnicity to sort list by
+                CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
+                Comparator comparator = District.getComparatorByCensusCatagories(minorityAnalyzed);
+                System.out.println("Sorting by " + minorityAnalyzed + " using " + comparator);
+                for (Plan plan : allPlans) {
+                    Collections.sort(plan.getDistricts(), comparator);
+                }
+
+                //For each district. Go through all the plans. Create BoxWhiskerPlot Object
+                List<BoxWhiskerPlot> boxWhiskerPlots = new ArrayList<>();
+                for (int districtIndex = 0; districtIndex < job.getNumOfDistricts(); districtIndex++) {
+                    List<Long> districtsPopulationOfPlans = new ArrayList<>();
+                    for (Plan plan : allPlans) {
+                        District planDistrict = plan.getDistricts().get(districtIndex);
+                        Long population = planDistrict.getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
+                        districtsPopulationOfPlans.add(population);
+                        System.out.print(plan.gettype() + "[ District: "+ planDistrict.getDistrictNumber()
+                                + ", Population: " + population +"]\t");
+
+                    }
+                    System.out.println();
+                    Collections.sort(districtsPopulationOfPlans);
+                    System.out.println("Population for district " + (districtIndex+1) + " :" +  districtsPopulationOfPlans);
+                    int size = districtsPopulationOfPlans.size();
+                    long min = districtsPopulationOfPlans.get(0);
+                    long q1 = districtsPopulationOfPlans.get(size/4);
+                    long q2 = districtsPopulationOfPlans.get(size/2);
+                    long q3 = districtsPopulationOfPlans.get(size*3/4);
+                    long max = districtsPopulationOfPlans.get(size-1);
+                    boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max));
+                }
+                job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
+                System.out.println("\n" + job.getBoxWhisker() + "\n");
+
+
+            }
 
             private District processingCreateDistrict(int districtID, Plan plan, JsonNode districtObject){
                 Long districtTotalPopulation = 0L;
@@ -558,6 +633,8 @@ public class ServerService {
                 Long districtMultipleRaceVAPPopulation = 0L;
 
                 List <Precinct> precinctList = new ArrayList<>();
+                List <County> countiesList = new ArrayList<>();
+
                 JsonNode districtPrecinctList = districtObject.get("precincts");
                 for(JsonNode precinctObject : districtPrecinctList){
                     String precinctFIPSCode =  precinctObject.asText();
@@ -583,9 +660,13 @@ public class ServerService {
                     districtOtherRaceVAPPopulation += precinctDemographic.getOtherRaceVAPPopulation();
                     districtMultipleRaceVAPPopulation += precinctDemographic.getMultipleRaceVAPPopulation();
                     precinctList.add(precinct);
+                    County precinctCounty = precinct.getCounty();
+                    if(!countiesList.contains(precinctCounty)){
+                        countiesList.add(precinctCounty);
+                    }
+
                 }
 
-                //TODO: Do I need to assign precinctId, countyId, stateId for it to save?
                 Demographic districtDemographic = new Demographic(districtTotalPopulation, districtWhitePopulation,
                         districtHispanicPopulation, districtAmericanIndianPopulation, districtNativeHawaiianPopulation,
                         districtAfricanAmericanPopulation, districtAsianPopulation, districtOtherRacePopulation,
@@ -595,11 +676,10 @@ public class ServerService {
                         districtAsianVAPPopulation, districtOtherRaceVAPPopulation, districtMultipleRaceVAPPopulation);
 
 
-                District district = new District(districtID, job.getState(), plan, precinctList);
+                District district = new District(districtID, job.getState(), plan, countiesList, precinctList);
+                //Todo: figure out how to fulliful the varibles in demogarphic
+                //Todo: figure out how save to the database
                 district.setDemographic(districtDemographic);
-
-
-                //Todo: Figure out how to identify counties in district
 
                 return district;
             }
@@ -619,56 +699,20 @@ public class ServerService {
 
             }
 
-            private void getAveragePlan(){
-
-            }
-
-            private void createBoxWhisker(List <Plan> allPlans)throws Exception{
-                if(allPlans.size() ==0){
-                    throw new Exception("List size zero : allPlans.size() == 0");
-                }
-                System.out.println("Creating Box and Whisker Plot." + " Number of plans " + allPlans.size());
-
-                //Get ethnicity to sort list by
-                CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
-                Comparator comparator = District.getComparatorByCensusCatagories(minorityAnalyzed);
-                for (Plan plan : allPlans) {
-                    Collections.sort(plan.getDistricts(), comparator);
-                }
-
-                //For each district. Go through all the plans. Create BoxWhiskerPlot Object
-                List<BoxWhiskerPlot> boxWhiskerPlots = new ArrayList<>();
-                for (int districtIndex = 0; districtIndex < job.getNumDistrictingPlan(); districtIndex++) {
-                    List<Long> districtsPopulationOfPlans = new ArrayList<>();
-                    for (Plan plan : allPlans) {
-                        District planDistrict = plan.getDistricts().get(districtIndex);
-                        Long population = planDistrict.getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
-                        districtsPopulationOfPlans.add(population);
-                    }
-                    Collections.sort(districtsPopulationOfPlans);
-                    int size = districtsPopulationOfPlans.size();
-                    long min = districtsPopulationOfPlans.get(0);
-                    long q1 = districtsPopulationOfPlans.get(size/4);
-                    long q2 = districtsPopulationOfPlans.get(size/2);
-                    long q3 = districtsPopulationOfPlans.get(size*3/4);
-                    long max = districtsPopulationOfPlans.get(size-1);
-                    boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex, min,q1,q2,q3,max));
-                }
-                job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
-                System.out.print(job.getBoxWhisker());
-            }
-
             private void prettyPrintPlan(Plan plan){
                 int districtElement = 1;
+                StringBuilder s = new StringBuilder();
+                s.append("Plan " + plan.gettype() + " [\n");
                 for (District d: plan.getDistricts()) {
-                    String s = "District " + districtElement + ":" + "\n" + d.getDemographic() + "Districts Precinct: {";
+                    s.append("District " + districtElement + ":" + "\n" + d.getDemographic() + "Districts Precinct: {");
                     for(Precinct p : d.getPrecincts()){
-                        s = s + p.getPrecinctFIPSCode() + ", ";
+                        s.append(p.getPrecinctFIPSCode() + ", ");
                     }
-                    s = s + "}\n";
-                    System.out.println(s);
+                    s.append("}\n\n");
                     districtElement++;
                 }
+                s.append("]");
+                System.out.println(s);
 
             }
 
@@ -678,13 +722,13 @@ public class ServerService {
                 JsonNode rootNode = mapper.readTree(algorithmOutputFile);
                 JsonNode plansNode = rootNode.get("plans");
                 List <Plan> plansList = new ArrayList<>();
-
+                int planIndex = 0;
                 for(JsonNode planObject : plansNode){
                     //Create Plan object for Job Object
                     double averageDistrictPopulation = planObject.get("averageDistrictPopulation").asDouble();
-                    double averageDistrictCompactness = planObject.get("averageDistrictPopulation").asDouble();
+                    double averageDistrictCompactness = planObject.get("averageDistrictCompactness").asDouble();
                     Plan plan = new Plan(job, job.getNumOfDistricts(),
-                            averageDistrictPopulation, averageDistrictCompactness);
+                            averageDistrictPopulation, averageDistrictCompactness, "Seed" + planIndex);
 
                     //Create Plan's districts
                     List <District> districts = processingCreatePlanDistricts(plan, planObject);
@@ -692,11 +736,13 @@ public class ServerService {
                     //setters or adders
                     plan.setDistricts(districts);
                     plansList.add(plan);
+                    planIndex++;
 
                     prettyPrintPlan(plan);
                 }
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
+                determineAveragePlan(plansList);
             }
 
             private void initiateServerProcessing()throws IOException, Exception{

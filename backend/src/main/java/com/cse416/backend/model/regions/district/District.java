@@ -7,7 +7,6 @@ import com.cse416.backend.model.regions.precinct.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.county.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.cse416.backend.model.Boundary;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.cse416.backend.model.plan.*;
 
@@ -84,13 +83,6 @@ public class District{
         this.plan  = plan;
     }
 
-    public District(int districtNumber, State state, Plan plan, List<Precinct> precincts){
-        this.districtNumber = districtNumber;
-        this.state = state;
-        this.plan  = plan;
-        this.precincts = precincts;
-        this.numofCounties = "" + precincts.size();
-    }
 
     public District(int districtNumber, State state, Plan plan, List<County> counties, List<Precinct> precincts){
         this.districtNumber = districtNumber;
@@ -184,17 +176,17 @@ public class District{
             case AFRICAN_AMERICAN:
                 return new AfricanAmericanPopulationCompare();
             case AMERICAN_INDIAN:
-                return new AmericanIndianPopulationCompare();
+                return new AmericanIndianVAPCompare();
             case ASIAN_AMERICAN:
-                return new AsianPopulationCompare();
+                return new AsianVAPCompare();
             case HAWAIIAN_AMERICAN:
-                return new NativeHawaiianPopulationCompare();
+                return new NativeHawaiianVAPCompare();
             case OTHER_AMERICAN:
-                return new OtherPopulationCompare();
+                return new OthersVAPCompare();
             case LATINO_AMERICAN:
-                return new LatinoPopulationCompare();
+                return new LatinoVAPCompare();
             case WHITE_AMERICAN:
-                return new WhitePopulationCompare();
+                return new WhiteVAPCompare();
             default:
                 throw new Exception("CensusCatagories Enum Does Not Exist");
         }

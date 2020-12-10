@@ -130,10 +130,32 @@ public class Job{
 
     protected Job (){}
 
+//    public Job (@JsonProperty("jobName")String jobName,
+//                @JsonProperty("plansAmount")int numDistrictingPlan,
+//                @JsonProperty("populationDifference")double populationDifference,
+//                @JsonProperty("compactness")ClientCompactness clientCompactness,
+//                @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzedEnumration){
+//        //TODO: Format the information to be consistant with frontend and database
+//        System.out.println("Job spring");
+//        this.jobName = jobName;
+//        this.seawulfJobID = "0";
+//        this.numDistrictingPlan = numDistrictingPlan;
+//        this.clientCompactness = clientCompactness;
+//        this.populationDifference = populationDifference;
+//        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
+//        this.status = JobStatus.PENDING;
+//       // this.clientStatus = status.getStringRepresentation();
+////        for (CensusCatagories censusCatagories : minorityAnalyzed) {
+////            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
+////        }
+//    }
+
+
     public Job (@JsonProperty("jobName")String jobName,
-                @JsonProperty("plansAmount")int numDistrictingPlan, 
-                @JsonProperty("populationDifference")double populationDifference, 
-                @JsonProperty("compactness")ClientCompactness clientCompactness, 
+                @JsonProperty("districtsAmount")int numOfDistricts,
+                @JsonProperty("plansAmount")int numDistrictingPlan,
+                @JsonProperty("populationDifference")double populationDifference,
+                @JsonProperty("compactness")ClientCompactness clientCompactness,
                 @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzedEnumration){
         //TODO: Format the information to be consistant with frontend and database
         System.out.println("Job spring");
@@ -144,11 +166,13 @@ public class Job{
         this.populationDifference = populationDifference;
         this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
         this.status = JobStatus.PENDING;
-       // this.clientStatus = status.getStringRepresentation();
+        this.numOfDistricts = numOfDistricts;
+        // this.clientStatus = status.getStringRepresentation();
 //        for (CensusCatagories censusCatagories : minorityAnalyzed) {
 //            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
 //        }
     }
+
 
     public Integer getJobID() {
         return generatedId;
@@ -164,7 +188,7 @@ public class Job{
 
     public void setState(State state) {
         this.state = state;
-        this.numDistrictingPlan = state.getNumOfDistricts();
+        //this.numDistrictingPlan = state.getNumOfDistricts();
     }
 
     public JobStatus getStatus() {

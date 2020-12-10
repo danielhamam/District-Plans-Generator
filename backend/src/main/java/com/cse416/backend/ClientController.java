@@ -93,4 +93,10 @@ public class ClientController {
    }
 
 
+    @GetMapping(path = "/temp", produces = "application/json")
+    public String temp(){
+        return "getPlanGraph";
+    }
+
+
 }

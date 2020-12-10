@@ -85,7 +85,6 @@ public class Precinct {
     }
 
 
-
     public List<Precinct>  getNeighbors() {
         return this.neighbors;
     }
@@ -100,6 +99,10 @@ public class Precinct {
 
     public void setDemographic(Demographic demographic) {
         this.demographic = demographic;
+    }
+
+    public County getCounty() {
+        return county;
     }
 
     @Override
