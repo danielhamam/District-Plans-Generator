@@ -8,7 +8,8 @@ public enum CensusCatagories  {
     HAWAIIAN_AMERICAN("Native Hawaiian", "Native Hawaiian or Other Pacific Islander"),
     LATINO_AMERICAN("Latino", "Hispanic or Latino"),
     OTHER_AMERICAN("Other", "Other race, Non-Hispanic"),
-    MULTIPLE_AMERICAN("Multiple", "Two or more race, Non-Hispanic");
+    MULTIPLE_AMERICAN("Multiple", "Two or more race, Non-Hispanic"),
+    UNKNOWN("UNKNOWN", "UNKNOWN");
 
     private final String shortenName;
     private final String fullName;
@@ -24,6 +25,24 @@ public enum CensusCatagories  {
 
     public String getShortenName(){
         return shortenName;
+    }
+
+    static public CensusCatagories getEnumFromString(String str) {
+        CensusCatagories catagories = UNKNOWN;
+        for (CensusCatagories enumaration : CensusCatagories.values()) {
+            if (enumaration.getFullName().equals(str)) {
+                catagories = enumaration;
+                break;
+            }
+        }
+
+        for (CensusCatagories enumaration : CensusCatagories.values()) {
+            if (enumaration.getShortenName().equals(str)) {
+                catagories = enumaration;
+                break;
+            }
+        }
+        return catagories;
     }
 }
 

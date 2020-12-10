@@ -145,6 +145,12 @@ public class ServerService {
             //Job logic
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             for(Job j: jobs){
+                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
+                System.out.println(j.getMinorityAnalyzedCensusEthnicity());
+                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
+                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
+                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+                }
                 createJobDirectory(j);
             }
             session.addJobs(jobs);
@@ -154,6 +160,7 @@ public class ServerService {
             clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
+            error.printStackTrace();
         }
         catch(Exception error){
             error.printStackTrace();
@@ -289,7 +296,6 @@ public class ServerService {
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
 //            temp(job);
-
 //            createJobDirectory(job);
             initiateAlgorithm(job);
             //jobDAO.addJob(job);
@@ -438,10 +444,10 @@ public class ServerService {
 
                     }
 
-    //
-    //            System.out.println("Starting Thread...");
-    //            proxyThread = new Thread(this);
-    //            proxyThread.start();
+
+//                System.out.println("Starting Thread...");
+//                proxyThread = new Thread(this);
+//                proxyThread.start();
                 }
             }
 
@@ -477,12 +483,14 @@ public class ServerService {
 
                         longSleepThread();
                     }
-                    catch(InterruptedException ie){
+                    catch(InterruptedException error){
                         System.out.println(this + "Interrupted thread..");
+                        error.printStackTrace();
                     }
                     catch (IOException error) {
                         System.out.println("IOException Killing thread..");
                         kill();
+                        error.printStackTrace();
                     }
                     catch (Exception error) {
                         error.printStackTrace();
@@ -515,13 +523,17 @@ public class ServerService {
             }
 
             private void longSleepThread() throws InterruptedException{
-                System.out.println("Sleeping Thread " + this + " : Long Sleep");
-                Thread.sleep(20000);
+                long sleep = 900000; //15 minutes
+                double durationInMinutes = sleep/600000;
+                System.out.println("Sleeping Thread " + this + " : Long sleep for " + durationInMinutes + " minutes");
+                Thread.sleep(sleep);
             }
 
             private void shortSleepThread() throws InterruptedException{
-                System.out.println("Sleeping Thread " + this + " : Short Sleep");
-                Thread.sleep(10000);
+                long sleep = 30000; //0.5 minutes
+                double durationInMinutes = sleep/600000;
+                System.out.println("Sleeping Thread " + this + " : Short sleep for " + durationInMinutes + " minutes");
+                Thread.sleep(sleep);
             }
 
 
@@ -646,10 +658,8 @@ public class ServerService {
                 System.out.print(job.getBoxWhisker());
             }
 
-
-
             private void prettyPrintPlan(Plan plan){
-                int districtElement = 0;
+                int districtElement = 1;
                 for (District d: plan.getDistricts()) {
                     String s = "District " + districtElement + ":" + "\n" + d.getDemographic() + "Districts Precinct: {";
                     for(Precinct p : d.getPrecincts()){
@@ -678,11 +688,12 @@ public class ServerService {
 
                     //Create Plan's districts
                     List <District> districts = processingCreatePlanDistricts(plan, planObject);
-                    prettyPrintPlan(plan);
 
                     //setters or adders
                     plan.setDistricts(districts);
                     plansList.add(plan);
+
+                    prettyPrintPlan(plan);
                 }
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
@@ -732,6 +743,7 @@ public class ServerService {
                 String absoluteFilePath = new File(filepath).getAbsolutePath();
                 String response = new BufferedReader(new FileReader(absoluteFilePath)).readLine();
                 response = response.trim();
+                System.out.println(filename + " recieved from the seawulf. It'S contents: " + response);
                 return response;
             }
 
@@ -745,7 +757,7 @@ public class ServerService {
                     }
                 }
                 else{
-                    System.out.println("Monitoring The Seawulf...");
+                    System.out.println("Monitoring The Seawulf.");
                     ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/MonitorSeawulf.sh",
                             netid, jobDirectory, job.getJobName().toLowerCase(), job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
@@ -753,7 +765,6 @@ public class ServerService {
                     //printProcessOutput(tempProcess);
                     shortSleepThread();
                     String jobStatus = getContentsFile("monitor.txt");
-                    System.out.println("Status recieved from the seawulf: " + jobStatus);
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
@@ -774,7 +785,7 @@ public class ServerService {
                     printProcessOutput(localAlgorithmProcess);
                 }
                 else{
-                    System.out.println("Running algorithm remotely...");
+                    System.out.println("Running algorithm remotely.");
                     ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/InitiateAlgorithm.sh",
                             netid, jobDirectory, job.getJobName().toLowerCase(), ""+job.getNumDistrictingPlan());
                     pb.redirectErrorStream(true);

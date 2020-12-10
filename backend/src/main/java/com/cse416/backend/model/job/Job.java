@@ -130,8 +130,7 @@ public class Job{
 
     protected Job (){}
 
-    public Job (@JsonProperty("jobName")String jobName, 
-                @JsonProperty("districtsAmount")int numOfDistricts, 
+    public Job (@JsonProperty("jobName")String jobName,
                 @JsonProperty("plansAmount")int numDistrictingPlan, 
                 @JsonProperty("populationDifference")double populationDifference, 
                 @JsonProperty("compactness")ClientCompactness clientCompactness, 
@@ -140,7 +139,6 @@ public class Job{
         System.out.println("Job spring");
         this.jobName = jobName;
         this.seawulfJobID = "0";
-        this.numOfDistricts = numOfDistricts;
         this.numDistrictingPlan = numDistrictingPlan;
         this.clientCompactness = clientCompactness;
         this.populationDifference = populationDifference;
@@ -166,6 +164,7 @@ public class Job{
 
     public void setState(State state) {
         this.state = state;
+        this.numDistrictingPlan = state.getNumOfDistricts();
     }
 
     public JobStatus getStatus() {
@@ -196,9 +195,6 @@ public class Job{
         return numOfDistricts;
     }
 
-    public void setNumOfDistricts(int numOfDistricts) {
-        this.numOfDistricts = numOfDistricts;
-    }
 
     public int getNumDistrictingPlan() {
         return numDistrictingPlan;
@@ -264,6 +260,15 @@ public class Job{
         }
         return null;
 
+    }
+
+    @JsonIgnore
+    public List<CensusEthnicity> getMinorityAnalyzedCensusEthnicity() {
+        return minorityAnalyzed;
+    }
+
+    public void setMinorityAnalyzedEnumration(List<CensusCatagories> minorityAnalyzedEnumration) {
+        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
     }
 
     @JsonIgnore

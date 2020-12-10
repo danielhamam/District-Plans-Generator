@@ -63,6 +63,7 @@ public class BoxWhiskerPlot{
     public String toString() {
         return "BoxWhiskerPlot{" +
                 "id=" + id +
+                ", indexedDistrict=" + indexedDistrict +
                 ", min=" + min +
                 ", q1=" + q1 +
                 ", q2=" + q2 +

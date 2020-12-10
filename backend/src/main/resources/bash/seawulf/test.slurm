@@ -6,7 +6,7 @@
 #SBATCH --output=BrancoA.log
 #SBATCH -p short-24core
 #SBATCH --ntasks-per-node=24
-#SBATCH --nodes=1
+#SBATCH --nodes=24
 #SBATCH --time=4:00:00
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=carlos.lopez@stonybrook.edu
@@ -42,7 +42,7 @@ do
 done
 
 
-cat ${PARALLEL_INPUT_FILEPATH} | parallel --verbose
+cat ${PARALLEL_INPUT_FILEPATH} | parallel --verbose --jobs 24
 
 #Printing Debug Statements
 echo

@@ -112,9 +112,11 @@ public class AlgorithmInterface implements Runnable {
             }
             catch(InterruptedException ie){
                 System.out.println(this + "Interrupted thread..");
+                ie.printStackTrace();
             }
             catch (IOException error) {
                 System.out.println("IOException Killing thread..");
+                error.printStackTrace();
                 kill();
             }
             catch (Exception error) {
