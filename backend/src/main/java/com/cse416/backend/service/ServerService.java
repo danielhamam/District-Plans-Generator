@@ -41,7 +41,6 @@ public class ServerService {
     private Session session;
     private GlobalHistory jobHistory;
     private boolean isStatePrecinctsLoaded;
-    private boolean runAlgoLocally;
     private List<Algorithm> threads;
 
 
@@ -82,7 +81,6 @@ public class ServerService {
         this.session = new Session();
         this.jobHistory = new GlobalHistory();
         this.isStatePrecinctsLoaded = false;
-        this.runAlgoLocally = false;
         this.threads = new ArrayList<>();
     }
 
@@ -315,7 +313,11 @@ public class ServerService {
             job.setState(currentState);
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
+            //TODO: Delete line below
+            job.setJobID(99999);
+            session.addJob(job);
 //            temp(job);
+
             createJobDirectory(job);
             initiateAlgorithm(job);
             //jobDAO.addJob(job);
@@ -343,8 +345,15 @@ public class ServerService {
 
     private void initiateAlgorithm(Job job){
         System.out.println("Initiating Algorithm... Creating Thread");
-        Algorithm algorithmInterface = new Algorithm("carlopez", job, runAlgoLocally);
+        Algorithm algorithmInterface = null;
+        if(job.getNumDistrictingPlan() <= 10){
+            algorithmInterface = new Algorithm("carlopez", job, true);
+        }
+        else{
+            algorithmInterface = new Algorithm("carlopez", job, false);
+        }
         algorithmInterface.start();
+        threads.add(algorithmInterface);
     }
 
     private void temp(String stateAbbrevation){
@@ -353,12 +362,14 @@ public class ServerService {
 
 
     public void cancelJob(Integer jobID){
-        System.out.println("Attempting to cancel a job");
+
         try{
             Job job = session.getJobByID(jobID);
+            System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
+            System.out.println("\tSize of thread pool: " + threads.size());
             if(!job.getStatus().equals(JobStatus.COMPLETED)){
                 Algorithm currentThread =  threads.stream()
-                        .filter(thread -> job.equals(thread.getJob()))
+                        .filter(thread -> job.getJobID().equals(thread.getJob().getJobID()))
                         .findFirst()
                         .orElseThrow(Exception::new);
                 currentThread.cancelJobDriver();
@@ -527,12 +538,12 @@ public class ServerService {
                     Process tempProcess = pb.start();
                     printProcessOutput(tempProcess);
                 }
-                shortSleepThread();
                 kill();
             }
 
             private void longSleepThread() throws InterruptedException{
-                long sleep = 900000; //15 minutes
+                //long sleep = 900000; //15 minutes
+                long sleep = 9000; //15 minutes
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("Sleeping Thread " + this + " : Long sleep for " + durationInMinutes + " minutes");
                 Thread.sleep(sleep);
@@ -806,14 +817,20 @@ public class ServerService {
                     System.out.println("AlgorithmOutput.json exists...\nStarting Processing...");
                     processAlgorithmOutput(algorithmOutput);
                 }else{
-                    System.out.println("Error -> AlgorithmOutput.json does not exists...");
+                    System.out.println("AlgorithmOutput.json does not exists...");
                 }
 
             }
 
             private void extractDataFromJob()throws IOException, InterruptedException{
                 if(isAlgorithmLocal) {
-                    //TODO: For local algorithm run
+                    String pythonArg = jobDirectory + "algorithm-output/";
+                    ProcessBuilder pbTwo = new ProcessBuilder("python3",
+                            "src/main/resources/python/preprocessing/MergeOutputFiles.py", pythonArg);
+                    pbTwo.redirectErrorStream(true);
+                    Process tempProcess = pbTwo.start();
+                    printProcessOutput(tempProcess);
+                    shortSleepThread();
                 }
                 else{
                     System.out.println("Extract Data from Seawulf");
@@ -824,7 +841,6 @@ public class ServerService {
                     Process tempProcess = pbOne.start();
                     printProcessOutput(tempProcess);
                     shortSleepThread();
-                    //TODO: CALL PYTHON TO MERGE JSON FILES
                     String pythonArg = jobDirectory + "algorithm-output/";
                     ProcessBuilder pbTwo = new ProcessBuilder("python3",
                             "src/main/resources/python/preprocessing/MergeOutputFiles.py", pythonArg);
@@ -888,10 +904,11 @@ public class ServerService {
                     String localPythonScript = "src/main/resources/python/algorithm/Algorithm.py";
                     for(int i = 0; i < job.getNumDistrictingPlan(); i++){
                         ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript,
-                                jobDirectory + "algorithm-output/", "" +i);
+                                algorithmInputPath, jobDirectory + "algorithm-output/", "" +i);
                         pb.redirectErrorStream(true);
-                        localAlgorithmProcesses.add(pb.start());
-                        //printProcessOutput(localAlgorithmProcess);
+                        Process temp = pb.start();
+                        localAlgorithmProcesses.add(temp);
+                        //printProcessOutput(temp);
                     }
                 }
                 else{

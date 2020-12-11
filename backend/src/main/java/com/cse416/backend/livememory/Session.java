@@ -39,6 +39,10 @@ public class Session{
         this.jobs.addAll(jobs);
     }
 
+    public void addJob(Job jobs){
+        this.jobs.add(jobs);
+    }
+
     public Job deleteJob(Integer jobID){
         Job deletedJob = null;
         for(Job job : this.jobs){

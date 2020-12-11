@@ -144,6 +144,7 @@ public class Job{
         this.populationDifference = populationDifference;
         this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
         this.status = JobStatus.PENDING;
+
     }
 
 
