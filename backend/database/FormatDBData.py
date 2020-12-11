@@ -1,3 +1,4 @@
+
 import csv
 import json
 import math
@@ -170,8 +171,6 @@ def fillcolor_heatmap(precinct_demographic, average_population):
         fillColor = "hsl(180, 97%, 64%)"
     elif (precinct_demographic >= average_population * 1.9): fillColor = "hsl(180, 100%, 64%)" 
     return fillColor
-
-
 
 def writeAlgorithmFormatToStatesDir():
     for state in States:
@@ -477,7 +476,7 @@ def computePrecinctNeighbors(state):
 
     f = open(state["PrecinctFile"])
 
-    precinct_dict = createPrecinctDictionary(f)
+    precinct_dict = createAlteredPrecinctDictionary(f)
     precinct_neighbors = {}
 
     precincts_geometries, precinct_identifier = createPrecinctGeometryList(precinct_dict)
@@ -542,7 +541,7 @@ def createPrecinctGeometryList(precinct_dict):
 
     return (geometries, precinctIdentifier)
 
-def createPrecinctDictionary(file):
+def createAlteredPrecinctDictionary(file):
 
     data = json.load(file)
 
@@ -588,6 +587,9 @@ def precinctNeighborAccountedFor(precinct, precinctNeighbor_array):
         if precinct == neighbor: return True
     
     return False
+
+
+
 
 
 if __name__ == '__main__':

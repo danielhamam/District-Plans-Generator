@@ -36,16 +36,16 @@ public class District{
     private Plan plan;
 
     @JsonIgnore
-    @OneToMany(targetEntity=County.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, orphanRemoval = true,  mappedBy ="district")
+    @OneToMany(targetEntity=County.class,cascade =  {CascadeType.PERSIST, CascadeType.DETACH}, 
+    fetch = FetchType.LAZY,  mappedBy ="district")
     private List<County> counties;
 
     @Column(name = "numberOfCounties")
     private String numofCounties;
 
     @JsonIgnore
-    @OneToMany(targetEntity=Precinct.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="district")
+    @OneToMany(targetEntity=Precinct.class,cascade = {CascadeType.PERSIST, CascadeType.DETACH},
+            fetch = FetchType.LAZY, mappedBy ="district")
     private List<Precinct> precincts;
 
     @Column(name = "numberOfPrecincts")

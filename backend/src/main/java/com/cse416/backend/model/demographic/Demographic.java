@@ -250,6 +250,7 @@ public class Demographic {
     }
 
     public String toString(){
+
         String generalDem = "Total: " + getTotalPopulation() + ", White : " + getWhitePopulation() + ", Black : " + getAfricanAmericanPopulation() + 
         ", Hispanic : " + getHispanicPopulation() + ", American Indian : " + getAmericanIndianPopulation() + ", Native Hawaiian :  " + getNativeHawaiianPopulation() +
         ", Asian : "  + getAsianPopulation() + ", Other : " + getOtherRacePopulation() + ", Multiple : " + getMultipleRacePopulation() + "\n";
@@ -258,7 +259,7 @@ public class Demographic {
         ", Hispanic VAP: " + getHispanicVAPPopulation() + ", American Indian VAP: " + getAmericanIndianVAPPopulation() + ", Native Hawaiian VAP:  " + getNativeHawaiianVAPPopulation() +
         ", Asian VAP: "  + getAsianVAPPopulation() + ", Other VAP: " + getOtherRaceVAPPopulation() + ", Multiple VAP: " + getMultipleRaceVAPPopulation() + "\n";
 
-        return generalDem + votingAgeDem;
+        return "Demographic Id: " + demographicId + " " +  generalDem + votingAgeDem;
     }
 
 }

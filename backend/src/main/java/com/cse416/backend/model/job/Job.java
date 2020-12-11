@@ -112,8 +112,8 @@ public class Job{
     @JsonIgnore
     private int averagePlanCompactness;
 
-    @Transient
     @JsonIgnore
+    @Column(name="seawulfJobID", unique=true)
     private String seawulfJobID;
 
     @Transient
@@ -126,8 +126,9 @@ public class Job{
     fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
     private List <Plan> allPlans;
 
-    @Transient
     @JsonIgnore
+    @OneToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "boxWhiskerId")
     private BoxWhisker boxWhisker;
 
     protected Job (){}

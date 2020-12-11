@@ -203,6 +203,7 @@ public class ServerService {
             Job serverJob = session.getJobByID(jobID);
             Map<String, Object> dataObject = serverJob.getClientPlans();
             clientData = this.createClient_Data(dataObject);
+
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -212,7 +213,6 @@ public class ServerService {
         }
         return clientData;
     }
-
 
     public String getDemographicHeatmap(String censusEthnicity){
         String clientData = "{serverError:\"Unknown Server Error\"}";
@@ -333,6 +333,7 @@ public class ServerService {
         return clientData;
     }
 
+   
     private List <CensusEthnicity> covertClientCensusToDatabaseCensus(Job job){
         //Retrieve the minority group to analyze provide the client
         List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
@@ -399,6 +400,8 @@ public class ServerService {
             System.out.println("Job " + job.getJobID() + " has been removed");
         }else{
             jobDAO.deleteJob(job);
+            System.out.println("Successfully deleted job from the DB"); 
+            System.out.println(job.toString() + " has been removed");
         }
 
     }
