@@ -1,6 +1,7 @@
 import geopandas
 import json
 from shapely.ops import unary_union
+import collections
 
 
 States = {
@@ -9,31 +10,55 @@ States = {
         "Abbrev": "MD",
         "FIPS": "24",
         "PrecinctFile": "backend/src/main/resources/system/states/md/Precincts.json",
+        "CountyFile": "backend/src/main/resources/system/states/md/Counties.json"
     },
     "PA": {
         "Name": "Pennsylvania",
         "Abbrev": "PA",
         "FIPS": "42",
-        "PrecinctFile": "backend/src/main/resources/system/states/pa/Precincts.json"
+        "PrecinctFile": "backend/src/main/resources/system/states/pa/Precincts.json",
+        "CountyFile": "backend/src/main/resources/system/states/pa/Counties.json"
     },
     "GA" :{
         "Name": "Georgia",
         "Abbrev": "GA",
         "FIPS": "13",
-        "PrecinctFile": "backend/src/main/resources/system/states/ga/Precincts.json"
+        "PrecinctFile": "backend/src/main/resources/system/states/ga/Precincts.json",
+        "CountyFile": "backend/src/main/resources/system/states/ga/Counties.json"
     }
 }
 def main():
-    
-    with open('backend/src/main/resources/python/preprocessing/tester_Algo_Output.json') as f:
-        planDistrict = json.load(f)
 
-        plans = planDistrict['plans']
-        state = plans[0]['stateAbbrev']
+    #Use this method for reading an planDistrict file
+    # readPlanDistrictFile('backend/src/main/resources/python/preprocessing/tester_Algo_Output.json')
 
-        for plan in plans:
-            createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"])
-        
+    districtFile = 'backend/src/main/resources/system/states/ga/EnactedDistricts.json'
+
+    #this method creates a dictionary where the {key -> district number, value -> array of counties that overlapped 
+    # the district boundary}
+    districtCounties = getDistrictCounties(districtFile, States['GA']["CountyFile"])
+
+    #this method takes the created dictionary of district and list of county pairs and 
+    #provides a new dictionary with the number of counties found to be within a district
+    #{key -> district number, value -> number of counties}
+    countedDistrictCounties = countNumberCountiesInDistricts(districtCounties)
+
+    print(countedDistrictCounties)
+
+def readPlanDistrictFile(file):
+
+    with open(file) as f:
+            planDistrict = json.load(f)
+
+            plans = planDistrict['plans']
+            state = plans[0]['stateAbbrev']
+
+            #Tranverse through each plan within a job
+            for plan in plans:
+
+                #Create the district boundaries based on the precincts said to be within a district
+                #and Create the associate new District GeoJson File
+                createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"])
 
 def createNewDistrictBoundaries(file, plan, stateFips):
 
@@ -104,7 +129,54 @@ def createNewDistrictBoundaries(file, plan, stateFips):
     filepath = 'backend/src/main/resources/python/preprocessing/' + plan['type'] +'Plan_Job'+ str(plan['jobId']) +  '_Plan' + str(plan['planId']) + '.json'
     districts_dataFrame.to_file(filepath, driver='GeoJSON')
 
-  
+def getDistrictCounties(districtFile, countyFile):
+
+    #Open files 
+    d = open(districtFile)
+    c = open(countyFile)
+
+    #Feed districts and counties into geopandas
+    districtDataFrame = geopandas.read_file(d)
+    countyDataFrame = geopandas.read_file(c)
+
+    #Dictionary that stores districts and their counties
+    districtCounty = {}
+
+    #Tranverse through the district features in dataframe
+    for index, district in districtDataFrame.iterrows():
+
+        #Tranverse through the county features in dataframe
+        for index, county in countyDataFrame.iterrows():
+
+            #Extract the geometry as shapely object
+            getDistrictGeom = district.geometry
+            getCountyGeom = county.geometry
+
+            #Check if the district and county overlap, if so 
+            #add the county into the district's county array
+            if getDistrictGeom.overlaps(getCountyGeom):
+                
+                if district['CD'] not in districtCounty:
+                    districtCounty[district['CD']] = []
+                
+                districtCounty[district['CD']].append(county['NAME'])
+
+    #Order the dictionary by key      
+    districtCounty = collections.OrderedDict(sorted(districtCounty.items()))
+
+    return districtCounty
+    
+def countNumberCountiesInDistricts(districtDict):
+
+    newDict = {}
+
+    for district in districtDict:
+        newDict["District " + district] = len(districtDict[district])
+    
+    return newDict
+    
+
+      
 
 
     
