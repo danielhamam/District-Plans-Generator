@@ -1,6 +1,7 @@
 import geopandas
 import json
 from shapely.ops import unary_union
+import argparse
 import collections
 
 
@@ -27,25 +28,28 @@ States = {
         "CountyFile": "backend/src/main/resources/system/states/ga/Counties.json"
     }
 }
-def main():
+def main(args):
+    infile = args.infile[0]
+    output_directory = args.output_directory[0]
+
 
     #Use this method for reading an planDistrict file
-    # readPlanDistrictFile('backend/src/main/resources/python/preprocessing/tester_Algo_Output.json')
+    readPlanDistrictFile(infile, output_directory)
 
-    districtFile = 'backend/src/main/resources/system/states/ga/EnactedDistricts.json'
+    # districtFile = 'backend/src/main/resources/system/states/ga/EnactedDistricts.json'
+    #
+    # #this method creates a dictionary where the {key -> district number, value -> array of counties that overlapped
+    # # the district boundary}
+    # districtCounties = getDistrictCounties(districtFile, States['GA']["CountyFile"])
+    #
+    # #this method takes the created dictionary of district and list of county pairs and
+    # #provides a new dictionary with the number of counties found to be within a district
+    # #{key -> district number, value -> number of counties}
+    # countedDistrictCounties = countNumberCountiesInDistricts(districtCounties)
 
-    #this method creates a dictionary where the {key -> district number, value -> array of counties that overlapped 
-    # the district boundary}
-    districtCounties = getDistrictCounties(districtFile, States['GA']["CountyFile"])
+   # print(countedDistrictCounties)
 
-    #this method takes the created dictionary of district and list of county pairs and 
-    #provides a new dictionary with the number of counties found to be within a district
-    #{key -> district number, value -> number of counties}
-    countedDistrictCounties = countNumberCountiesInDistricts(districtCounties)
-
-    print(countedDistrictCounties)
-
-def readPlanDistrictFile(file):
+def readPlanDistrictFile(file, output_directory):
 
     with open(file) as f:
             planDistrict = json.load(f)
@@ -58,9 +62,9 @@ def readPlanDistrictFile(file):
 
                 #Create the district boundaries based on the precincts said to be within a district
                 #and Create the associate new District GeoJson File
-                createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"])
+                createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"], output_directory)
 
-def createNewDistrictBoundaries(file, plan, stateFips):
+def createNewDistrictBoundaries(file, plan, stateFips, output_directory):
 
     file = open(file)
 
@@ -126,7 +130,7 @@ def createNewDistrictBoundaries(file, plan, stateFips):
         districts_dataFrame = districts_dataFrame.append(newDistrictDataFrame, ignore_index=True)
 
     #Write the data to GeoJson File
-    filepath = 'backend/src/main/resources/python/preprocessing/' + plan['type'] +'Plan_Job'+ str(plan['jobId']) +  '_Plan' + str(plan['planId']) + '.json'
+    filepath = output_directory + plan['type'] + 'District.json'
     districts_dataFrame.to_file(filepath, driver='GeoJSON')
 
 def getDistrictCounties(districtFile, countyFile):
@@ -174,12 +178,18 @@ def countNumberCountiesInDistricts(districtDict):
         newDict["District " + district] = len(districtDict[district])
     
     return newDict
-    
 
-      
+
+
+def parser():
+    parser = argparse.ArgumentParser(prog="CovertPlanDistrictToGeojson",description='CovertPlanDistrictToGeojson')
+    parser.add_argument('infile', help='The input json file to make the python code run', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
+    parser.add_argument('output_directory', help='This is the path for the output directory', type=str, nargs=1)
+    return parser
 
 
     
   
 if __name__ == "__main__":
-    main()
+    parser = parser()
+    main(parser.parse_args())

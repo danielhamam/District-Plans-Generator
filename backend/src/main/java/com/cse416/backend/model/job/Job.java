@@ -293,6 +293,18 @@ public class Job{
 //        mapper.writeValue(randomDistricts, null);
     }
 
+    public Plan getAverageDistrictPlan() {
+        return averageDistrictPlan;
+    }
+
+    public Plan getExtremeDistrictPlan() {
+        return extremeDistrictPlan;
+    }
+
+    public Plan getRandomDistrictPlan() {
+        return randomDistrictPlan;
+    }
+
     @JsonIgnore
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){

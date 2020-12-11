@@ -18,9 +18,11 @@ import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.hibernate.engine.query.ParameterRecognitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,27 +149,28 @@ public class ServerService {
         try{
             //State logic
             State state = stateDAO.getStateById(stateAbbrevation);
-            state.initializeSystemFiles();
-            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
-            state.setDemographic(stateDemographic);
-            state.setTotalPopulation(stateDemographic.getTotalPopulation());
-            session.setState(state);
-
-            //Job logic
-            List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
-            for(Job j: jobs){
-                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
-                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
-                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
-                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
-                }
-                createJobDirectory(j);
-            }
-            session.addJobs(jobs);
-            jobHistory.addJobs(jobs);
+            System.out.print(state);
+//            state.initializeSystemFiles();
+//            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
+//            state.setDemographic(stateDemographic);
+//            state.setTotalPopulation(stateDemographic.getTotalPopulation());
+//            session.setState(state);
+//
+//            //Job logic
+//            List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
+//            for(Job j: jobs){
+//                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
+//                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
+//                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
+//                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+//                }
+//                createJobDirectory(j);
+//            }
+//            session.addJobs(jobs);
+//            jobHistory.addJobs(jobs);
 
             //format it for that client
-            clientData = createClientStateData(state, jobs);
+            clientData = createClientStateData(state, null);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
             error.printStackTrace();
@@ -456,21 +459,21 @@ public class ServerService {
 
             public void start() {
                 if (proxyThread == null) {
-//                    try{
-//                        String algorithmOutputPath = jobsDirectory + "AlgorithmOutput.json";
-//                        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
-//                        File algorithmOutput = new File(algorithmOutputAbsolutePath);
-//                        processAlgorithmOutput(algorithmOutput);
-//                    }
-//                    catch (Exception e){
-//                        e.printStackTrace();
-//
-//                    }
+                    try{
+                        String algorithmOutputPath = jobsDirectory + "AlgorithmOutput.json";
+                        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
+                        File algorithmOutput = new File(algorithmOutputAbsolutePath);
+                        processAlgorithmOutput(algorithmOutput);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+
+                    }
 
 
-                System.out.println("Starting Thread...");
-                proxyThread = new Thread(this);
-                proxyThread.start();
+//                System.out.println("Starting Thread...");
+//                proxyThread = new Thread(this);
+//                proxyThread.start();
                 }
             }
 
@@ -591,6 +594,37 @@ public class ServerService {
 
             }
 
+
+            private ObjectNode formatObjectNode(JsonNode node, String type){
+                ObjectNode objectNode = node.deepCopy();
+                objectNode.put("type", type);
+                return objectNode;
+
+            }
+
+            private void createPlanGeojson(JsonNode plansNode)throws IOException{
+                Plan averagePlan = job.getAverageDistrictPlan();
+                Plan extremeplan = job.getExtremeDistrictPlan();
+                Plan randomPlan = job.getRandomDistrictPlan();
+
+                //Format data
+                ObjectNode objectNode = mapper.createObjectNode();
+                ArrayNode clientPlans = mapper.createArrayNode();
+                clientPlans.add(formatObjectNode(plansNode.get(averagePlan.gettype()), "Average"));
+                clientPlans.add(formatObjectNode(plansNode.get(extremeplan.gettype()), "Extreme"));
+                clientPlans.add(formatObjectNode(plansNode.get(randomPlan.gettype()), "Random"));
+                objectNode.set("plans", clientPlans);
+                String filePath = new File(jobsDirectory + "CovertPlans.json").getAbsolutePath();
+                FileWriter CovertPlansFile = new FileWriter(new File(filePath));
+                mapper.writeValue(CovertPlansFile, objectNode);
+                CovertPlansFile.close();
+                ProcessBuilder pb = new ProcessBuilder("python3",
+                        "src/main/resources/python/preprocessing/ConvertPlanDistrictsToGeoJson.py",
+                        filePath, jobDirectory);
+                Process temp = pb.start();
+
+            }
+
             private void determinePlans(List <Plan> allPlans)throws Exception{
                 if(allPlans.size() == 0){
                     throw new Exception("List size zero : allPlans.size() == 0");
@@ -634,7 +668,6 @@ public class ServerService {
                 System.out.println("The Average Plan: " + averagePlan + "\n");
                 System.out.println("The Extreme Plan: " + extremeplan + "\n");
                 System.out.println("The Random Plan: " + randomPlan + "\n");
-
 
 
             }
@@ -798,8 +831,9 @@ public class ServerService {
                     //Create Plan object for Job Object
                     double averageDistrictPopulation = planObject.get("averageDistrictPopulation").asDouble();
                     double averageDistrictCompactness = planObject.get("averageDistrictCompactness").asDouble();
+                    String planID = planObject.get("planId").asText();
                     Plan plan = new Plan(job, job.getNumOfDistricts(),
-                            averageDistrictPopulation, averageDistrictCompactness, "Seed" + planIndex);
+                            averageDistrictPopulation, averageDistrictCompactness, planID);
 
                     //Create Plan's districts
                     List <District> districts = processingCreatePlanDistricts(plan, planObject);
@@ -814,6 +848,7 @@ public class ServerService {
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
                 determinePlans(plansList);
+                createPlanGeojson(plansNode);
                 generateSummaryFile();
             }
 
