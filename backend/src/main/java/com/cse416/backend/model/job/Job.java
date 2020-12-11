@@ -1,5 +1,6 @@
 package com.cse416.backend.model.job;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.cse416.backend.model.enums.ClientCompactness;
 import com.cse416.backend.model.enums.JobStatus;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhisker;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhiskerPlot;
+import com.cse416.backend.model.job.summary.Summary;
 import com.cse416.backend.model.regions.district.District;
 import com.cse416.backend.model.regions.state.State;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -116,7 +118,7 @@ public class Job{
 
     @Transient
     @JsonIgnore
-    private String jobSummary;
+    private Summary summary;
 
     
     @JsonIgnore
@@ -130,7 +132,23 @@ public class Job{
 
     protected Job (){}
 
+    public Job (@JsonProperty("jobName")String jobName,
+                @JsonProperty("plansAmount")int numDistrictingPlan,
+                @JsonProperty("populationDifference")double populationDifference,
+                @JsonProperty("compactness")ClientCompactness clientCompactness,
+                @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzedEnumration){
+        this.jobName = jobName;
+        this.seawulfJobID = "0";
+        this.numDistrictingPlan = numDistrictingPlan;
+        this.clientCompactness = clientCompactness;
+        this.populationDifference = populationDifference;
+        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
+        this.status = JobStatus.PENDING;
+    }
+
+
 //    public Job (@JsonProperty("jobName")String jobName,
+//                @JsonProperty("districtsAmount")int numOfDistricts,
 //                @JsonProperty("plansAmount")int numDistrictingPlan,
 //                @JsonProperty("populationDifference")double populationDifference,
 //                @JsonProperty("compactness")ClientCompactness clientCompactness,
@@ -144,34 +162,12 @@ public class Job{
 //        this.populationDifference = populationDifference;
 //        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
 //        this.status = JobStatus.PENDING;
-//       // this.clientStatus = status.getStringRepresentation();
+//        this.numOfDistricts = numOfDistricts;
+//        // this.clientStatus = status.getStringRepresentation();
 ////        for (CensusCatagories censusCatagories : minorityAnalyzed) {
 ////            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
 ////        }
 //    }
-
-
-    public Job (@JsonProperty("jobName")String jobName,
-                @JsonProperty("districtsAmount")int numOfDistricts,
-                @JsonProperty("plansAmount")int numDistrictingPlan,
-                @JsonProperty("populationDifference")double populationDifference,
-                @JsonProperty("compactness")ClientCompactness clientCompactness,
-                @JsonProperty("minorityAnalyzed") List<CensusCatagories> minorityAnalyzedEnumration){
-        //TODO: Format the information to be consistant with frontend and database
-        System.out.println("Job spring");
-        this.jobName = jobName;
-        this.seawulfJobID = "0";
-        this.numDistrictingPlan = numDistrictingPlan;
-        this.clientCompactness = clientCompactness;
-        this.populationDifference = populationDifference;
-        this.minorityAnalyzedEnumration = minorityAnalyzedEnumration;
-        this.status = JobStatus.PENDING;
-        this.numOfDistricts = numOfDistricts;
-        // this.clientStatus = status.getStringRepresentation();
-//        for (CensusCatagories censusCatagories : minorityAnalyzed) {
-//            this.clientMinorityAnalyzed.add(censusCatagories.getStringRepresentation());
-//        }
-    }
 
 
     public Integer getJobID() {
@@ -188,7 +184,7 @@ public class Job{
 
     public void setState(State state) {
         this.state = state;
-        //this.numDistrictingPlan = state.getNumOfDistricts();
+        this.numOfDistricts = state.getNumOfDistricts();
     }
 
     public JobStatus getStatus() {
@@ -268,6 +264,33 @@ public class Job{
         this.boxWhisker = boxWhisker;
     }
 
+    public void setSummary(Summary summary) {
+        this.summary = summary;
+    }
+
+
+    public void setAverageDistrictPlan(Plan averageDistrictPlan) {
+        this.averageDistrictPlan = averageDistrictPlan;
+
+//        FileWriter averageDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "AverageDistricts.json");
+//        mapper.writeValue(averageDistricts, null);
+
+    }
+
+    public void setExtremeDistrictPlan(Plan extremeDistrictPlan) {
+        this.extremeDistrictPlan = extremeDistrictPlan;
+
+//        FileWriter extremeDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "ExtremeDistricts.json");
+//        mapper.writeValue(extremeDistricts, null);
+    }
+
+    public void setRandomDistrictPlan(Plan randomDistrictPlan) {
+        this.randomDistrictPlan = randomDistrictPlan;
+
+//        FileWriter randomDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "RandomDistricts.json");
+//        mapper.writeValue(randomDistricts, null);
+    }
+
     @JsonIgnore
     public Plan getPlanByID(String planID){
         if(planID.equals(averageDistrictPlan.getPlanID())){
@@ -316,7 +339,7 @@ public class Job{
                 ", populationDifference=" + populationDifference +
                 ", numOfDistricts=" + numOfDistricts +
                 ", numDistrictingPlan=" + numDistrictingPlan +
-                ", jobSummary='" + jobSummary + '\'' +
+                ", jobSummary='" + summary + '\'' +
                 ", allPlans=" + allPlans +
                 ", averageDistrictPlan=" + averageDistrictPlan +
                 ", extremeDistrictPlan=" + extremeDistrictPlan +

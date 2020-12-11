@@ -279,6 +279,10 @@ public class State {
         return precinctsCoordinatesJson;
     }
 
+    public FeatureCollection getPrecinctsGeoJson() {
+        return precinctsGeoJson;
+    }
+
     @JsonIgnore
     public Map getClientPrecinctsGeoJson() {
         Map <String, Object> map = new HashMap<>();

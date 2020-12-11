@@ -1,4 +1,4 @@
-package com.cse416.backend.model.summary;
+package com.cse416.backend.model.job.summary;
 
 import java.lang.Integer;
 

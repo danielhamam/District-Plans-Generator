@@ -33,12 +33,12 @@ public class Plan{
 
     @ManyToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="jobId")
+    @JsonIgnore
     private Job job;
 
     @JsonProperty
     private int numberOfDistricts;
 
-    @JsonIgnore
     @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL,
     fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinTable(
@@ -46,28 +46,29 @@ public class Plan{
         joinColumns = @JoinColumn(name = "planId"),
         inverseJoinColumns = @JoinColumn(name = "districtId")
     )
+    @JsonIgnore
     private List<District> districts;
 
-    @JsonIgnore
+    @JsonProperty
     private double averageDistrictPopulation;
 
-    @JsonIgnore
+    @JsonProperty
     private double averageDistrictCompactness;
 
-    @JsonProperty
     @Transient
+    @JsonProperty
     private boolean isPlanEnacted;
 
-    @JsonProperty
     @Transient
+    @JsonProperty
     private String type;
 
-    @JsonProperty
     @Transient
+    @JsonProperty
     private String stateAbbreviation;
 
-    @JsonIgnore
     @Transient
+    @JsonIgnore
     private File districtFile;
 
     @JsonProperty

@@ -60,36 +60,34 @@ public class ClientController {
         return service.getPrecinctDemographic(precinctName);
     }
 
-
     @GetMapping(path = "/heatmap/{censusEthnicity}", produces = "application/json")
     public String getDemographicHeatmap(@PathVariable String censusEthnicity){
         return service.getDemographicHeatmap(censusEthnicity);
     }
 
-   @GetMapping(path = "/plan/{jobID}/{planID}", produces = "application/json")
-   public String getPlan(@PathVariable Integer jobID, @PathVariable String planID){
+   @GetMapping(path = "/plan/{jobID}/{type}", produces = "application/json")
+   public String getPlan(@PathVariable Integer jobID, @PathVariable String type){
         return "getPlan";
    }
 
-   @GetMapping(path = "/boxwhisker/{jobID}/{planID}", produces = "application/json")
-   public String getBoxwhisker(@PathVariable Integer jobID, @PathVariable String planID, @RequestBody String catagory){
-        return "getPlanGraph";
+   @GetMapping(path = "/boxwhisker/{jobID}", produces = "application/json")
+   public String getBoxwhisker(@PathVariable Integer jobID){
+       return service.getBoxWhisker(jobID);
    }
 
    @PutMapping(path = "/cancel/{jobID}", produces = "application/json")
-   public void putCancelStateJob(@PathVariable Integer jobID){
+   public void putCancelJob(@PathVariable Integer jobID){
        service.cancelJob(jobID);
    }
 
    @DeleteMapping(path = "/delete/{jobID}", produces = "application/json")
-   public void deleteStateJob(@PathVariable Integer jobID){
+   public void deleteJob(@PathVariable Integer jobID){
        service.deleteJob(jobID);
    }
 
    @PostMapping(path = "/generate", consumes = "application/json", produces = "application/json")
    public String postGenerateStateJob(@RequestBody Job job){
-        String clientData = service.generateJob(job);
-        return clientData;
+        return service.generateJob(job);
    }
 
 

@@ -4,9 +4,7 @@ import com.cse416.backend.model.demographic.*;
 import com.cse416.backend.model.regions.county.*;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.regions.district.*;
-import com.cse416.backend.model.Boundary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 import java.lang.*;
