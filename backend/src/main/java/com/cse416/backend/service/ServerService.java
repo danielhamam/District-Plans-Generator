@@ -373,8 +373,10 @@ public class ServerService {
                         .findFirst()
                         .orElseThrow(Exception::new);
                 currentThread.cancelJobDriver();
+                threads.remove(currentThread);
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
+
             }
             else{
                 deleteJob(jobID);
@@ -536,8 +538,11 @@ public class ServerService {
                             netid, job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
                     Process tempProcess = pb.start();
-                    printProcessOutput(tempProcess);
+                    shortSleepThread();
+                    //printProcessOutput(tempProcess);
                 }
+                job.setStatus(JobStatus.CANCELLED);
+                System.out.println("Job " + job.getJobID() + " status: " + job.getStatus());
                 kill();
             }
 

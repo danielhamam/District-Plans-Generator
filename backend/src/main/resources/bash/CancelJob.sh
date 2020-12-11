@@ -10,5 +10,4 @@ rm -v ${SEAWULF_JOBFILE}
 
 ssh ${NETID}@login.seawulf.stonybrook.edu '
 ./canceljob.sh
-./rmtemp.sh
 '
