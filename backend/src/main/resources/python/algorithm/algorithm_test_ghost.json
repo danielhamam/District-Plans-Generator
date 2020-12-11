@@ -5,6 +5,7 @@
                 "stateName": "Maryland",
                 "nameAbbrev" : "MD",
                 "stateFIPSCode" : "12345",
+                "totalPopulation": 97785,
                 "demographic": 
                     {
                     "totalPopulation": 1000000,
