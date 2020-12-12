@@ -94,10 +94,9 @@ public class ClientController {
        return service.generateJob(job);
    }
 
-
-    @GetMapping(path = "/temp", produces = "application/json")
-    public String temp(){
-        return "getPlanGraph";
+    @GetMapping(path = "/jobs", produces = "application/json")
+    public String getJobsUpdate(){
+        return service.getJobsUpdate();
     }
 
 

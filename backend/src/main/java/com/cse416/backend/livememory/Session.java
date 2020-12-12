@@ -35,6 +35,10 @@ public class Session{
                 .orElseThrow(NoSuchElementException::new);
     }
 
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
     public void addJobs(List<Job> jobs){
         this.jobs.addAll(jobs);
     }

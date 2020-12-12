@@ -189,6 +189,24 @@ public class ServerService {
         return clientData;
     }
 
+    public String getJobsUpdate(){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            Map<String, Object> dataObject = new HashMap<>();
+            dataObject.put("jobs", session.getJobs());
+            clientData = this.createClient_Data(dataObject);
+            System.out.println("Server func getJobsUpdate() successful");
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+
+    }
+
     public String getDemographicHeatmap(String censusEthnicity){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         System.out.println(censusEthnicity);
@@ -450,6 +468,8 @@ public class ServerService {
             public void kill(){
                 die = true;
             }
+
+
 
             public void run() {
                 while (!die) {
