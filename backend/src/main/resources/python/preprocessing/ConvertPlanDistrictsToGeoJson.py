@@ -3,6 +3,7 @@ import json
 from shapely.ops import unary_union
 import argparse
 import collections
+import os
 
 
 States = {
@@ -10,31 +11,31 @@ States = {
         "Name": "Maryland",
         "Abbrev": "MD",
         "FIPS": "24",
-        "PrecinctFile": "backend/src/main/resources/system/states/md/Precincts.json",
-        "CountyFile": "backend/src/main/resources/system/states/md/Counties.json"
+        "PrecinctFile": "src/main/resources/system/states/md/Precincts.json",
+        "CountyFile": "src/main/resources/system/states/md/Counties.json"
     },
     "PA": {
         "Name": "Pennsylvania",
         "Abbrev": "PA",
         "FIPS": "42",
-        "PrecinctFile": "backend/src/main/resources/system/states/pa/Precincts.json",
-        "CountyFile": "backend/src/main/resources/system/states/pa/Counties.json"
+        "PrecinctFile": "src/main/resources/system/states/pa/Precincts.json",
+        "CountyFile": "src/main/resources/system/states/pa/Counties.json"
     },
     "GA" :{
         "Name": "Georgia",
         "Abbrev": "GA",
         "FIPS": "13",
-        "PrecinctFile": "backend/src/main/resources/system/states/ga/Precincts.json",
-        "CountyFile": "backend/src/main/resources/system/states/ga/Counties.json"
+        "PrecinctFile": "src/main/resources/system/states/ga/Precincts.json",
+        "CountyFile": "src/main/resources/system/states/ga/Counties.json"
     }
 }
 def main(args):
-    infile = args.infile[0]
     output_directory = args.output_directory[0]
-
-
+    file = output_directory + "ConvertPlans.json"
+    print(file)
+    print(output_directory)
     #Use this method for reading an planDistrict file
-    readPlanDistrictFile(infile, output_directory)
+    readPlanDistrictFile(file, output_directory)
 
     # districtFile = 'backend/src/main/resources/system/states/ga/EnactedDistricts.json'
     #
@@ -50,22 +51,23 @@ def main(args):
    # print(countedDistrictCounties)
 
 def readPlanDistrictFile(file, output_directory):
+    try:
+        with open(file) as f:
+                planDistrict = json.load(f)
 
-    with open(file) as f:
-            planDistrict = json.load(f)
+                plans = planDistrict['plans']
+                state = plans[0]['stateAbbrev']
 
-            plans = planDistrict['plans']
-            state = plans[0]['stateAbbrev']
+                #Tranverse through each plan within a job
+                for plan in plans:
 
-            #Tranverse through each plan within a job
-            for plan in plans:
-
-                #Create the district boundaries based on the precincts said to be within a district
-                #and Create the associate new District GeoJson File
-                createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"], output_directory)
-
+                    #Create the district boundaries based on the precincts said to be within a district
+                    #and Create the associate new District GeoJson File
+                    createNewDistrictBoundaries(States[state]["PrecinctFile"], plan, States[state]["FIPS"], output_directory)
+    except Exception as e:
+        print(e)
 def createNewDistrictBoundaries(file, plan, stateFips, output_directory):
-
+    print(createNewDistrictBoundaries)
     file = open(file)
 
     #feed the precinct data into geopandas
@@ -132,6 +134,7 @@ def createNewDistrictBoundaries(file, plan, stateFips, output_directory):
     #Write the data to GeoJson File
     filepath = output_directory + plan['type'] + 'District.json'
     districts_dataFrame.to_file(filepath, driver='GeoJSON')
+    print("Done with writing files")
 
 def getDistrictCounties(districtFile, countyFile):
 
@@ -183,13 +186,12 @@ def countNumberCountiesInDistricts(districtDict):
 
 def parser():
     parser = argparse.ArgumentParser(prog="CovertPlanDistrictToGeojson",description='CovertPlanDistrictToGeojson')
-    parser.add_argument('infile', help='The input json file to make the python code run', type=argparse.FileType('r'), nargs=1, default=sys.stdin)
     parser.add_argument('output_directory', help='This is the path for the output directory', type=str, nargs=1)
     return parser
 
-
-    
-  
 if __name__ == "__main__":
+    print("Starting Python Script...")
+    print(os.getcwd())
     parser = parser()
+    print(parser)
     main(parser.parse_args())

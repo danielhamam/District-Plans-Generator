@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.hibernate.engine.query.ParameterRecognitionException;
+import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -340,9 +340,11 @@ public class ServerService {
         //Retrieve the minority group to analyze provide the client
         List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
         List <CensusEthnicity> censusEthnicities = new ArrayList<>();
-        getMinorityAnalyzedEnumration.forEach(
-                e -> censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get())
-        );
+        getMinorityAnalyzedEnumration.forEach(e -> {
+            System.out.println(e.getShortenName());
+            censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get());
+
+        });
         return censusEthnicities;
     }
 
@@ -458,21 +460,21 @@ public class ServerService {
 
             public void start() {
                 if (proxyThread == null) {
-                    try{
-                        String algorithmOutputPath = jobsDirectory + "AlgorithmOutput.json";
-                        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
-                        File algorithmOutput = new File(algorithmOutputAbsolutePath);
-                        processAlgorithmOutput(algorithmOutput);
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
+//                    try{
+//                        String algorithmOutputPath = jobDirectory + "algorithm-output/" + "AlgorithmOutput.json";
+//                        String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
+//                        File algorithmOutput = new File(algorithmOutputAbsolutePath);
+//                        processAlgorithmOutput(algorithmOutput);
+//                    }
+//                    catch (Exception e){
+//                        e.printStackTrace();
+//
+//                    }
 
-                    }
 
-
-//                System.out.println("Starting Thread...");
-//                proxyThread = new Thread(this);
-//                proxyThread.start();
+                System.out.println("Starting Thread...");
+                proxyThread = new Thread(this);
+                proxyThread.start();
                 }
             }
 
@@ -601,26 +603,41 @@ public class ServerService {
 
             }
 
-            private void createPlanGeojson(JsonNode plansNode)throws IOException{
+            private void setDistrictGeoJson(Plan plan, String fileName)throws IOException{
+                String filePath = jobDirectory + fileName;
+                File file = new File(new File(filePath).getAbsolutePath());
+                plan.setDistrictsGeoJson(mapper.readValue(file, FeatureCollection.class));
+            }
+
+            private void createPlanGeojson(JsonNode plansNode)throws IOException, InterruptedException{
                 Plan averagePlan = job.getAverageDistrictPlan();
                 Plan extremeplan = job.getExtremeDistrictPlan();
                 Plan randomPlan = job.getRandomDistrictPlan();
+                //System.out.println(plansNode.get(Integer.parseInt(averagePlan.getType())));
 
                 //Format data
                 ObjectNode objectNode = mapper.createObjectNode();
                 ArrayNode clientPlans = mapper.createArrayNode();
-                clientPlans.add(formatObjectNode(plansNode.get(averagePlan.gettype()), "Average"));
-                clientPlans.add(formatObjectNode(plansNode.get(extremeplan.gettype()), "Extreme"));
-                clientPlans.add(formatObjectNode(plansNode.get(randomPlan.gettype()), "Random"));
+                int planID = Integer.parseInt(averagePlan.getType());
+                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Average"));
+                planID = Integer.parseInt(extremeplan.getType());
+                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Extreme"));
+                planID = Integer.parseInt(randomPlan.getType());
+                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Random"));
                 objectNode.set("plans", clientPlans);
-                String filePath = new File(jobsDirectory + "CovertPlans.json").getAbsolutePath();
-                FileWriter CovertPlansFile = new FileWriter(new File(filePath));
+                //System.out.println(objectNode.toPrettyString());
+                String filename = "ConvertPlans.json";
+                String filePath = new File(jobDirectory).getAbsolutePath() + "/" + filename;
+                FileWriter CovertPlansFile = new FileWriter(filePath);
                 mapper.writeValue(CovertPlansFile, objectNode);
-                CovertPlansFile.close();
                 ProcessBuilder pb = new ProcessBuilder("python3",
-                        "src/main/resources/python/preprocessing/ConvertPlanDistrictsToGeoJson.py",
-                        filePath, jobDirectory);
+                        "src/main/resources/python/preprocessing/ConvertPlanDistrictsToGeoJson.py", jobDirectory);
                 Process temp = pb.start();
+                printProcessOutput(temp);
+                shortSleepThread();
+                setDistrictGeoJson(averagePlan, "AverageDistrict.json");
+                setDistrictGeoJson(extremeplan, "ExtremeDistrict.json");
+                setDistrictGeoJson(randomPlan, "RandomDistrict.json");
 
             }
 
@@ -675,7 +692,7 @@ public class ServerService {
                 if(allPlans.size() == 0){
                     throw new Exception("List size zero : allPlans.size() == 0");
                 }
-                System.out.println("Creating Box and Whisker Plot." + " Number of plans " + allPlans.size());
+                //System.out.println("Creating Box and Whisker Plot." + " Number of plans " + allPlans.size());
 
                 //Get ethnicity to sort list by
                 CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
@@ -693,13 +710,13 @@ public class ServerService {
                         District planDistrict = plan.getDistricts().get(districtIndex);
                         Long population = planDistrict.getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
                         districtsPopulationOfPlans.add(population);
-                        System.out.print(plan.gettype() + "[ District: "+ planDistrict.getDistrictNumber()
-                                + ", Population: " + population +"]\t");
+//                        System.out.print(plan.getType() + "[ District: "+ planDistrict.getDistrictNumber()
+//                                + ", Population: " + population +"]\t");
 
                     }
-                    System.out.println();
+//                    System.out.println();
                     Collections.sort(districtsPopulationOfPlans);
-                    System.out.println("Population for district " + (districtIndex+1) + " :" +  districtsPopulationOfPlans);
+//                    System.out.println("Population for district " + (districtIndex+1) + " :" +  districtsPopulationOfPlans);
                     int size = districtsPopulationOfPlans.size();
                     long min = districtsPopulationOfPlans.get(0);
                     long q1 = districtsPopulationOfPlans.get(size/4);
@@ -710,7 +727,7 @@ public class ServerService {
 
                 }
                 job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
-                System.out.println("\n" + job.getBoxWhisker() + "\n");
+                //System.out.println("\n" + job.getBoxWhisker() + "\n");
 
 
             }
@@ -805,7 +822,7 @@ public class ServerService {
             private void prettyPrintPlan(Plan plan){
                 int districtElement = 1;
                 StringBuilder s = new StringBuilder();
-                s.append("Plan " + plan.gettype() + " [\n");
+                s.append("Plan " + plan.getType() + " [\n");
                 for (District d: plan.getDistricts()) {
                     s.append("District " + districtElement + ":" + "\n" + d.getDemographic() + "Districts Precinct: {");
                     for(Precinct p : d.getPrecincts()){
@@ -842,7 +859,7 @@ public class ServerService {
                     plansList.add(plan);
                     planIndex++;
 
-                    prettyPrintPlan(plan);
+                    //prettyPrintPlan(plan);
                 }
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);

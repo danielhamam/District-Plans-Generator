@@ -119,7 +119,6 @@ public class Job{
     @Transient
     @JsonIgnore
     private Summary summary;
-
     
     @JsonIgnore
     @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,

@@ -117,12 +117,12 @@ public class Plan{
     public FeatureCollection createDistrictFeatureCollection()throws IOException{
         return new ObjectMapper().readValue(this.districtFile, FeatureCollection.class);
     }
-    
-    public String gettype() {
+
+    public String getType() {
         return type;
     }
 
-    public void settype(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
