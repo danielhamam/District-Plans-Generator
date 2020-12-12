@@ -102,14 +102,14 @@ export async function getPlan(data){
 export async function getPlanGraph(data){
     console.log("Getting Box n Whisker For Plan");
     const requestOptions = createFetchOptions('GET');
-    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.id + "/" + data.plan.id
+    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.id
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response; 
 }
 export async function cancelJob(data){
     console.log("Cancel");
     const requestOptions = createFetchOptions('PUT');
-    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.id + "/" + data.plan.id
+    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.id
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response; 
 }
