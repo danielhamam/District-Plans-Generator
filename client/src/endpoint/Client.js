@@ -13,6 +13,7 @@ const SERVER_PATHS = {
     CANCEL:"/cancel",
     GENERATE_JOB: "/generate",
     GENERATE_HEATMAP: "/heatmap",
+    JOBS: "/jobs"
 }
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -61,6 +62,14 @@ export async function getState(data){
     console.log("Gettting State");
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.STATE + "/" + data.state;
+    const response = await fetch(NEW_URL, requestOptions).catch(error => error);
+    return await response.json()
+}
+
+export async function getJobs(){
+    console.log("Gettting Jobs");
+    const requestOptions = createFetchOptions('GET');
+    const NEW_URL = URL + SERVER_PATHS.JOBS
     const response = await fetch(NEW_URL, requestOptions).catch(error => error);
     return await response.json()
 }

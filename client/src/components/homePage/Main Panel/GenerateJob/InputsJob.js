@@ -64,7 +64,7 @@ class InputsJob extends Component {
         // RESET ALL INPUTS
         this.setState({jobName : ''})
         this.setState({districtsAmount : 0})
-        this.setState({plansAmount : 0})
+        this.setState({plansAmount : 3})
         this.setState({compactness : ''})
         this.setState({populationDifference : 0})
         this.setState({minorityAnalyzed : ''})

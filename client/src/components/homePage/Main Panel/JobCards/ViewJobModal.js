@@ -30,6 +30,7 @@ class ViewJobModal extends Component {
             this.disabledStatus = "active";
         }
         if (this.props.status == "Pending") this.readyColorStatus = " jobdisplayPending"
+        else if (this.props.status == "Running") this.readyColorStatus = " jobdisplayRunning"
         else if (this.props.status == "Completed") this.readyColorStatus = " jobdisplaySuccess"
         return (
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleXclose}>  

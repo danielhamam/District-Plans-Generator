@@ -172,7 +172,7 @@ class Sidebar extends Component {
                                         <YourJobs 
                                         selectedJobCheck={this.props.selectedJobCheck} toggleSelectedCard={this.props.toggleSelectedCard} 
                                         updateCurrentJob={this.props.updateCurrentJob} jobCards = {this.props.jobCards} deleteJob={this.props.deleteJob}
-                                        cancelJob = {this.props.cancelJob}
+                                        cancelJob = {this.props.cancelJob} updateJobStatus = {this.props.updateJobStatus} currentState={this.state.currentState}
                                         />
                                     </div> 
                                 </SubMenu>

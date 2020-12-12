@@ -255,12 +255,22 @@ html, body {
   background-color : grey !important;
 }
 
+.jobRunning {
+  background-color : lightyellow !important;
+}
+
 .jobSuccess {}
 
 .jobdisplayPending {
   color : red!important;
   /* color : lightpink; */
 }
+
+.jobdisplayRunning {
+  color : lightyellow!important;
+  /* color : lightpink; */
+}
+
 
 .jobdisplaySuccess {
   color : green !important;

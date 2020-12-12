@@ -7,6 +7,12 @@ class YourJobs extends Component {
         this.state = {}
     }
     render() {
+
+        if (this.props.currentState != "Select a state") {
+            setInterval(this.props.updateJobStatus, 10000);
+            console.log("Checking jobs")
+        }
+
         return (
                 <div >
                     <div> Selected Job:</div> 

@@ -64,6 +64,7 @@ class MainPanel extends Component {
                     updateCurrentJobName={this.props.updateCurrentJobName} toggleSelectedCard={this.props.toggleSelectedCard}
                     createJob={this.props.createJob} cancelJob = {this.props.cancelJob} deleteJob={this.props.deleteJob} 
                     selectedJobCheck={this.props.selectedJobCheck} generateBoxWhiskerValues={this.props.generateBoxWhiskerValues}
+                    updateJobStatus = {this.props.updateJobStatus}
 
                     // Map-related content
                     selectedFilters={this.props.selectedFilters}

@@ -129,6 +129,17 @@ class App extends Component {
     }
   }
 
+  updateJobStatus = async () => {
+      // setInterval ( async () => {
+        try {
+        let res = await endpoint.getJobs();
+        this.setState({ jobCards : res.jobs})
+        } catch (exception) {
+          console.error(exception)
+        }
+      // },10000)
+  }
+
   firstLoadChange = () => {
     this.setState({firstLoad : 1})
   }
@@ -192,6 +203,7 @@ class App extends Component {
       }
     this.setState({ jobCards : this.state.jobCards})
   }
+
 
 
   deletePlan = (plan) => {
@@ -426,7 +438,9 @@ class App extends Component {
   }
 
   render() {
+
   return (
+
     <div >
             <HomeScreen 
 
@@ -440,7 +454,7 @@ class App extends Component {
             // Job-related methods
             updateCurrentJob={this.updateCurrentJob} deleteJob={this.deleteJob} toggleSelectedCard={this.toggleSelectedCard}
             createJob={this.createJob} cancelJob={this.cancelJob} selectedJobCheck={this.state.selectedJobCheck}
-            generateBoxWhiskerValues={this.generateBoxWhiskerValues} 
+            generateBoxWhiskerValues={this.generateBoxWhiskerValues} updateJobStatus = {this.updateJobStatus}
 
             // Plan-related methods
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}
