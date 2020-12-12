@@ -17,7 +17,7 @@ def main():
 
     mycursor = mydb.cursor()
 
-    f = open('backend/database/PrecinctsNeigbor.json')
+    f = open('backend/database/sqlFormat.json')
     data = json.load(f)
 
     # deleteTableRows(mycursor)
@@ -29,7 +29,7 @@ def main():
     # writePrecinctDemographic(data, mycursor)
     # writeCountyDemographic(data, mycursor)
     # writeDistrictDemographic(data, mycursor)
-    # writeStateDemographic(mycursor)
+    writeStateDemographic(mycursor)
     # writePrecinctNeighbors(data, mycursor)
 
 def writeToStateTable(mycursor):
@@ -58,24 +58,28 @@ def writeToStateTable(mycursor):
       sql = "INSERT INTO States (stateId, stateName, stateFIPSCode) VALUES (%s, %s, %s)"
       val = (states[state]['stateId'], states[state]['stateName'], states[state]['stateFIPSCode'])
       mycursor.execute(sql, val)
-      #mydb.commit()
+   
+      mydb.commit()
 
 def writeToDistrictTable(data, mycursor):
     
     for district in data:
+        p = data[district]
         sql = "INSERT INTO Districts (districtNumber, stateId) VALUES (%s, %s)"
-        val = (district[1]['districtNumber'], district[1]['stateId'])
+        val = (p['districtNumber'], p['stateId'])
 
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
 
 def writeToCountyTable(data, mycursor):
 
     for countyDistrict in data:
         
+        d = data[countyDistrict]
+
         #Query District Id
         sql = "SELECT districtId FROM Districts WHERE districtNumber = (%s) and stateId = (%s)"
-        val = (countyDistrict[1]['districtFIPS'], countyDistrict[1]['stateId'])
+        val = (d['districtFIPS'], d['stateId'])
         mycursor.execute(sql, val)
         districtId = mycursor.fetchone()
 
@@ -85,17 +89,19 @@ def writeToCountyTable(data, mycursor):
          
         #Insert into Table
         sql = "INSERT INTO Counties (countyFIPSCode, countyName, districtId, stateId) VALUES (%s,%s,%s,%s)"
-        val = (countyDistrict[1]['countyFIPS'], countyDistrict[1]['countyName'], districtId, countyDistrict[1]['stateId'])
+        val = (d['countyFIPS'], d['countyName'], districtId, d['stateId'])
         mycursor.execute(sql, val)
-        #mydb.commit()
+        mydb.commit()
 
 def writeToPrecinctTable(data, mycursor):
    
     for precinct in data:
 
-         #Query District Id
+        p = data[precinct]
+
+        #Query District Id
         sql = "SELECT districtId FROM Districts WHERE districtNumber = (%s) and stateId = (%s)"
-        val = (precinct[1]['districtNumber'], precinct[1]['stateId'])
+        val = (p['districtNumber'], p['stateId'])
         mycursor.execute(sql, val)
         districtId = mycursor.fetchone()
 
@@ -105,7 +111,7 @@ def writeToPrecinctTable(data, mycursor):
 
         #Query County Id
         sql = "SELECT countyId FROM Counties WHERE countyFIPSCode = (%s) and stateId = (%s)"
-        val = (precinct[1]['countyFIPSCode'], precinct[1]['stateId'])
+        val = (p['countyFIPSCode'], p['stateId'])
         mycursor.execute(sql, val)
         countyId = mycursor.fetchone()
 
@@ -115,9 +121,10 @@ def writeToPrecinctTable(data, mycursor):
 
         #Insert into Precinct table
         sql = "INSERT INTO Precincts (precinctFIPSCode, precinctName, countyId, districtId, stateId) VALUES (%s, %s,%s, %s,%s)"
-        val = (precinct[1]['precinctFIPSCode'],precinct[1]['precinctName'], countyId, districtId, precinct[1]['stateId'])
+        val = (p['precinctFIPSCode'],p['precinctName'], countyId, districtId, p['stateId'])
         mycursor.execute(sql, val)
-        #mydb.commit()
+
+        # mydb.commit()
 
 def writeToCensusEthnicityTable(mycursor):
 
@@ -140,11 +147,11 @@ def writeToCensusEthnicityTable(mycursor):
 
 def writePrecinctDemographic(data, mycursor):
 
-    stateAbbrev = data[0][1]['stateId']
+    stateAbbrev = data[list(data)[0]]['stateId']
     statePrecincts = getStatePrecincts()
-    
+ 
     for precinct in statePrecincts:
-
+        
         getDemographic = findCorrespondingKey(data, precinct)
 
         if getDemographic != None:
@@ -164,7 +171,8 @@ def writePrecinctDemographic(data, mycursor):
             val = (getDemographic['total'], getDemographic['white'], getDemographic['hispanic'], getDemographic['american_indian'], getDemographic['native_hawaiian'], getDemographic['black'], getDemographic['asian'], getDemographic['other'], getDemographic['multiple'], getDemographic['vap'], getDemographic['white_vap'], getDemographic['hispanic_vap'], getDemographic['american_indian_vap'], getDemographic['native_hawaiian_vap'], getDemographic['black_vap'], getDemographic['asian_vap'], getDemographic['other_vap'], getDemographic['multiple_vap'], precinctId)
             
             mycursor.execute(sql, val)
-            #mydb.commit()
+
+            # mydb.commit()
 
         else:
            
@@ -183,15 +191,17 @@ def writePrecinctDemographic(data, mycursor):
             val = (0,0,0,0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, precinctId)
 
             mycursor.execute(sql, val)
-            #mydb.commit()
+           
+            # mydb.commit()
 
 def writeCountyDemographic(data, mycursor):
 
     for county in data:
-        
+        d = data[county]
+
         #Query County Id
         sql = "SELECT countyId FROM Counties WHERE countyFIPSCode = (%s) and stateId = (%s)"
-        val = (county[1]['countyFIPSCode'], county[1]['stateId'])
+        val = (d['countyFIPS'], d['stateId'])
         mycursor.execute(sql, val)
         countyId = mycursor.fetchone()
 
@@ -200,7 +210,7 @@ def writeCountyDemographic(data, mycursor):
 
         #Count the number of precincts that belong to this county
         sql = "SELECT COUNT(*) FROM Precincts WHERE countyId = (%s) and stateId = (%s)"
-        val = (countyId,  county[1]['stateId'])
+        val = (countyId,  d['stateId'])
         mycursor.execute(sql, val)
         numPrecincts = mycursor.fetchone()[0]
 
@@ -208,11 +218,11 @@ def writeCountyDemographic(data, mycursor):
         sql = "UPDATE Counties SET numberOfPrecincts = (%s) WHERE countyId = (%s)"
         val = (numPrecincts, countyId)
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
        
         #get array of precincts belonging to this county
         sql = "SELECT precinctId FROM Precincts WHERE countyId = (%s) and stateId = (%s)"
-        val = (countyId,  county[1]['stateId'])
+        val = (countyId,  d['stateId'])
         mycursor.execute(sql, val)
         precincts = mycursor.fetchall()
 
@@ -223,9 +233,11 @@ def writeDistrictDemographic(data, mycursor):
     
     for district in data:
         
+        d = data[district]
+
         #Query District Id
         sql = "SELECT districtId FROM Districts WHERE districtNumber = (%s) and stateId = (%s)"
-        val = (district[1]['districtNumber'], district[1]['stateId'])
+        val = (d['districtNumber'], d['stateId'])
         mycursor.execute(sql, val)
         districtId = mycursor.fetchone()
 
@@ -234,13 +246,13 @@ def writeDistrictDemographic(data, mycursor):
 
         #Count the number of counties that belong to this district
         sql = "SELECT COUNT(*) FROM Counties WHERE districtId = (%s) and stateId = (%s)"
-        val = (districtId,  district[1]['stateId'])
+        val = (districtId,  d['stateId'])
         mycursor.execute(sql, val)
         numCounties = mycursor.fetchone()[0]
 
         #Count the number of precincts that belong to this district
         sql = "SELECT COUNT(*) FROM Precincts WHERE districtId = (%s) and stateId = (%s)"
-        val = (districtId,  district[1]['stateId'])
+        val = (districtId,  d['stateId'])
         mycursor.execute(sql, val)
         numPrecincts = mycursor.fetchone()[0]
 
@@ -248,20 +260,20 @@ def writeDistrictDemographic(data, mycursor):
         sql = "UPDATE Districts SET numberOfPrecincts = (%s) WHERE districtId = (%s)"
         val = (numPrecincts, districtId)
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
        
         #Update the number of counties field of the district
         sql = "UPDATE Districts SET numberOfCounties = (%s) WHERE districtId = (%s)"
         val = (numCounties, districtId)
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
 
         # get array of counties belonging to this district
         sql = "SELECT countyId FROM Counties WHERE districtId = (%s) and stateId = (%s)"
-        val = (districtId,  district[1]['stateId'])
+        val = (districtId,  d['stateId'])
         mycursor.execute(sql, val)
         counties = mycursor.fetchall()
-     
+       
         #Sum the population values of counties that belong to this district
         computeSumDemographic(counties,  mycursor, "district", districtId)
 
@@ -310,13 +322,13 @@ def writeStateDemographic(mycursor):
         sql = "UPDATE States SET numberOfPrecincts = (%s) WHERE stateId = (%s)"
         val = (numPrecincts, states[state]['stateId'])
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
        
         #Update the number of counties field of the state
         sql = "UPDATE States SET numberOfDistricts = (%s) WHERE stateId = (%s)"
         val = (numDistrict, states[state]['stateId'])
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
 
         #Update the number of counties field of the state
         sql = "UPDATE States SET numberOfCounties = (%s) WHERE stateId = (%s)"
@@ -341,7 +353,8 @@ def getStatePrecincts():
     d = []
 
     for precinct in data:
-        d.append(precinct[1]['precinctFIPSCode'])
+        p = data[precinct]
+        d.append(p['precinctFIPSCode'])
     
     return d
             
@@ -352,8 +365,12 @@ def deleteTableRows(mycursor):
     #mydb.commit()
 
 def findCorrespondingKey(dictionary, value):
+    
     for key in dictionary:
-        if(key[1]['precinct'] == value): return key[1]
+        d = dictionary[key]
+
+        if(d['precinct'] == value): return d
+
     return None
 
 def computeSumDemographic(array,  mycursor, type, id):
@@ -412,7 +429,7 @@ def computeSumDemographic(array,  mycursor, type, id):
         val = (total, white, hispanic, americanIndian, nativeHawaiian, black, asian, other, multiple, totalVAP, whiteVAP, hispanicVAP, americanIndianVAP, nativeHawaiianVAP, blackVAP, asianVAP, otherVAP, multipleVAP, id)
         mycursor.execute(sql, val)
 
-        #mydb.commit()
+        # mydb.commit()
 
     elif(type == "district"):
 
@@ -448,7 +465,7 @@ def computeSumDemographic(array,  mycursor, type, id):
         val = (total, white, hispanic, americanIndian, nativeHawaiian, black, asian, other, multiple, totalVAP, whiteVAP, hispanicVAP, americanIndianVAP, nativeHawaiianVAP, blackVAP, asianVAP, otherVAP, multipleVAP, id)
         mycursor.execute(sql, val)
 
-        #mydb.commit()
+        # mydb.commit()
 
     elif(type == "state"):
     
@@ -484,7 +501,7 @@ def computeSumDemographic(array,  mycursor, type, id):
         val = (total, white, hispanic, americanIndian, nativeHawaiian, black, asian, other, multiple, totalVAP, whiteVAP, hispanicVAP, americanIndianVAP, nativeHawaiianVAP, blackVAP, asianVAP, otherVAP, multipleVAP, id)
         mycursor.execute(sql, val)
 
-        #mydb.commit()
+        # mydb.commit()
 
 def writePrecinctNeighbors(data, mycursor):
 
@@ -516,7 +533,7 @@ def writePrecinctNeighbors(data, mycursor):
             sql = "INSERT INTO PrecinctNeighbors (precinctID, precinctNeighborID) VALUES (%s,%s)"
             val = (currentPrecinctId, neighborPrecinctId)
             mycursor.execute(sql, val)
-            #mydb.commit()
+            # mydb.commit()
 
 
 if __name__ == '__main__':

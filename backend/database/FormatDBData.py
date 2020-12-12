@@ -91,7 +91,11 @@ States = {
 }
 
 def main():
-    writeHeatMapFilesToStates()
+    # writeHeatMapFilesToStates()
+
+    p = formatDistrictData(States['MD'])
+    writeToFile(p, 'backend/database/sqlFormat.json')
+
     pass
 
 
@@ -226,60 +230,34 @@ def formatDistrictData(state):
 
     return newDict
 
-def formatCountyData(state):
-    newDict = {}
-
-    f = open(state["CountyFile"])
-    data = json.load(f)
-
-    for feature in data['features']:
-
-        properties = feature['properties']
-       
-        temp = {
-            'countyFIPSCode' : properties['STATE'] + properties['COUNTY'],
-            'stateId': state["Abbrev"]
-        }
-
-        newDict[properties['NAME']] = temp
-   
-    return newDict
-
 def formatPrecinctData(state):
 
     newDict = {}
-    countyDict = {}
     f = open(state["PrecinctFile"])
     data = json.load(f)
 
-    if state['Abbrev'] == 'GA':
-        countyDict = formatGACountyDistrictData(state)
-    elif state['Abbrev'] == 'MD':
-        countyDict = formatMDCountyDistrictData(state)
-    else:
-        countyDict = formatPACountyDistrictData(state)
+    countyDict = formatCountyDistrictData(state)
 
     for feature in data['features']:
         properties = feature['properties']
 
         countyFips = properties['STATE'] + properties['COUNTY']
 
-        
-        getDistrictNum = findCorrespondingKey(countyDict, countyFips)
+        getDistrictNum = countyDict[countyFips]
         getDistrictNum = getDistrictNum['districtFIPS']
 
+        fips = properties['STATE'] + properties['COUNTY'] + properties['VTD']
+
         temp = {
-            'precinctFIPSCode' : properties['STATE'] + properties['COUNTY'] + properties['VTD'],
+            'precinctFIPSCode' : fips,
             'precinctName': properties['NAME'],
             'countyFIPSCode': countyFips,
             'districtNumber': getDistrictNum,
             'stateId':  state["Abbrev"],
         }
 
-        newDict[properties['NAME']] = temp
+        newDict[fips] = temp
       
-    #newDict = sorted(newDict.items(), key=lambda x: x[1], reverse=False)
-
     return newDict
   
 def getCountyDistrict(dictionary, countyToFind):
@@ -291,11 +269,10 @@ def getCountyDistrict(dictionary, countyToFind):
                 return districtNum
     return None
 
-def formatGACountyDistrictData(state):
-  
+def formatCountyDistrictData(state):
     newDict = {}
 
-    f = open(state["PrecinctDemographicFile"])
+    f = open(state["CountyFile"])
     data = json.load(f)
 
     # print(data['features'][0]['properties'])
@@ -303,93 +280,16 @@ def formatGACountyDistrictData(state):
     for feature in data['features']:
         properties = feature['properties']
 
+        districtNum = getCountyDistrict(state["DistrictCounties"], properties['NAME'])
+
         temp = {
-            'districtFIPS' : properties['CD'],
+            'districtFIPS' : districtNum,
             'stateId':  state["Abbrev"],
-            'countyName': properties['CTYNAME'],
-            'countyFIPS': properties['FIPS1']
+            'countyName': properties['NAME'],
+            'countyFIPS': properties['STATE'] + properties['COUNTY']
         }
 
-        newDict[properties['FIPS1']] = temp
-
-    return newDict
-
-def formatPACountyDistrictData(state):
-      
-    newDict = {}
-    countyDict = {}
-
-    f = open(state["CountyFile"])
-    data = json.load(f)
-
-    for feature in data['features']:
-        properties = feature['properties']
-
-        temp = {
-            'countyName' : properties['NAME'],
-            'countyFIPS': properties['COUNTY']
-        }
-
-        countyDict[properties['COUNTY']] = temp
-      
-    f = open(state["PrecinctDemographicFile"])
-    data = json.load(f)
-
-    for feature in data['features']:
-        properties = feature['properties']
-
-        countyName = countyDict[properties['COUNTYFP10']]['countyName']
-
-        if countyName is None: continue
-
-        temp = {
-            'districtFIPS' : properties['CD_2011'],
-            'stateId':  state["Abbrev"],
-            'countyName': countyName,
-            'countyFIPS': properties['STATEFP10'] + properties['COUNTYFP10']
-        }
-
-        newDict[properties['STATEFP10'] + properties['COUNTYFP10']] = temp
-    
-
-    return newDict
-
-def formatMDCountyDistrictData(state):
-    newDict = {}
-    countyDict = {}
-
-    f = open(state["CountyFile"])
-    data = json.load(f)
-
-    for feature in data['features']:
-        properties = feature['properties']
-
-        temp = {
-            'countyName' : properties['NAME'],
-            'countyFIPS': properties['COUNTY']
-        }
-
-        countyDict[properties['COUNTY']] = temp
-      
-    f = open(state["PrecinctDemographicFile"])
-    data = json.load(f)
-
-    for feature in data['features']:
-        properties = feature['properties']
-
-        countyName = countyDict[properties['COUNTY'][2:]]['countyName']
-    
-        if countyName is None: continue
-
-        temp = {
-            'districtFIPS' : properties['CD'],
-            'stateId':  state["Abbrev"],
-            'countyName': countyName,
-            'countyFIPS': properties['COUNTY']
-        }
-
-        newDict[properties['COUNTY']] = temp
-      
+        newDict[properties['STATE'] + properties['COUNTY']] = temp
 
     return newDict
 
