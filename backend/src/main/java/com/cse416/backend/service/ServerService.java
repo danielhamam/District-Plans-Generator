@@ -944,6 +944,7 @@ public class ServerService {
                         localAlgorithmProcesses.add(temp);
                         //printProcessOutput(temp);
                     }
+                    job.setStatus(JobStatus.RUNNING);
                 }
                 else{
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm remotely.");
@@ -955,8 +956,8 @@ public class ServerService {
                     shortSleepThread();
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
-                    //jobDAO.updateJob(job);
                 }
+                //jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 
