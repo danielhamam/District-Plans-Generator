@@ -155,7 +155,7 @@ public class ServerService {
                 createJobDirectory(j);
 
                 if(j.getStatus() == JobStatus.COMPLETED){
-                    initiateAlgorithm(j);
+                    reInitiateAlgorithm(j);
                 }
             }
             session.addJobs(jobs);
@@ -305,10 +305,10 @@ public class ServerService {
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
-            job.setJobID(99999);
+            //job.setJobID(99999);
             createJobDirectory(job);
             initiateAlgorithm(job);
-            //jobDAO.addJob(job);
+            jobDAO.addJob(job);
             session.addJob(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
@@ -345,6 +345,19 @@ public class ServerService {
         }
         else{
             algorithmInterface = new Algorithm("carlopez", job, false);
+        }
+        algorithmInterface.start();
+        threads.add(algorithmInterface);
+    }
+
+    private void reInitiateAlgorithm(Job job){
+        System.out.println("Initiating Algorithm... Creating Thread");
+        Algorithm algorithmInterface = null;
+        if(job.getNumDistrictingPlan() <= 10){
+            algorithmInterface = new Algorithm("carlopez", job, true, null);
+        }
+        else{
+            algorithmInterface = new Algorithm("carlopez", job, false, null);
         }
         algorithmInterface.start();
         threads.add(algorithmInterface);
@@ -424,6 +437,25 @@ public class ServerService {
 
             }
 
+            //This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
+            public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
+                this.netid = netid;
+                this.job = job;
+                this.isAlgorithmLocal = runAlgoLocally;
+                if(isAlgorithmLocal){
+                    determineAlgorithmComputeLocation();
+                    this.isComputeLocationDetermined = true;
+                }
+                else{
+                    this.isComputeLocationDetermined = false;
+                }
+                this.isJobCancelled = false;
+                this.jobsDirectory = "src/main/resources/system/jobs/";
+                this.jobDirectory = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase() + "/";
+                this.localAlgorithmProcesses = new ArrayList<>();
+
+            }
+
             public Job getJob(){
                 return job;
             }
@@ -492,6 +524,7 @@ public class ServerService {
 
                         JobStatus status = job.getStatus();
                         if(status.equals(JobStatus.COMPLETED)){
+                            System.out.println("Job" + job.getJobID() + " status: " + job.getStatus());
                             extractDataFromJob();
                             initiateServerProcessing();
                             kill();
@@ -931,7 +964,7 @@ public class ServerService {
                     if(isProcessesDone){
                         job.setStatus(JobStatus.COMPLETED);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -949,7 +982,7 @@ public class ServerService {
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }
                 }
             }
@@ -980,7 +1013,7 @@ public class ServerService {
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
                 }
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 
