@@ -23,7 +23,7 @@ public class BoxWhisker {
     fetch = FetchType.LAZY)
     private List<BoxWhiskerPlot> boxWhisker;
     
-    @OneToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     @JoinColumn(name = "jobId")
     private Job job;
 

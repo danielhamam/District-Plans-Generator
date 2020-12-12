@@ -306,7 +306,6 @@ public class ServerService {
         return clientData;
     }
 
-
     public String generateJob(Job job){
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
@@ -322,7 +321,7 @@ public class ServerService {
 
             createJobDirectory(job);
             initiateAlgorithm(job);
-            //jobDAO.addJob(job);
+            jobDAO.addJob(job);
             clientData = createClient_Data(job);
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -336,6 +335,7 @@ public class ServerService {
     }
 
    
+
     private List <CensusEthnicity> covertClientCensusToDatabaseCensus(Job job){
         //Retrieve the minority group to analyze provide the client
         List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
@@ -409,6 +409,7 @@ public class ServerService {
         }
 
     }
+
 
 
         public class Algorithm implements Runnable {
