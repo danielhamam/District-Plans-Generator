@@ -4,6 +4,9 @@ import com.cse416.backend.model.enums.CensusCatagories;
 import com.cse416.backend.service.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 @RestController
+@EnableScheduling
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClientController {
 
@@ -94,10 +98,15 @@ public class ClientController {
        return service.generateJob(job);
    }
 
-    @GetMapping(path = "/jobs", produces = "application/json")
-    public String getJobsUpdate(){
+    @Scheduled(fixedRate = 5000)
+    @SendTo("http://localhost:3000/")
+    public String jobUpdate() throws Exception {
+        Thread.sleep(1000); // simulated delay
+        System.out.println("scheduled jobs update");
+        System.out.println(service.getJobsUpdate());
         return service.getJobsUpdate();
     }
+
 
 
 }
