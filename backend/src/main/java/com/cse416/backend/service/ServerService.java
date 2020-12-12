@@ -11,17 +11,14 @@ import com.cse416.backend.model.job.summary.Summary;
 import com.cse416.backend.model.plan.comparators.CompactnessCompare;
 import com.cse416.backend.model.regions.county.County;
 import com.cse416.backend.model.regions.district.District;
-import com.cse416.backend.model.regions.district.comparators.AfricanAmericanPopulationCompare;
 import com.cse416.backend.model.regions.precinct.Precinct;
 import com.cse416.backend.model.regions.state.*;
 import com.cse416.backend.model.job.*;
 import com.cse416.backend.model.plan.*;
 import com.cse416.backend.model.enums.*;
 import com.cse416.backend.livememory.Session;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +38,6 @@ public class ServerService {
 
     private final ObjectMapper mapper;
     private Session session;
-    private GlobalHistory jobHistory;
-    private boolean isStatePrecinctsLoaded;
     private List<Algorithm> threads;
 
 
@@ -81,8 +76,6 @@ public class ServerService {
     public ServerService() {
         this.mapper = new ObjectMapper();
         this.session = new Session();
-        this.jobHistory = new GlobalHistory();
-        this.isStatePrecinctsLoaded = false;
         this.threads = new ArrayList<>();
     }
 
@@ -125,7 +118,7 @@ public class ServerService {
             String algorithmOutputPath = jobDirectoryAbsolutePath + "/" + jobDirectoryName + "/algorithm-output";
             boolean algorithmOutputDirCreated = new File(algorithmOutputPath).mkdirs();
             if(algorithmOutputDirCreated){
-                System.out.println("./" + algorithmOutputPath + " directory has been created");
+                System.out.println(algorithmOutputPath + " directory has been created");
             }else{
                 System.err.println("algorithm-output directory are already exists");
             }
@@ -136,11 +129,7 @@ public class ServerService {
     }
 
     public String connectingClient(){
-        //TODO: [DISCUSS] There may be no need to implement this function.
-        //                We keep all the state geoJson on client-side.
-        //                This would need implement if the application includes more states
-        //TODO: [SERVER] Implementation TBD
-        //TODO: [DATABASE] Implementation TBD
+        //TODO: Implement
         return "connectingClient";
     }
     
@@ -164,12 +153,14 @@ public class ServerService {
                     j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
                 }
                 createJobDirectory(j);
+
+                if(j.getStatus() == JobStatus.COMPLETED){
+                    initiateAlgorithm(j);
+                }
             }
             session.addJobs(jobs);
-            jobHistory.addJobs(jobs);
-
-            //format it for that client
             clientData = createClientStateData(state, jobs);
+            System.out.println("Server func getState() successful");
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
             error.printStackTrace();
@@ -177,26 +168,8 @@ public class ServerService {
         catch(Exception error){
             error.printStackTrace();
         }
-        return clientData;
-    }
 
-    private void getPrecinctAsync(String stateAbbrevation){
-        new Thread(new Runnable() {
-            public void run() {
-                isStatePrecinctsLoaded = false;
-                State state = session.getState();
-                System.out.println("Getting " + stateAbbrevation + " precincts");
-                List <Precinct> precincts = precinctDAO.getPrecinctsByStateId(stateAbbrevation);
-                state.setStatePrecincts(precincts);
-                for(Precinct p: precincts){
-                    Demographic precinctDemographic =  demographicDAO.getDemographicByPrecinctId(p.getPrecinctId());
-                    p.setDemographic(precinctDemographic);
-                    System.out.println(p);
-                }
-                System.out.println("Finished getting " + stateAbbrevation + " precincts");
-                isStatePrecinctsLoaded = true;
-            }
-        }).start();
+        return clientData;
     }
 
     public String getJob(Integer jobID){
@@ -205,7 +178,7 @@ public class ServerService {
             Job serverJob = session.getJobByID(jobID);
             Map<String, Object> dataObject = serverJob.getClientPlans();
             clientData = this.createClient_Data(dataObject);
-
+            System.out.println("Server func getJob() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -226,11 +199,10 @@ public class ServerService {
             HashMap <String, Object> map = new HashMap<>();
             map.put("precinctsGeoJson", heatmapNode);
             clientData = createClient_Data(map);
-
+            System.out.println("Server func getDemographicHeatmap() successful");
         }catch(Exception error){
             error.printStackTrace();
         }
-
         return clientData;
     }
 
@@ -239,7 +211,7 @@ public class ServerService {
         try{
             Object precinctsGeoJson = this.session.getState().getClientPrecinctsGeoJson();
             clientData = this.createClient_Data(precinctsGeoJson);
-
+            System.out.println("Server func getPrecincts() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -258,7 +230,7 @@ public class ServerService {
             Precinct precinct =  precinctDAO.getPrecinctByFIPSCode(fips);
             Demographic demographic =  demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());
             clientData = this.createClient_Data(demographic);
-
+            System.out.println("Server func getPrecinctDemographic() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -295,7 +267,7 @@ public class ServerService {
             HashMap <String, Object> map = new HashMap<>();
             map.put("boxWhisker", currentJob.getBoxWhisker());
             clientData = createClient_Data(currentJob.getBoxWhisker());
-
+            System.out.println("Server func getBoxWhisker() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -316,13 +288,13 @@ public class ServerService {
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
             job.setJobID(99999);
-            session.addJob(job);
-//            temp(job);
-
             createJobDirectory(job);
             initiateAlgorithm(job);
-            jobDAO.addJob(job);
+            //jobDAO.addJob(job);
+            session.addJob(job);
             clientData = createClient_Data(job);
+            System.out.println("Server func generateJob() successful");
+
         }catch(IOException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
             error.printStackTrace();
@@ -330,7 +302,6 @@ public class ServerService {
         catch(Exception error){
             error.printStackTrace();
         }
-        //System.out.println("Generating Job: " + job);
         return clientData;
     }
 
@@ -361,9 +332,6 @@ public class ServerService {
         threads.add(algorithmInterface);
     }
 
-    private void temp(String stateAbbrevation){
-
-    }
 
 
     public void cancelJob(Integer jobID){
@@ -371,7 +339,6 @@ public class ServerService {
         try{
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
-            System.out.println("\tSize of thread pool: " + threads.size());
             if(!job.getStatus().equals(JobStatus.COMPLETED)){
                 Algorithm currentThread =  threads.stream()
                         .filter(thread -> job.getJobID().equals(thread.getJob().getJobID()))
@@ -379,11 +346,12 @@ public class ServerService {
                         .orElseThrow(Exception::new);
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
+                System.out.println("Thread removed. Thread pool size: " + threads.size());
                 jobDAO.deleteJob(job);
-                System.out.println("Job " + job.getJobID() + " has been removed");
-
+                System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
             else{
+                System.out.println("Since status is: " + job.getStatus() +  " redirecting control to cancelJob");
                 deleteJob(jobID);
             }
 
@@ -394,20 +362,21 @@ public class ServerService {
     }
 
     public void deleteJob(Integer jobID){
-        //TODO: Ask if we delete from the database does it get refelected in the server-side thru JPA
-        System.out.println("Attempting to remove a job");
-//        jobHistory.deleteJob(jobID);
-        Job job = session.getJobByID(jobID);
-        if(job.getStatus().equals(JobStatus.COMPLETED)){
-            //        System.out.println("Successfully deleted the job for the server");
-            jobDAO.deleteJob(job);
-            System.out.println("Job " + job.getJobID() + " has been removed");
-        }else{
-            jobDAO.deleteJob(job);
-            System.out.println("Successfully deleted job from the DB"); 
-            System.out.println(job.toString() + " has been removed");
+        try {
+            Job job = session.getJobByID(jobID);
+            System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
+            if (job.getStatus().equals(JobStatus.COMPLETED)) {
+                jobDAO.deleteJob(job);
+                System.out.println("Job " + job.getJobID() + " has been removed");
+            } else {
+                //TODO: What does jobDAO.cancelJob() do?
+                System.out.println("Since status is: " + job.getStatus() + " redirecting control to cancelJob");
+                cancelJob(jobID);
+                //jobDAO.cancelJob(job);
+            }
+        }catch(Exception error){
+            error.printStackTrace();
         }
-
     }
 
 
@@ -423,7 +392,6 @@ public class ServerService {
             private boolean isJobCancelled;
             private List<Process> localAlgorithmProcesses;
             private Job job;
-
 
 
             public Algorithm(String netid, Job job, boolean runAlgoLocally) {
@@ -473,7 +441,7 @@ public class ServerService {
 //                    }
 
 
-                System.out.println("Starting Thread...");
+                System.out.println("Thread " + hashCode()  + " starting...");
                 proxyThread = new Thread(this);
                 proxyThread.start();
                 }
@@ -486,13 +454,13 @@ public class ServerService {
             public void run() {
                 while (!die) {
                     try {
-                        System.out.println(this + " thread is still running." +
+                        System.out.println("Thread " + hashCode() + " is still running." +
+                                "Job's ID: " + job.getJobID() + "\t" +
                                 "Job's status: " + job.getStatus() + "\t" +
                                 "Job's seawulfJobID: " + job.getSeawulfJobID());
 
                         if(isJobCancelled){
                             cancelJob();
-                            break;
                         }
 
                         if (!isComputeLocationDetermined) {
@@ -517,12 +485,12 @@ public class ServerService {
                     }
                     catch (IOException error) {
                         System.out.println("IOException Killing thread..");
-                        kill();
                         error.printStackTrace();
+                        kill();
                     }
                     catch (Exception error) {
                         error.printStackTrace();
-                        System.out.println(error.getCause().getMessage() + " Exception Killing thread..");
+                        System.out.println(error.getCause().getMessage() + " Exception Killing thread.");
                         kill();
                     }
                 }
@@ -536,12 +504,12 @@ public class ServerService {
 
             private void cancelJob()throws IOException, InterruptedException{
                 if(isAlgorithmLocal){
-                    System.out.println("Canceling job locally.");
+                    System.out.println("JobID " + job.getJobID() + ": " + "Canceling job locally.");
                     for(Process process : localAlgorithmProcesses) {
                        process.destroy();
                     }
                 }else{
-                    System.out.println("Canceling job remotely.");
+                    System.out.println("JobID " + job.getJobID() + ": " + "Canceling job remotely.");
                     ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/CancelAlgorithm.sh",
                             netid, job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
@@ -550,7 +518,7 @@ public class ServerService {
                     //printProcessOutput(tempProcess);
                 }
                 job.setStatus(JobStatus.CANCELLED);
-                System.out.println("Job " + job.getJobID() + " status: " + job.getStatus());
+                System.out.println("Job " + job.getJobID() + " cancelled");
                 kill();
             }
 
@@ -558,23 +526,24 @@ public class ServerService {
                 //long sleep = 900000; //15 minutes
                 long sleep = 9000; //15 minutes
                 double durationInMinutes = (sleep)/(60000 + 0.0);
-                System.out.println("Sleeping Thread " + this + " : Long sleep for " + durationInMinutes + " minutes");
+                System.out.println("JobID " + job.getJobID() + ": " +
+                        "Sleeping Thread " + hashCode() + " : Long sleep for " + durationInMinutes + " minutes");
                 Thread.sleep(sleep);
             }
 
             private void shortSleepThread() throws InterruptedException{
                 long sleep = 30000; //0.5 minutes
                 double durationInMinutes = (sleep)/(60000 + 0.0);
-                System.out.println("Sleeping Thread " + this + " : Short sleep for " + durationInMinutes + " minutes");
+                System.out.println("JobID " + job.getJobID() + ": " +
+                        "Sleeping Thread " + hashCode() + " : Short sleep for " + durationInMinutes + " minutes");
                 Thread.sleep(sleep);
             }
 
             private void generateSummaryFile()throws IOException{
-                System.out.println("Generating Summary File");
                 State state = job.getState();
 
                 String compactnessLimit = job.getClientCompactness().getRepresentation();
-                String populationDifferenceLimit = ""+job.getPopulationDifference();
+                String populationDifferenceLimit = ""+ job.getPopulationDifference();
                 List <String> minorityGroups =
                         job.getMinorityAnalyzedEnumration()
                                 .stream()
@@ -583,17 +552,22 @@ public class ServerService {
 
                 Constraints constraints = new Constraints(compactnessLimit, populationDifferenceLimit, minorityGroups);
                 //TODO: Add Congressional Districts GeoJson
-                Districting averageDistricting = new Districting("0", constraints, null);
-                Districting extremeDistricting = new Districting("1",constraints, null);
+                Districting averageDistricting = new Districting("0", constraints,
+                        job.getAverageDistrictPlan().getDistrictsGeoJson());
+                Districting extremeDistricting = new Districting("1",constraints,
+                        job.getExtremeDistrictPlan().getDistrictsGeoJson());
+                Districting randomDistricting = new Districting("2",constraints,
+                        job.getRandomDistrictPlan().getDistrictsGeoJson());
                 List <Districting> districtings = new ArrayList<>();
                 districtings.add(averageDistricting);
                 districtings.add(extremeDistricting);
+                districtings.add(randomDistricting);
                 Summary summary = new Summary(state.getStateName(), state.getStateAbbreviation(),
                         state.getPrecinctsGeoJson(),districtings);
                 job.setSummary(summary);
                 FileWriter file = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "Summary.json");
                 mapper.writeValue(file, summary);
-
+                System.out.println("JobID " + job.getJobID() + ": Generating Summary File");
             }
 
 
@@ -614,7 +588,6 @@ public class ServerService {
                 Plan averagePlan = job.getAverageDistrictPlan();
                 Plan extremeplan = job.getExtremeDistrictPlan();
                 Plan randomPlan = job.getRandomDistrictPlan();
-                //System.out.println(plansNode.get(Integer.parseInt(averagePlan.getType())));
 
                 //Format data
                 ObjectNode objectNode = mapper.createObjectNode();
@@ -626,38 +599,45 @@ public class ServerService {
                 planID = Integer.parseInt(randomPlan.getType());
                 clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Random"));
                 objectNode.set("plans", clientPlans);
-                //System.out.println(objectNode.toPrettyString());
+
+                //write file
                 String filename = "ConvertPlans.json";
                 String filePath = new File(jobDirectory).getAbsolutePath() + "/" + filename;
                 FileWriter CovertPlansFile = new FileWriter(filePath);
                 mapper.writeValue(CovertPlansFile, objectNode);
+                System.out.println("JobID " + job.getJobID() + ": " + filePath + " has been created.");
+
+                //Run ConvertPlanDistrictsToGeoJson.py
                 ProcessBuilder pb = new ProcessBuilder("python3",
                         "src/main/resources/python/preprocessing/ConvertPlanDistrictsToGeoJson.py", jobDirectory);
                 Process temp = pb.start();
-                printProcessOutput(temp);
                 shortSleepThread();
+                System.out.println("JobID " + job.getJobID() +
+                        ": Python script done. *District.json files should be crated");
+
+                //setters
                 setDistrictGeoJson(averagePlan, "AverageDistrict.json");
                 setDistrictGeoJson(extremeplan, "ExtremeDistrict.json");
                 setDistrictGeoJson(randomPlan, "RandomDistrict.json");
-
+                System.out.println("JobID " + job.getJobID() + ": Plan district geoJson crated");
             }
 
             private void determinePlans(List <Plan> allPlans)throws Exception{
                 if(allPlans.size() == 0){
                     throw new Exception("List size zero : allPlans.size() == 0");
                 }
+
+                //Calculate stat numbers. Used to determine avg, extreme and random
                 double size = allPlans.size();
                 double compactnessListSum = allPlans.stream()
                         .map(e -> e.getAverageDistrictCompactness())
                         .reduce(0D, Double::sum);
                 double compactnessListMean = compactnessListSum/size;
 
-
+                //Set average plan and extreme plan
                 Plan averagePlan = allPlans.get(0);
                 Plan extremeplan = allPlans.get(0);
                 Plan randomPlan = null;
-
-                //Set average plan and extreme plan
                 for(Plan plan : allPlans){
                     double newValue = Math.abs(compactnessListMean - plan.getAverageDistrictCompactness());
                     double oldValue = Math.abs(compactnessListMean - averagePlan.getAverageDistrictCompactness());
@@ -669,7 +649,6 @@ public class ServerService {
                         extremeplan = plan;
                     }
                 }
-
                 //Set random plan
                 for(Plan plan : allPlans){
                     if(plan != averagePlan && plan != extremeplan){
@@ -677,16 +656,11 @@ public class ServerService {
                     }
                 }
 
-
-                //Todo: Set Average, Extreme, Random GeoJson
+                //setters
                 job.setAverageDistrictPlan(averagePlan);
                 job.setExtremeDistrictPlan(extremeplan);
                 job.setRandomDistrictPlan(randomPlan);
-                System.out.println("The Average Plan: " + averagePlan + "\n");
-                System.out.println("The Extreme Plan: " + extremeplan + "\n");
-                System.out.println("The Random Plan: " + randomPlan + "\n");
-
-
+                System.out.println("JobID " + job.getJobID() + ": Average, extreme, and random plans determined");
             }
 
             private void createBoxWhisker(List <Plan> allPlans)throws Exception{
@@ -698,7 +672,7 @@ public class ServerService {
                 //Get ethnicity to sort list by
                 CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
                 Comparator comparator = District.getComparatorByCensusCatagories(minorityAnalyzed);
-                System.out.println("Sorting by " + minorityAnalyzed + " using " + comparator);
+                //System.out.println("Sorting by " + minorityAnalyzed + " using " + comparator);
                 for (Plan plan : allPlans) {
                     Collections.sort(plan.getDistricts(), comparator);
                 }
@@ -729,6 +703,7 @@ public class ServerService {
                 }
                 job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
                 //System.out.println("\n" + job.getBoxWhisker() + "\n");
+                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created");
 
 
             }
@@ -801,7 +776,6 @@ public class ServerService {
                 //Todo: figure out how to fulliful the varibles in demogarphic
                 //Todo: figure out how save to the database
                 district.setDemographic(districtDemographic);
-
                 return district;
             }
 
@@ -843,7 +817,6 @@ public class ServerService {
                 JsonNode rootNode = mapper.readTree(algorithmOutputFile);
                 JsonNode plansNode = rootNode.get("plans");
                 List <Plan> plansList = new ArrayList<>();
-                int planIndex = 0;
                 for(JsonNode planObject : plansNode){
                     //Create Plan object for Job Object
                     double averageDistrictPopulation = planObject.get("averageDistrictPopulation").asDouble();
@@ -858,8 +831,6 @@ public class ServerService {
                     //setters or adders
                     plan.setDistricts(districts);
                     plansList.add(plan);
-                    planIndex++;
-
                     //prettyPrintPlan(plan);
                 }
                 job.setAllPlans(plansList);
@@ -867,6 +838,7 @@ public class ServerService {
                 determinePlans(plansList);
                 createPlanGeojson(plansNode);
                 generateSummaryFile();
+                System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
             private void initiateServerProcessing()throws IOException, Exception{
@@ -874,16 +846,18 @@ public class ServerService {
                 String algorithmOutputAbsolutePath = new File(algorithmOutputPath).getAbsolutePath();
                 File algorithmOutput = new File(algorithmOutputAbsolutePath);
                 if(algorithmOutput.exists()){
-                    System.out.println("AlgorithmOutput.json exists...\nStarting Processing...");
+                    System.out.println("JobID " + job.getJobID() + ": " +
+                            " AlgorithmOutput.json exists...\nStarting Processing...");
                     processAlgorithmOutput(algorithmOutput);
                 }else{
-                    System.out.println("AlgorithmOutput.json does not exists...");
+                    System.out.println("JobID " + job.getJobID() + ": " + "AlgorithmOutput.json does not exists...");
                 }
 
             }
 
             private void extractDataFromJob()throws IOException, InterruptedException{
                 if(isAlgorithmLocal) {
+                    System.out.println("JobID " + job.getJobID() + ": " +  "Extract Data from local machine");
                     String pythonArg = jobDirectory + "algorithm-output/";
                     ProcessBuilder pbTwo = new ProcessBuilder("python3",
                             "src/main/resources/python/preprocessing/MergeOutputFiles.py", pythonArg);
@@ -893,7 +867,7 @@ public class ServerService {
                     shortSleepThread();
                 }
                 else{
-                    System.out.println("Extract Data from Seawulf");
+                    System.out.println("JobID " + job.getJobID() + ": " +  "Extract Data from Seawulf");
                     String seawulfDirectory = "./jobs/" + job.getJobName().toLowerCase() + "/algorithm-output/";
                     ProcessBuilder pbOne = new ProcessBuilder("bash", "src/main/resources/bash/FetchDirectory.sh",
                             netid, jobsDirectory + job.getJobName().toLowerCase() + "/", seawulfDirectory);
@@ -917,12 +891,12 @@ public class ServerService {
                 String absoluteFilePath = new File(filepath).getAbsolutePath();
                 String response = new BufferedReader(new FileReader(absoluteFilePath)).readLine();
                 response = response.trim();
-                System.out.println(filename + " recieved from the seawulf. It'S contents: " + response);
+                System.out.println("JobID " + job.getJobID() + filename
+                        + " recieved from the seawulf. It'S contents: " + response);
                 return response;
             }
 
             private void monitorAlgorithm()throws IOException, InterruptedException{
-                boolean doesFileExist = false;
                 if(isAlgorithmLocal) {
                     boolean isProcessesDone = true;
                     for(Process process : localAlgorithmProcesses) {
@@ -933,15 +907,15 @@ public class ServerService {
                     }
                     if(isProcessesDone){
                         job.setStatus(JobStatus.COMPLETED);
-                        System.out.println("All processes Completed");
+                        System.out.println("JobID " + job.getJobID() + " All processes Completed");
                         //jobDAO.updateJob(job);
                     }else{
-                        System.out.println("Processes still running");
+                        System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
                     shortSleepThread();
                 }
                 else{
-                    System.out.println("Monitoring The Seawulf.");
+                    System.out.println("JobID " + job.getJobID() + ": "+ "Monitoring The Seawulf.");
                     ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/MonitorSeawulf.sh",
                             netid, jobsDirectory, job.getJobName().toLowerCase(), job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
@@ -960,7 +934,7 @@ public class ServerService {
             private void determineAlgorithmComputeLocation()throws IOException, InterruptedException{
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
-                    System.out.println("Running algorithm locally...");
+                    System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
                     String localPythonScript = "src/main/resources/python/algorithm/Algorithm.py";
                     for(int i = 0; i < job.getNumDistrictingPlan(); i++){
                         ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript,
@@ -972,7 +946,7 @@ public class ServerService {
                     }
                 }
                 else{
-                    System.out.println("Running algorithm remotely.");
+                    System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm remotely.");
                     ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/InitiateAlgorithm.sh",
                             netid, jobsDirectory, job.getJobName().toLowerCase(), ""+job.getNumDistrictingPlan());
                     pb.redirectErrorStream(true);
@@ -987,5 +961,7 @@ public class ServerService {
             }
 
         }
+
+
     
 }
