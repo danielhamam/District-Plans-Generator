@@ -149,28 +149,27 @@ public class ServerService {
         try{
             //State logic
             State state = stateDAO.getStateById(stateAbbrevation);
-            System.out.print(state);
-//            state.initializeSystemFiles();
-//            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
-//            state.setDemographic(stateDemographic);
-//            state.setTotalPopulation(stateDemographic.getTotalPopulation());
-//            session.setState(state);
-//
-//            //Job logic
-//            List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
-//            for(Job j: jobs){
-//                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
-//                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
-//                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
-//                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
-//                }
-//                createJobDirectory(j);
-//            }
-//            session.addJobs(jobs);
-//            jobHistory.addJobs(jobs);
+            state.initializeSystemFiles();
+            Demographic stateDemographic = demographicDAO.getDemographicByStateId(stateAbbrevation);
+            state.setDemographic(stateDemographic);
+            state.setTotalPopulation(stateDemographic.getTotalPopulation());
+            session.setState(state);
+
+            //Job logic
+            List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
+            for(Job j: jobs){
+                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
+                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
+                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
+                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+                }
+                createJobDirectory(j);
+            }
+            session.addJobs(jobs);
+            jobHistory.addJobs(jobs);
 
             //format it for that client
-            clientData = createClientStateData(state, null);
+            clientData = createClientStateData(state, jobs);
         }catch(JsonProcessingException error){
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
             error.printStackTrace();
