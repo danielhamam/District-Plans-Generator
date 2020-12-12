@@ -21,7 +21,7 @@ def main():
     data = json.load(f)
 
     # deleteTableRows(mycursor)
-    # writeToCensusEthnicityTable(mycursor)
+    writeToCensusEthnicityTable(mycursor)
     # writeToStateTable(mycursor)
     # writeToDistrictTable(data, mycursor)
     # writeToCountyTable(data, mycursor)
@@ -29,7 +29,7 @@ def main():
     # writePrecinctDemographic(data, mycursor)
     # writeCountyDemographic(data, mycursor)
     # writeDistrictDemographic(data, mycursor)
-    writeStateDemographic(mycursor)
+    # writeStateDemographic(mycursor)
     # writePrecinctNeighbors(data, mycursor)
 
 def writeToStateTable(mycursor):
@@ -143,7 +143,7 @@ def writeToCensusEthnicityTable(mycursor):
         sql = "INSERT INTO CensusEthnicities (shortenName, censusName) VALUES (%s,%s)"
         val = (censusEthnicities[ethnicity]['shortenName'], censusEthnicities[ethnicity]['fullName'])
         mycursor.execute(sql, val)
-        #mydb.commit()
+        # mydb.commit()
 
 def writePrecinctDemographic(data, mycursor):
 
