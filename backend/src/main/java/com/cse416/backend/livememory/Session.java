@@ -22,6 +22,7 @@ public class Session{
 
     public void setState(State state){
         this.state = state;
+        jobs =  new ArrayList<>();
     }
 
     public State getState(){
