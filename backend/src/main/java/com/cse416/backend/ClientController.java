@@ -98,14 +98,20 @@ public class ClientController {
        return service.generateJob(job);
    }
 
-    @Scheduled(fixedRate = 5000)
-    @SendTo("http://localhost:3000/")
-    public String jobUpdate() throws Exception {
-        Thread.sleep(1000); // simulated delay
-        System.out.println("scheduled jobs update");
-        System.out.println(service.getJobsUpdate());
+
+    @GetMapping(path = "/jobs", produces = "application/json")
+    public String getJobs(){
         return service.getJobsUpdate();
     }
+
+//    @Scheduled(fixedRate = 5000)
+//    @SendTo("http://localhost:3000/")
+//    public String jobUpdate() throws Exception {
+//        Thread.sleep(1000); // simulated delay
+//        System.out.println("scheduled jobs update");
+//        System.out.println(service.getJobsUpdate());
+//        return service.getJobsUpdate();
+//    }
 
 
 
