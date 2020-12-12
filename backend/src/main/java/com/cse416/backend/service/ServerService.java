@@ -178,7 +178,7 @@ public class ServerService {
             Job serverJob = session.getJobByID(jobID);
             Map<String, Object> dataObject = serverJob.getClientPlans();
             clientData = this.createClient_Data(dataObject);
-            System.out.println("Server func getJob() successful");
+            //  System.out.println("Server func getJob() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -195,7 +195,7 @@ public class ServerService {
             Map<String, Object> dataObject = new HashMap<>();
             dataObject.put("jobs", session.getJobs());
             clientData = this.createClient_Data(dataObject);
-            System.out.println("Server func getJobsUpdate() successful");
+
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -919,11 +919,14 @@ public class ServerService {
             private void monitorAlgorithm()throws IOException, InterruptedException{
                 if(isAlgorithmLocal) {
                     boolean isProcessesDone = true;
+                    
                     for(Process process : localAlgorithmProcesses) {
+                        System.out.println(process.isAlive());
                         if(process.isAlive()) {
                             isProcessesDone = false;
                             break;
                         }
+                        System.out.println("JobID " + job.getJobID() + ": " + process.toString()  + " is still running");
                     }
                     if(isProcessesDone){
                         job.setStatus(JobStatus.COMPLETED);

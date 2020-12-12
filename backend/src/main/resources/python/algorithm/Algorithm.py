@@ -9,7 +9,7 @@ import re
 
 num_districts = 10
 num_precincts = 30
-termination_limit = 100
+termination_limit = 2
 ideal_population = 0.0
 population_variance = 0.0
 population_lower_bound = 0.0
