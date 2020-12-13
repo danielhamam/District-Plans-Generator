@@ -66,7 +66,7 @@ class JobCard extends Component {
         else this.JobCardClassStyle = "jobCard badge badge-pill badge-light ";
         if (this.props.status == "Completed" ) this.statusColor = " jobSuccess ";
         else if (this.props.status == "Pending") this.statusColor = " jobPending ";
-        else if (this.props.status == "Running") this.statusColor = " jobRunning"
+        else if (this.props.status == "Running" || this.props.status == "RUNNING") this.statusColor = " jobRunning"
         return (
             <div> 
                 <div className={this.JobCardClassStyle + this.goTop + this.statusColor} onClick={this.toggleSelection}>

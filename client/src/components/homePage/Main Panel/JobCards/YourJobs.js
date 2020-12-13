@@ -6,12 +6,8 @@ class YourJobs extends Component {
         super();
         this.state = {}
     }
-    render() {
 
-        if (this.props.currentState != "Select a state") {
-            setInterval(this.props.updateJobStatus, 10000);
-            console.log("Checking jobs")
-        }
+    render() {
 
         return (
                 <div >

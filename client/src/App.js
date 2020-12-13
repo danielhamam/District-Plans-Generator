@@ -7,6 +7,8 @@ import testJobCards from './json/TestJobCards.json'
 import demographicTest from './json/HeatPoints.json'
 import './css/project_styles.css';
 
+// import io from 'socket.io-client'; // socket
+
 import {GeoJSON} from 'react-leaflet';
 
 class App extends Component {
@@ -82,6 +84,7 @@ class App extends Component {
       precinctName : "",
       selectedFeature : {}
     }
+    // const socket = io("http://localhost:8080/");
   }
 
   changeCurrentState = async (stateAbrev, stateName) => {
@@ -129,17 +132,6 @@ class App extends Component {
     }
   }
 
-  updateJobStatus = async () => {
-      // setInterval ( async () => {
-        try {
-        let res = await endpoint.getJobs();
-        this.setState({ jobCards : res.jobs})
-        } catch (exception) {
-          console.error(exception)
-        }
-      // },10000)
-  }
-
   firstLoadChange = () => {
     this.setState({firstLoad : 1})
   }
@@ -184,10 +176,16 @@ class App extends Component {
       }
   }
 
-  cancelJob = (job) => { 
+  cancelJob = async (job) => { 
     let indexOfJob = this.state.jobCards.indexOf(job);
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
+    try {
+      let res = await endpoint.cancelJob(job);
+      console.log(res)
+    } catch (exception) {
+      console.error(exception);
+    }
     this.setState({ jobCards : this.state.jobCards})
   }
 
@@ -203,8 +201,6 @@ class App extends Component {
       }
     this.setState({ jobCards : this.state.jobCards})
   }
-
-
 
   deletePlan = (plan) => {
     if (this.state.currentJob != "" && plan.type != "Enacted Plan") {
@@ -436,6 +432,22 @@ class App extends Component {
       // this.setState({districtsView : false})
     }
   }
+
+  updateJobStatus = async () => {
+      console.log("Updating jobs from clientside")
+      try {
+        let res = await endpoint.getJobs();
+        this.setState({ jobCards : res.jobs})
+      } catch (exception) {
+        console.error(exception)
+      }
+      // this.setState({ jobCards : this.state.jobCards})
+  }
+
+  componentDidMount() {
+    setInterval(this.updateJobStatus, 12000)
+  }
+  
 
   render() {
 
