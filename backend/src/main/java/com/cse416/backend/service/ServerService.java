@@ -181,9 +181,9 @@ public class ServerService {
         try{
             Job serverJob = session.getJobByID(jobID);
             Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("districtingPlans", serverJob.getClientPlans());
+            dataObject.put("districtPlans", serverJob.getClientPlans());
             clientData = this.createClient_Data(dataObject);
-            //  System.out.println("Server func getJob() successful");
+            System.out.println("Server func getJob() successful. Sending plans to client.");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -264,23 +264,6 @@ public class ServerService {
         return clientData;
     }
 
-
-//    public String getPlan(Integer jobID, String type){
-//        Job currentJob = session.getJobByID(jobID);
-////        Plan plan = currentJob.getPlanByID(planID);
-//        String clientData = "{serverError:\"Unknown Server Error\"}";
-//        try{
-//            clientData = this.createClient_Data(plan);
-//
-//        }catch(NoSuchElementException|JsonProcessingException error){
-//            error.printStackTrace();
-//            clientData = "{serverError:\"" + error.getMessage() + "\"}";
-//        }
-//        catch(Exception error){
-//            error.printStackTrace();
-//        }
-//        return clientData;
-//    }
 
     public String getBoxWhisker(Integer jobID){
 

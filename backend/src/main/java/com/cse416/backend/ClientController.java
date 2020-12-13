@@ -69,11 +69,6 @@ public class ClientController {
         return service.getDemographicHeatmap(censusEthnicity);
     }
 
-   @GetMapping(path = "/plan/{jobID}/{type}", produces = "application/json")
-   public String getPlan(@PathVariable Integer jobID, @PathVariable String type){
-        return "getPlan";
-   }
-
    @GetMapping(path = "/boxwhisker/{jobID}", produces = "application/json")
    public String getBoxwhisker(@PathVariable Integer jobID){
        System.out.println("Client request box and whisker for JobID: " + jobID);
@@ -100,7 +95,7 @@ public class ClientController {
 
 
     @GetMapping(path = "/jobs", produces = "application/json")
-    public String getJobs(){
+    public String getJobsUpdate(){
         return service.getJobsUpdate();
     }
 
