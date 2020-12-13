@@ -446,7 +446,7 @@ public class ServerService {
 
             }
 
-            This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
+            //This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
             public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
                 this.netid = netid;
                 this.job = job;
