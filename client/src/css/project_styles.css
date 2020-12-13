@@ -256,7 +256,7 @@ html, body {
 }
 
 .jobRunning {
-  background-color : lightyellow !important;
+  background-color : lightpink !important;
 }
 
 .jobSuccess {}
