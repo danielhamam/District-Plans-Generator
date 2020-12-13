@@ -908,6 +908,7 @@ public class ServerService {
                 createPlanGeojson(plansNode);
                 generateSummaryFile();
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
+                job.setStatus(JobStatus.FINISHED);
                 jobDAO.updateJob(job);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
