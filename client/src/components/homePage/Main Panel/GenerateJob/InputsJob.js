@@ -130,7 +130,7 @@ class InputsJob extends Component {
                         </div>
                         <div className="col-8">
                             <div className="rangeSliderContainer"> 
-                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePopulationDifference} step={0.1} min={0} max={1.7} tooltip='auto' value={this.state.populationDifference} />
+                                <RangeSlider className="rangeSlider" disabled={false} onChange={this.changePopulationDifference} step={0.1} min={0} max={5} tooltip='auto' value={this.state.populationDifference} />
                                 <div className = "errorStyle"> {this.state.populationDifferenceError} </div>
                             </div>
                         </div>
