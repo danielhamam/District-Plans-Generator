@@ -2,9 +2,11 @@ package com.cse416.backend.model.enums;
 
 
 public enum JobStatus {
+
     CANCELLED("CA", "CANCELLED"),
     COMPLETING("-", "COMPLETING"),
-    COMPLETED("CD", "COMPLETED"),
+    PROCESSING("CD", "COMPLETED"),
+    FINISHED("FIN","FINISHED"),
     PENDING("PD", "PENDING"),
     RUNNING("R", "RUNNING"),
     FAILED("F", "FAILED"),

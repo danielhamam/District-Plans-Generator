@@ -23,6 +23,7 @@ import com.cse416.backend.model.plan.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.cse416.backend.model.regions.district.comparators.*;
 
@@ -100,6 +101,7 @@ public class Job{
     @JsonIgnore
     private Plan randomDistrictPlan;
 
+
     @Transient
     @JsonIgnore
     private int stateFIPSCode;
@@ -147,8 +149,22 @@ public class Job{
 
     }
 
+    private FeatureCollection createPrecinctFile(String name)throws IOException{
+        String precinctFilePath = "src/main/resources/system/states/" +
+                state.getStateAbbreviation().toLowerCase() + "/" + name + "District.json";
+        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+        File file = new File(precinctFilePathAbsolutePath);
+        return new ObjectMapper().readValue(file, FeatureCollection.class);
+    }
+
     public void initializeJobsFiles(){
-       if(status == JobStatus.COMPLETED){
+       if(status == JobStatus.FINISHED){
+           this.averageDistrictPlan = new Plan(state.getStateAbbreviation(),"Average",
+                   state.getNumOfDistricts(),false);
+           this.extremeDistrictPlan = new Plan(state.getStateAbbreviation(),"Extreme",
+                   state.getNumOfDistricts(),false);
+           this.randomDistrictPlan = new Plan(state.getStateAbbreviation(),"Random",
+                   state.getNumOfDistricts(),false);
 
 
        }
@@ -339,12 +355,12 @@ public class Job{
     }
 
     @JsonIgnore
-    public Map<String, Object> getClientPlans(){
-        Map<String, Object> clientJob = new HashMap<>();
-        clientJob.put("averageDistrictPlan", this.averageDistrictPlan);
-        clientJob.put("extremeDistrictPlan", this.extremeDistrictPlan);
-        clientJob.put("randomDistrictPlan", this.randomDistrictPlan);
-        return clientJob;
+    public ArrayList getClientPlans(){
+        ArrayList <Plan> list = new ArrayList<>();
+        list.add(averageDistrictPlan);
+        list.add(extremeDistrictPlan);
+        list.add(randomDistrictPlan);
+        return list;
     }
 
     @Override

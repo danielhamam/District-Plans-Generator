@@ -88,7 +88,24 @@ public class Plan{
     //Neccessary for JPA
     protected Plan (){}
 
-    public Plan(String stateAbbreviation, String type, Integer planID, int numberOfDistricts,boolean isPlanEnacted) {
+    public Plan(String stateAbbreviation, String type, Integer planID, int numberOfDistricts, boolean isPlanEnacted) {
+        this.stateAbbreviation = stateAbbreviation;
+        this.type = type;
+        this.planID = planID;
+        this.numberOfDistricts = numberOfDistricts;
+        this.isPlanEnacted = isPlanEnacted;
+        String filePath = "src/main/resources/system/states/" +
+                stateAbbreviation.toLowerCase() + "/" + this.type + "Districts.json";
+        this.districtFile = new File(new File(filePath).getAbsolutePath());
+        try{
+            this.districtsGeoJson = createDistrictFeatureCollection();
+        }
+        catch(IOException error){
+            error.printStackTrace();
+        }
+    }
+
+    public Plan(String stateAbbreviation, String type, int numberOfDistricts, boolean isPlanEnacted) {
         this.stateAbbreviation = stateAbbreviation;
         this.type = type;
         this.planID = planID;

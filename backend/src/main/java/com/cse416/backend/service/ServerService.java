@@ -149,6 +149,7 @@ public class ServerService {
             //Job logic
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
             for(Job j: jobs){
+                j.setState(state);
                 List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
                 for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
                     censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
@@ -179,7 +180,8 @@ public class ServerService {
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Job serverJob = session.getJobByID(jobID);
-            Map<String, Object> dataObject = serverJob.getClientPlans();
+            Map<String, Object> dataObject = new HashMap<>();
+            dataObject.put("districtingPlans", serverJob.getClientPlans());
             clientData = this.createClient_Data(dataObject);
             //  System.out.println("Server func getJob() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
@@ -374,7 +376,7 @@ public class ServerService {
         try{
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
-            if(!job.getStatus().equals(JobStatus.COMPLETED)){
+            if(!job.getStatus().equals(JobStatus.FINISHED)){
                 Algorithm currentThread =  threads.stream()
                         .filter(thread -> job.getJobID().equals(thread.getJob().getJobID()))
                         .findFirst()
@@ -400,7 +402,7 @@ public class ServerService {
         try {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
-            if (job.getStatus().equals(JobStatus.COMPLETED)) {
+            if (job.getStatus().equals(JobStatus.FINISHED)) {
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
@@ -527,7 +529,7 @@ public class ServerService {
                         monitorAlgorithm();
 
                         JobStatus status = job.getStatus();
-                        if(status.equals(JobStatus.COMPLETED)){
+                        if(status.equals(JobStatus.PROCESSING)){
                             System.out.println("Job" + job.getJobID() + " status: " + job.getStatus());
                             extractDataFromJob();
                             initiateServerProcessing();
@@ -581,6 +583,9 @@ public class ServerService {
 
             private void longSleepThread() throws InterruptedException{
                 long sleep = 90000; //15 minutes
+                if(isAlgorithmLocal){
+                    sleep = 5000; //15 minutes
+                }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
                         "Sleeping Thread " + hashCode() + " : Long sleep for " + durationInMinutes + " minutes");
@@ -589,6 +594,9 @@ public class ServerService {
 
             private void shortSleepThread() throws InterruptedException{
                 long sleep = 30000; //0.5 minutes
+                if(isAlgorithmLocal){
+                    sleep = 300; //15 minutes
+                }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
                         "Sleeping Thread " + hashCode() + " : Short sleep for " + durationInMinutes + " minutes");
@@ -965,7 +973,7 @@ public class ServerService {
                         
                     }
                     if(isProcessesDone){
-                        job.setStatus(JobStatus.COMPLETED);
+                        job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
                         jobDAO.updateJob(job);
                     }else{
