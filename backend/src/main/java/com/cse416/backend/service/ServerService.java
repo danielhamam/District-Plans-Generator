@@ -305,7 +305,7 @@ public class ServerService {
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
-            //job.setJobID(99999);
+            job.setJobID(99999);
             createJobDirectory(job);
             initiateAlgorithm(job);
             //jobDAO.addJob(job);
