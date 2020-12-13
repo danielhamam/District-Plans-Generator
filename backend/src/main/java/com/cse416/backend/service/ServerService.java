@@ -156,10 +156,10 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-                if(!JobStatus.COMPLETED.equals(j.getStatus())){
-                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-                    reInitiateAlgorithm(j);
-                }
+//                if(!JobStatus.COMPLETED.equals(j.getStatus())){
+//                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+//                    reInitiateAlgorithm(j);
+//                }
             }
             session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
@@ -310,7 +310,7 @@ public class ServerService {
             //TODO: Delete line below
             job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
-            //jobDAO.addJob(job);
+            jobDAO.addJob(job);
             initiateAlgorithm(job);
             session.addJob(job);
             initiateAlgorithm(job);
