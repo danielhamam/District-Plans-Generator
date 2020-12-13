@@ -155,7 +155,7 @@ public class ServerService {
                 createJobDirectory(j);
 
                 if(j.getStatus() == JobStatus.COMPLETED){
-                    initiateAlgorithm(j);
+                    reInitiateAlgorithm(j);
                 }
             }
             session.addJobs(jobs);
@@ -350,6 +350,19 @@ public class ServerService {
         threads.add(algorithmInterface);
     }
 
+    private void reInitiateAlgorithm(Job job){
+        System.out.println("Initiating Algorithm... Creating Thread");
+        Algorithm algorithmInterface = null;
+        if(job.getNumDistrictingPlan() <= 10){
+            algorithmInterface = new Algorithm("carlopez", job, true, true);
+        }
+        else{
+            algorithmInterface = new Algorithm("carlopez", job, false, true);
+        }
+        algorithmInterface.start();
+        threads.add(algorithmInterface);
+    }
+
 
 
     public void cancelJob(Integer jobID){
@@ -365,7 +378,7 @@ public class ServerService {
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
-                jobDAO.deleteJob(job);
+                //jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
             else{
@@ -384,13 +397,13 @@ public class ServerService {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.COMPLETED)) {
-                jobDAO.deleteJob(job);
+                //jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
-                //TODO: What does jobDAO.cancelJob() do?
+                //TODO: What does //jobDAO.cancelJob() do?
                 System.out.println("Since status is: " + job.getStatus() + " redirecting control to cancelJob");
                 cancelJob(jobID);
-                //jobDAO.cancelJob(job);
+                ////jobDAO.cancelJob(job);
             }
         }catch(Exception error){
             error.printStackTrace();
@@ -417,6 +430,29 @@ public class ServerService {
                 this.job = job;
                 this.isAlgorithmLocal = runAlgoLocally;
                 this.isComputeLocationDetermined = false;
+                this.isJobCancelled = false;
+                this.jobsDirectory = "src/main/resources/system/jobs/";
+                this.jobDirectory = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase() + "/";
+                this.localAlgorithmProcesses = new ArrayList<>();
+
+            }
+
+            //This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
+            public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
+                this.netid = netid;
+                this.job = job;
+                this.isAlgorithmLocal = runAlgoLocally;
+                if(isAlgorithmLocal){
+                    try{
+                        determineAlgorithmComputeLocation();
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                    this.isComputeLocationDetermined = true;
+                }
+                else{
+                    this.isComputeLocationDetermined = false;
+                }
                 this.isJobCancelled = false;
                 this.jobsDirectory = "src/main/resources/system/jobs/";
                 this.jobDirectory = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase() + "/";
@@ -492,6 +528,7 @@ public class ServerService {
 
                         JobStatus status = job.getStatus();
                         if(status.equals(JobStatus.COMPLETED)){
+                            System.out.println("Job" + job.getJobID() + " status: " + job.getStatus());
                             extractDataFromJob();
                             initiateServerProcessing();
                             kill();
@@ -544,7 +581,7 @@ public class ServerService {
 
             private void longSleepThread() throws InterruptedException{
                 //long sleep = 900000; //15 minutes
-                long sleep = 9000; //15 minutes
+                long sleep = 100000; //15 minutes
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
                         "Sleeping Thread " + hashCode() + " : Long sleep for " + durationInMinutes + " minutes");
@@ -921,7 +958,6 @@ public class ServerService {
                     boolean isProcessesDone = true;
                     
                     for(Process process : localAlgorithmProcesses) {
-                        System.out.println(process.isAlive());
                         if(process.isAlive()) {
                             isProcessesDone = false;
                             break;
