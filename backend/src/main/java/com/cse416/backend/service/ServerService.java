@@ -305,6 +305,7 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
+            session.addJob(job);
             State currentState = session.getState();
             job.setState(currentState);
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
@@ -313,8 +314,6 @@ public class ServerService {
             job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
             //jobDAO.addJob(job);
-            initiateAlgorithm(job);
-            session.addJob(job);
             initiateAlgorithm(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
@@ -424,13 +423,13 @@ public class ServerService {
 
         public class Algorithm implements Runnable {
             private Thread proxyThread = null;
-            private String netid;
-            private String jobsDirectory;
-            private String jobDirectory;
-            private boolean die = false;
-            private boolean isAlgorithmLocal;
-            private boolean isComputeLocationDetermined;
-            private boolean isJobCancelled;
+            private final String netid;
+            private final String jobsDirectory;
+            private final String jobDirectory;
+            private volatile boolean die = false;
+            private volatile boolean isAlgorithmLocal;
+            private volatile boolean isComputeLocationDetermined;
+            private volatile boolean isJobCancelled;
             private List<Process> localAlgorithmProcesses;
             private Job job;
 
@@ -448,22 +447,22 @@ public class ServerService {
             }
 
             //This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
-            public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
-                this.netid = netid;
-                this.job = job;
-                this.isAlgorithmLocal = runAlgoLocally;
-                if(isAlgorithmLocal){
-                    this.isComputeLocationDetermined = false;
-                }
-                else{
-                    this.isComputeLocationDetermined = true;
-                }
-                this.isJobCancelled = false;
-                this.jobsDirectory = "src/main/resources/system/jobs/";
-                this.jobDirectory = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase() + "/";
-                this.localAlgorithmProcesses = new ArrayList<>();
+            // public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
+            //     this.netid = netid;
+            //     this.job = job;
+            //     this.isAlgorithmLocal = runAlgoLocally;
+            //     if(isAlgorithmLocal){
+            //         this.isComputeLocationDetermined = false;
+            //     }
+            //     else{
+            //         this.isComputeLocationDetermined = true;
+            //     }
+            //     this.isJobCancelled = false;
+            //     this.jobsDirectory = "src/main/resources/system/jobs/";
+            //     this.jobDirectory = "src/main/resources/system/jobs/" + job.getJobName().toLowerCase() + "/";
+            //     this.localAlgorithmProcesses = new ArrayList<>();
 
-            }
+            // }
 
             public Job getJob(){
                 return job;
@@ -588,7 +587,7 @@ public class ServerService {
             private void longSleepThread() throws InterruptedException{
                 long sleep = 90000; //15 minutes
                 if(isAlgorithmLocal){
-                    sleep = 5000; //15 minutes
+                    sleep = 29500; //15 minutes
                 }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
@@ -599,7 +598,7 @@ public class ServerService {
             private void shortSleepThread() throws InterruptedException{
                 long sleep = 30000; //0.5 minutes
                 if(isAlgorithmLocal){
-                    sleep = 300; //15 minutes
+                    sleep = 10000; //15 minutes
                 }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
@@ -679,6 +678,7 @@ public class ServerService {
                 ProcessBuilder pb = new ProcessBuilder("python3",
                         "src/main/resources/python/preprocessing/ConvertPlanDistrictsToGeoJson.py", jobDirectory);
                 Process temp = pb.start();
+                printProcessOutput(temp);
                 shortSleepThread();
                 System.out.println("JobID " + job.getJobID() +
                         ": Python script done. *District.json files should be crated");
