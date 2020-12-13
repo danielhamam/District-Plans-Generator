@@ -71,8 +71,8 @@ public class Plan{
     @JsonIgnore
     private File districtFile;
 
-    @JsonProperty
     @Transient
+    @JsonProperty
     private FeatureCollection districtsGeoJson;
     // // //https://github.com/opendatalab-de/geojson-jackson
 

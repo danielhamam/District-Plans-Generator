@@ -113,30 +113,30 @@ public class State {
     protected State (){
     }
 
-    public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
-        this.stateName = stateName;
-        this.stateAbbreviation = stateAbbreviation;
-        this.stateFIPSCode = stateFIPSCode;
-        this.totalPopulation = totalPopulation;
-        this.numOfPrecincts = numOfPrecincts;
-        this.numOfCounties = numOfCounties;
-        this.numOfDistricts = numOfDistricts;
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
-        String precinctFilePath = "src/main/resources/system/states/" +
-                stateAbbreviation.toLowerCase() + "/Precincts.json";
-        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
-        this.precinctsFile = new File(precinctFilePathAbsolutePath);
-        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
-        
-        try{
-            this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
-            // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
-            this.precinctsGeoJson = new ObjectMapper().readValue(this.precinctsFile, FeatureCollection.class);
-        }
-        catch(IOException error){
-            error.printStackTrace();
-        }
-    }
+//    public State(String stateName, String stateAbbreviation, int stateFIPSCode, int totalPopulation, int numOfCounties, int numOfDistricts, int numOfPrecincts){
+//        this.stateName = stateName;
+//        this.stateAbbreviation = stateAbbreviation;
+//        this.stateFIPSCode = stateFIPSCode;
+//        this.totalPopulation = totalPopulation;
+//        this.numOfPrecincts = numOfPrecincts;
+//        this.numOfCounties = numOfCounties;
+//        this.numOfDistricts = numOfDistricts;
+//        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
+//        String precinctFilePath = "src/main/resources/system/states/" +
+//                stateAbbreviation.toLowerCase() + "/Precincts.json";
+//        String precinctFilePathAbsolutePath = new File(precinctFilePath).getAbsolutePath();
+//        this.precinctsFile = new File(precinctFilePathAbsolutePath);
+//        this.enactedPlan = new Plan(stateAbbreviation,"Enacted",0,57,true);
+//
+//        try{
+//            this.precinctsFile = new File(new File(precinctFilePath).getAbsolutePath());
+//            // this.algorithmPrecinctsFile = new File(new File(algorithmPrecinctsFilePath).getAbsolutePath());
+//            this.precinctsGeoJson = new ObjectMapper().readValue(this.precinctsFile, FeatureCollection.class);
+//        }
+//        catch(IOException error){
+//            error.printStackTrace();
+//        }
+//    }
 
     private void createPrecinctFile()throws IOException{
         String precinctFilePath = "src/main/resources/system/states/" +

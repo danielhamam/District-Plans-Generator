@@ -345,6 +345,7 @@ public class Job{
 
     }
 
+
     @JsonIgnore
     public List<CensusEthnicity> getMinorityAnalyzedCensusEthnicity() {
         return minorityAnalyzed;

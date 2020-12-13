@@ -708,9 +708,14 @@ public class ServerService {
                 }
 
                 //setters
+                List <Plan> plans = new ArrayList<>();
                 job.setAverageDistrictPlan(averagePlan);
                 job.setExtremeDistrictPlan(extremeplan);
                 job.setRandomDistrictPlan(randomPlan);
+                plans.add(averagePlan);
+                plans.add(extremeplan);
+                plans.add(randomPlan);
+
                 System.out.println("JobID " + job.getJobID() + ": Average, extreme, and random plans determined");
             }
 
