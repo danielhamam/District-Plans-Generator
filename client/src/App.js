@@ -181,7 +181,7 @@ class App extends Component {
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
     try {
-      let res = await endpoint.cancelJob(job);
+      let res = await endpoint.deleteJob(job);
       console.log(res)
     } catch (exception) {
       console.error(exception);

@@ -9,7 +9,9 @@ class DeleteJobModal extends Component {
         }
     }
     render() {
-        if (this.props.status == "Pending" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
+        if (this.props.status == "PENDING" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
+        if (this.props.status == "RUNNING" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
+        if (this.props.status == "PROCESSING" && this.state.actionType != "cancel") this.setState({actionType : "cancel"});
         return (
     
                 <Modal backdrop="static" show={this.props.showDeleteModal} onHide={this.props.showDeleteModal}>  

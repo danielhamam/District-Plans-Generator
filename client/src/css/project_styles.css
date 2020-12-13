@@ -259,20 +259,29 @@ html, body {
   background-color : lightpink !important;
 }
 
-.jobSuccess {}
+.jobProcessing {
+  background-color : lightyellow !important;
+}
+
+.jobFinished {}
 
 .jobdisplayPending {
-  color : red!important;
+  color : grey!important;
   /* color : lightpink; */
 }
 
 .jobdisplayRunning {
-  color : lightyellow!important;
+  color : red !important;
+  /* color : lightpink; */
+}
+
+.jobdisplayProcessing {
+  color : rgb(196, 108, 0) !important;
   /* color : lightpink; */
 }
 
 
-.jobdisplaySuccess {
+.jobdisplayFinished {
   color : green !important;
   /* color : lightpink; */
 }
