@@ -82,15 +82,14 @@ class Sidebar extends Component {
                 upperBoxColor: "#A72A17",
                 lowerBoxColor: "#A3A3A3",
                 yValueFormatString: "###.0# ",
-                dataPoints: [
-                    { label: "1", y: [61, 65, 63.5, 70, 68] },
-                    { label: "2", y: [63, 68, 66.5, 76, 72] },
-                    { label: "3", y: [65, 71, 69.5, 78, 75] },
-                    { label: "4", y: [67, 73, 72, 80, 78] },
-                    { label: "5", y: [69, 76, 75, 83, 80] },
-                    { label: "6", y: [71, 78, 78,  85, 83] },
-                    { label: "7", y: [74, 81, 81, 87, 86] },
-                ]
+                dataPoints: this.props.boxWhiskerPoints
+                    // { label: "1", y: [61, 65, 63.5, 70, 68] },
+                    // { label: "2", y: [63, 68, 66.5, 76, 72] },
+                    // { label: "3", y: [65, 71, 69.5, 78, 75] },
+                    // { label: "4", y: [67, 73, 72, 80, 78] },
+                    // { label: "5", y: [69, 76, 75, 83, 80] },
+                    // { label: "6", y: [71, 78, 78,  85, 83] },
+                    // { label: "7", y: [74, 81, 81, 87, 86] },
             },
             {
                 type: "scatter",

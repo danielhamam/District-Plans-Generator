@@ -25,11 +25,12 @@ class App extends Component {
       firstLoad : 1, // To keep track of selecting enacted plan when first opening
 
       // Jobs:
-      jobCards : [],
+      jobCards : testJobCards.jobs,
       currentJob : "",
       currentPlan : "",
       planState : null,
       districtPlans : "",
+      boxWhiskerPoints : "",
 
       // Map View Filters:
       selectedFilters : null,
@@ -213,16 +214,6 @@ class App extends Component {
       this.setState({ jobCards : this.state.jobCards})
     }
     this.setState({ jobCards : this.state.jobCards })
-  }
-
-  generateBoxWhiskerValues = () => {
-    console.log(this.state.currentJob)
-    try {
-      // let res = await endpoint.generateBoxWhisker(currentJob);
-      // console.log(res)
-    } catch (exception) {
-      console.error(exception);
-    }
   }
 
   togglePrecinctModal = async () => {
@@ -411,11 +402,14 @@ class App extends Component {
       }
       let res = await endpoint.getPlans(jobObject)
       this.setState({districtPlans : res.districtPlans})
+      let res2 = await endpoint.getPlanGraph(jobObject);
+      this.setState({boxWhiskerPoints : res2.dataPoints})
       this.setState({currentJobName : job.jobName});
     }
     else { // job just de-selected
       this.setState({currentJob : ""});
       this.setState({districtPlans : ""})
+      this.setState({boxWhiskerPoints : ""})
       this.setState({currentJobName : ""});
     }
   }
@@ -474,6 +468,7 @@ class App extends Component {
             updateCurrentJob={this.updateCurrentJob} deleteJob={this.deleteJob} toggleSelectedCard={this.toggleSelectedCard}
             createJob={this.createJob} cancelJob={this.cancelJob} selectedJobCheck={this.state.selectedJobCheck}
             generateBoxWhiskerValues={this.generateBoxWhiskerValues} updateJobStatus = {this.updateJobStatus}
+            boxWhiskerPoints = {this.state.boxWhiskerPoints}
 
             // Plan-related methods
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}
