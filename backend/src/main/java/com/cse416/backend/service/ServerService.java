@@ -157,10 +157,10 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-//                if(!JobStatus.COMPLETED.equals(j.getStatus())){
-//                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-//                    reInitiateAlgorithm(j);
-//                }
+                if(!JobStatus.FINISHED.equals(j.getStatus())){
+                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+                    reInitiateAlgorithm(j);
+                }
             }
             session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
@@ -383,7 +383,6 @@ public class ServerService {
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
-                session.deleteJob(jobID);
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
@@ -397,7 +396,6 @@ public class ServerService {
                     "Overrwriting normal execution in catch statement -> Hard deleting job" +
                     " ID: " + job.getJobID());
             jobDAO.deleteJob(job);
-
         }catch(Exception error){
             error.printStackTrace();
         }
@@ -909,6 +907,8 @@ public class ServerService {
                 determinePlans(plansList);
                 createPlanGeojson(plansNode);
                 generateSummaryFile();
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
+                jobDAO.updateJob(job);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
@@ -982,7 +982,8 @@ public class ServerService {
                     if(isProcessesDone){
                         job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        jobDAO.updateJob(job);
+                        Job tempJob = jobDAO.getJobById(job.getJobID()).get();
+                        jobDAO.updateJob(tempJob);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -1000,6 +1001,7 @@ public class ServerService {
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
+                        //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                         jobDAO.updateJob(job);
                     }
                 }
@@ -1031,6 +1033,7 @@ public class ServerService {
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
                 }
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                 jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
