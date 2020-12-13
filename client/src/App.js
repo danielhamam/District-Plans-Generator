@@ -29,6 +29,7 @@ class App extends Component {
       currentJob : "",
       currentPlan : "",
       planState : null,
+      districtPlans : "",
 
       // Map View Filters:
       selectedFilters : null,
@@ -402,13 +403,19 @@ class App extends Component {
     }
   }
 
-  updateCurrentJob = (job, selected) => {
+  updateCurrentJob = async (job, selected) => {
     if (selected == true) { // job just selected
       this.setState({currentJob : job});
+      let jobObject = {
+        job : job
+      }
+      let res = await endpoint.getPlans(jobObject)
+      this.setState({districtPlans : res.districtPlans})
       this.setState({currentJobName : job.jobName});
     }
     else { // job just de-selected
       this.setState({currentJob : ""});
+      this.setState({districtPlans : ""})
       this.setState({currentJobName : ""});
     }
   }
@@ -471,7 +478,7 @@ class App extends Component {
             // Plan-related methods
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}
             firstLoadChange = {this.firstLoadChange} firstLoad = {this.state.firstLoad}
-            districtsViewSelect = {this.state.districtsViewSelect}
+            districtsViewSelect = {this.state.districtsViewSelect} districtPlans = {this.state.districtPlans}
 
             // Handling use cases for precinct and district views
             changeSelectedFilters={this.changeSelectedFilters} demographicJSON = {this.state.demographicJSON} 

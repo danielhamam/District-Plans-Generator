@@ -64,7 +64,7 @@ class JobCard extends Component {
     render() {
         if (this.state.selected == true) this.JobCardClassStyle = "jobCard badge badge-pill badge-dark ";
         else this.JobCardClassStyle = "jobCard badge badge-pill badge-light ";
-        if (this.props.status == "Completed" || this.props.status == "COMPLETED") this.statusColor = " jobFinished ";
+        if (this.props.status == "Finished" || this.props.status == "FINISHED") this.statusColor = " jobFinished ";
         else if (this.props.status == "Pending" || this.props.status == "PENDING") this.statusColor = " jobPending ";
         else if (this.props.status == "Processing" || this.props.status == "PROCESSING") this.statusColor = " jobProcessing ";
         else if (this.props.status == "Running" || this.props.status == "RUNNING") this.statusColor = " jobRunning "

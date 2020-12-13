@@ -94,10 +94,10 @@ export async function getBoundaries(path){
 
 }
 
-export async function getJob(data){
-    console.log("Getting Job");
+export async function getPlans(data){
+    console.log("Getting District Plans");
     const requestOptions = createFetchOptions('GET');
-    const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.id;
+    const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.jobID;
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response; 
 }
