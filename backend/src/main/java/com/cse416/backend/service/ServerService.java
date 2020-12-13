@@ -77,6 +77,8 @@ public class ServerService {
         this.mapper = new ObjectMapper();
         this.session = new Session();
         this.threads = new ArrayList<>();
+
+
     }
 
     private String createClient_Data(Object obj)throws JsonProcessingException{
@@ -154,7 +156,8 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-                if(j.getStatus() == JobStatus.COMPLETED){
+                if(!JobStatus.COMPLETED.equals(j.getStatus())){
+                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
                     reInitiateAlgorithm(j);
                 }
             }
@@ -305,11 +308,11 @@ public class ServerService {
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
-            job.setJobID(99999);
+            job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
-            initiateAlgorithm(job);
             //jobDAO.addJob(job);
             session.addJob(job);
+            initiateAlgorithm(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
 
@@ -378,7 +381,7 @@ public class ServerService {
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
-                //jobDAO.deleteJob(job);
+                jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
             else{
@@ -397,7 +400,7 @@ public class ServerService {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.COMPLETED)) {
-                //jobDAO.deleteJob(job);
+                jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
                 //TODO: What does //jobDAO.cancelJob() do?
@@ -443,15 +446,10 @@ public class ServerService {
                 this.job = job;
                 this.isAlgorithmLocal = runAlgoLocally;
                 if(isAlgorithmLocal){
-                    try{
-                        determineAlgorithmComputeLocation();
-                    }catch(Exception ex){
-                        ex.printStackTrace();
-                    }
-                    this.isComputeLocationDetermined = true;
+                    this.isComputeLocationDetermined = false;
                 }
                 else{
-                    this.isComputeLocationDetermined = false;
+                    this.isComputeLocationDetermined = true;
                 }
                 this.isJobCancelled = false;
                 this.jobsDirectory = "src/main/resources/system/jobs/";
@@ -517,6 +515,7 @@ public class ServerService {
 
                         if(isJobCancelled){
                             cancelJob();
+                            break;
                         }
 
                         if (!isComputeLocationDetermined) {
@@ -534,7 +533,7 @@ public class ServerService {
                             kill();
                         }
 
-                        //longSleepThread();
+                        longSleepThread();
                     }
                     catch(InterruptedException error){
                         System.out.println(this + "Interrupted thread..");
@@ -580,8 +579,7 @@ public class ServerService {
             }
 
             private void longSleepThread() throws InterruptedException{
-                //long sleep = 900000; //15 minutes
-                long sleep = 100000; //15 minutes
+                long sleep = 90000; //15 minutes
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
                         "Sleeping Thread " + hashCode() + " : Long sleep for " + durationInMinutes + " minutes");
@@ -959,19 +957,20 @@ public class ServerService {
                     
                     for(Process process : localAlgorithmProcesses) {
                         if(process.isAlive()) {
+                            System.out.println("JobID " + job.getJobID() + ": " + process.toString()  + " is still running");
                             isProcessesDone = false;
                             break;
                         }
-                        System.out.println("JobID " + job.getJobID() + ": " + process.toString()  + " is still running");
+                        
                     }
                     if(isProcessesDone){
                         job.setStatus(JobStatus.COMPLETED);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
-                    //shortSleepThread();
+                    shortSleepThread();
                 }
                 else{
                     System.out.println("JobID " + job.getJobID() + ": "+ "Monitoring The Seawulf.");
@@ -979,13 +978,13 @@ public class ServerService {
                             netid, jobsDirectory, job.getJobName().toLowerCase(), job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
                     Process tempProcess = pb.start();
-                    //printProcessOutput(tempProcess);
+                    printProcessOutput(tempProcess);
                     shortSleepThread();
                     String jobStatus = getContentsFile("monitor.txt");
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }
                 }
             }
@@ -1011,12 +1010,12 @@ public class ServerService {
                             netid, jobsDirectory, job.getJobName().toLowerCase(), ""+job.getNumDistrictingPlan());
                     pb.redirectErrorStream(true);
                     Process tempProcess = pb.start();
-                    //printProcessOutput(tempProcess);
+                    printProcessOutput(tempProcess);
                     shortSleepThread();
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
                 }
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 

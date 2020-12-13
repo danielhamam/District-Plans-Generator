@@ -147,6 +147,12 @@ public class Job{
 
     }
 
+    public void initializeSystemFiles(){
+       if(status == JobStatus.COMPLETED){
+
+       }
+    }
+
 
 //    public Job (@JsonProperty("jobName")String jobName,
 //                @JsonProperty("districtsAmount")int numOfDistricts,

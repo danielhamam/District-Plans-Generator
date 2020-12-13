@@ -2,12 +2,12 @@
 
 #todo: change the --job-name --output with script variables
 
-#SBATCH --job-name=BrancoA
-#SBATCH --output=BrancoA.log
-#SBATCH -p short-24core
+#SBATCH --job-name=BranT1
+#SBATCH --output=BranT1.log
+#SBATCH -p short-28core
 #SBATCH --ntasks-per-node=24
-#SBATCH --nodes=24
-#SBATCH --time=4:00:00
+#SBATCH --nodes=10
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=carlos.lopez@stonybrook.edu
 
