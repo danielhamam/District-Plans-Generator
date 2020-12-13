@@ -284,6 +284,14 @@ public class State {
     }
 
     @JsonIgnore
+    public Precinct getPrecinctByFIPSCode(String FIPS){
+        return statePrecincts.stream()
+        .filter(p-> p.getPrecinctFIPSCode().equals(FIPS))
+        .findFirst()
+        .orElseThrow(NoSuchElementException::new);
+    }
+
+    @JsonIgnore
     public Map getClientPrecinctsGeoJson() {
         Map <String, Object> map = new HashMap<>();
         map.put("precinctsGeoJson", precinctsGeoJson);

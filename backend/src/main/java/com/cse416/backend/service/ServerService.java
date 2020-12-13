@@ -272,7 +272,7 @@ public class ServerService {
             Job currentJob = session.getJobByID(jobID);
             HashMap <String, Object> map = new HashMap<>();
             map.put("boxWhisker", currentJob.getBoxWhisker());
-            clientData = createClient_Data(currentJob.getBoxWhisker());
+            clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
@@ -700,10 +700,13 @@ public class ServerService {
                         extremeplan = plan;
                     }
                 }
+                averagePlan.setType("Average");
+                extremeplan.setType("Extreme");
                 //Set random plan
                 for(Plan plan : allPlans){
                     if(plan != averagePlan && plan != extremeplan){
                         randomPlan = plan;
+                        randomPlan.setType("Random");
                     }
                 }
 
