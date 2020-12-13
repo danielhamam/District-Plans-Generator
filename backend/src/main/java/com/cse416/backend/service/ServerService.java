@@ -534,7 +534,7 @@ public class ServerService {
                             kill();
                         }
 
-                        longSleepThread();
+                        //longSleepThread();
                     }
                     catch(InterruptedException error){
                         System.out.println(this + "Interrupted thread..");
@@ -971,7 +971,7 @@ public class ServerService {
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
-                    shortSleepThread();
+                    //shortSleepThread();
                 }
                 else{
                     System.out.println("JobID " + job.getJobID() + ": "+ "Monitoring The Seawulf.");
