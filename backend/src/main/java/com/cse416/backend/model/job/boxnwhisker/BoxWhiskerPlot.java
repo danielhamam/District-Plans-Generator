@@ -59,6 +59,70 @@ public class BoxWhiskerPlot{
         this.max = max;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getMin() {
+        return min;
+    }
+
+    public void setMin(long min) {
+        this.min = min;
+    }
+
+    public long getQ1() {
+        return q1;
+    }
+
+    public void setQ1(long q1) {
+        this.q1 = q1;
+    }
+
+    public long getQ2() {
+        return q2;
+    }
+
+    public void setQ2(long q2) {
+        this.q2 = q2;
+    }
+
+    public long getQ3() {
+        return q3;
+    }
+
+    public void setQ3(long q3) {
+        this.q3 = q3;
+    }
+
+    public long getMax() {
+        return max;
+    }
+
+    public void setMax(long max) {
+        this.max = max;
+    }
+
+    public int getIndexedDistrict() {
+        return indexedDistrict;
+    }
+
+    public void setIndexedDistrict(int indexedDistrict) {
+        this.indexedDistrict = indexedDistrict;
+    }
+
+    public long[] getValues() {
+        return values;
+    }
+
+    public void setValues(long[] values) {
+        this.values = values;
+    }
+
     @Override
     public String toString() {
         return "BoxWhiskerPlot{" +

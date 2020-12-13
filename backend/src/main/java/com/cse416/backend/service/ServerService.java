@@ -269,9 +269,9 @@ public class ServerService {
 
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job currentJob = session.getJobByID(jobID);
+            Job job = session.getJobByID(jobID);
             HashMap <String, Object> map = new HashMap<>();
-            map.put("boxWhisker", currentJob.getBoxWhisker());
+            map.put("boxWhisker", job.getBoxWhisker());
             clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
         }catch(NoSuchElementException|JsonProcessingException error){

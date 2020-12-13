@@ -35,6 +35,30 @@ public class BoxWhisker {
         this.boxWhisker = boxWhisker;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<BoxWhiskerPlot> getBoxWhisker() {
+        return boxWhisker;
+    }
+
+    public void setBoxWhisker(List<BoxWhiskerPlot> boxWhisker) {
+        this.boxWhisker = boxWhisker;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
     @Override
     public String toString() {
         return "BoxWhisker{" +
@@ -44,13 +68,4 @@ public class BoxWhisker {
                 '}';
     }
 
-    //    public BoxWhisker(Integer[] district, Integer[] values) {
-//        List<Map<Integer, Integer[]>>  newBoxWhisker = new ArrayList<>();
-//        for(int i =0; i < district.length; i++){
-//            Map <Integer, Integer[]> map = new HashMap<>(district[i],values[i]);
-//            newBoxWhisker.add(map);
-//        }
-//        this.boxWhisker = newBoxWhisker;
-//
-//    }
 }
