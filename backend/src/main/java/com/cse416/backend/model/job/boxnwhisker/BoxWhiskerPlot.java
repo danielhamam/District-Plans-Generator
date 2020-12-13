@@ -43,6 +43,10 @@ public class BoxWhiskerPlot{
     @JsonProperty
     private long [] values;
 
+    @Transient
+    @JsonProperty
+    private long enactedPlanValue;
+
     @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
     @JoinColumn(name="boxwhiskerId")
     private BoxWhisker boxWhisker;
@@ -50,9 +54,22 @@ public class BoxWhiskerPlot{
     //Necessary For JPA
     protected BoxWhiskerPlot(){}
 
+    public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max, long enactedPlanValue) {
+        this.indexedDistrict = indexedDistrict;
+        this.values = new long[5];
+        this.enactedPlanValue = enactedPlanValue;
+        values[0] = this.min = min;
+        values[1] = this.q1 = q1;
+        values[2] = this.q2 = q2;
+        values[3] = this.q3 = q3;
+        values[4] = this.max = max;
+
+    }
+
     public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max) {
         this.indexedDistrict = indexedDistrict;
         this.values = new long[5];
+        this.enactedPlanValue = enactedPlanValue;
         values[0] = this.min = min;
         values[1] = this.q1 = q1;
         values[2] = this.q2 = q2;
@@ -115,6 +132,10 @@ public class BoxWhiskerPlot{
 
     public void setIndexedDistrict(int indexedDistrict) {
         this.indexedDistrict = indexedDistrict;
+    }
+
+    public long getEnactedPlanValue() {
+        return enactedPlanValue;
     }
 
     public long[] getValues() {
