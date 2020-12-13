@@ -882,6 +882,7 @@ public class ServerService {
 
             private void processAlgorithmOutput(File algorithmOutputFile)throws IOException, Exception{
                 //Covert data from AlgorithmOutput.json to Java Objects
+                System.out.println("Starting processing...");
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode rootNode = mapper.readTree(algorithmOutputFile);
                 JsonNode plansNode = rootNode.get("plans");
@@ -902,6 +903,7 @@ public class ServerService {
                     plansList.add(plan);
                     //prettyPrintPlan(plan);
                 }
+                System.out.println("Plan objects creates");
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
                 determinePlans(plansList);
@@ -919,7 +921,7 @@ public class ServerService {
                 File algorithmOutput = new File(algorithmOutputAbsolutePath);
                 if(algorithmOutput.exists()){
                     System.out.println("JobID " + job.getJobID() + ": " +
-                            " AlgorithmOutput.json exists...\nStarting Processing...");
+                            " AlgorithmOutput.json exists.");
                     processAlgorithmOutput(algorithmOutput);
                 }else{
                     System.out.println("JobID " + job.getJobID() + ": " + "AlgorithmOutput.json does not exists...");
