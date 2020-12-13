@@ -31,7 +31,7 @@ public class Plan{
     @JsonProperty
     private Integer planID;
 
-    @ManyToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
+    @ManyToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
     @JoinColumn(name="jobId")
     @JsonIgnore
     private Job job;

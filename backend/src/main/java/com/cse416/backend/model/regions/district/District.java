@@ -36,7 +36,7 @@ public class District{
     private Plan plan;
 
     @JsonIgnore
-    @OneToMany(targetEntity=County.class,cascade =  {CascadeType.PERSIST, CascadeType.DETACH}, 
+    @OneToMany(targetEntity=County.class,cascade =  {CascadeType.DETACH}, 
     fetch = FetchType.LAZY,  mappedBy ="district")
     private List<County> counties;
 
@@ -44,7 +44,7 @@ public class District{
     private String numofCounties;
 
     @JsonIgnore
-    @OneToMany(targetEntity=Precinct.class,cascade = {CascadeType.PERSIST, CascadeType.DETACH},
+    @OneToMany(targetEntity=Precinct.class,cascade = {CascadeType.DETACH},
             fetch = FetchType.LAZY, mappedBy ="district")
     private List<Precinct> precincts;
 

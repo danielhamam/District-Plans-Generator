@@ -308,7 +308,7 @@ public class ServerService {
             job.setJobID(99999);
             createJobDirectory(job);
             initiateAlgorithm(job);
-            //jobDAO.addJob(job);
+            // jobDAO.addJob(job);
             session.addJob(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
