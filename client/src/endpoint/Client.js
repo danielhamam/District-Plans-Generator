@@ -99,21 +99,15 @@ export async function getPlans(data){
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.jobID;
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
-    return response; 
+    return response.json(); 
 }
-export async function getPlan(data){
-    console.log("Getting Plan");
-    const requestOptions = createFetchOptions('GET');
-    const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.id + "/" + data.plan.id
-    const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
-    return response; 
-}
+
 export async function getPlanGraph(data){
     console.log("Getting Box n Whisker For Plan");
     const requestOptions = createFetchOptions('GET');
-    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.id
+    const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.jobID
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
-    return response; 
+    return response.json(); 
 }
 export async function cancelJob(data){
     console.log("Cancel");
