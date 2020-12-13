@@ -372,9 +372,8 @@ public class ServerService {
 
 
     public void cancelJob(Integer jobID){
-
+        Job job = session.getJobByID(jobID);
         try{
-            Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
             if(!job.getStatus().equals(JobStatus.FINISHED)){
                 Algorithm currentThread =  threads.stream()
@@ -394,6 +393,8 @@ public class ServerService {
 
         }catch(Exception error){
             error.printStackTrace();
+        }finally {
+            jobDAO.deleteJob(job);
         }
 
     }
