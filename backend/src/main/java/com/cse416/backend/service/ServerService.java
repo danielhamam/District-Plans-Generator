@@ -570,7 +570,7 @@ public class ServerService {
             private void longSleepThread() throws InterruptedException{
                 long sleep = 90000; //15 minutes
                 if(isAlgorithmLocal){
-                    sleep = 29500; //15 minutes
+                    sleep = 65500; //15 minutes
                 }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
@@ -581,7 +581,7 @@ public class ServerService {
             private void shortSleepThread() throws InterruptedException{
                 long sleep = 30000; //0.5 minutes
                 if(isAlgorithmLocal){
-                    sleep = 10000; //15 minutes
+                    sleep = 35500; //15 minutes
                 }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +

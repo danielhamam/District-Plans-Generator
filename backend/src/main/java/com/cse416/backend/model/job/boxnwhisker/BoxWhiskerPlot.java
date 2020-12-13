@@ -52,11 +52,13 @@ public class BoxWhiskerPlot{
 
     public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max) {
         this.indexedDistrict = indexedDistrict;
-        this.min = min;
-        this.q1 = q1;
-        this.q2 = q2;
-        this.q3 = q3;
-        this.max = max;
+        this.values = new long[5];
+        values[0] = this.min = min;
+        values[1] = this.q1 = q1;
+        values[2] = this.q2 = q2;
+        values[3] = this.q3 = q3;
+        values[4] = this.max = max;
+
     }
 
     public long getId() {
