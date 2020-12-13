@@ -379,7 +379,7 @@ public class ServerService {
                 Algorithm currentThread =  threads.stream()
                         .filter(thread -> job.getJobID().equals(thread.getJob().getJobID()))
                         .findFirst()
-                        .orElseThrow(Exception::new);
+                        .orElseThrow(NoSuchElementException::new);
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
@@ -392,12 +392,14 @@ public class ServerService {
                 deleteJob(jobID);
             }
 
-        }catch(Exception error){
-            System.out.println(error.getCause().toString() + ". Thus mismatched happened between server session." +
-                    "Overrwriting normal execution in catch statement -> Hard deleting job" + job.getJobName() +
+        }catch (NoSuchElementException error){
+            System.out.println("NoSuchElementException. Thus mismatched happened between server session." +
+                    "Overrwriting normal execution in catch statement -> Hard deleting job" +
                     " ID: " + job.getJobID());
-            session.deleteJob(jobID);
             jobDAO.deleteJob(job);
+
+        }catch(Exception error){
+            error.printStackTrace();
         }
 
     }
@@ -405,7 +407,7 @@ public class ServerService {
     public void deleteJob(Integer jobID){
         try {
             Job job = session.getJobByID(jobID);
-            System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
+            System.out.println("Attempting to delete a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.FINISHED)) {
                 session.deleteJob(jobID);
                 jobDAO.deleteJob(job);
