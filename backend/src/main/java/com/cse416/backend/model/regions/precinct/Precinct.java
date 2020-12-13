@@ -23,7 +23,7 @@ public class Precinct {
 
     private String precinctFIPSCode;
 
-    @ManyToOne(targetEntity=County.class, fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity=County.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name="countyId")
     private County county;
 
