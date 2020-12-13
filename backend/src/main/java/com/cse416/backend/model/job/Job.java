@@ -72,7 +72,7 @@ public class Job{
     private List<CensusCatagories> minorityAnalyzedEnumration;
 
     @Transient
-    @JsonProperty("districtPlans")
+    @JsonIgnore
     private List<Plan> clientDistrictingPlans;
 
     @ManyToMany(targetEntity=CensusEthnicity.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})

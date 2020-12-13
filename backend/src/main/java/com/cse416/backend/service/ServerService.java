@@ -700,13 +700,10 @@ public class ServerService {
                         extremeplan = plan;
                     }
                 }
-                averagePlan.setType("Average");
-                extremeplan.setType("Extreme");
                 //Set random plan
                 for(Plan plan : allPlans){
                     if(plan != averagePlan && plan != extremeplan){
                         randomPlan = plan;
-                        randomPlan.setType("Random");
                     }
                 }
 
@@ -899,6 +896,9 @@ public class ServerService {
                 determinePlans(plansList);
                 createPlanGeojson(plansNode);
                 generateSummaryFile();
+                job.getAverageDistrictPlan().setType("Average");
+                job.getExtremeDistrictPlan().setType("Extreme");
+                job.getRandomDistrictPlan().setType("Random");
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                 job.setStatus(JobStatus.FINISHED);
                 //jobDAO.updateJob(job);
