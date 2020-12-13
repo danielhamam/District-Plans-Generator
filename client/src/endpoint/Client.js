@@ -90,15 +90,11 @@ export async function getPrecinctDemographic(precinctObj){
 	    return await response.json() 
 }
 
-export async function getBoundaries(path){
-
-}
-
 export async function getPlans(data){
     console.log("Getting District Plans");
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.JOB + "/" + data.job.jobID;
-    const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
+    const response = await fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response.json(); 
 }
 
@@ -106,7 +102,7 @@ export async function getPlanGraph(data){
     console.log("Getting Box n Whisker For Plan");
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.BOXWHISKER + "/" + data.job.jobID
-    const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
+    const response = await fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response.json(); 
 }
 export async function cancelJob(data){
