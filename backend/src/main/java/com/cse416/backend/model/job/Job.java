@@ -147,8 +147,9 @@ public class Job{
 
     }
 
-    public void initializeSystemFiles(){
+    public void initializeJobsFiles(){
        if(status == JobStatus.COMPLETED){
+
 
        }
     }

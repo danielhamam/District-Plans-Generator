@@ -310,7 +310,7 @@ public class ServerService {
             //TODO: Delete line below
             job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
-            jobDAO.addJob(job);
+            //jobDAO.addJob(job);
             initiateAlgorithm(job);
             session.addJob(job);
             initiateAlgorithm(job);
