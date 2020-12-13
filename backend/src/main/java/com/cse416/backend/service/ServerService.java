@@ -994,7 +994,7 @@ public class ServerService {
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
-                    String localPythonScript = "src/main/resources/python/algorithm/Algorithm.py";
+                    String localPythonScript = "src/main/resources/python/algorithm/Algorithm_2.py";
                     for(int i = 0; i < job.getNumDistrictingPlan(); i++){
                         ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript,
                                 algorithmInputPath, jobDirectory + "algorithm-output/", "" +i);

@@ -37,7 +37,7 @@ touch ${PARALLEL_INPUT_FILEPATH}
 COUNTER=0
 while [ ${COUNTER} -lt ${NUM_OF_JOBS} ]
 do
-    echo python3 Algorithm.py ${JOB_DIRECTORY}AlgorithmInput.json ${JOB_DIRECTORY}algorithm-output/ ${COUNTER} >> ${PARALLEL_INPUT_FILEPATH}
+    echo python3 Algorithm_2.py ${JOB_DIRECTORY}AlgorithmInput.json ${JOB_DIRECTORY}algorithm-output/ ${COUNTER} >> ${PARALLEL_INPUT_FILEPATH}
     COUNTER=$(expr ${COUNTER} + 1)
 done
 
