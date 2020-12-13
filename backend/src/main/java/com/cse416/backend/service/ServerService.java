@@ -311,6 +311,7 @@ public class ServerService {
             job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
             //jobDAO.addJob(job);
+            initiateAlgorithm(job);
             session.addJob(job);
             initiateAlgorithm(job);
             clientData = createClient_Data(job);

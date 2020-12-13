@@ -464,3 +464,4 @@ client/node_modules/.cache/terser-webpack-plugin/content-v2/sha512/b5/4d/9f91a34
 client/node_modules/.cache/terser-webpack-plugin/index-v5/10/66/c2fa18b531c80419b76f727d2295d19bfe522d17c41698c3e7bd8274e613
 client/node_modules/.cache/terser-webpack-plugin/index-v5/27/83/55583acb1e920dc3f54cab14ebde0d96f951ec30ec1cb12defe505ba7773
 client/node_modules/.cache/terser-webpack-plugin/index-v5/a2/ae/35bffd31650057b12685ee6b7790c77e806d99d144b5e0302e4c0d0d809f
+*.gz
