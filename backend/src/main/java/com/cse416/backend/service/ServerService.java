@@ -383,6 +383,7 @@ public class ServerService {
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
+                session.deleteJob(jobID);
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
@@ -392,8 +393,10 @@ public class ServerService {
             }
 
         }catch(Exception error){
-            error.printStackTrace();
-        }finally {
+            System.out.println(error.getCause().toString() + ". Thus mismatched happened between server session." +
+                    "Overrwriting normal execution in catch statement -> Hard deleting job" + job.getJobName() +
+                    " ID: " + job.getJobID());
+            session.deleteJob(jobID);
             jobDAO.deleteJob(job);
         }
 
@@ -404,6 +407,7 @@ public class ServerService {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.FINISHED)) {
+                session.deleteJob(jobID);
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
