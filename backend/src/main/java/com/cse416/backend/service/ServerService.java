@@ -903,7 +903,7 @@ public class ServerService {
                     plansList.add(plan);
                     //prettyPrintPlan(plan);
                 }
-                System.out.println("Plan objects creates");
+                System.out.println("All plan has been created to java objects");
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
                 determinePlans(plansList);
