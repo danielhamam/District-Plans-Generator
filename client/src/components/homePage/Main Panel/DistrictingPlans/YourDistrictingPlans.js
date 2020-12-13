@@ -19,8 +19,8 @@ class YourDistrictingPlans extends Component {
 
     receivePlans = () => {
 
-        if (this.props.currentJob != "") {
-            return this.props.currentJob.districtPlans.map( (districtPlan) => 
+        if (this.props.currentJob != "" && this.props.districtPlans != "") {
+            return this.props.districtPlans.map( (districtPlan) => 
                 <DistrictPlan 
                 // Attributes:
                 currentJob={this.props.currentJob} plan={districtPlan} 

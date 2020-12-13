@@ -72,7 +72,7 @@ class MainPanel extends Component {
                     // Plan-related content
                     deletePlan={this.props.deletePlan} selectedPlanCheck={this.props.selectedPlanCheck} 
                     toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} firstLoadChange = {this.props.firstLoadChange} 
-                    firstLoad = {this.props.firstLoad} 
+                    firstLoad = {this.props.firstLoad} districtPlans = {this.props.districtPlans}
                     
                     />
                 </div>

@@ -25,7 +25,7 @@ export class HomeScreen extends Component {
           // Plan-Related Content
           selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
           deletePlan={this.props.deletePlan} firstLoadChange = {this.props.firstLoadChange} firstLoad = {this.props.firstLoad}
-          districtsViewSelect = {this.props.districtsViewSelect}
+          districtsViewSelect = {this.props.districtsViewSelect} districtPlans = {this.props.districtPlans}
 
           // Map-Related Content
           districtsView = {this.props.districtsView} districtsContent = {this.props.districtsContent} selectedPlanCheck={this.props.selectedPlanCheck}
