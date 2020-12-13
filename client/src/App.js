@@ -394,6 +394,16 @@ class App extends Component {
     }
   }
 
+  formatServerGraph = (obj) => {
+    let listOne = []
+    let listTwo = []
+    obj.graph.boxWhisker.forEach(element => {
+      listOne.push({label:element.indexedDistrict, y:element.values});
+      listTwo.push({x:element.indexedDistrict, y:element.enactedPlanY});
+    });
+    return {dataPointOne: listOne, dataPointTwo: listTwo}
+  }
+
   updateCurrentJob = async (job, selected) => {
     if (selected == true) { // job just selected
       this.setState({currentJob : job});
@@ -403,7 +413,8 @@ class App extends Component {
       let res = await endpoint.getPlans(jobObject)
       this.setState({districtPlans : res.districtPlans})
       let res2 = await endpoint.getPlanGraph(jobObject);
-      this.setState({boxWhiskerPoints : res2.dataPoints})
+      let formattedServerRes = formatServerGraph(res2)
+      this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
     else { // job just de-selected

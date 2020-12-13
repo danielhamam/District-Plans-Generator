@@ -82,7 +82,7 @@ class Sidebar extends Component {
                 upperBoxColor: "#A72A17",
                 lowerBoxColor: "#A3A3A3",
                 yValueFormatString: "###.0# ",
-                dataPoints: this.props.boxWhiskerPoints
+                dataPoints: this.props.boxWhiskerPoints.dataPointOne
                     // { label: "1", y: [61, 65, 63.5, 70, 68] },
                     // { label: "2", y: [63, 68, 66.5, 76, 72] },
                     // { label: "3", y: [65, 71, 69.5, 78, 75] },
@@ -98,15 +98,7 @@ class Sidebar extends Component {
                 markerSize: 8,
                 color: "#007BFF",
                 toolTipContent: "District Percentage: {y}",
-                dataPoints: [
-                    { x: 0, y: 68},
-                    { x: 1, y: 71},
-                    { x: 2, y: 73},
-                    { x: 3, y: 74},
-                    { x: 4, y: 77},
-                    { x: 5, y: 80},
-                    { x: 6, y: 83},
-                ]
+                dataPoints: this.props.boxWhiskerPoints.dataPointTwo
             }]
         }
     }
