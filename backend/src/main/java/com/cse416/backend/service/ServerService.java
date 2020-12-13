@@ -395,7 +395,7 @@ public class ServerService {
             System.out.println("NoSuchElementException. Thus mismatched happened between server session." +
                     "Overrwriting normal execution in catch statement -> Hard deleting job" +
                     " ID: " + job.getJobID());
-            //jobDAO.deleteJob(job);
+            jobDAO.deleteJob(job);
         }catch(Exception error){
             error.printStackTrace();
         }
@@ -407,7 +407,6 @@ public class ServerService {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to delete a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.FINISHED)) {
-                session.deleteJob(jobID);
                 //jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
