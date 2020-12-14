@@ -541,11 +541,10 @@ public class ServerService {
             public void run() {
                 while (!die) {
                     try {
-                        Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                         System.out.println("Thread " + hashCode() + " is still running." +
-                                "Job's ID: " + tempJob.getJobID() + "\t" +
-                                "Job's status: " + tempJob.getStatus() + "\t" +
-                                "Job's seawulfJobID: " + tempJob.getSeawulfJobID());
+                                "Job's ID: " + job.getJobID() + "\t" +
+                                "Job's status: " + job.getStatus() + "\t" +
+                                "Job's seawulfJobID: " + job.getSeawulfJobID());
 
                         if(isJobCancelled){
                             cancelJob();
@@ -560,9 +559,9 @@ public class ServerService {
                         monitorAlgorithm();
 
 
-                        JobStatus status = tempJob.getStatus();
+                        JobStatus status = job.getStatus();
                         if(status.equals(JobStatus.PROCESSING)){
-                            System.out.println("Job" + tempJob.getJobID() + " status: " + tempJob.getStatus());
+                            System.out.println("Job" + job.getJobID() + " status: " + job.getStatus());
                             extractDataFromJob();
                             initiateServerProcessing();
                             kill();
@@ -611,8 +610,8 @@ public class ServerService {
                     //printProcessOutput(tempProcess);
                 }
 
-                tempJob.setStatus(JobStatus.CANCELLED);
-                System.out.println("Job " + tempJob.getJobID() + " cancelled");
+                job.setStatus(JobStatus.CANCELLED);
+                System.out.println("Job " + job.getJobID() + " cancelled");
                 kill();
             }
 
@@ -957,9 +956,10 @@ public class ServerService {
                 job.getAverageDistrictPlan().setType("Average");
                 job.getExtremeDistrictPlan().setType("Extreme");
                 job.getRandomDistrictPlan().setType("Random");
-                Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                tempJob.setStatus(JobStatus.FINISHED);
-                jobDAO.updateJob(tempJob);
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
+                job.setStatus(JobStatus.FINISHED);
+                //tempJob.setStatus(JobStatus.FINISHED);
+                jobDAO.updateJob(job);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
@@ -1019,7 +1019,7 @@ public class ServerService {
             }
 
             private void monitorAlgorithm()throws IOException, InterruptedException{
-                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                 if(isAlgorithmLocal) {
                     boolean isProcessesDone = true;
                     
@@ -1032,9 +1032,9 @@ public class ServerService {
                         
                     }
                     if(isProcessesDone){
-                        tempJob.setStatus(JobStatus.PROCESSING);
+                        job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        jobDAO.updateJob(tempJob);
+                        jobDAO.updateJob(job);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -1050,16 +1050,17 @@ public class ServerService {
                     shortSleepThread();
                     String jobStatus = getContentsFile("monitor.txt");
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
-                    if(!tempJob.getStatus().equals(status)){
-                        tempJob.setStatus(status);
+                    if(!job.getStatus().equals(status)){
+                        job.setStatus(status);
+                        //tempJob.setStatus(status);
                         //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                        jobDAO.updateJob(tempJob);
+                        jobDAO.updateJob(job);
                     }
                 }
             }
 
             private void determineAlgorithmComputeLocation()throws IOException, InterruptedException{
-                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
@@ -1072,7 +1073,8 @@ public class ServerService {
                         localAlgorithmProcesses.add(temp);
                         //printProcessOutput(temp);
                     }
-                    tempJob.setStatus(JobStatus.RUNNING);
+                    job.setStatus(JobStatus.RUNNING);
+                    //tempJob.setStatus(JobStatus.RUNNING);
                 }
                 else{
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm remotely.");
@@ -1083,9 +1085,9 @@ public class ServerService {
                     printProcessOutput(tempProcess);
                     shortSleepThread();
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
-                    tempJob.setSeawulfJobID(seawulfJobID);
+                    job.setSeawulfJobID(seawulfJobID);
                 }
-                jobDAO.updateJob(tempJob);
+                jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 
