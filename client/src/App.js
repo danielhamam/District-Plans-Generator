@@ -25,7 +25,7 @@ class App extends Component {
       firstLoad : 1, // To keep track of selecting enacted plan when first opening
 
       // Jobs:
-      jobCards : testJobCards.jobs,
+      jobCards : [],
       currentJob : "",
       currentPlan : "",
       planState : null,
@@ -183,7 +183,10 @@ class App extends Component {
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
     try {
-      let res = await endpoint.deleteJob(job);
+      let jobObject = {
+        job : job
+      }
+      let res = await endpoint.deleteJob(jobObject);
       console.log(res)
     } catch (exception) {
       console.error(exception);
@@ -196,6 +199,9 @@ class App extends Component {
     if (indexOfJob >= 0)
         this.state.jobCards.splice(indexOfJob, 1);
       try {
+        let jobObject = {
+          job : job
+        }
         let res = await endpoint.deleteJob(job);
         console.log(res)
       } catch (exception) {
@@ -399,7 +405,7 @@ class App extends Component {
     let listTwo = []
     obj.graph.boxWhisker.forEach(element => {
       listOne.push({label:element.indexedDistrict, y:element.values});
-      listTwo.push({x:element.indexedDistrict, y:element.enactedPlanY});
+      listTwo.push({label:element.indexedDistrict, y:element.enactedPlanValue});
     });
     return {dataPointOne: listOne, dataPointTwo: listTwo}
   }
@@ -413,7 +419,7 @@ class App extends Component {
       let res = await endpoint.getPlans(jobObject)
       this.setState({districtPlans : res.districtPlans})
       let res2 = await endpoint.getPlanGraph(jobObject);
-      let formattedServerRes = formatServerGraph(res2)
+      let formattedServerRes = this.formatServerGraph(res2)
       this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
