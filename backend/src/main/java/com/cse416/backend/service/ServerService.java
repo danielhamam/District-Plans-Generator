@@ -220,9 +220,10 @@ public class ServerService {
     public String getJobSummary(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job serverJob = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
+            Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
+            job.initializeJobsFiles();
             Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("jobsummary", serverJob.getSummary());
+            dataObject.put("jobsummary", job.getSummary());
             clientData = this.createClient_Data(dataObject);
             System.out.println("Server func getJobSummary() successful. Sending plans to client.");
         }catch(NoSuchElementException|JsonProcessingException error){
