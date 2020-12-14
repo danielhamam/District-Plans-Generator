@@ -328,34 +328,6 @@ public class ServerService {
         return clientData;
     }
 
-    public String generateJob(Job job){
-        String clientData = "{serverError:null}";
-        //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
-        try{
-            //session.addJob(job);
-            State currentState = session.getState();
-            job.setState(currentState);
-            List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
-            job.setMinorityAnalyzed(censusEthnicities);
-            //TODO: Delete line below
-            job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
-            createJobDirectory(job);
-            jobDAO.addJob(job);
-            initiateAlgorithm(job);
-            clientData = createClient_Data(job);
-            System.out.println("Server func generateJob() successful");
-
-        }catch(IOException error){
-            clientData = "{serverError:\"" + error.getMessage() + "\"}";
-            error.printStackTrace();
-        }
-        catch(Exception error){
-            error.printStackTrace();
-        }
-        return clientData;
-    }
-
-   
 
     private List <CensusEthnicity> covertClientCensusToDatabaseCensus(Job job){
         //Retrieve the minority group to analyze provide the client
@@ -446,9 +418,37 @@ public class ServerService {
         }
     }
 
+    public String generateJob(Job job){
+        String clientData = "{serverError:null}";
+        //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
+        try{
+            //session.addJob(job);
+            State currentState = session.getState();
+            job.setState(currentState);
+            List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
+            job.setMinorityAnalyzed(censusEthnicities);
+            //TODO: Delete line below
+            //job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
+            createJobDirectory(job);
+            jobDAO.addJob(job);
+            initiateAlgorithm(job);
+            clientData = createClient_Data(job);
+            System.out.println("Server func generateJob() successful");
+
+        }catch(IOException error){
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+            error.printStackTrace();
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+    }
 
 
-        public class Algorithm implements Runnable {
+
+
+    public class Algorithm implements Runnable {
             private Thread proxyThread = null;
             private final String netid;
             private final String jobsDirectory;
@@ -472,6 +472,8 @@ public class ServerService {
                 this.localAlgorithmProcesses = new ArrayList<>();
 
             }
+
+
 
             //This constructor is to reintialize the algorithm in the event that the server didn't wait for a job's completion in a previous server session
             public Algorithm(String netid, Job job, boolean runAlgoLocally, boolean reInitiateAlgorithm) {
@@ -593,7 +595,7 @@ public class ServerService {
             }
 
             private void cancelJob()throws IOException, InterruptedException{
-                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                //Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": " + "Canceling job locally.");
                     for(Process process : localAlgorithmProcesses) {
@@ -958,8 +960,9 @@ public class ServerService {
                 job.getRandomDistrictPlan().setType("Random");
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                 job.setStatus(JobStatus.FINISHED);
-                //tempJob.setStatus(JobStatus.FINISHED);
-                jobDAO.updateJob(job);
+                Job temp = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                temp.setStatus(job.getStatus());
+                jobDAO.updateJob(temp);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
@@ -1034,7 +1037,9 @@ public class ServerService {
                     if(isProcessesDone){
                         job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        jobDAO.updateJob(job);
+                        Job temp = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                        temp.setStatus(job.getStatus());
+                        jobDAO.updateJob(temp);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -1053,14 +1058,17 @@ public class ServerService {
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
                         //tempJob.setStatus(status);
-                        //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                        jobDAO.updateJob(job);
+                        Job temp = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                        temp.setStatus(job.getStatus());
+                        jobDAO.updateJob(temp);
                     }
                 }
+
+
             }
 
             private void determineAlgorithmComputeLocation()throws IOException, InterruptedException{
-                //Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
@@ -1087,7 +1095,9 @@ public class ServerService {
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
                 }
-                jobDAO.updateJob(job);
+                Job temp = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                temp.setStatus(job.getStatus());
+                jobDAO.updateJob(temp);
                 isComputeLocationDetermined = true;
             }
 

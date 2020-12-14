@@ -5,12 +5,14 @@ import org.springframework.stereotype.*;
 
 import com.cse416.backend.model.job.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.lang.Integer;
 
 
 @Service
+@Transactional
 public class JobDAOService{
 
    @Autowired
