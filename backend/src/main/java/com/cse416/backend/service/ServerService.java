@@ -823,14 +823,16 @@ public class ServerService {
                     boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue));
 
                 }
-                BoxWhisker temp = new BoxWhisker(boxWhiskerPlots);
-                boxWhiskerDAO.addBoxWhisker(temp);
-                job.setBoxWhisker(temp);
-                Integer id = job.getJobID();
-                Job temp = jobDAO.getJobById(id).orElseThrow(NoSuchElementException::new);
+                BoxWhisker tempBoxW = new BoxWhisker(boxWhiskerPlots);
+                boxWhiskerDAO.addBoxWhisker(tempBoxW);
+                job.setBoxWhisker(tempBoxW);
+                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                tempJob.setBoxWhisker(job.getBoxWhisker());
+                jobDAO.updateJob(tempJob);
+
 
                 //System.out.println("\n" + job.getBoxWhisker() + "\n");
-                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + temp);
+                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + tempBoxW);
 
 
             }
