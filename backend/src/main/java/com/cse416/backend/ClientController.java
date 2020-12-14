@@ -94,7 +94,7 @@ public class ClientController {
    }
 
     @GetMapping(path = "/jobsummary/{jobID}", produces = "application/json")
-    public String getJobSummary(Integer jobID){
+    public String getJobSummary(@PathVariable Integer jobID){
         return service.getJobSummary(jobID);
     }
 
