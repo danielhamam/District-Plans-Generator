@@ -170,7 +170,7 @@ public class Job{
            this.randomDistrictPlan = new Plan(state.getStateAbbreviation(),"Random",
                    state.getNumOfDistricts(), jobName);
 
-           String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase();
+           String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase() + "/Summary.json";
            String fileAbsolutePath = new File(filePath).getAbsolutePath();
            File file = new File(fileAbsolutePath);
            this.summaryFileNode = new ObjectMapper().readTree(file);
