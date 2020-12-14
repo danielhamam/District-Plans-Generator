@@ -411,7 +411,7 @@ public class ServerService {
         try {
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             System.out.println("Attempting to delete a job " + jobID + ". It's status: " + job.getStatus());
-            if (job.getStatus().equals(JobStatus.FINISHED)) {
+            if (job.getStatus() == (JobStatus.FINISHED)) {
                 jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
