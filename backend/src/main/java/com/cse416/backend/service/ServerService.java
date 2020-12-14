@@ -20,6 +20,7 @@ import com.cse416.backend.livememory.Session;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sun.tools.internal.ws.wsdl.framework.NoSuchEntityException;
 import org.geojson.FeatureCollection;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -825,7 +826,9 @@ public class ServerService {
                 BoxWhisker temp = new BoxWhisker(boxWhiskerPlots);
                 boxWhiskerDAO.addBoxWhisker(temp);
                 job.setBoxWhisker(temp);
-                //Job job = jobDAO.getJobById();
+                Integer id = job.getJobID();
+                Job temp = jobDAO.getJobById(id).orElseThrow(NoSuchElementException::new);
+
                 //System.out.println("\n" + job.getBoxWhisker() + "\n");
                 System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + temp);
 

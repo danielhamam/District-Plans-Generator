@@ -164,11 +164,11 @@ public class Job{
     public void initializeJobFiles()throws IOException{
        if(status == JobStatus.FINISHED){
            this.averageDistrictPlan = new Plan(state.getStateAbbreviation(),"Average",
-                   state.getNumOfDistricts(),false);
+                   state.getNumOfDistricts(), jobName);
            this.extremeDistrictPlan = new Plan(state.getStateAbbreviation(),"Extreme",
-                   state.getNumOfDistricts(),false);
+                   state.getNumOfDistricts(), jobName);
            this.randomDistrictPlan = new Plan(state.getStateAbbreviation(),"Random",
-                   state.getNumOfDistricts(),false);
+                   state.getNumOfDistricts(), jobName);
 
            String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase();
            String fileAbsolutePath = new File(filePath).getAbsolutePath();

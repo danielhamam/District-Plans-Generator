@@ -122,6 +122,23 @@ public class Plan{
         }
     }
 
+    public Plan(String stateAbbreviation, String type, int numberOfDistricts, String jobName) {
+        this.stateAbbreviation = stateAbbreviation;
+        this.type = type;
+        this.planID = planID;
+        this.numberOfDistricts = numberOfDistricts;
+        this.isPlanEnacted = false;
+        String filePath = "src/main/resources/system/states/" + stateAbbreviation.toLowerCase() +
+                "/" + jobName.toLowerCase() + "/" + this.type + "Districts.json";
+        this.districtFile = new File(new File(filePath).getAbsolutePath());
+        try{
+            this.districtsGeoJson = createDistrictFeatureCollection();
+        }
+        catch(IOException error){
+            error.printStackTrace();
+        }
+    }
+
 
     public Plan(Job job, int numberOfDistricts, double averageDistrictPopulation, double averageDistrictCompactness, String type){
         this.job = job;
