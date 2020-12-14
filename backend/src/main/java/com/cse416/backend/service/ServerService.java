@@ -323,7 +323,9 @@ public class ServerService {
         try{
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
-            map.put("graph", job.getBoxWhisker());
+            BoxWhisker boxWhisker = job.getBoxWhisker();
+            ObjectNode node = mapper.createObjectNode();
+            map.put("graph", boxWhisker);
             clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
         }catch(NoSuchElementException|JsonProcessingException error){

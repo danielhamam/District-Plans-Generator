@@ -49,6 +49,7 @@ public class BoxWhiskerPlot{
 
     @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
     @JoinColumn(name="boxwhiskerId")
+    @JsonIgnore
     private BoxWhisker boxWhisker;
 
     //Necessary For JPA
@@ -134,16 +135,28 @@ public class BoxWhiskerPlot{
         this.indexedDistrict = indexedDistrict;
     }
 
-    public long getEnactedPlanValue() {
-        return enactedPlanValue;
-    }
-
     public long[] getValues() {
         return values;
     }
 
     public void setValues(long[] values) {
         this.values = values;
+    }
+
+    public long getEnactedPlanValue() {
+        return enactedPlanValue;
+    }
+
+    public void setEnactedPlanValue(long enactedPlanValue) {
+        this.enactedPlanValue = enactedPlanValue;
+    }
+
+    public BoxWhisker getBoxWhisker() {
+        return boxWhisker;
+    }
+
+    public void setBoxWhisker(BoxWhisker boxWhisker) {
+        this.boxWhisker = boxWhisker;
     }
 
     @Override
