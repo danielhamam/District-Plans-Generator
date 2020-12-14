@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 1
+termination_limit = 10000
 
 # Population variables
 ideal_population = 0.0

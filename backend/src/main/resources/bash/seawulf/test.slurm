@@ -4,8 +4,8 @@
 
 #SBATCH --job-name=BranT1
 #SBATCH --output=BranT1.log
-#SBATCH -p short-28core
-#SBATCH --ntasks-per-node=24
+#SBATCH -p medium-28core
+#SBATCH --ntasks-per-node=10
 #SBATCH --nodes=10
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,END
@@ -42,7 +42,7 @@ do
 done
 
 
-cat ${PARALLEL_INPUT_FILEPATH} | parallel --verbose --jobs 24
+cat ${PARALLEL_INPUT_FILEPATH} | parallel --verbose
 
 #Printing Debug Statements
 echo

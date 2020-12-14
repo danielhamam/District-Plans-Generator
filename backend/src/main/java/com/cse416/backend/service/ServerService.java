@@ -159,10 +159,10 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-//                if(!JobStatus.FINISHED.equals(j.getStatus())){
-//                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-//                    reInitiateAlgorithm(j);
-//                }
+                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
+                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+                    reInitiateAlgorithm(j);
+                }
             }
 //            session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
@@ -324,11 +324,14 @@ public class ServerService {
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
             BoxWhisker boxWhisker = job.getBoxWhisker();
+            System.out.println(boxWhisker);
             ObjectNode node = mapper.createObjectNode();
-            map.put("graph", boxWhisker);
+            List <BoxWhiskerPlot> temp = boxWhisker.getBoxWhiskerPlots();
+            System.out.println(temp);
+            map.put("graph",  temp);
             clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
-        }catch(NoSuchElementException|JsonProcessingException error){
+        }catch(IOException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
         }
@@ -1085,7 +1088,7 @@ public class ServerService {
             }
 
             private void determineAlgorithmComputeLocation()throws IOException, InterruptedException{
-
+                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
@@ -1112,9 +1115,9 @@ public class ServerService {
                     String seawulfJobID = getContentsFile("seawulfjobid.txt");
                     job.setSeawulfJobID(seawulfJobID);
                 }
-                Job temp = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
-                temp.setStatus(job.getStatus());
-                jobDAO.updateJob(temp);
+                tempJob.setSeawulfJobID(job.getSeawulfJobID());
+                tempJob.setStatus(job.getStatus());
+                jobDAO.updateJob(tempJob);
                 isComputeLocationDetermined = true;
             }
 

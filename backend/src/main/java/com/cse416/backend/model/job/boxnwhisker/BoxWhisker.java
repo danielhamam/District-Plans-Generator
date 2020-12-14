@@ -17,11 +17,11 @@ public class BoxWhisker {
     private Integer id;
 
 
-    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = CascadeType.ALL, 
-    fetch = FetchType.EAGER, mappedBy = "boxWhisker")
+    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER, mappedBy = "boxWhisker")
     private List<BoxWhiskerPlot> boxWhiskerPlots;
 
-    @OneToOne(targetEntity=Job.class, fetch = FetchType.EAGER, cascade = {CascadeType.DETACH})
+    @OneToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
     @JoinColumn(name="jobId")
     @JsonIgnore
     private Job job;

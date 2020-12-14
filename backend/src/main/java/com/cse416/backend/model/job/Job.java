@@ -114,8 +114,8 @@ public class Job{
     @JsonIgnore
     private int averagePlanCompactness;
 
-    @JsonIgnore
     @Column(name="seawulfJobID", unique=true)
+    @JsonProperty
     private String seawulfJobID;
 
     @Transient
