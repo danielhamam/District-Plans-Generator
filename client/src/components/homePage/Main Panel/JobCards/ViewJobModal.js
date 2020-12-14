@@ -61,7 +61,7 @@ class ViewJobModal extends Component {
                     </p>
                     <p> 
                         <span> Focused Minority Group(s): </span> 
-                        <span className={"inline "}> {this.props.minorityAnalyzed.join(", ")} </span>
+                        <span className={"inline "}> {this.props.minorityAnalyzed ? this.props.minorityAnalyzed.join(", ") : ""} </span>
                     </p>
 
                     <Accordion defaultActiveKey="1">
@@ -73,7 +73,7 @@ class ViewJobModal extends Component {
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
-                                    This is where we have more summary info. test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test 
+                                    {this.props.summaryFile}
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>

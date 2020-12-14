@@ -86,7 +86,7 @@ class JobCard extends Component {
                 <ViewJobModal populationDifference={this.props.populationDifference} minorityAnalyzed={this.props.minorityAnalyzed} compactness={this.props.compactness} 
                 plansAmount={this.props.plansAmount} status={this.props.status} currentSelected={this.state.selected} selectedJobCheck={this.props.selectedJobCheck} 
                 toggleSelection={this.toggleSelection} jobName={this.props.jobName} toggleViewModal={this.toggleViewModal} showViewModal={this.state.showViewModal}
-                toggleXclose = {this.toggleXclose}
+                toggleXclose = {this.toggleXclose} summaryFile = {this.props.summaryFile}
                 />
             </div>
         );

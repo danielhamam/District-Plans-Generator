@@ -22,7 +22,7 @@ class YourJobs extends Component {
                             jobCard={jobCard} jobName={jobCard.jobName} deleteJob={this.props.deleteJob}
                             minorityAnalyzed={jobCard.minorityAnalyzed} populationDifference={jobCard.populationDifference} 
                             compactness={jobCard.compactness} plansAmount={jobCard.plansAmount} districts={jobCard.districts} 
-                            status={jobCard.status} 
+                            status={jobCard.status} summaryFile = {this.props.summaryFile}
                             // Methods
                             updateCurrentJob={this.props.updateCurrentJob} selectedJobCheck={this.props.selectedJobCheck} 
                             toggleSelectedCard={this.props.toggleSelectedCard} cancelJob = {this.props.cancelJob}

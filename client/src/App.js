@@ -31,6 +31,7 @@ class App extends Component {
       planState : null,
       districtPlans : "",
       boxWhiskerPoints : "",
+      summaryFile : "To view the summary information, please select the job.",
 
       // Map View Filters:
       selectedFilters : null,
@@ -420,6 +421,8 @@ class App extends Component {
       this.setState({districtPlans : res.districtPlans})
       let res2 = await endpoint.getPlanGraph(jobObject);
       let formattedServerRes = this.formatServerGraph(res2)
+      let res3 = await endpoint.getJobSummary(jobObject)
+      this.setState({summaryFile : res3.jobsummary})
       this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
@@ -428,6 +431,7 @@ class App extends Component {
       this.setState({districtPlans : ""})
       this.setState({boxWhiskerPoints : ""})
       this.setState({currentJobName : ""});
+      this.setState({summaryFile : "To view summary information, please select the job."});
     }
   }
 
@@ -485,7 +489,7 @@ class App extends Component {
             updateCurrentJob={this.updateCurrentJob} deleteJob={this.deleteJob} toggleSelectedCard={this.toggleSelectedCard}
             createJob={this.createJob} cancelJob={this.cancelJob} selectedJobCheck={this.state.selectedJobCheck}
             generateBoxWhiskerValues={this.generateBoxWhiskerValues} updateJobStatus = {this.updateJobStatus}
-            boxWhiskerPoints = {this.state.boxWhiskerPoints}
+            boxWhiskerPoints = {this.state.boxWhiskerPoints} summaryFile = {this.state.summaryFile}
 
             // Plan-related methods
             selectedPlanCheck={this.state.selectedPlanCheck} deletePlan={this.deletePlan}

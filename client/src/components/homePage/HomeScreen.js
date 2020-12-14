@@ -21,6 +21,7 @@ export class HomeScreen extends Component {
           deleteJob={this.props.deleteJob} createJob = {this.props.createJob}
           cancelJob = {this.props.cancelJob} generateBoxWhiskerValues= {this.props.generateBoxWhiskerValues}
           updateJobStatus = {this.props.updateJobStatus} boxWhiskerPoints = {this.props.boxWhiskerPoints}
+          summaryFile = {this.props.summaryFile}
 
           // Plan-Related Content
           selectedPlanCheck={this.props.selectedPlanCheck} toggleSelectedPlanCheck={this.props.toggleSelectedPlanCheck} 
