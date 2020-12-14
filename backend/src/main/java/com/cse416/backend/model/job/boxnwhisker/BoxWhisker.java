@@ -3,6 +3,8 @@ package com.cse416.backend.model.job.boxnwhisker;
 import java.lang.reflect.Array;
 import com.cse416.backend.model.job.boxnwhisker.BoxWhiskerPlot;
 import com.cse416.backend.model.job.Job;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ public class BoxWhisker {
     
     @OneToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
     @JoinColumn(name = "jobId")
+    @JsonIgnore
     private Job job;
 
     public BoxWhisker(){

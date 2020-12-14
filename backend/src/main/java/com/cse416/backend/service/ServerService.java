@@ -322,9 +322,9 @@ public class ServerService {
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
-            job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
+            //job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
-            //jobDAO.addJob(job);
+            jobDAO.addJob(job);
             initiateAlgorithm(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
@@ -393,7 +393,7 @@ public class ServerService {
                 currentThread.cancelJobDriver();
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
-                //jobDAO.deleteJob(job);
+                jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
             }
             else{
@@ -417,7 +417,7 @@ public class ServerService {
             Job job = session.getJobByID(jobID);
             System.out.println("Attempting to delete a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.FINISHED)) {
-                //jobDAO.deleteJob(job);
+                jobDAO.deleteJob(job);
                 System.out.println("Job " + job.getJobID() + " has been removed");
             } else {
                 //TODO: What does //jobDAO.cancelJob() do?
@@ -938,7 +938,7 @@ public class ServerService {
                 job.getRandomDistrictPlan().setType("Random");
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                 job.setStatus(JobStatus.FINISHED);
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
@@ -1012,7 +1012,7 @@ public class ServerService {
                     if(isProcessesDone){
                         job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -1031,7 +1031,7 @@ public class ServerService {
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
                         //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }
                 }
             }
@@ -1063,7 +1063,7 @@ public class ServerService {
                     job.setSeawulfJobID(seawulfJobID);
                 }
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 
