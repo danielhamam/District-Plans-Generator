@@ -124,7 +124,7 @@ public class Job{
     
     @JsonIgnore
     @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="job")
+    fetch = FetchType.LAZY, mappedBy ="job")
     private List <Plan> allPlans;
 
     @JsonIgnore
