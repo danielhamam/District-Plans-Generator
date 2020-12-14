@@ -165,7 +165,7 @@ public class ServerService {
 //                    reInitiateAlgorithm(j);
 //                }
             }
-            session.addJobs(jobs);
+//            session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
             System.out.println("Server func getState() successful");
         }catch(JsonProcessingException error){
@@ -202,7 +202,7 @@ public class ServerService {
     public String getJob(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job serverJob = session.getJobByID(jobID);
+            Job serverJob = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             Map<String, Object> dataObject = new HashMap<>();
             dataObject.put("districtPlans", serverJob.getClientPlans());
             clientData = this.createClient_Data(dataObject);
@@ -220,7 +220,7 @@ public class ServerService {
     public String getJobSummary(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job serverJob = session.getJobByID(jobID);
+            Job serverJob = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             Map<String, Object> dataObject = new HashMap<>();
             dataObject.put("jobsummary", serverJob.getSummary());
             clientData = this.createClient_Data(dataObject);
@@ -240,7 +240,8 @@ public class ServerService {
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("jobs", session.getJobs());
+
+            dataObject.put("jobs", jobDAO.getAllJobs());
             clientData = this.createClient_Data(dataObject);
 
         }catch(NoSuchElementException|JsonProcessingException error){
@@ -312,7 +313,7 @@ public class ServerService {
 
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job job = session.getJobByID(jobID);
+            Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
             map.put("graph", job.getBoxWhisker());
             clientData = createClient_Data(map);
@@ -331,7 +332,7 @@ public class ServerService {
         String clientData = "{serverError:null}";
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
-            session.addJob(job);
+            //session.addJob(job);
             State currentState = session.getState();
             job.setState(currentState);
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
@@ -397,7 +398,7 @@ public class ServerService {
 
 
     public void cancelJob(Integer jobID){
-        Job job = session.getJobByID(jobID);
+        Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
         try{
             System.out.println("Attempting to cancel a job " + jobID + ". It's status: " + job.getStatus());
             if(!job.getStatus().equals(JobStatus.FINISHED)){
@@ -429,7 +430,7 @@ public class ServerService {
 
     public void deleteJob(Integer jobID){
         try {
-            Job job = session.getJobByID(jobID);
+            Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             System.out.println("Attempting to delete a job " + jobID + ". It's status: " + job.getStatus());
             if (job.getStatus().equals(JobStatus.FINISHED)) {
                 jobDAO.deleteJob(job);
