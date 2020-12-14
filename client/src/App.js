@@ -468,6 +468,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.updateJobStatus()
     setInterval(this.updateJobStatus, 12000)
   }
   

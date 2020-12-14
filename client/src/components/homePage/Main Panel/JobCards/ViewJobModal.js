@@ -32,7 +32,7 @@ class ViewJobModal extends Component {
         if (this.props.status == "Pending" || this.props.status=="PENDING") this.readyColorStatus = " jobdisplayPending"
         else if (this.props.status == "Running" || this.props.status == "RUNNING") this.readyColorStatus = " jobdisplayRunning"
         else if (this.props.status == "Processing" || this.props.status == "PROCESSING") this.readyColorStatus = " jobdisplayProcessing"
-        else if (this.props.status == "Completed" || this.props.status == "COMPLETED") this.readyColorStatus = " jobdisplayFinished"
+        else if (this.props.status == "Finished" || this.props.status == "FINISHED") this.readyColorStatus = " jobdisplayFinished"
         return (
                 <Modal backdrop="static" show={this.props.showViewModal} onHide={this.props.toggleXclose}>  
                     <Modal.Header closeButton >
