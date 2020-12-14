@@ -240,7 +240,14 @@ public class ServerService {
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Map<String, Object> dataObject = new HashMap<>();
-
+            List <Job> jobs = jobDAO.getAllJobs();
+            for(Job j: jobs){
+                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
+                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
+                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
+                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+                }
+            }
             dataObject.put("jobs", jobDAO.getAllJobs());
             clientData = this.createClient_Data(dataObject);
 
@@ -813,8 +820,10 @@ public class ServerService {
                     boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue));
 
                 }
-                job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
-                System.out.println("\n" + job.getBoxWhisker() + "\n");
+                BoxWhisker temp = new BoxWhisker(boxWhiskerPlots);
+                boxWhiskerDAO.addBoxWhisker(temp);
+                job.setBoxWhisker(temp);
+                //System.out.println("\n" + job.getBoxWhisker() + "\n");
                 System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created");
 
 
