@@ -128,7 +128,7 @@ public class Plan{
         this.planID = planID;
         this.numberOfDistricts = numberOfDistricts;
         this.isPlanEnacted = false;
-        String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase() + "/" + this.type + "Districts.json";
+        String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase() + "/" + this.type + "District.json";
         this.districtFile = new File(new File(filePath).getAbsolutePath());
         try{
             this.districtsGeoJson = createDistrictFeatureCollection();
