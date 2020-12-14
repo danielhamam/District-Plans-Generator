@@ -114,10 +114,10 @@ export async function cancelJob(data){
     return response; 
 }
 
-export async function deleteJob(job){
+export async function deleteJob(data){
     console.log("Delete");
     const requestOptions = createFetchOptions('DELETE');
-    const NEW_URL = URL + SERVER_PATHS.DELETE + "/" + job.jobID
+    const NEW_URL = URL + SERVER_PATHS.DELETE + "/" + data.job.jobID
     const response = fetch(NEW_URL, requestOptions).catch(error =>  error);
     return response;
 }

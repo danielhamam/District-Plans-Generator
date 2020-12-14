@@ -49,7 +49,7 @@ class Sidebar extends Component {
 
     handleBoxWhiskerModal = () => {
         if (this.state.modalOpen == false) {
-            this.props.generateBoxWhiskerValues();
+            // this.props.generateBoxWhiskerValues();
             this.setState({modalOpen : true});
         }
         else this.setState({modalOpen : false});

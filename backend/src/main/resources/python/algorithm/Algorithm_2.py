@@ -7,31 +7,44 @@ import argparse
 import cProfile
 import re
 
+# // Global Variables
+
+# General job info
 num_districts = 10
-num_precincts = 30
-termination_limit = 1
+num_precincts = 0
+state_abbreviation = ""
+termination_limit = 50
+
+# Population variables
 ideal_population = 0.0
 population_variance = 0.0
 population_lower_bound = 0.0
 population_upper_bound = 0.0
 average_population = 0.0
+
+# Compactness variables
 compactness = ""
 ideal_compactness = 0.0
 compactness_lower_bound = 0.3
 compactness_upper_bound = 0.9
 average_compactness = 0.0
-
 num_of_border_edges = 0
-state_abbreviation = ""
 
+# Other variables
 total_acceptable_edges = 0
 total_improved_edges = 0
-total_unacceptable_edges = 0
-
 old_compactness_one = 0.0
 old_compactness_two = 0.0
 old_population_one = 0
 old_population_two = 0
+
+subgraphs = [] # holds precincts in it. also holds neighbors with other subgraphs. make name of it the first precinct
+neighbors = {} # dictionary of keys that have neighbors. initialize via graph, update as we go on
+precincts = [] # initial list of precinct neighbors for use later.
+precinct_neighbors = {} # Neighbors of precincts
+subgraphs_combined = [] # Used to generate spanning trees - is combination of two subgraphs, or is just one whole subgraph
+ghost_districts = [] # Keeps track of ghost-districts (defined below, in function)
+graph_main = {} # Stores initial list of precincts/graph
 
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
@@ -41,16 +54,6 @@ old_population_two = 0
 # (4) store the acceptable (or better) edges in a dictionary, choose random one and cut to form two subgraphs. 
 # (5) repeat until termination condition reached (10,000 reasonable after testing)
 
-# // Global Variables
-subgraphs = [] # holds precincts in it. also holds neighbors with other subgraphs. make name of it the first precinct
-neighbors = {} # dictionary of keys that have neighbors. initialize via graph, update as we go on
-precincts = [] # initial list of precinct neighbors for use later.
-precinct_neighbors = {} 
-subgraphs_combined = []
-ghost_districts = []
-graph_main = {}
-compactness_list = {}
-population_list ={}
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
 #                        HELPER FUNCTIONS
@@ -530,10 +533,10 @@ def preCutSubgraphs(edges, target_cut):
 def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     global population_lower_bound, population_upper_bound
     global compactness_lower_bound, compactness_upper_bound
-    global compactness_list, population_list, ideal_population, ideal_compactness
+    global ideal_population, ideal_compactness
     global subgraphs_combined
-    global old_population_one, old_population_two, old_compactness_one, old_compactness_two, total_improved_edges
-    global total_acceptable_edges, total_unacceptable_edges, total_improved_edges
+    global old_population_one, old_population_two, old_compactness_one, old_compactness_two
+    global total_acceptable_edges, total_improved_edges
 
     list_edges = spanning_tree["edges"] # Current list of edges
     
