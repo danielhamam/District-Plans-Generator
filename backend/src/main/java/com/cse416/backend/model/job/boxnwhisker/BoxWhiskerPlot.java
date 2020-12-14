@@ -48,7 +48,7 @@ public class BoxWhiskerPlot{
     private long enactedPlanValue;
 
     @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
-    @JoinColumn(name="boxwhiskerId")
+    @JoinColumn(name="boxWhiskerId")
     @JsonIgnore
     private BoxWhisker boxWhisker;
 

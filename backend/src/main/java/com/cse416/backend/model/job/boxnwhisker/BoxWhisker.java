@@ -17,11 +17,12 @@ public class BoxWhisker {
     private Integer id;
 
 
-    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="boxWhiskerPlotId")
-    private List<BoxWhiskerPlot> boxWhisker;
+    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = CascadeType.ALL, 
+    fetch = FetchType.EAGER, mappedBy = "boxWhisker")
+    private List<BoxWhiskerPlot> boxWhiskerPlots;
 
     @OneToOne(targetEntity=Job.class, fetch = FetchType.EAGER, cascade = {CascadeType.DETACH})
+    @JoinColumn(name="jobId")
     @JsonIgnore
     private Job job;
 
@@ -29,8 +30,8 @@ public class BoxWhisker {
     protected BoxWhisker(){
     }
 
-    public BoxWhisker(List<BoxWhiskerPlot> boxWhisker) {
-        this.boxWhisker = boxWhisker;
+    public BoxWhisker(List<BoxWhiskerPlot> boxWhiskerPlots) {
+        this.boxWhiskerPlots = boxWhiskerPlots;
     }
 
     public Integer getId() {
@@ -41,12 +42,12 @@ public class BoxWhisker {
         this.id = id;
     }
 
-    public List<BoxWhiskerPlot> getBoxWhisker() {
-        return boxWhisker;
+    public List<BoxWhiskerPlot> getBoxWhiskerPlots() {
+        return boxWhiskerPlots;
     }
 
-    public void setBoxWhisker(List<BoxWhiskerPlot> boxWhisker) {
-        this.boxWhisker = boxWhisker;
+    public void setBoxWhiskerPlots(List<BoxWhiskerPlot> boxWhiskerPlots) {
+        this.boxWhiskerPlots = boxWhiskerPlots;
     }
 
     public Job getJob() {
@@ -61,7 +62,7 @@ public class BoxWhisker {
     public String toString() {
         return "BoxWhisker{" +
                 "id=" + id +
-                ", boxWhisker=" + boxWhisker +
+                ", boxWhiskerPlots=" + boxWhiskerPlots +
                 ", job=" + job +
                 '}';
     }
