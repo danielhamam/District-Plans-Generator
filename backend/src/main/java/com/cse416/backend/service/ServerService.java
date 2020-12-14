@@ -202,9 +202,10 @@ public class ServerService {
     public String getJob(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
-            Job serverJob = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
+            Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
+            job.initializeJobFiles();
             Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("districtPlans", serverJob.getClientPlans());
+            dataObject.put("districtPlans", job.getClientPlans());
             clientData = this.createClient_Data(dataObject);
             System.out.println("Server func getJob() successful. Sending plans to client.");
         }catch(NoSuchElementException|JsonProcessingException error){
@@ -221,7 +222,7 @@ public class ServerService {
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
-            job.initializeJobsFiles();
+            job.initializeJobFiles();
             Map<String, Object> dataObject = new HashMap<>();
             dataObject.put("jobsummary", job.getSummary());
             clientData = this.createClient_Data(dataObject);
@@ -824,8 +825,9 @@ public class ServerService {
                 BoxWhisker temp = new BoxWhisker(boxWhiskerPlots);
                 boxWhiskerDAO.addBoxWhisker(temp);
                 job.setBoxWhisker(temp);
+                //Job job = jobDAO.getJobById();
                 //System.out.println("\n" + job.getBoxWhisker() + "\n");
-                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created");
+                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + temp);
 
 
             }

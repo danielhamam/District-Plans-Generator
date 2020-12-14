@@ -121,6 +121,10 @@ public class Job{
     @Transient
     @JsonIgnore
     private Summary summary;
+
+    @Transient
+    @JsonIgnore
+    private JsonNode summaryFileNode;
     
     @JsonIgnore
     @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
@@ -157,7 +161,7 @@ public class Job{
         return new ObjectMapper().readValue(file, FeatureCollection.class);
     }
 
-    public void initializeJobsFiles(){
+    public void initializeJobFiles()throws IOException{
        if(status == JobStatus.FINISHED){
            this.averageDistrictPlan = new Plan(state.getStateAbbreviation(),"Average",
                    state.getNumOfDistricts(),false);
@@ -166,7 +170,10 @@ public class Job{
            this.randomDistrictPlan = new Plan(state.getStateAbbreviation(),"Random",
                    state.getNumOfDistricts(),false);
 
-
+           String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase();
+           String fileAbsolutePath = new File(filePath).getAbsolutePath();
+           File file = new File(fileAbsolutePath);
+           this.summaryFileNode = new ObjectMapper().readTree(file);
        }
     }
 
