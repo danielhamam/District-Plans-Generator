@@ -222,6 +222,25 @@ public class ServerService {
         return clientData;
     }
 
+    public String getJobSummary(Integer jobID){
+        String clientData = "{serverError:\"Unknown Server Error\"}";
+        try{
+            Job serverJob = session.getJobByID(jobID);
+            Map<String, Object> dataObject = new HashMap<>();
+            dataObject.put("jobsummary", serverJob.getSummary());
+            clientData = this.createClient_Data(dataObject);
+            System.out.println("Server func getJobSummary() successful. Sending plans to client.");
+        }catch(NoSuchElementException|JsonProcessingException error){
+            error.printStackTrace();
+            clientData = "{serverError:\"" + error.getMessage() + "\"}";
+        }
+        catch(Exception error){
+            error.printStackTrace();
+        }
+        return clientData;
+    }
+
+
     public String getJobsUpdate(){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
@@ -239,6 +258,7 @@ public class ServerService {
         return clientData;
 
     }
+
 
     public String getDemographicHeatmap(String censusEthnicity){
         String clientData = "{serverError:\"Unknown Server Error\"}";

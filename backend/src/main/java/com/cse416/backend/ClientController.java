@@ -93,6 +93,11 @@ public class ClientController {
        return service.generateJob(job);
    }
 
+    @GetMapping(path = "/jobsummary/{jobID}", produces = "application/json")
+    public String getJobSummary(Integer jobID){
+        return service.getJobSummary(jobID);
+    }
+
 
     @GetMapping(path = "/jobs", produces = "application/json")
     public String getJobsUpdate(){

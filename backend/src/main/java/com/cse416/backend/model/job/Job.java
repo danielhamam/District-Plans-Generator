@@ -293,26 +293,20 @@ public class Job{
     }
 
 
+    public Summary getSummary() {
+        return summary;
+    }
+
     public void setAverageDistrictPlan(Plan averageDistrictPlan) {
         this.averageDistrictPlan = averageDistrictPlan;
-
-//        FileWriter averageDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "AverageDistricts.json");
-//        mapper.writeValue(averageDistricts, null);
-
     }
 
     public void setExtremeDistrictPlan(Plan extremeDistrictPlan) {
         this.extremeDistrictPlan = extremeDistrictPlan;
-
-//        FileWriter extremeDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "ExtremeDistricts.json");
-//        mapper.writeValue(extremeDistricts, null);
     }
 
     public void setRandomDistrictPlan(Plan randomDistrictPlan) {
         this.randomDistrictPlan = randomDistrictPlan;
-
-//        FileWriter randomDistricts = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "RandomDistricts.json");
-//        mapper.writeValue(randomDistricts, null);
     }
 
     public Plan getAverageDistrictPlan() {

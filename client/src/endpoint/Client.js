@@ -13,7 +13,8 @@ const SERVER_PATHS = {
     CANCEL:"/cancel",
     GENERATE_JOB: "/generate",
     GENERATE_HEATMAP: "/heatmap",
-    JOBS: "/jobs"
+    JOBS: "/jobs",
+    SUMMARY: "/jobsummary"
 }
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -133,6 +134,15 @@ export async function generateHeatMap(data) {
     console.log("Getting heat map");
     const requestOptions = createFetchOptions('GET');
     const NEW_URL = URL + SERVER_PATHS.GENERATE_HEATMAP + "/" + data.name;
+    const response = await fetch(NEW_URL, requestOptions).catch(error => error);
+    return await response.json()
+}
+
+
+export async function getJobSummary(data) {
+    console.log("Getting job summary");
+    const requestOptions = createFetchOptions('GET');
+    const NEW_URL = URL + SERVER_PATHS.SUMMARY + "/" + data.job.jobID
     const response = await fetch(NEW_URL, requestOptions).catch(error => error);
     return await response.json()
 }
