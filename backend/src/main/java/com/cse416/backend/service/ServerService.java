@@ -339,7 +339,7 @@ public class ServerService {
             //TODO: Delete line below
             job.setJobID(Math.abs(UUID.randomUUID().hashCode()));
             createJobDirectory(job);
-            //jobDAO.addJob(job);
+            jobDAO.addJob(job);
             initiateAlgorithm(job);
             clientData = createClient_Data(job);
             System.out.println("Server func generateJob() successful");
@@ -772,7 +772,7 @@ public class ServerService {
                 CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
                 Comparator comparator = District.getComparatorByCensusCatagories(minorityAnalyzed);
                 //System.out.println("Sorting by " + minorityAnalyzed + " using " + comparator);
-                Hibernate.initialize(job.getState().getStateDistricts());
+//                Hibernate.initialize(job.getState().getStateDistricts());
                 List <District> enactedPlanDistrict =  job.getState().getStateDistricts();
 
                 for (Plan plan : allPlans) {
@@ -807,7 +807,7 @@ public class ServerService {
 
                 }
                 job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
-                //System.out.println("\n" + job.getBoxWhisker() + "\n");
+                System.out.println("\n" + job.getBoxWhisker() + "\n");
                 System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created");
 
 
@@ -953,7 +953,7 @@ public class ServerService {
                 job.getRandomDistrictPlan().setType("Random");
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
                 job.setStatus(JobStatus.FINISHED);
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 System.out.println("JobID " + job.getJobID() + ": server processing done");
             }
 
@@ -1027,7 +1027,7 @@ public class ServerService {
                     if(isProcessesDone){
                         job.setStatus(JobStatus.PROCESSING);
                         System.out.println("JobID " + job.getJobID() + " All processes Completed");
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }else{
                         System.out.println("JobID " + job.getJobID() + ": "+ "Processes still running");
                     }
@@ -1046,7 +1046,7 @@ public class ServerService {
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
                         //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                        //jobDAO.updateJob(job);
+                        jobDAO.updateJob(job);
                     }
                 }
             }
@@ -1078,7 +1078,7 @@ public class ServerService {
                     job.setSeawulfJobID(seawulfJobID);
                 }
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).get();
-                //jobDAO.updateJob(job);
+                jobDAO.updateJob(job);
                 isComputeLocationDetermined = true;
             }
 
