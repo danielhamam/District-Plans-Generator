@@ -128,7 +128,7 @@ public class Plan{
         this.planID = planID;
         this.numberOfDistricts = numberOfDistricts;
         this.isPlanEnacted = false;
-        String filePath = "src/main/resources/system/states/" + stateAbbreviation.toLowerCase() +
+        String filePath = "src/main/resources/system/jobs/" + stateAbbreviation.toLowerCase() +
                 "/" + jobName.toLowerCase() + "/" + this.type + "Districts.json";
         this.districtFile = new File(new File(filePath).getAbsolutePath());
         try{
