@@ -203,7 +203,7 @@ class App extends Component {
         let jobObject = {
           job : job
         }
-        let res = await endpoint.deleteJob(job);
+        let res = await endpoint.deleteJob(jobObject);
         console.log(res)
       } catch (exception) {
         console.error(exception);
@@ -422,7 +422,8 @@ class App extends Component {
       let res2 = await endpoint.getPlanGraph(jobObject);
       let formattedServerRes = this.formatServerGraph(res2)
       let res3 = await endpoint.getJobSummary(jobObject)
-      this.setState({summaryFile : res3.jobsummary})
+      let summaryJSON = JSON.stringify(res3.jobsummary); 
+      this.setState({summaryFile : summaryJSON})
       this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
