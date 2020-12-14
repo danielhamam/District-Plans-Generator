@@ -21,7 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.geojson.FeatureCollection;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -145,6 +147,7 @@ public class ServerService {
             state.setDemographic(stateDemographic);
             state.setTotalPopulation(stateDemographic.getTotalPopulation());
             session.setState(state);
+            loadStateDemographics();
 
             //Job logic
             List <Job> jobs = jobDAO.getJobsByStateId(stateAbbrevation);
@@ -175,6 +178,31 @@ public class ServerService {
 
         return clientData;
     }
+
+    @Async
+    private void loadStateDemographics(){
+        new Thread(new Runnable() {
+            public void run() {
+                State state = session.getState();
+                for(District district : state.getStateDistricts()){
+                    Demographic demo =  demographicDAO.getDemographicByDistrictId(district.getDistrictId());
+                    district.setDemographic(demo);
+                }
+
+                for(Precinct precinct : state.getStatePrecincts()){
+                    Demographic demo =  demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());
+                    precinct.setDemographic(demo);
+                }
+                System.out.println(state.getStateAbbreviation() +
+                        " demographics for precinct and districts have been loaded!");
+            }
+        }).start();
+    }
+
+
+
+
+
 
     public String getJob(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
@@ -271,7 +299,7 @@ public class ServerService {
         try{
             Job job = session.getJobByID(jobID);
             HashMap <String, Object> map = new HashMap<>();
-            map.put("boxWhisker", job.getBoxWhisker());
+            map.put("graph", job.getBoxWhisker());
             clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
         }catch(NoSuchElementException|JsonProcessingException error){
@@ -729,9 +757,13 @@ public class ServerService {
                 CensusCatagories minorityAnalyzed  =  job.getMinorityAnalyzedEnumration().get(0);
                 Comparator comparator = District.getComparatorByCensusCatagories(minorityAnalyzed);
                 //System.out.println("Sorting by " + minorityAnalyzed + " using " + comparator);
+                Hibernate.initialize(job.getState().getStateDistricts());
+                List <District> enactedPlanDistrict =  job.getState().getStateDistricts();
+
                 for (Plan plan : allPlans) {
                     Collections.sort(plan.getDistricts(), comparator);
                 }
+                Collections.sort(enactedPlanDistrict, comparator);
 
                 //For each district. Go through all the plans. Create BoxWhiskerPlot Object
                 List<BoxWhiskerPlot> boxWhiskerPlots = new ArrayList<>();
@@ -754,7 +786,9 @@ public class ServerService {
                     long q2 = districtsPopulationOfPlans.get(size/2);
                     long q3 = districtsPopulationOfPlans.get(size*3/4);
                     long max = districtsPopulationOfPlans.get(size-1);
-                    boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max));
+                    long enactedPlanValue = enactedPlanDistrict.get(districtIndex)
+                            .getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
+                    boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue));
 
                 }
                 job.setBoxWhisker(new BoxWhisker(boxWhiskerPlots));
@@ -790,6 +824,9 @@ public class ServerService {
                 JsonNode districtPrecinctList = districtObject.get("precincts");
                 for(JsonNode precinctObject : districtPrecinctList){
                     String precinctFIPSCode =  precinctObject.asText();
+//                    Precinct precinct = job.getState().getPrecinctByFIPSCode(precinctFIPSCode);
+//                    Demographic precinctDemographic = precinct.getDemographic();
+
                     Precinct precinct = precinctDAO.getPrecinctByFIPSCode(precinctFIPSCode);
                     Demographic precinctDemographic =
                             demographicDAO.getDemographicByPrecinctId(precinct.getPrecinctId());

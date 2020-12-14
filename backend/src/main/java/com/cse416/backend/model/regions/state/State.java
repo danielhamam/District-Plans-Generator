@@ -67,7 +67,7 @@ public class State {
 
 
     @OneToMany(targetEntity=District.class,cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, orphanRemoval = true, mappedBy ="state")
+    fetch = FetchType.EAGER, orphanRemoval = true, mappedBy ="state")
     @JsonIgnore
     private List<District> stateDistricts;
 
@@ -283,12 +283,26 @@ public class State {
         return precinctsGeoJson;
     }
 
+    public List<District> getStateDistricts() {
+        return stateDistricts;
+    }
+
+
     @JsonIgnore
     public Precinct getPrecinctByFIPSCode(String FIPS){
         return statePrecincts.stream()
         .filter(p-> p.getPrecinctFIPSCode().equals(FIPS))
         .findFirst()
         .orElseThrow(NoSuchElementException::new);
+    }
+
+
+    @JsonIgnore
+    public County getCountyByFIPSCode(Integer FIPS){
+        return stateCounties.stream()
+                .filter(c-> c.getId().equals(FIPS))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @JsonIgnore

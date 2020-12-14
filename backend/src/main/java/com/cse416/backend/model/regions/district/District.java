@@ -94,6 +94,9 @@ public class District{
         this.numofCounties = "" + precincts.size();
     }
 
+    public Integer getDistrictId() {
+        return districtId;
+    }
 
     public int getDistrictNumber() {
         return districtNumber;
