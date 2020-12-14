@@ -223,7 +223,7 @@ public class ServerService {
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             job.initializeJobFiles();
             Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("jobsummary", job.getSummary());
+            dataObject.put("jobsummary", job.getSummaryNode());
             clientData = this.createClient_Data(dataObject);
             System.out.println("Server func getJobSummary() successful. Sending plans to client.");
         }catch(NoSuchElementException|JsonProcessingException error){

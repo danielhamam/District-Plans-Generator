@@ -124,7 +124,7 @@ public class Job{
 
     @Transient
     @JsonIgnore
-    private JsonNode summaryFileNode;
+    private JsonNode summaryNode;
     
     @JsonIgnore
     @OneToMany(targetEntity=Plan.class,cascade = CascadeType.ALL,
@@ -173,7 +173,7 @@ public class Job{
            String filePath = "src/main/resources/system/jobs/" + jobName.toLowerCase() + "/Summary.json";
            String fileAbsolutePath = new File(filePath).getAbsolutePath();
            File file = new File(fileAbsolutePath);
-           this.summaryFileNode = new ObjectMapper().readTree(file);
+           this.summaryNode = new ObjectMapper().readTree(file);
        }
     }
 
@@ -300,8 +300,8 @@ public class Job{
     }
 
 
-    public Summary getSummary() {
-        return summary;
+    public JsonNode getSummaryNode() {
+        return summaryNode;
     }
 
     public void setAverageDistrictPlan(Plan averageDistrictPlan) {
