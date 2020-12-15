@@ -46,12 +46,12 @@ subgraphs_combined = [] # Used to generate spanning trees - is combination of tw
 ghost_districts = [] # Keeps track of ghost-districts (defined below, in function)
 graph_main = {} # Stores initial list of precincts/graph
 
-# (1) combine subgraph with random one of its neighbors
+# (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
 # (3) go through each edge and see if resulting subgraphs would be acceptable
-# - population limit fits
-# - compactness limit fits
-# (4) store the acceptable (or better) edges in a dictionary, choose random one and cut to form two subgraphs.
+	# - population limit fits
+	# - compactness limit fits
+# (4) store the acceptable (or better) edges in a dictionary, choose random one and cut to form two subgraphs. 
 # (5) repeat until termination condition reached (10,000 reasonable after testing)
 
 # ------------------------------------------------------------------
@@ -102,53 +102,22 @@ def getData(file):
         global compactness, compactness_lower_bound, compactness_upper_bound, ideal_compactness
         compactness = job["compactness"]
         if compactness == "LOW":
-            # # Border-Node Compactness Bounds
-            # compactness_lower_bound = 0.0
-            # compactness_upper_bound = 0.3
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 0.0
-            # compactness_upper_bound = 3.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
             compactness_lower_bound = 0.0
-            compactness_upper_bound = 1.0
-            ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
+            compactness_upper_bound = 3.0
+            ideal_compactness = 1.5
         if compactness == "MEDIUM":
-            # # Border-Node Compactness Bounds
-            # compactness_lower_bound = 0.3
-            # compactness_upper_bound = 0.6
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 3.1
-            # compactness_upper_bound = 6.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            compactness_lower_bound = 0.7
-            compactness_upper_bound = 2.3
-            ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
+            compactness_lower_bound = 3.1
+            compactness_upper_bound = 6.0
+            ideal_compactness = 4.55
         if compactness == "HIGH":
-            # # Border-Node Compactness Bounds
-            # compactness_lower_bound = 0.6
-            # compactness_upper_bound = 6.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 6.1
-            # compactness_upper_bound = 10.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            compactness_lower_bound = 2.0
+            compactness_lower_bound = 6.1
             compactness_upper_bound = 10.0
-            ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
+            ideal_compactness = 8.05
         # print("Compactness Data Loaded: " + compactness + "\n")
 
         print("Data retrieval complete.")
 
-        # Closing file
+        # Closing file 
         file.close()
     except:
         print("ERROR: File not found!")
@@ -168,7 +137,7 @@ def removeGhostPrecincts():
     for precinct in graph_main:
         if graph_main[precinct]["neighbors"] == []:
             ghost_precincts.append(precinct)
-
+    
     for precinct in ghost_precincts: # For each ghost precinct recorded
         del graph_main[precinct]
         counter = counter + 1
@@ -179,7 +148,7 @@ def removeGhostPrecincts():
                 graph_main[i]["neighbors"].remove(precinct)
                 if graph_main[i]["neighbors"] == []: # Recheck if it is empty
                     ghost_precincts_2.append(i)
-
+    
     for precinct in ghost_precincts_2:
         del graph_main[precinct]
         counter = counter + 1
@@ -207,14 +176,14 @@ def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
     for neighbor in old_subgraph_neighbors:
         if neighbor not in combined_neighbors and neighbor != found_neighbor and neighbor != old_subgraph and neighbor not in found_neighbor and neighbor not in old_subgraph:
             combined_neighbors.append(neighbor)
-
+    
     # Remove current subgraphs from list neighbors
     neighbors.pop(str(found_neighbor))
     neighbors.pop(str(old_subgraph))
 
     # Add new subgraph to list neighbors
     neighbors[str(new_subgraph)] = combined_neighbors
-
+    
     for key in neighbors:
         values = neighbors.get(key)
         edited_value = 0 # 1 if we already edited
@@ -249,7 +218,7 @@ def reinitializeNeighbors():
                 if neighbor not in subgraph:
                     # find which subgraph the neighbor is in, and set neighbors
                     for subgraph2 in subgraphs:
-
+                        
                         if neighbor in subgraph2:
                             if subgraph2 not in neighbors[str(subgraph)]:
                                 neighbors[str(subgraph)].append(subgraph2)
@@ -258,13 +227,13 @@ def reinitializeNeighbors():
 
     checkNeighbors() # Perform a check on neighbors list (checks for any empty lists)
 
-    return
+    return   
 
 
 # Checks if any subgraphs has a list of empty neighbors and temporarily removes them
 def checkNeighbors(): # Perform a check on neighbors list (checks for any empty lists)
     global subgraphs, neighbors, ghost_districts
-
+    
     for subgraph in subgraphs:
         subgraph_neighbors = neighbors.get(str(subgraph))
         if subgraph_neighbors == []:
@@ -288,7 +257,7 @@ def algorithmDriver(graph):
         precincts.append(sub2)
 
     # Initialize neighbors from graph
-
+    
     # print(graph.values())
     for i in range(len(list(graph.values()))):
         key = subgraphs[i] # get key
@@ -302,8 +271,8 @@ def algorithmDriver(graph):
     print("--------------------------------------------------------")
 
     # USE CASE #29 GENERATE SEED DISTRICTING
-    while len(subgraphs) != num_districts:
-        for subgraph in subgraphs:
+    while len(subgraphs) != num_districts: 
+        for subgraph in subgraphs: 
             findCombine(graph, subgraph)
             if len(subgraphs) == num_districts:
                 break
@@ -322,49 +291,36 @@ def algorithmDriver(graph):
     print(("Termination limit: " + str(termination_limit)))
 
     # 35. Repeat the steps above until you generate satisfy the termination condition (required)
-
-    # --Switch-- To activate restart-iteration
-    counter = 1
-    attempts = 0
-    while counter < termination_limit + 1:
-        attempts = attempts + 1
+    counter = 0
+    for i in range(termination_limit):
+    # while counter < termination_limit + 1:
+        counter = counter + 1
         print(("\nBeginning iteration " + str(counter) + ":"))
         value = algorithm(graph)
+        
 
-        if value:
-            counter = counter + 1
-        if not value:
-            continue
-
-    counter = counter -1
-    # counter = attempts
-    # --Switch--
-
-    # --Switch-- To deactivate restart-iteration
-    # counter = 0
-    # for i in range(termination_limit): # --Switch--
-    #     counter = counter + 1 # --Switch--
-    #     print(("\nBeginning iteration " + str(counter) + ":"))
-    #     value = algorithm(graph)
-    # --Switch--
-
-    # USE CASE #47 - Calculate and display edge cut performance (optional)
+    # USE CASE #47 - Calculate and display edge cut performance (optional) 
     total_unacceptable_edges = counter - total_acceptable_edges
     percent_of_acceptable_edges = round(100 * (total_acceptable_edges/counter), 2)
     percent_of_improved_edges = round(100 * (total_improved_edges/counter), 2)
-
+    
     print('\n')
     print("Acceptable edges found --> " + str(percent_of_acceptable_edges) + "%" + " of edges are acceptable (" +
-          str(total_acceptable_edges) + "/" + str(counter) + ")")
+        str(total_acceptable_edges) + "/" + str(counter) + ")")
     print("Improved edges found --> " + str(percent_of_improved_edges) + "%" + " of edges made an improved subgraph (" +
-          str(total_improved_edges) + "/" + str(counter) + ")")
+        str(total_improved_edges) + "/" + str(counter) + ")")
     print("Not acceptable edges found --> " + str(100 - percent_of_acceptable_edges) + "%" + " of edges are not acceptable (" +
-          str(total_unacceptable_edges) + "/" + str(counter) + ")")
+        str(total_unacceptable_edges) + "/" + str(counter) + ")")
+
+        # if value:
+        #     counter = counter + 1
+        # if not value:
+        #     continue
 
     # Re-insert ghost districts
     for subgraph in ghost_districts:
         subgraphs.append(subgraph)
-
+    
     # When we're done, let's print the subgraphs:
     counter = 1
     print("\n")
@@ -384,14 +340,12 @@ def algorithm(graph):
     # Random Subgraph, Random neighbor
     random_subgraph = random.choice(subgraphs)
     subgraph_neighbors = neighbors.get(str(random_subgraph))
-    # print("Random subgraph chosen --> " + str(random_subgraph))
 
     if subgraph_neighbors == []:
         return False
 
     random_neighbor = random.choice(subgraph_neighbors) # get random neighbor
-    # print("Random subgraph-neighbor chosen --> " + str(random_subgraph))
-
+    
     # --------------------------------------------------------------------
     # Calculates stats for pre-cut - used to check for improvements
     # Calculates total population of random subgraph (old_subgraph_one)
@@ -399,15 +353,17 @@ def algorithm(graph):
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             old_population_one = old_population_one + precinct["demographic"]["total"]
-
+    
     # Calculates total population of random neighbor (old_subgraph_two)
     for p in random_neighbor:
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             old_population_two = old_population_two + precinct["demographic"]["total"]
-
-    # Calculates compactness of random subgraph (old_subgraph_one) using Cut-Edge Compactness
-    total_edges_one = len(random_subgraph) - 1
+    
+    # Calculates compactness of random subgraph (old_subgraph_one) using Border-Node Compactness
+    subgraphs_combined = random_subgraph
+    spanning_one = generateSpanningTreeBFS()
+    total_edges_one = len(spanning_one["edges"])
     border_nodes_one = 0
     if total_edges_one == 0:
         total_edges_one = 1
@@ -418,8 +374,10 @@ def algorithm(graph):
                 border_nodes_one = border_nodes_one + 1
     old_compactness_one = abs(1 - (border_nodes_one/total_edges_one))
 
-    # Calculates compactness of random neighbor (old_subgraph_two) using Cut-Edge Compactness
-    total_edges_two = len(random_neighbor) - 1
+    # Calculates compactness of random neighbor (old_subgraph_two) using Border-Node Compactness
+    subgraphs_combined = random_neighbor
+    spanning_two = generateSpanningTreeBFS()
+    total_edges_two = len(spanning_two["edges"])
     border_nodes_two = 0
     if total_edges_two == 0:
         total_edges_two = 1
@@ -429,26 +387,6 @@ def algorithm(graph):
             if neighbor not in random_neighbor:
                 border_nodes_two = border_nodes_two + 1
     old_compactness_two = abs(1 - (border_nodes_two/total_edges_two))
-
-    # # Calculates compactness of random subgraph (old_subgraph_one) using Border-Node Compactness
-    # border_nodes_one = 0
-    # already_checked = []
-    # for precinct in random_subgraph:
-    #     for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-    #         if neighbor not in random_subgraph and neighbor not in already_checked:
-    #             border_nodes_one = border_nodes_one + 1
-    #             already_checked.append(neighbor)
-    # old_compactness_one = abs(1 - (border_nodes_one/len(random_subgraph)))
-
-    # # Calculates compactness of random subgraph (old_subgraph_two) using Border-Node Compactness
-    # border_nodes_two = 0
-    # already_checked = []
-    # for precinct in random_neighbor:
-    #     for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-    #         if neighbor not in random_neighbor and neighbor not in already_checked:
-    #             border_nodes_two = border_nodes_two + 1
-    #             already_checked.append(neighbor)
-    # old_compactness_two = abs(1 - (border_nodes_two/len(random_neighbor)))
     # --------------------------------------------------------------------
 
     # Combine both subgraphs into one
@@ -465,7 +403,7 @@ def algorithm(graph):
         for j in random_neighbor:
             subgraphs_combined.append(j)
 
-    # Let's also combine the neighbors of these subgraphs
+    # Let's also combine the neighbors of these subgraphs 
     updateNeighbors(random_neighbor, random_subgraph, subgraphs_combined)
 
     # DELETE THEM FROM THE SUBGRAPHS LIST
@@ -482,14 +420,12 @@ def algorithm(graph):
     # ADD COMBINED SUBGRAPHS TO THE SUBGRAPHS LIST
     subgraphs.append(subgraphs_combined)
 
-    # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required)
+    # USE CASE #31 --> Generate a spanning tree of the combined sub-graph above (required) 
     spanning_tree = generateSpanningTreeBFS()
-    # print("Spanning tree generation complete --> " + str(spanning_tree))
 
     # USE CASE #32 --> Calculate the acceptability of each newly generated sub-graph (required)
-    # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required)
+    # USE CASE #33 --> Generate a feasible set of edges in the spanning tree to cut (required) 
     value = checkAcceptability(spanning_tree, subgraphs_combined, graph) # Returns edge if acceptable found, False otherwise
-    # print("Resulting subgraphs --> " + str(value))
 
     if not value: # If false, revert combination
         subgraphs_combined_index = subgraphs.index(subgraphs_combined)
@@ -525,7 +461,7 @@ def generateSpanningTreeBFS():
             if node not in visited and node in neighbors_precinct:
                 visited.append(node)
                 queue.append(node)
-                # Create the edge and add it
+                # Create the edge and add it 
                 new_list = []
                 vertex_one = current_node
                 vertex_two = node
@@ -545,7 +481,7 @@ def generateSpanningTreeBFS():
 # Returns two resulting subgraphs that would result IF the target edge was cut. Note: edge is not cut here
 def preCutSubgraphs(edges, target_cut):
     global subgraphs_combined, subgraphs, neighbors, num_of_border_edges
-
+    
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
 
@@ -571,7 +507,7 @@ def preCutSubgraphs(edges, target_cut):
                 queue.append(first_node)
             visited.append(target_node)
 
-    # Subgraph Two:
+    # Subgraph Two: 
 
     queue = []
     visited = []
@@ -598,11 +534,12 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     global population_lower_bound, population_upper_bound
     global compactness_lower_bound, compactness_upper_bound
     global ideal_population, ideal_compactness
+    global subgraphs_combined
     global old_population_one, old_population_two, old_compactness_one, old_compactness_two
     global total_acceptable_edges, total_improved_edges
 
     list_edges = spanning_tree["edges"] # Current list of edges
-
+    
     random_edge = random.choice(list_edges)
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
@@ -616,62 +553,44 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
 
     subgraph_one, subgraph_two = preCutSubgraphs(list_edges, random_edge) # Returns two subgraphs
 
-    total_edges_one = len(subgraph_one) - 1 # Total edges in subgraph one - used for compactness
-    total_edges_two = len(subgraph_two) - 1 # Total edges in subgraph one - used for compactness
+    subgraphs_combined = subgraph_one
+    spanning_tree_one = generateSpanningTreeBFS() # Generate spanning tree of subgraph one
+    total_edges_one = len(spanning_tree_one["edges"]) # Total edges in subgraph one - used for compactness
+
+    subgraphs_combined = subgraph_two
+    spanning_tree_two = generateSpanningTreeBFS() # Generate spanning tree of subgraph two
+    total_edges_two = len(spanning_tree_two["edges"]) # Total edges in subgraph two - used for compactness
+
+    subgraphs_combined = subgraphs_pair # Reset subgraphs_combined back
 
     if total_edges_one == 0 or total_edges_two == 0: # Meaning district only has one precinct
         return False # Do not proceed with the rest of the loop, go to next iteration
-    if total_edges_one == 0:
-        total_edges_one = 1
-    if total_edges_two == 0:
-        total_edges_two = 1
 
     # Calculates total population of subgraph 1
     for p in subgraph_one:
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             total_population_one = total_population_one + precinct["demographic"]["total"]
-
+    
     # Calculates total population of subgraph 2
     for p in subgraph_two:
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             total_population_two = total_population_two + precinct["demographic"]["total"]
 
-    # Calculates compactness of subgraph 1 using Cut-Edge Compactness
+    # Calculates compactness of subgraph 1 using Border-Node Compactness
     for precinct in subgraph_one:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
             if neighbor not in subgraph_one:
                 border_nodes_one = border_nodes_one + 1
     compactness_one = abs(1 - (border_nodes_one/total_edges_one))
 
-    # Calculates compactness of subgraph 2 using Cut-Edge Compactness
+    # Calculates compactness of subgraph 2 using Border-Node Compactness
     for precinct in subgraph_two:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
             if neighbor not in subgraph_two:
                 border_nodes_two = border_nodes_two + 1
     compactness_two = abs(1 - (border_nodes_two/total_edges_two))
-
-    # # Calculates compactness of subgraph 2 using Border-Node Compactness
-    # already_checked = []
-    # for precinct in subgraph_one:
-    #     for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-    #         if neighbor not in subgraph_one and neighbor not in already_checked:
-    #             border_nodes_one = border_nodes_one + 1
-    #             already_checked.append(neighbor)
-    # compactness_one = abs(1 - (border_nodes_one/len(subgraph_one)))
-
-    # # Calculates compactness of subgraph 2 using Border-Node Compactness
-    # already_checked = []
-    # for precinct in subgraph_two:
-    #     for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-    #         if neighbor not in subgraph_two and neighbor not in already_checked:
-    #             border_nodes_two = border_nodes_two + 1
-    #             already_checked.append(neighbor)
-    # compactness_two = abs(1 - (border_nodes_two/len(subgraph_two)))
-
-    print("Compactness One --> " + str(compactness_one))
-    print("Compactness Two --> " + str(compactness_two))
 
     # Checks if population lands within specified population difference & compactness boundaries
     if (total_population_one <= population_upper_bound) and (total_population_one >= population_lower_bound):
@@ -679,7 +598,6 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
             if (compactness_one >= compactness_lower_bound) and (compactness_one <= compactness_upper_bound):
                 if (compactness_two >= compactness_lower_bound) and (compactness_two <= compactness_upper_bound):
                     total_acceptable_edges = total_acceptable_edges + 1
-                    print("Edge cut at: " + str(random_edge))
                     return subgraph_one, subgraph_two
 
     # --------------------------------------------------------------------
@@ -706,16 +624,18 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
 
     if points == 2: # Best and current are equally sufficient - choose one or the other
         if random.randint(0, 1) == 1:
-            print("Equally Sufficient. Edge cut at: " + str(random_edge))
+            subgraphs_combined = subgraphs_pair # Reset subgraphs_combined back
             return subgraph_one, subgraph_two
     if points < 2: # Current is not an improved cut edge
-        print("Insufficient edge. Edge: " + str(random_edge))
+        subgraphs_combined = subgraphs_pair # Reset subgraphs_combined back
         return False
     if points > 2: # Current is an improved edge
         total_improved_edges = total_improved_edges + 1
-        print("Improved edge found! Edge cut at: " + str(random_edge))
+        subgraphs_combined = subgraphs_pair # Reset subgraphs_combined back
         return subgraph_one, subgraph_two
     # --------------------------------------------------------------------
+
+    subgraphs_combined = subgraphs_pair # Reset subgraphs_combined back
 
     return False
 
@@ -729,7 +649,7 @@ def findCombine(graph, subgraph):
     random_neighbor = random.choice(subgraph_neighbors) # get random neighbor
 
     # ADD (COMBINE) NEIGHBOR TO THE CURRENT SUBGRAPH
-    old_subgraph = list(subgraph) # copy contents
+    old_subgraph = list(subgraph) # copy contents 
     add_neighbor = random_neighbor
     if (type(random_neighbor) == str):
         add_neighbor = add_neighbor.split(', ') # turn string into list (for first iteration)
@@ -747,7 +667,7 @@ def findCombine(graph, subgraph):
     subgraphs.pop(neighbor_index) # delete it from subgraphs dictionary
 
     # UPDATE THE REFERENCES OF THIS NEIGHBOR
-    updateNeighbors(random_neighbor, old_subgraph, new_list)
+    updateNeighbors(random_neighbor, old_subgraph, new_list) 
 
     return
 
@@ -757,16 +677,16 @@ def calculateAveragePopulation():
 
     total_population = 0
     counter = 0
-
+    
     for subgraph in subgraphs:
         counter = counter + 1
         for precinct in subgraph:
             if graph_main[precinct]["demographic"] != {}:
                 total_population = total_population + graph_main[precinct]["demographic"]["total"]
 
-    average_population = round(total_population/counter, 2)
+    average_population = round(total_population/counter, 2)   
 
-    return
+    return     
 
 # Calculates average compactness amongst all finalized districts
 def calculateAverageCompactness():
@@ -818,7 +738,7 @@ def convertToOutput(directory_path:str, filename:str):
         "averageDistrictPopulation": average_population,
         "averageDistrictCompactness": average_compactness,
         "algorithmData": {
-
+            
         }
     }
 
@@ -826,7 +746,7 @@ def convertToOutput(directory_path:str, filename:str):
     for i in subgraphs:
         counter = counter + 1
         district = {
-            "precincts": []
+        "precincts": []
         }
         district.update({"precincts": i})
         plan["algorithmData"].update({str(counter): district})
@@ -864,4 +784,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
