@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 1
+termination_limit = 100
 
 # Population variables
 ideal_population = 0.0
@@ -102,47 +102,32 @@ def getData(file):
         global compactness, compactness_lower_bound, compactness_upper_bound, ideal_compactness
         compactness = job["compactness"]
         if compactness == "LOW":
-            # # Border-Node Compactness Bounds
+            # Border-Node Compactness Bounds
             # compactness_lower_bound = 0.0
             # compactness_upper_bound = 0.3
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
 
             # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 0.0
-            # compactness_upper_bound = 3.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
             compactness_lower_bound = 0.0
-            compactness_upper_bound = 1.0
+            compactness_upper_bound = 1.5
             ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
 
         if compactness == "MEDIUM":
-            # # Border-Node Compactness Bounds
+            # Border-Node Compactness Bounds
             # compactness_lower_bound = 0.3
             # compactness_upper_bound = 0.6
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
 
             # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 3.1
-            # compactness_upper_bound = 6.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            compactness_lower_bound = 0.7
-            compactness_upper_bound = 2.3
+            compactness_lower_bound = 1.5
+            compactness_upper_bound = 4.0
             ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
         if compactness == "HIGH":
-            # # Border-Node Compactness Bounds
+            # Border-Node Compactness Bounds
             # compactness_lower_bound = 0.6
             # compactness_upper_bound = 6.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
 
             # Cut-Edge Compactness Bounds
-            # compactness_lower_bound = 6.1
-            # compactness_upper_bound = 10.0
-            # ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
-
-            compactness_lower_bound = 2.0
-            compactness_upper_bound = 10.0
+            compactness_lower_bound = 4.0
+            compactness_upper_bound = 15.0
             ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
         # print("Compactness Data Loaded: " + compactness + "\n")
 
@@ -324,29 +309,29 @@ def algorithmDriver(graph):
     # 35. Repeat the steps above until you generate satisfy the termination condition (required)
 
     # --Switch-- To activate restart-iteration
-    counter = 1
-    attempts = 0
-    while counter < termination_limit + 1:
-        attempts = attempts + 1
-        print(("\nBeginning iteration " + str(counter) + ":"))
-        value = algorithm(graph)
-
-        if value:
-            counter = counter + 1
-        if not value:
-            continue
-    
-    counter = counter -1
-    # counter = attempts
-     # --Switch--
-
-    # --Switch-- To deactivate restart-iteration
-    # counter = 0
-    # for i in range(termination_limit): # --Switch--
-    #     counter = counter + 1 # --Switch--
+    # counter = 1
+    # attempts = 0
+    # while counter < termination_limit + 1:
+    #     attempts = attempts + 1
     #     print(("\nBeginning iteration " + str(counter) + ":"))
     #     value = algorithm(graph)
-    # --Switch--
+
+    #     if value:
+    #         counter = counter + 1
+    #     if not value:
+    #         continue
+    
+    # counter = counter -1
+    # counter = attempts
+     # --Switch-- To activate restart-iteration
+
+    # --Switch-- To deactivate restart-iteration
+    counter = 0
+    for i in range(termination_limit): # --Switch--
+        counter = counter + 1 # --Switch--
+        print(("\nBeginning iteration " + str(counter) + ":"))
+        value = algorithm(graph)
+    # --Switch-- To deactivate restart-iteration
 
     # USE CASE #47 - Calculate and display edge cut performance (optional) 
     total_unacceptable_edges = counter - total_acceptable_edges
@@ -603,7 +588,6 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
 
     list_edges = spanning_tree["edges"] # Current list of edges
     
-    random_edge = random.choice(list_edges)
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
     total_population_one = 0 # Total population of new subgraph 1
@@ -613,18 +597,26 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     border_nodes_one = 0 # Used for compactness
     border_nodes_two = 0 # Used for compactness
 
+    random_edge = random.choice(list_edges)
 
-    subgraph_one, subgraph_two = preCutSubgraphs(list_edges, random_edge) # Returns two subgraphs
+    # Helper System -- Checks and prevents if the split results in any districts having only 1 precinct ("leaf node" of the spanning tree)
+    approved = False
+    while not approved:
+        subgraph_one, subgraph_two = preCutSubgraphs(list_edges, random_edge) # Returns two subgraphs
+        total_edges_one = len(subgraph_one) - 1 # Total edges in subgraph one - used for compactness
+        total_edges_two = len(subgraph_two) - 1 # Total edges in subgraph one - used for compactness
+        if total_edges_one == 0 or total_edges_two == 0:
+            random_edge = random.choice(list_edges)
+            continue
+        else:
+            approved = True
 
-    total_edges_one = len(subgraph_one) - 1 # Total edges in subgraph one - used for compactness
-    total_edges_two = len(subgraph_two) - 1 # Total edges in subgraph one - used for compactness
-
-    if total_edges_one == 0 or total_edges_two == 0: # Meaning district only has one precinct
-        return False # Do not proceed with the rest of the loop, go to next iteration
-    if total_edges_one == 0:
-        total_edges_one = 1
-    if total_edges_two == 0:
-        total_edges_two = 1
+    # if total_edges_one == 0 or total_edges_two == 0: # Meaning district only has one precinct
+    #     return False # Do not proceed with the rest of the loop, go to next iteration
+    # if total_edges_one == 0:
+    #     total_edges_one = 1
+    # if total_edges_two == 0:
+    #     total_edges_two = 1
 
     # Calculates total population of subgraph 1
     for p in subgraph_one:
@@ -670,8 +662,10 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     #             already_checked.append(neighbor)
     # compactness_two = abs(1 - (border_nodes_two/len(subgraph_two)))
 
-    print("Compactness One --> " + str(compactness_one))
-    print("Compactness Two --> " + str(compactness_two))
+    # DEBUG ---
+    # print("Compactness One --> " + str(compactness_one))
+    # print("Compactness Two --> " + str(compactness_two))
+    # DEBUG ---
 
     # Checks if population lands within specified population difference & compactness boundaries
     if (total_population_one <= population_upper_bound) and (total_population_one >= population_lower_bound):
@@ -768,7 +762,7 @@ def calculateAveragePopulation():
 
     return     
 
-# Calculates average compactness amongst all finalized districts
+# Calculates average compactness amongst all finalized districts (Cut-Edge Compactness)
 def calculateAverageCompactness():
     global subgraphs, graph_main, precinct_neighbors, subgraphs_combined, average_compactness
 
