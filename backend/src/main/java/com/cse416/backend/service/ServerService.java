@@ -158,13 +158,12 @@ public class ServerService {
                     j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
                 }
                 createJobDirectory(j);
-//
+
 //                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
 //                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
 //                    reInitiateAlgorithm(j);
 //                }
             }
-//            session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
             System.out.println("Server func getState() successful");
         }catch(JsonProcessingException error){
@@ -401,7 +400,7 @@ public class ServerService {
                 threads.remove(currentThread);
                 System.out.println("Thread removed. Thread pool size: " + threads.size());
                 jobDAO.deleteJob(job);
-                System.out.println("Job " + job.getJobID() + " has been cancelled and removed");
+                System.out.println("Job " + job.getJobID() + " has been removed");
             }
             else{
                 System.out.println("Since status is: " + job.getStatus() +  " redirecting control to cancelJob");
@@ -562,7 +561,7 @@ public class ServerService {
             public void run() {
                 while (!die) {
                     try {
-                        System.out.println("Thread " + hashCode() + " is still running." +
+                        System.out.println("Thread " + hashCode() + " is still running.\t" +
                                 "Job's ID: " + job.getJobID() + "\t" +
                                 "Job's status: " + job.getStatus() + "\t" +
                                 "Job's seawulfJobID: " + job.getSeawulfJobID());
@@ -582,7 +581,7 @@ public class ServerService {
 
                         JobStatus status = job.getStatus();
                         if(status.equals(JobStatus.PROCESSING)){
-                            System.out.println("Job" + job.getJobID() + " status: " + job.getStatus());
+                            System.out.println("Job " + job.getJobID() + " status: " + job.getStatus());
                             extractDataFromJob();
                             initiateServerProcessing();
                             kill();
@@ -605,7 +604,7 @@ public class ServerService {
                         kill();
                     }
                 }
-                System.out.println("Killed thread: " + this);
+                System.out.println("Killed thread: " + hashCode() + "  with Job " + job.getJobID());
             }
 
 
@@ -615,6 +614,7 @@ public class ServerService {
 
             private void cancelJob()throws IOException, InterruptedException{
                 //Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
+                System.out.println("Job " + job.getJobID() + " attempting to cancel");
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": " + "Canceling job locally.");
                     for(Process process : localAlgorithmProcesses) {
@@ -623,16 +623,16 @@ public class ServerService {
                     }
                 }else{
                     System.out.println("JobID " + job.getJobID() + ": " + "Canceling job remotely.");
-                    ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/CancelAlgorithm.sh",
+                    ProcessBuilder pb = new ProcessBuilder("bash", "src/main/resources/bash/CancelJob.sh",
                             netid, job.getSeawulfJobID());
                     pb.redirectErrorStream(true);
                     Process tempProcess = pb.start();
                     shortSleepThread();
-                    //printProcessOutput(tempProcess);
+                    printProcessOutput(tempProcess);
                 }
 
                 job.setStatus(JobStatus.CANCELLED);
-                System.out.println("Job " + job.getJobID() + " cancelled");
+                System.out.println("Job " + job.getJobID() + " status is " + job.getStatus());
                 kill();
             }
 

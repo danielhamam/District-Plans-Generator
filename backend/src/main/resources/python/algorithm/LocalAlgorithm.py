@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 100
+termination_limit = 1
 
 # Population variables
 ideal_population = 0.0
@@ -49,8 +49,8 @@ graph_main = {} # Stores initial list of precincts/graph
 # (1) combine subgraph with random one of its neighbors 
 # (2) generate spanning tree of combined subgraph
 # (3) go through each edge and see if resulting subgraphs would be acceptable
-	# - population limit fits
-	# - compactness limit fits
+# - population limit fits
+# - compactness limit fits
 # (4) store the acceptable (or better) edges in a dictionary, choose random one and cut to form two subgraphs. 
 # (5) repeat until termination condition reached (10,000 reasonable after testing)
 
@@ -155,7 +155,7 @@ def removeGhostPrecincts():
     for precinct in graph_main:
         if graph_main[precinct]["neighbors"] == []:
             ghost_precincts.append(precinct)
-    
+
     for precinct in ghost_precincts: # For each ghost precinct recorded
         del graph_main[precinct]
         counter = counter + 1
@@ -166,7 +166,7 @@ def removeGhostPrecincts():
                 graph_main[i]["neighbors"].remove(precinct)
                 if graph_main[i]["neighbors"] == []: # Recheck if it is empty
                     ghost_precincts_2.append(i)
-    
+
     for precinct in ghost_precincts_2:
         del graph_main[precinct]
         counter = counter + 1
@@ -194,14 +194,14 @@ def updateNeighbors(found_neighbor, old_subgraph, new_subgraph):
     for neighbor in old_subgraph_neighbors:
         if neighbor not in combined_neighbors and neighbor != found_neighbor and neighbor != old_subgraph and neighbor not in found_neighbor and neighbor not in old_subgraph:
             combined_neighbors.append(neighbor)
-    
+
     # Remove current subgraphs from list neighbors
     neighbors.pop(str(found_neighbor))
     neighbors.pop(str(old_subgraph))
 
     # Add new subgraph to list neighbors
     neighbors[str(new_subgraph)] = combined_neighbors
-    
+
     for key in neighbors:
         values = neighbors.get(key)
         edited_value = 0 # 1 if we already edited
@@ -236,7 +236,7 @@ def reinitializeNeighbors():
                 if neighbor not in subgraph:
                     # find which subgraph the neighbor is in, and set neighbors
                     for subgraph2 in subgraphs:
-                        
+
                         if neighbor in subgraph2:
                             if subgraph2 not in neighbors[str(subgraph)]:
                                 neighbors[str(subgraph)].append(subgraph2)
@@ -245,13 +245,13 @@ def reinitializeNeighbors():
 
     checkNeighbors() # Perform a check on neighbors list (checks for any empty lists)
 
-    return   
+    return
 
 
 # Checks if any subgraphs has a list of empty neighbors and temporarily removes them
 def checkNeighbors(): # Perform a check on neighbors list (checks for any empty lists)
     global subgraphs, neighbors, ghost_districts
-    
+
     for subgraph in subgraphs:
         subgraph_neighbors = neighbors.get(str(subgraph))
         if subgraph_neighbors == []:
@@ -275,7 +275,7 @@ def algorithmDriver(graph):
         precincts.append(sub2)
 
     # Initialize neighbors from graph
-    
+
     # print(graph.values())
     for i in range(len(list(graph.values()))):
         key = subgraphs[i] # get key
@@ -289,8 +289,8 @@ def algorithmDriver(graph):
     print("--------------------------------------------------------")
 
     # USE CASE #29 GENERATE SEED DISTRICTING
-    while len(subgraphs) != num_districts: 
-        for subgraph in subgraphs: 
+    while len(subgraphs) != num_districts:
+        for subgraph in subgraphs:
             findCombine(graph, subgraph)
             if len(subgraphs) == num_districts:
                 break
@@ -322,10 +322,10 @@ def algorithmDriver(graph):
     #         counter = counter + 1
     #     if not value:
     #         continue
-    
+
     # counter = counter -1
     # counter = attempts
-     # --Switch-- To activate restart-iteration
+    # --Switch-- To activate restart-iteration
 
     # --Switch-- To deactivate restart-iteration
     counter = 0
@@ -339,19 +339,19 @@ def algorithmDriver(graph):
     total_unacceptable_edges = counter - total_acceptable_edges
     percent_of_acceptable_edges = round(100 * (total_acceptable_edges/counter), 2)
     percent_of_improved_edges = round(100 * (total_improved_edges/counter), 2)
-    
+
     print('\n')
     print("Acceptable edges found --> " + str(percent_of_acceptable_edges) + "%" + " of edges are acceptable (" +
-        str(total_acceptable_edges) + "/" + str(counter) + ")")
+          str(total_acceptable_edges) + "/" + str(counter) + ")")
     print("Improved edges found --> " + str(percent_of_improved_edges) + "%" + " of edges made an improved subgraph (" +
-        str(total_improved_edges) + "/" + str(counter) + ")")
+          str(total_improved_edges) + "/" + str(counter) + ")")
     print("Not acceptable edges found --> " + str(100 - percent_of_acceptable_edges) + "%" + " of edges are not acceptable (" +
-        str(total_unacceptable_edges) + "/" + str(counter) + ")")
+          str(total_unacceptable_edges) + "/" + str(counter) + ")")
 
     # Re-insert ghost districts
     for subgraph in ghost_districts:
         subgraphs.append(subgraph)
-    
+
     # When we're done, let's print the subgraphs:
     counter = 1
     print("\n")
@@ -378,7 +378,7 @@ def algorithm(graph):
 
     random_neighbor = random.choice(subgraph_neighbors) # get random neighbor
     # print("Random subgraph-neighbor chosen --> " + str(random_subgraph))
-    
+
     # --------------------------------------------------------------------
     # Calculates stats for pre-cut - used to check for improvements
     # Calculates total population of random subgraph (old_subgraph_one)
@@ -386,13 +386,13 @@ def algorithm(graph):
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             old_population_one = old_population_one + precinct["demographic"]["total"]
-    
+
     # Calculates total population of random neighbor (old_subgraph_two)
     for p in random_neighbor:
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             old_population_two = old_population_two + precinct["demographic"]["total"]
-    
+
     # # Calculates compactness of random subgraph (old_subgraph_one) using Cut-Edge Compactness
     # total_edges_one = len(random_subgraph) - 1
     # border_nodes_one = 0
@@ -532,7 +532,7 @@ def generateSpanningTreeBFS():
 # Returns two resulting subgraphs that would result IF the target edge was cut. Note: edge is not cut here
 def preCutSubgraphs(edges, target_cut):
     global subgraphs_combined, subgraphs, neighbors, num_of_border_edges
-    
+
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
 
@@ -589,7 +589,7 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     global total_acceptable_edges, total_improved_edges
 
     list_edges = spanning_tree["edges"] # Current list of edges
-    
+
     subgraph_one = [] # New subgraph 1
     subgraph_two = [] # New subgraph 2
     total_population_one = 0 # Total population of new subgraph 1
@@ -630,7 +630,7 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
         precinct = graph.get(p)
         if precinct["demographic"] != {}:
             total_population_one = total_population_one + precinct["demographic"]["total"]
-    
+
     # Calculates total population of subgraph 2
     for p in subgraph_two:
         precinct = graph.get(p)
@@ -748,7 +748,7 @@ def findCombine(graph, subgraph):
     subgraphs.pop(neighbor_index) # delete it from subgraphs dictionary
 
     # UPDATE THE REFERENCES OF THIS NEIGHBOR
-    updateNeighbors(random_neighbor, old_subgraph, new_list) 
+    updateNeighbors(random_neighbor, old_subgraph, new_list)
 
     return
 
@@ -758,16 +758,16 @@ def calculateAveragePopulation():
 
     total_population = 0
     counter = 0
-    
+
     for subgraph in subgraphs:
         counter = counter + 1
         for precinct in subgraph:
             if graph_main[precinct]["demographic"] != {}:
                 total_population = total_population + graph_main[precinct]["demographic"]["total"]
 
-    average_population = round(total_population/counter, 2)   
+    average_population = round(total_population/counter, 2)
 
-    return     
+    return
 
 # Calculates average compactness amongst all finalized districts 
 def calculateAverageCompactness():
@@ -838,7 +838,7 @@ def convertToOutput(directory_path:str, filename:str):
         "averageDistrictPopulation": average_population,
         "averageDistrictCompactness": average_compactness,
         "algorithmData": {
-            
+
         }
     }
 
@@ -846,7 +846,7 @@ def convertToOutput(directory_path:str, filename:str):
     for i in subgraphs:
         counter = counter + 1
         district = {
-        "precincts": []
+            "precincts": []
         }
         district.update({"precincts": i})
         plan["algorithmData"].update({str(counter): district})

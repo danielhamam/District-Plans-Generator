@@ -2,9 +2,9 @@
 
 #todo: change the --job-name --output with script variables
 
-#SBATCH --job-name=BranT1
-#SBATCH --output=BranT1.log
-#SBATCH -p medium-28core
+#SBATCH --job-name=GA-I
+#SBATCH --output=GA-I.log
+#SBATCH -p long-28core
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
 #SBATCH --time=12:00:00
@@ -59,5 +59,4 @@ module unload intel/mpi/64/2017/0.098
 
 ###
 # 2 nodes, each with 10 cores -> 20 cores
-
-mpirun -np 20 python3 Algorithm_2.py
+#mpirun -np 20 python3 Algorithm_2.py
