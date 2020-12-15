@@ -49,3 +49,23 @@ mpirun -np 2 python py_mpi_hello.py
 
 # 411477 testtest
 # 411484 bractiel
+
+
+
+
+cat << EOF > py_mpi_hello.py
+import os
+import time
+from mpi4py import MPI
+
+start_time = time.time()
+
+comm = MPI.COMM_WORLD
+
+command = "python hello_world.py --node {}".format(data)
+print("Running command:", command)
+os.system(command)
+print("Starting multiproc")
+os.system("time python py_multiproc.py")
+comm.barrier()
+EOF

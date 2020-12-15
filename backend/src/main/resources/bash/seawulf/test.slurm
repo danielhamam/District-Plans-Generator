@@ -5,8 +5,8 @@
 #SBATCH --job-name=BranT1
 #SBATCH --output=BranT1.log
 #SBATCH -p medium-28core
-#SBATCH --ntasks-per-node=10
-#SBATCH --nodes=10
+#SBATCH --ntasks-per-node=1
+#SBATCH --nodes=1
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=carlos.lopez@stonybrook.edu
@@ -37,7 +37,7 @@ touch ${PARALLEL_INPUT_FILEPATH}
 COUNTER=0
 while [ ${COUNTER} -lt ${NUM_OF_JOBS} ]
 do
-    echo python3 Algorithm_2.py ${JOB_DIRECTORY}AlgorithmInput.json ${JOB_DIRECTORY}algorithm-output/ ${COUNTER} >> ${PARALLEL_INPUT_FILEPATH}
+    echo python3 SeawulfAlgorithm.py ${JOB_DIRECTORY}AlgorithmInput.json ${JOB_DIRECTORY}algorithm-output/ ${COUNTER} >> ${PARALLEL_INPUT_FILEPATH}
     COUNTER=$(expr ${COUNTER} + 1)
 done
 
@@ -55,3 +55,9 @@ rm -v ${PARALLEL_INPUT_FILEPATH}
 module unload python/3.8.6;
 module unload gnu-parallel/6.0
 module unload intel/mpi/64/2017/0.098
+
+
+###
+# 2 nodes, each with 10 cores -> 20 cores
+
+mpirun -np 20 python3 Algorithm_2.py

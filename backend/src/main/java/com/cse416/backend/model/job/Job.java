@@ -215,6 +215,7 @@ public class Job{
 
     public void setState(State state) {
         this.state = state;
+        System.out.println("Assigning number of districts to jobs: " + state.getNumOfDistricts());
         this.numOfDistricts = state.getNumOfDistricts();
     }
 

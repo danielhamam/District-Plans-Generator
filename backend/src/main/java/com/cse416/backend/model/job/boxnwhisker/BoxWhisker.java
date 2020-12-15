@@ -17,8 +17,8 @@ public class BoxWhisker {
     private Integer id;
 
 
-    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER, mappedBy = "boxWhisker")
+    @OneToMany(targetEntity=BoxWhiskerPlot.class, cascade = {CascadeType.DETACH},
+            fetch = FetchType.LAZY, mappedBy = "boxWhisker")
     private List<BoxWhiskerPlot> boxWhiskerPlots;
 
     @OneToOne(targetEntity=Job.class, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
@@ -29,6 +29,7 @@ public class BoxWhisker {
     //Necessary For JPA
     protected BoxWhisker(){
     }
+
 
     public BoxWhisker(List<BoxWhiskerPlot> boxWhiskerPlots) {
         this.boxWhiskerPlots = boxWhiskerPlots;
@@ -63,7 +64,6 @@ public class BoxWhisker {
         return "BoxWhisker{" +
                 "id=" + id +
                 ", boxWhiskerPlots=" + boxWhiskerPlots +
-                ", job=" + job +
                 '}';
     }
 

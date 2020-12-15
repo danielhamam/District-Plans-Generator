@@ -158,11 +158,11 @@ public class ServerService {
                     j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
                 }
                 createJobDirectory(j);
-
-                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
-                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-                    reInitiateAlgorithm(j);
-                }
+//
+//                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
+//                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+//                    reInitiateAlgorithm(j);
+//                }
             }
 //            session.addJobs(jobs);
             clientData = createClientStateData(state, jobs);
@@ -187,8 +187,7 @@ public class ServerService {
                     Demographic demo =  demographicDAO.getDemographicByDistrictId(district.getDistrictId());
                     district.setDemographic(demo);
                 }
-                System.out.println(state.getStateAbbreviation() +
-                        " demographics for precinct and districts have been loaded!");
+                System.out.println(state.getStateName() + " demographics for districts have been loaded!");
             }
         }).start();
     }
@@ -321,10 +320,10 @@ public class ServerService {
 
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
+            FileWriter fi = new FileWriter("A");
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
             BoxWhisker boxWhisker = job.getBoxWhisker();
-            System.out.println(boxWhisker);
             ObjectNode node = mapper.createObjectNode();
             List <BoxWhiskerPlot> temp = boxWhisker.getBoxWhiskerPlots();
             System.out.println(temp);
@@ -347,7 +346,6 @@ public class ServerService {
         List<CensusCatagories> getMinorityAnalyzedEnumration = job.getMinorityAnalyzedEnumration();
         List <CensusEthnicity> censusEthnicities = new ArrayList<>();
         getMinorityAnalyzedEnumration.forEach(e -> {
-            System.out.println(e.getShortenName());
             censusEthnicities.add(censusEthnicityDAO.getCensusEthnicityById(e.getShortenName()).get());
 
         });
@@ -436,8 +434,8 @@ public class ServerService {
         //TODO: [DATABASE] Implement database functionality. Save job on to the database. Assign ID to Job Object
         try{
             //session.addJob(job);
-            State currentState = session.getState();
-            job.setState(currentState);
+            State state = session.getState();
+            job.setState(state);
             List <CensusEthnicity> censusEthnicities = covertClientCensusToDatabaseCensus(job);
             job.setMinorityAnalyzed(censusEthnicities);
             //TODO: Delete line below
@@ -801,6 +799,7 @@ public class ServerService {
                 Collections.sort(enactedPlanDistrict, comparator);
 
                 //For each district. Go through all the plans. Create BoxWhiskerPlot Object
+                BoxWhisker tempBoxW = new BoxWhisker(null);
                 List<BoxWhiskerPlot> boxWhiskerPlots = new ArrayList<>();
                 for (int districtIndex = 0; districtIndex < job.getNumOfDistricts(); districtIndex++) {
                     List<Long> districtsPopulationOfPlans = new ArrayList<>();
@@ -823,11 +822,12 @@ public class ServerService {
                     long max = districtsPopulationOfPlans.get(size-1);
                     long enactedPlanValue = enactedPlanDistrict.get(districtIndex)
                             .getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
-                    boxWhiskerPlots.add(new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue));
+                    BoxWhiskerPlot boxWhiskerPlot = new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue);
+                    boxWhiskerPlot.setBoxWhisker(tempBoxW);
+                    boxWhiskerPlots.add(boxWhiskerPlot);
 
                 }
                 Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
-                BoxWhisker tempBoxW = new BoxWhisker(boxWhiskerPlots);
                 tempBoxW.setJob(tempJob);
                 job.setBoxWhisker(tempBoxW);
                 tempJob.setBoxWhisker(job.getBoxWhisker());
@@ -1093,7 +1093,7 @@ public class ServerService {
                 String algorithmInputPath = jobDirectory + "AlgorithmInput.json";
                 if(isAlgorithmLocal){
                     System.out.println("JobID " + job.getJobID() + ": "+ "Running algorithm locally...");
-                    String localPythonScript = "src/main/resources/python/algorithm/Algorithm_2.py";
+                    String localPythonScript = "src/main/resources/python/algorithm/LocalAlgorithm.py";
                     for(int i = 0; i < job.getNumDistrictingPlan(); i++){
                         ProcessBuilder pb = new ProcessBuilder("python3", localPythonScript,
                                 algorithmInputPath, jobDirectory + "algorithm-output/", "" +i);
