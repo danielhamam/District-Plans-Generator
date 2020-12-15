@@ -417,13 +417,13 @@ class App extends Component {
       let jobObject = {
         job : job
       }
-      // let res = await endpoint.getPlans(jobObject)
-      // this.setState({districtPlans : res.districtPlans})
+      let res = await endpoint.getPlans(jobObject)
+      this.setState({districtPlans : res.districtPlans})
       let res2 = await endpoint.getPlanGraph(jobObject);
       let formattedServerRes = this.formatServerGraph(res2)
-      // let res3 = await endpoint.getJobSummary(jobObject)
-      // let summaryJSON = JSON.stringify(res3.jobsummary); 
-      // this.setState({summaryFile : summaryJSON})
+      let res3 = await endpoint.getJobSummary(jobObject)
+      let summaryJSON = JSON.stringify(res3.jobsummary); 
+      this.setState({summaryFile : summaryJSON})
       this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
