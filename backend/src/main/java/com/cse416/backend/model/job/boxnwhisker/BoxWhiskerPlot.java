@@ -36,16 +36,16 @@ public class BoxWhiskerPlot{
     @JsonIgnore
     private long max;
 
-    @Transient
     @JsonProperty
+    @Column(name = "indexedDistricts")
     private int indexedDistrict;
 
     @Transient
     @JsonProperty
     private long [] values;
 
-    @Transient
     @JsonProperty
+    @Column(name = "enactedPlanValue")
     private long enactedPlanValue;
 
     @ManyToOne(targetEntity=BoxWhisker.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
