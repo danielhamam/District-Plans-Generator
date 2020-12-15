@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 
 @Entity
@@ -53,7 +54,8 @@ public class BoxWhiskerPlot{
     private BoxWhisker boxWhisker;
 
     //Necessary For JPA
-    protected BoxWhiskerPlot(){}
+    protected BoxWhiskerPlot(){
+    }
 
     public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max, long enactedPlanValue) {
         this.indexedDistrict = indexedDistrict;
@@ -67,10 +69,9 @@ public class BoxWhiskerPlot{
 
     }
 
-    public BoxWhiskerPlot(int indexedDistrict, long min, long q1, long q2, long q3, long max) {
-        this.indexedDistrict = indexedDistrict;
+
+    public void intialize(){
         this.values = new long[5];
-        this.enactedPlanValue = enactedPlanValue;
         values[0] = this.min = min;
         values[1] = this.q1 = q1;
         values[2] = this.q2 = q2;
@@ -163,12 +164,14 @@ public class BoxWhiskerPlot{
     public String toString() {
         return "BoxWhiskerPlot{" +
                 "id=" + id +
-                ", indexedDistrict=" + indexedDistrict +
                 ", min=" + min +
                 ", q1=" + q1 +
                 ", q2=" + q2 +
                 ", q3=" + q3 +
                 ", max=" + max +
+                ", indexedDistrict=" + indexedDistrict +
+                ", values=" + Arrays.toString(values) +
+                ", enactedPlanValue=" + enactedPlanValue +
                 '}';
     }
 }

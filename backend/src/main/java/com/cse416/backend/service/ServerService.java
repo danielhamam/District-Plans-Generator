@@ -324,10 +324,17 @@ public class ServerService {
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
             BoxWhisker boxWhisker = job.getBoxWhisker();
+            int index = 1;
+
             System.out.println(boxWhisker);
-            ObjectNode node = mapper.createObjectNode();
             List <BoxWhiskerPlot> temp = boxWhisker.getBoxWhiskerPlots();
-            System.out.println(temp);
+
+            for(BoxWhiskerPlot plot : temp){
+                plot.intialize();
+                plot.setIndexedDistrict(index++);
+
+            }
+
             map.put("graph",  temp);
             clientData = createClient_Data(map);
             System.out.println("Server func getBoxWhisker() successful");
@@ -800,21 +807,18 @@ public class ServerService {
                 Collections.sort(enactedPlanDistrict, comparator);
 
                 //For each district. Go through all the plans. Create BoxWhiskerPlot Object
-                BoxWhisker tempBoxW = new BoxWhisker(null);
+                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
                 List<BoxWhiskerPlot> boxWhiskerPlots = new ArrayList<>();
+                BoxWhisker boxWhisker = new BoxWhisker(boxWhiskerPlots);
+                boxWhisker.setJob(tempJob);
                 for (int districtIndex = 0; districtIndex < job.getNumOfDistricts(); districtIndex++) {
                     List<Long> districtsPopulationOfPlans = new ArrayList<>();
                     for (Plan plan : allPlans) {
                         District planDistrict = plan.getDistricts().get(districtIndex);
                         Long population = planDistrict.getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
                         districtsPopulationOfPlans.add(population);
-//                        System.out.print(plan.getType() + "[ District: "+ planDistrict.getDistrictNumber()
-//                                + ", Population: " + population +"]\t");
-
                     }
-//                    System.out.println();
                     Collections.sort(districtsPopulationOfPlans);
-//                    System.out.println("Population for district " + (districtIndex+1) + " :" +  districtsPopulationOfPlans);
                     int size = districtsPopulationOfPlans.size();
                     long min = districtsPopulationOfPlans.get(0);
                     long q1 = districtsPopulationOfPlans.get(size/4);
@@ -824,21 +828,24 @@ public class ServerService {
                     long enactedPlanValue = enactedPlanDistrict.get(districtIndex)
                             .getDemographic().getVAPByCensusCatagories(minorityAnalyzed);
                     BoxWhiskerPlot boxWhiskerPlot = new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue);
-                    boxWhiskerPlot.setBoxWhisker(tempBoxW);
+                    boxWhiskerPlot.setBoxWhisker(boxWhisker);
                     boxWhiskerPlots.add(boxWhiskerPlot);
-                    boxWhiskerPlotDAO.addBoxWhiskerPlot(boxWhiskerPlot);
-
                 }
-                Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
-                tempBoxW.setJob(tempJob);
-                job.setBoxWhisker(tempBoxW);
+                boxWhisker.setBoxWhiskerPlots(boxWhiskerPlots);
+                boxWhiskerDAO.addBoxWhisker(boxWhisker);
+
+                for(BoxWhiskerPlot boxWhiskerPlot: boxWhiskerPlots){
+                    boxWhiskerPlotDAO.addBoxWhiskerPlot(boxWhiskerPlot);
+                }
+
+                job.setBoxWhisker(boxWhisker);
                 tempJob.setBoxWhisker(job.getBoxWhisker());
-                boxWhiskerDAO.addBoxWhisker(tempBoxW);
                 jobDAO.updateJob(tempJob);
 
 
+
                 //System.out.println("\n" + job.getBoxWhisker() + "\n");
-                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + tempBoxW);
+                System.out.println("JobID " + job.getJobID() + ": Box and whisker graph created. " + boxWhisker);
 
 
             }
