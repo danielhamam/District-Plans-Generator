@@ -404,7 +404,7 @@ class App extends Component {
   formatServerGraph = (obj) => {
     let listOne = []
     let listTwo = []
-    obj.graph.boxWhisker.forEach(element => {
+    obj.graph.forEach(element => {
       listOne.push({label:element.indexedDistrict, y:element.values});
       listTwo.push({label:element.indexedDistrict, y:element.enactedPlanValue});
     });
@@ -417,13 +417,13 @@ class App extends Component {
       let jobObject = {
         job : job
       }
-      let res = await endpoint.getPlans(jobObject)
-      this.setState({districtPlans : res.districtPlans})
+      // let res = await endpoint.getPlans(jobObject)
+      // this.setState({districtPlans : res.districtPlans})
       let res2 = await endpoint.getPlanGraph(jobObject);
       let formattedServerRes = this.formatServerGraph(res2)
-      let res3 = await endpoint.getJobSummary(jobObject)
-      let summaryJSON = JSON.stringify(res3.jobsummary); 
-      this.setState({summaryFile : summaryJSON})
+      // let res3 = await endpoint.getJobSummary(jobObject)
+      // let summaryJSON = JSON.stringify(res3.jobsummary); 
+      // this.setState({summaryFile : summaryJSON})
       this.setState({boxWhiskerPoints : formattedServerRes});
       this.setState({currentJobName : job.jobName});
     }
