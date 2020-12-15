@@ -830,7 +830,6 @@ def checkPrecincts():
         p = precinct[0]
 
         neighboring_precincts = precinct_neighbors.get(str(precinct))
-        print(neighboring_precincts)
         
         for district in subgraphs: # For each newly generated district
             if p in district:
