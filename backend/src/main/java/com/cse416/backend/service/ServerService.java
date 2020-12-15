@@ -324,6 +324,7 @@ public class ServerService {
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
             HashMap <String, Object> map = new HashMap<>();
             BoxWhisker boxWhisker = job.getBoxWhisker();
+            System.out.println(boxWhisker);
             ObjectNode node = mapper.createObjectNode();
             List <BoxWhiskerPlot> temp = boxWhisker.getBoxWhiskerPlots();
             System.out.println(temp);
@@ -640,9 +641,9 @@ public class ServerService {
             }
 
             private void shortSleepThread() throws InterruptedException{
-                long sleep = 30000; //0.5 minutes
+                long sleep = 45900; //0.5 minutes
                 if(isAlgorithmLocal){
-                    sleep = 35500; //15 minutes
+                    sleep = 5000; //15 minutes
                 }
                 double durationInMinutes = (sleep)/(60000 + 0.0);
                 System.out.println("JobID " + job.getJobID() + ": " +
@@ -825,6 +826,7 @@ public class ServerService {
                     BoxWhiskerPlot boxWhiskerPlot = new BoxWhiskerPlot(districtIndex+1, min,q1,q2,q3,max, enactedPlanValue);
                     boxWhiskerPlot.setBoxWhisker(tempBoxW);
                     boxWhiskerPlots.add(boxWhiskerPlot);
+                    boxWhiskerPlotDAO.addBoxWhiskerPlot(boxWhiskerPlot);
 
                 }
                 Job tempJob = jobDAO.getJobById(job.getJobID()).orElseThrow(NoSuchElementException::new);
