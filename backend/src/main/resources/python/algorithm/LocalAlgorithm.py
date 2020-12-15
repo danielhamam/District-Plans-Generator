@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 100
+termination_limit = 10
 
 # Population variables
 ideal_population = 0.0
@@ -827,10 +827,13 @@ def checkPrecincts():
         neighboring_districts = [] 
         neighboring_precincts = []
 
-        neighboring_precincts = precinct_neighbors.get(str(precinct.split(', ')))
+        p = precinct[0]
+
+        neighboring_precincts = precinct_neighbors.get(str(precinct))
+        print(neighboring_precincts)
         
         for district in subgraphs: # For each newly generated district
-            if precinct in district:
+            if p in district:
                 included = True
                 break
             for i in neighboring_precincts:
@@ -840,7 +843,7 @@ def checkPrecincts():
         if not included:
             random_district = random.choice(neighboring_districts)
             index = subgraphs.index(random_district)
-            subgraphs[index].append(precinct)
+            subgraphs[index].append(p)
             # subgraphs.remove(random_district)
             # random_district.append(precinct)
             # subgraphs.append(random_district)
