@@ -159,10 +159,10 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-//                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
-//                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-//                    reInitiateAlgorithm(j);
-//                }
+                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
+                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+                    reInitiateAlgorithm(j);
+                }
             }
             clientData = createClientStateData(state, jobs);
             System.out.println("Server func getState() successful");
@@ -194,17 +194,22 @@ public class ServerService {
 
 
 
-
-
     public String getJob(Integer jobID){
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Job job = jobDAO.getJobById(jobID).orElseThrow(NoSuchElementException::new);
-            job.initializeJobFiles();
-            Map<String, Object> dataObject = new HashMap<>();
-            dataObject.put("districtPlans", job.getClientPlans());
-            clientData = this.createClient_Data(dataObject);
-            System.out.println("Server func getJob() successful. Sending plans to client.");
+            if(job.getStatus() == JobStatus.FINISHED){
+                job.initializeJobFiles();
+                Map<String, Object> dataObject = new HashMap<>();
+                dataObject.put("districtPlans", job.getClientPlans());
+                clientData = this.createClient_Data(dataObject);
+                System.out.println("Server func getJob() successful. Sending plans to client.");
+
+            }else{
+                clientData = "{serverMessage:\" Job status is " + job.getStatus()+ "\"}";
+                System.out.println("Server func getJob() cannot send job because it's status is " + job.getStatus() +
+                        ". The status needed to be FINISHED");
+            }
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
             clientData = "{serverError:\"" + error.getMessage() + "\"}";
@@ -239,16 +244,18 @@ public class ServerService {
         String clientData = "{serverError:\"Unknown Server Error\"}";
         try{
             Map<String, Object> dataObject = new HashMap<>();
-            List <Job> jobs = jobDAO.getAllJobs();
-            for(Job j: jobs){
-                List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
-                for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
-                    censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
-                    j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+            if(session.getState() != null){
+                List <Job> jobs = jobDAO.getJobsByStateId(session.getState().getStateAbbreviation());
+                for(Job j: jobs){
+                    List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
+                    for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
+                        censusCatagoriesEnum.add(CensusCatagories.getEnumFromString(censusEthnicity.getEthnicityName()));
+                        j.setMinorityAnalyzedEnumration(censusCatagoriesEnum);
+                    }
                 }
+                dataObject.put("jobs", jobDAO.getAllJobs());
+                clientData = this.createClient_Data(dataObject);
             }
-            dataObject.put("jobs", jobDAO.getAllJobs());
-            clientData = this.createClient_Data(dataObject);
 
         }catch(NoSuchElementException|JsonProcessingException error){
             error.printStackTrace();
@@ -325,7 +332,7 @@ public class ServerService {
             BoxWhisker boxWhisker = job.getBoxWhisker();
             int index = 1;
 
-            System.out.println(boxWhisker);
+            //System.out.println(boxWhisker);
             List <BoxWhiskerPlot> temp = boxWhisker.getBoxWhiskerPlots();
 
             for(BoxWhiskerPlot plot : temp){
@@ -658,7 +665,7 @@ public class ServerService {
                 Thread.sleep(sleep);
             }
 
-            private void generateSummaryFile()throws IOException{
+            private void generateSummaryFile(JsonNode [] arr)throws IOException{
                 State state = job.getState();
 
                 String compactnessLimit = job.getClientCompactness().getRepresentation();
@@ -671,18 +678,23 @@ public class ServerService {
 
                 Constraints constraints = new Constraints(compactnessLimit, populationDifferenceLimit, minorityGroups);
                 //TODO: Add Congressional Districts GeoJson
-                Districting averageDistricting = new Districting("0", constraints,
-                        job.getAverageDistrictPlan().getDistrictsGeoJson());
-                Districting extremeDistricting = new Districting("1",constraints,
-                        job.getExtremeDistrictPlan().getDistrictsGeoJson());
-                Districting randomDistricting = new Districting("2",constraints,
-                        job.getRandomDistrictPlan().getDistrictsGeoJson());
+                Districting averageDistricting = new Districting("1", arr[0],
+                        job.getAverageDistrictPlan().getDistricts());
+                Districting extremeDistricting = new Districting("2",arr[1],
+                        job.getExtremeDistrictPlan().getDistricts());
+                Districting randomDistricting = new Districting("3", arr[1],
+                        job.getRandomDistrictPlan().getDistricts());
                 List <Districting> districtings = new ArrayList<>();
                 districtings.add(averageDistricting);
                 districtings.add(extremeDistricting);
                 districtings.add(randomDistricting);
                 Summary summary = new Summary(state.getStateName(), state.getStateAbbreviation(),
-                        state.getPrecinctsGeoJson(),districtings);
+                        state.getAlgorithmPrecinctsJson(), state.getPrecinctsGeoJson(),
+                        averageDistricting.getDistrictingID(), extremeDistricting.getDistrictingID(),
+                        randomDistricting.getDistrictingID(), districtings, constraints);
+
+
+
                 job.setSummary(summary);
                 FileWriter file = new FileWriter(new File(jobDirectory).getAbsolutePath() + "/" + "Summary.json");
                 mapper.writeValue(file, summary);
@@ -703,7 +715,8 @@ public class ServerService {
                 plan.setDistrictsGeoJson(mapper.readValue(file, FeatureCollection.class));
             }
 
-            private void createPlanGeojson(JsonNode plansNode)throws IOException, InterruptedException{
+            private JsonNode [] createPlanGeojson(JsonNode plansNode)throws IOException, InterruptedException{
+                JsonNode [] graphOfPlans  = new JsonNode[3];
                 Plan averagePlan = job.getAverageDistrictPlan();
                 Plan extremeplan = job.getExtremeDistrictPlan();
                 Plan randomPlan = job.getRandomDistrictPlan();
@@ -711,12 +724,26 @@ public class ServerService {
                 //Format data
                 ObjectNode objectNode = mapper.createObjectNode();
                 ArrayNode clientPlans = mapper.createArrayNode();
+
+                //Add Average Plan
                 int planID = Integer.parseInt(averagePlan.getType());
-                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Average"));
+                JsonNode graphOfPlan = plansNode.get(planID-1);
+                clientPlans.add(formatObjectNode(graphOfPlan, "Average"));
+                graphOfPlans[0] = graphOfPlan;
+
+                //Add Extreme Plan
                 planID = Integer.parseInt(extremeplan.getType());
-                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Extreme"));
+                graphOfPlan = plansNode.get(planID-1);
+                clientPlans.add(formatObjectNode(graphOfPlan, "Extreme"));
+                graphOfPlans[1] = graphOfPlan;
+
+                //Add Random Plan
                 planID = Integer.parseInt(randomPlan.getType());
-                clientPlans.add(formatObjectNode(plansNode.get(planID-1), "Random"));
+                graphOfPlan = plansNode.get(planID-1);
+                clientPlans.add(formatObjectNode(graphOfPlan, "Random"));
+                graphOfPlans[2] = graphOfPlan;
+
+
                 objectNode.set("plans", clientPlans);
 
                 //write file
@@ -740,6 +767,7 @@ public class ServerService {
                 setDistrictGeoJson(extremeplan, "ExtremeDistrict.json");
                 setDistrictGeoJson(randomPlan, "RandomDistrict.json");
                 System.out.println("JobID " + job.getJobID() + ": Plan district geoJson crated");
+                return graphOfPlans;
             }
 
             private void determinePlans(List <Plan> allPlans)throws Exception{
@@ -983,8 +1011,8 @@ public class ServerService {
                 job.setAllPlans(plansList);
                 createBoxWhisker(plansList);
                 determinePlans(plansList);
-                createPlanGeojson(plansNode);
-                generateSummaryFile();
+                JsonNode [] graphOfPlans = createPlanGeojson(plansNode);
+                generateSummaryFile(graphOfPlans);
                 job.getAverageDistrictPlan().setType("Average");
                 job.getExtremeDistrictPlan().setType("Extreme");
                 job.getRandomDistrictPlan().setType("Random");
@@ -1085,6 +1113,9 @@ public class ServerService {
                     shortSleepThread();
                     String jobStatus = getContentsFile("monitor.txt");
                     JobStatus status =  JobStatus.getEnumFromString(jobStatus);
+                    if(jobStatus.isEmpty()){
+                        status = JobStatus.PROCESSING;
+                    }
                     if(!job.getStatus().equals(status)){
                         job.setStatus(status);
                         //tempJob.setStatus(status);

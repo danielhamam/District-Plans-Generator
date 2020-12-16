@@ -287,6 +287,9 @@ public class State {
         return stateDistricts;
     }
 
+    public JsonNode getAlgorithmPrecinctsJson() {
+        return algorithmPrecinctsJson;
+    }
 
     @JsonIgnore
     public Precinct getPrecinctByFIPSCode(String FIPS){
