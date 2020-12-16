@@ -159,10 +159,11 @@ public class ServerService {
                 }
                 createJobDirectory(j);
 
-                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
-                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
-                    reInitiateAlgorithm(j);
-                }
+    //                //toggle on if you want to re-continue jobs that are not finished
+    //                if(!(JobStatus.FINISHED == j.getStatus()) && !j.getSeawulfJobID().equals("0")){
+    //                    System.out.println(j.getJobID() + " restarting algorithm for jobs.");
+    //                    reInitiateAlgorithm(j);
+    //                }
             }
             clientData = createClientStateData(state, jobs);
             System.out.println("Server func getState() successful");
@@ -245,7 +246,8 @@ public class ServerService {
         try{
             Map<String, Object> dataObject = new HashMap<>();
             if(session.getState() != null){
-                List <Job> jobs = jobDAO.getJobsByStateId(session.getState().getStateAbbreviation());
+                State state = stateDAO.getStateById(session.getState().getStateAbbreviation());
+                List <Job> jobs = jobDAO.getJobsByStateId(state.getStateAbbreviation());
                 for(Job j: jobs){
                     List <CensusCatagories> censusCatagoriesEnum = new ArrayList<>();
                     for(CensusEthnicity censusEthnicity : j.getMinorityAnalyzedCensusEthnicity()){
@@ -569,6 +571,7 @@ public class ServerService {
                 while (!die) {
                     try {
                         System.out.println("Thread " + hashCode() + " is still running.\t" +
+                                "Job's Name: " + job.getJobName() + "\t" +
                                 "Job's ID: " + job.getJobID() + "\t" +
                                 "Job's status: " + job.getStatus() + "\t" +
                                 "Job's seawulfJobID: " + job.getSeawulfJobID());

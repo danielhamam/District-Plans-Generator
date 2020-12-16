@@ -72,11 +72,11 @@ public class BoxWhiskerPlot{
 
     public void intialize(){
         this.values = new long[5];
-        values[0] = this.min = min;
-        values[1] = this.q1 = q1;
-        values[2] = this.q2 = q2;
-        values[3] = this.q3 = q3;
-        values[4] = this.max = max;
+        values[0] = this.min;
+        values[1] = this.q1;
+        values[2] = this.q3;
+        values[3] = this.q2;
+        values[4] = this.max;
 
     }
 
