@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 2
+termination_limit = 10
 
 # Population variables
 ideal_population = 0.0
@@ -819,35 +819,35 @@ def calculateAverageCompactness():
 
     return
 
-# def checkPrecincts():
-#     global precinct_neighbors, subgraphs, precincts
+def checkPrecincts():
+    global precinct_neighbors, subgraphs, precincts
 
-#     for precinct in precincts: # For each precinct in the list of precincts
-#         included = False
-#         neighboring_districts = [] 
-#         neighboring_precincts = []
+    for precinct in precincts: # For each precinct in the list of precincts
+        included = False
+        neighboring_districts = [] 
+        neighboring_precincts = []
 
-#         p = precinct[0]
+        p = precinct[0]
 
-#         neighboring_precincts = precinct_neighbors.get(str(precinct))
+        neighboring_precincts = precinct_neighbors.get(str(precinct))
         
-#         for district in subgraphs: # For each newly generated district
-#             if p in district:
-#                 included = True
-#                 break
-#             for i in neighboring_precincts:
-#                 if i in district:
-#                     neighboring_districts.append(district)
+        for district in subgraphs: # For each newly generated district
+            if p in district:
+                included = True
+                break
+            for i in neighboring_precincts:
+                if i in district:
+                    neighboring_districts.append(district)
             
-#         if not included:
-#             random_district = random.choice(neighboring_districts)
-#             index = subgraphs.index(random_district)
-#             subgraphs[index].append(p)
-#             # subgraphs.remove(random_district)
-#             # random_district.append(precinct)
-#             # subgraphs.append(random_district)
+        if not included:
+            random_district = random.choice(neighboring_districts)
+            index = subgraphs.index(random_district)
+            subgraphs[index].append(p)
+            # subgraphs.remove(random_district)
+            # random_district.append(precinct)
+            # subgraphs.append(random_district)
 
-#     return
+    return
             
 
 # Parser for input file and output file
@@ -907,7 +907,7 @@ def main():
     removeGhostPrecincts() # Removes any ghost precincts in the list of precincts
     cProfile.run("algorithmDriver(graph_main)")
     #algorithmDriver(graph_main) # Main function
-    # checkPrecincts() # Checks for any missing precincts
+    checkPrecincts() # Checks for any missing precincts
     calculateAveragePopulation() # Calculates average population amongst all districts
     calculateAverageCompactness() # Calculates average compactness amongst all districts
     convertToOutput(parse.parse_args().output_directory[0], parse.parse_args().output_file_name[0]) # Converts to output format
