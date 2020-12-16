@@ -57,7 +57,9 @@ class Sidebar extends Component {
 
     createGraphOptions = () => {
         this.graphOptions = {
-            animationEnabled: true,
+            toolTip:{
+                enabled: false //enable here
+              },
             theme: "light2",
             zoomEnabled: true,
             title:{
