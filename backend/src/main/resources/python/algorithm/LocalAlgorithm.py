@@ -670,8 +670,8 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     compactness_two = abs(1 - (border_nodes_two/len(subgraph_two)))
 
     # DEBUG ---
-    print("Compactness One --> " + str(compactness_one))
-    print("Compactness Two --> " + str(compactness_two))
+    # print("Compactness One --> " + str(compactness_one))
+    # print("Compactness Two --> " + str(compactness_two))
     # DEBUG ---
 
     # Checks if population lands within specified population difference & compactness boundaries
