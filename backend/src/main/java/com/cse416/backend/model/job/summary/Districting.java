@@ -1,24 +1,46 @@
 package com.cse416.backend.model.job.summary;
 
+import com.cse416.backend.model.regions.district.District;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.geojson.FeatureCollection;
 
 import javax.persistence.Transient;
+import java.util.List;
 
 public class Districting {
 
     @Transient
     private String districtingID;
 
-    @Transient
-    private Constraints constraints;
 
     @Transient
-    private FeatureCollection congressionalDistrictGeoJSON;
+    private JsonNode districtPrecinctGraph;
 
-    public Districting(String districtingID, Constraints constraints, FeatureCollection congressionalDistrictGeoJSON) {
+    @Transient
+    private List<District> districtList;
+
+
+
+    public Districting(String districtingID, JsonNode districtPrecinctGraph, List<District> districtList) {
         this.districtingID = districtingID;
-        this.constraints = constraints;
-        this.congressionalDistrictGeoJSON = congressionalDistrictGeoJSON;
+        this.districtPrecinctGraph = districtPrecinctGraph;
+        this.districtList = districtList;
+    }
+
+    public JsonNode getDistrictPrecinctGraph() {
+        return districtPrecinctGraph;
+    }
+
+    public void setDistrictPrecinctGraph(JsonNode districtPrecinctGraph) {
+        this.districtPrecinctGraph = districtPrecinctGraph;
+    }
+
+    public List<District> getDistrictList() {
+        return districtList;
+    }
+
+    public void setDistrictList(List<District> districtList) {
+        this.districtList = districtList;
     }
 
     public String getDistrictingID() {
@@ -29,19 +51,4 @@ public class Districting {
         this.districtingID = districtingID;
     }
 
-    public Constraints getConstraints() {
-        return constraints;
-    }
-
-    public void setConstraints(Constraints constraints) {
-        this.constraints = constraints;
-    }
-
-    public FeatureCollection getCongressionalDistrictGeoJSON() {
-        return congressionalDistrictGeoJSON;
-    }
-
-    public void setCongressionalDistrictGeoJSON(FeatureCollection congressionalDistrictGeoJSON) {
-        this.congressionalDistrictGeoJSON = congressionalDistrictGeoJSON;
-    }
 }
