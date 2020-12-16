@@ -412,13 +412,10 @@ class App extends Component {
       maxValue += element.values[element.values.length - 1]
     });
     
-
     obj.graph.forEach(element => {
       listOne.push({label:element.indexedDistrict, y:element.values.map(y => y / maxValue)});
       listTwo.push({label:element.indexedDistrict, y:(element.enactedPlanValue / maxValue)});
     });
-
-
 
     return {dataPointOne: listOne, dataPointTwo: listTwo}
   }

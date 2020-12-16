@@ -59,6 +59,7 @@ class Sidebar extends Component {
         this.graphOptions = {
             animationEnabled: true,
             theme: "light2",
+            zoomEnabled: true,
             title:{
                 text: "VAP Filter vs. Indexed Districts" // Existing plan "overlaps"/compared alongside with these district plans.
             },
@@ -69,6 +70,8 @@ class Sidebar extends Component {
             axisY: {
                 // title: "Voting Age Population (VAP) by Demographic Filter",
                 title: "Voting Age Population (VAP) by Demographic(s) Filter",
+                maximum: 1.0,
+                minimum : 0.0,
             },
             axisX: {
                 title: "Indexed Districts"
