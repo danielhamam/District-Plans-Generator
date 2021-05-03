@@ -13,7 +13,7 @@ import re
 num_districts = 10
 num_precincts = 0
 state_abbreviation = ""
-termination_limit = 2
+termination_limit = 30
 
 # Population variables
 ideal_population = 0.0
@@ -104,7 +104,7 @@ def getData(file):
         if compactness == "LOW":
             # Border-Node Compactness Bounds
             compactness_lower_bound = 0.0
-            compactness_upper_bound = 0.6
+            compactness_upper_bound = 0.4
 
             # Cut-Edge Compactness Bounds
             # compactness_lower_bound = 0.0
@@ -113,8 +113,8 @@ def getData(file):
             ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
         if compactness == "MEDIUM":
             # Border-Node Compactness Bounds
-            compactness_lower_bound = 0.5
-            compactness_upper_bound = 1.2
+            compactness_lower_bound = 0.4
+            compactness_upper_bound = 0.8
 
             # Cut-Edge Compactness Bounds
             # compactness_lower_bound = 1.5
@@ -123,8 +123,8 @@ def getData(file):
             ideal_compactness = (compactness_upper_bound+compactness_lower_bound)/2
         if compactness == "HIGH":
             # Border-Node Compactness Bounds
-            compactness_lower_bound = 1.1
-            compactness_upper_bound = 6.0
+            compactness_lower_bound = 0.8
+            compactness_upper_bound = 1.0
 
             # Cut-Edge Compactness Bounds
             # compactness_lower_bound = 4.0
@@ -422,20 +422,22 @@ def algorithm(graph):
     already_checked = []
     for precinct in random_subgraph:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-            if neighbor not in random_subgraph and neighbor not in already_checked:
+            if neighbor not in random_subgraph and neighbor not in already_checked and precinct not in already_checked:
                 border_nodes_one = border_nodes_one + 1
                 already_checked.append(neighbor)
-    old_compactness_one = abs(1 - (border_nodes_one/len(random_subgraph)))
+                already_checked.append(precinct)
+    old_compactness_one = border_nodes_one/len(random_subgraph)
 
     # Calculates compactness of random subgraph (old_subgraph_two) using Border-Node Compactness
     border_nodes_two = 0
     already_checked = []
     for precinct in random_neighbor:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-            if neighbor not in random_neighbor and neighbor not in already_checked:
+            if neighbor not in random_neighbor and neighbor not in already_checked and precinct not in already_checked:
                 border_nodes_two = border_nodes_two + 1
                 already_checked.append(neighbor)
-    old_compactness_two = abs(1 - (border_nodes_two/len(random_neighbor)))
+                already_checked.append(precinct)
+    old_compactness_two = border_nodes_two/len(random_neighbor)
     # --------------------------------------------------------------------
 
     # Combine both subgraphs into one
@@ -655,19 +657,21 @@ def checkAcceptability(spanning_tree, subgraphs_pair, graph):
     already_checked = []
     for precinct in subgraph_one:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-            if neighbor not in subgraph_one and neighbor not in already_checked:
+            if neighbor not in subgraph_one and neighbor not in already_checked and precinct not in already_checked:
                 border_nodes_one = border_nodes_one + 1
                 already_checked.append(neighbor)
-    compactness_one = abs(1 - (border_nodes_one/len(subgraph_one)))
+                already_checked.append(precinct)
+    compactness_one = border_nodes_one/len(subgraph_one)
 
     # Calculates compactness of subgraph 2 using Border-Node Compactness
     already_checked = []
     for precinct in subgraph_two:
         for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-            if neighbor not in subgraph_two and neighbor not in already_checked:
+            if neighbor not in subgraph_two and neighbor not in already_checked and precinct not in already_checked:
                 border_nodes_two = border_nodes_two + 1
                 already_checked.append(neighbor)
-    compactness_two = abs(1 - (border_nodes_two/len(subgraph_two)))
+                already_checked.append(precinct)
+    compactness_two = border_nodes_two/len(subgraph_two)
 
     # DEBUG ---
     print("Compactness One --> " + str(compactness_one))
@@ -807,11 +811,12 @@ def calculateAverageCompactness():
 
         for precinct in subgraph:
             for neighbor in precinct_neighbors[str(precinct.split(', '))]:
-                if neighbor not in subgraph and neighbor not in already_checked:
+                if neighbor not in subgraph and neighbor not in already_checked and precinct not in already_checked:
                     border_nodes = border_nodes + 1
                     already_checked.append(neighbor)
+                    already_checked.append(precinct)
 
-        compactness = abs(1 - (border_nodes/ len(subgraph)))
+        compactness = (border_nodes/ len(subgraph))
         total_compactness = total_compactness + compactness
 
     average_compactness = round(total_compactness/counter, 2)
